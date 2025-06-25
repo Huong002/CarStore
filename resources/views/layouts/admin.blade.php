@@ -50,9 +50,9 @@
                   class=""
                   id="logo_header"
                   alt=""
-                  src="images/logo/logo.png"
-                  data-light="images/logo/logo.png"
-                  data-dark="images/logo/logo.png"
+                  src="{{ asset('images/logo/logo.png') }}"
+                  data-light="{{ asset('images/logo/logo.png') }}"
+                  data-dark="{{ asset('images/logo/logo.png') }}"
                 />
               </a>
               <div class="button-show-hide">
@@ -98,12 +98,12 @@
                     </a>
                     <ul class="sub-menu">
                       <li class="sub-menu-item">
-                        <a href="add-brand.html" class="">
+                        <a href="{{route('admin.brand.add')}}" class="">
                           <div class="text">New Brand</div>
                         </a>
                       </li>
                       <li class="sub-menu-item">
-                        <a href="brands.html" class="">
+                        <a href="{{route('admin.brands')}}" class="">
                           <div class="text">Brands</div>
                         </a>
                       </li>
@@ -116,12 +116,12 @@
                     </a>
                     <ul class="sub-menu">
                       <li class="sub-menu-item">
-                        <a href="add-category.html" class="">
+                        <a href="{{route('admin.category.add')}}" class="">
                           <div class="text">New Category</div>
                         </a>
                       </li>
                       <li class="sub-menu-item">
-                        <a href="categories.html" class="">
+                        <a href="{{route('admin.categories')}}" class="">
                           <div class="text">Categories</div>
                         </a>
                       </li>
@@ -456,7 +456,7 @@
                       >
                         <span class="header-user wg-user">
                           <span class="image">
-                            <img src="images/avatar/user-1.png" alt="" />
+                          <img src="{{ asset('images/avatar/user-1.png') }}" alt="" />
                           </span>
                           <span class="flex flex-column">
                             <span class="body-title mb-2">Kristin Watson</span>
@@ -519,7 +519,7 @@
                @yield('content')
          
               <div class="bottom-page">
-                <div class="body-text">Copyright © 2024 SurfsideMedia</div>
+                <div class="body-text">Copyright © 2024 HTAutoStore</div>
               </div>
             </div>
           </div>
