@@ -5,8 +5,11 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Product;
+use App\Models\Image;
 use Illuminate\Http\Request;
-use Intervention\Image\Laravel\Facades\Image;
+// use Intervention\Image\Laravel\Facades\Image;1
+
 
 class AdminController extends Controller
 {
@@ -85,7 +88,7 @@ class AdminController extends Controller
     public function brand_update(Request $request){
         $request->validate([
             'name'  => 'required',
-            'slug'  => 'required|unique:brands,slug',
+            'slug'  => 'required|unique:brands,slug'.$request->id,
             'image' => 'required|mimes:png,jpg,jpeg|max:2048'
         ]);
 
@@ -100,7 +103,7 @@ class AdminController extends Controller
         if($request->hasFile('image')){
             $image= $request->file('image');
             $file_extenstion = $image->extension();
-            $file_name =Carbon::now()->timestamp;
+            $file_name =Carbon::now()->timestamp.'.'.$file_extenstion;
             $destinationPath=public_path('uploads/brands');
             $image->move($destinationPath,$file_name);
             $brand->image = $file_name;
@@ -139,7 +142,7 @@ class AdminController extends Controller
   public function category_store(Request $request){
     $request->validate([
         'name'  => 'required',
-        'slug'  => 'required|unique:brands,slug',
+        'slug'  => 'required|unique:categories,slug',
         'image' => 'required|mimes:png,jpg,jpeg|max:2048'
     ]);
 
@@ -184,14 +187,14 @@ class AdminController extends Controller
     if($request->hasFile('image')){
         $image= $request->file('image');
         $file_extenstion = $image->extension();
-        $file_name =Carbon::now()->timestamp;
+        $file_name =Carbon::now()->timestamp.'.'.$file_extenstion;
         $destinationPath=public_path('uploads/categories');
         $image->move($destinationPath,$file_name);
         $category->image = $file_name;
         
     }
     $category->save();
-    return redirect()->route('admin.brands')->with('status', 'Cập nhập danh mục thành công');
+    return redirect()->route('admin.categories')->with('status', 'Cập nhập danh mục thành công');
   }
    public function category_delete($id){
     $category = Category::find($id);
@@ -201,11 +204,104 @@ class AdminController extends Controller
     // if(File::exits(public_path('uploads/brands').'/'.$brand->image)){
     //     File::delete(public_path('uploads/brands').'/'.$brand->image);
     // }
-    if($category->image && \Illuminate\Support\Facades\File::exists(public_path('uploads/brands/'.$category->image))){
+    if($category->image && \Illuminate\Support\Facades\File::exists(public_path('uploads/categories/'.$category->image))){
         \Illuminate\Support\Facades\File::delete(public_path('uploads/categories/'.$category->image));
     }
     $category ->delete();
     return redirect()->route('admin.categories')->with('status', 'Đã xóa danh mục thành công');
    }
+
+   // product
+   public function products(){
+    $products = Product::with(['category', 'brand', 'images'])->orderBy('created_at', 'DESC')->paginate(10);
+    
+    return view('admin.products', compact('products'));
+   }
+   public function product_add(){
+    $categories = Category::orderBy('name', 'ASC')->get();
+    $brands = Brand::orderBy('name', 'ASC')->get();
+    return view('admin.product-add', compact('categories', 'brands'));
+   }
+
+   public function product_store(Request $request){
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'slug' => 'required|string|unique:products,slug|max:255',
+        'short_description' => 'nullable|string',
+        'description' => 'required|string',
+        'regular_price' => 'required|numeric|min:0',
+        'sale_price' => 'nullable|numeric|min:0',
+        'SKU' => 'required|string|max:255',
+        'stock_status' => 'required|in:instock,outofstock',
+        'featured' => 'nullable|boolean',
+        'quantity' => 'required|integer|min:0',
+        'category_id' => 'nullable|exists:categories,id',
+        'brand_id' => 'nullable|exists:brands,id',
+        'image' => 'required|mimes:png,jpg,jpeg|max:2048',
+        'images.*' => 'nullable|mimes:png,jpg,jpeg|max:2048'
+    ]);
+
+    $product = new Product();
+    $product->name = $request->name;
+    $product->slug = Str::slug($request->slug);
+    $product->short_description = $request->short_description;
+    $product->description = $request->description;
+    $product->regular_price = $request->regular_price;
+    $product->sale_price = $request->sale_price;
+    $product->SKU = $request->SKU;
+    $product->stock_status = $request->stock_status;
+    $product->featured = $request->featured ?? 0;
+    $product->quantity = $request->quantity ?? 10;
+    $product->category_id = $request->category_id;
+    $product->brand_id = $request->brand_id;
+
+    
+    $product->save();
+
+    
+    if($request->hasFile('image')){
+        $image = $request->file('image');
+        $file_extension = $image->extension();
+        $file_name = Carbon::now()->timestamp . '_main.' . $file_extension;
+        $destinationPath = public_path('uploads/products');
+        
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
+        }
+        
+        $image->move($destinationPath, $file_name);
+        
+     
+        Image::create([
+            'product_id' => $product->id,
+            'imageName' => $file_name,
+            'is_primary' => true // Đánh dấu đây là ảnh chính
+        ]);
+    }
+
+    // Lưu các ảnh phụ vào bảng images
+    if($request->hasFile('images')){
+        $images = $request->file('images');
+        $destinationPath = public_path('uploads/products');
+
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
+        }
+
+        foreach($images as $image){
+            $file_extension = $image->extension();
+            $file_name = Carbon::now()->timestamp . '_' . uniqid() . '.' . $file_extension;
+            $image->move($destinationPath, $file_name);
+            
+            Image::create([
+                'product_id' => $product->id,
+                'imageName' => $file_name,
+                'is_primary' => false // Đánh dấu đây là ảnh phụ
+            ]);
+        }
+    }
+
+    return redirect()->route('admin.product.add')->with('status', 'Thêm sản phẩm thành công!');
+}
 }
 

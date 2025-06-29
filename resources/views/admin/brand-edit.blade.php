@@ -107,6 +107,7 @@ $(function(){
 
 function StringToSlug(Text){
     return Text.toLowerCase()
+    
         .replace(/[^\w ]+/g, '')
         .replace(/ +/g, '-');
 }

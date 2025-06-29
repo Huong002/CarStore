@@ -38,4 +38,10 @@ Route::middleware(['auth', AuthAdmin::class])->group(function(){
     Route::put('/admin/categories/update', [AdminController::class, 'category_update'])->name('admin.category.update');
     Route::delete('/admin/categories/delete/{id}', [AdminController::class, 'category_delete'])->name('admin.category.delete');
     
+    // san pham
+    Route::get('admin/products', [AdminController::class, 'products'])->name('admin.products');
+    Route::get('admin/product/add', [AdminController::class, 'product_add'])->name('admin.product.add');
+    Route::post('admin/product/store', [AdminController::class, 'product_store'])->name('admin.product.store');
+    
+    
 });
