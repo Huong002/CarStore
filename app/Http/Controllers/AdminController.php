@@ -17,6 +17,8 @@ class AdminController extends Controller
         return view('admin.index');
     }
 
+
+#region ThuongHieu
     public function brands(){
         $brands = Brand::orderBy('id','DESC')->paginate(10);
         return view('admin.brands', compact('brands'));
@@ -69,7 +71,7 @@ class AdminController extends Controller
         $file_extension = $image->extension();
         $file_name = Carbon::now()->timestamp . '.' . $file_extension;
 
-        // Di chuyển file vào thư mục uploads/brands
+        
         $destinationPath = public_path('uploads/brands');
         $image->move($destinationPath, $file_name);
 
@@ -88,7 +90,7 @@ class AdminController extends Controller
     public function brand_update(Request $request){
         $request->validate([
             'name'  => 'required',
-            'slug'  => 'required|unique:brands,slug'.$request->id,
+            'slug'  => 'required|unique:brands,slug,'.$request->id,
             'image' => 'required|mimes:png,jpg,jpeg|max:2048'
         ]);
 
@@ -119,9 +121,10 @@ class AdminController extends Controller
     if(!$brand){
         return redirect()->back()->with('error', 'Không tìm thấy thương hiệu');
     }
-    // if(File::exits(public_path('uploads/brands').'/'.$brand->image)){
+   // if(File::exits(public_path('uploads/brands').'/'.$brand->image)){
     //     File::delete(public_path('uploads/brands').'/'.$brand->image);
     // }
+
     if($brand->image && \Illuminate\Support\Facades\File::exists(public_path('uploads/brands/'.$brand->image))){
         \Illuminate\Support\Facades\File::delete(public_path('uploads/brands/'.$brand->image));
     }
@@ -130,6 +133,13 @@ class AdminController extends Controller
 
   }
 
+   
+  #endregion
+
+
+
+
+#region DanhMuc
   // danh muc
   public function categories(){
     $categories = Category::orderBy('id', 'DESC')->paginate(10);
@@ -171,9 +181,12 @@ class AdminController extends Controller
     
   public function category_update(Request $request){
     $request->validate([
+        // 'name'  => 'required',
+        // 'slug'  => 'required|unique:brands,slug',
+        // 'image' => 'required|mimes:png,jpg,jpeg|max:2048'
         'name'  => 'required',
-        'slug'  => 'required|unique:brands,slug',
-        'image' => 'required|mimes:png,jpg,jpeg|max:2048'
+        'slug'  => 'required|unique:categories,slug,' . $request->id, 
+        'image' => 'nullable|mimes:png,jpg,jpeg|max:2048' 
     ]);
 
     $category = Category::find($request -> id);
@@ -210,7 +223,11 @@ class AdminController extends Controller
     $category ->delete();
     return redirect()->route('admin.categories')->with('status', 'Đã xóa danh mục thành công');
    }
+#endregion
 
+
+
+#region SanPham
    // product
    public function products(){
     $products = Product::with(['category', 'brand', 'images'])->orderBy('created_at', 'DESC')->paginate(10);
@@ -301,7 +318,149 @@ class AdminController extends Controller
         }
     }
 
-    return redirect()->route('admin.product.add')->with('status', 'Thêm sản phẩm thành công!');
+    return redirect()->route('admin.products')->with('status', 'Thêm sản phẩm thành công!');
+
+    
 }
+    public function product_edit($id){
+        $product = Product::with(['category', 'brand', 'images'])->find($id);
+        $categories = Category::orderBy('name', 'ASC')->get();
+        $brands = Brand::orderBy('name', 'ASC')->get();
+        return view('admin.product-edit', compact('product', 'categories', 'brands'));
+    }
+
+    public function product_update(Request $request){
+        $request->validate([
+            // 'name' => 'required|string|max:255',
+            // 'slug' => 'required|string|unique:products,slug|max:255',
+            // 'short_description' => 'nullable|string',
+            // 'description' => 'required|string',
+            // 'regular_price' => 'required|numeric|min:0',
+            // 'sale_price' => 'nullable|numeric|min:0',
+            // 'SKU' => 'required|string|max:255',
+            // 'stock_status' => 'required|in:instock,outofstock',
+            // 'featured' => 'nullable|boolean',
+            // 'quantity' => 'required|integer|min:0',
+            // 'category_id' => 'nullable|exists:categories,id',
+            // 'brand_id' => 'nullable|exists:brands,id',
+            // 'image' => 'required|mimes:png,jpg,jpeg|max:2048',
+            // 'images.*' => 'nullable|mimes:png,jpg,jpeg|max:2048'
+            'name' => 'required|string|max:255',
+            'slug' => 'required|string|unique:products,slug,' . $request->id . '|max:255',
+            'short_description' => 'nullable|string',
+            'description' => 'required|string',
+            'regular_price' => 'required|numeric|min:0',
+            'sale_price' => 'nullable|numeric|min:0',
+            'SKU' => 'required|string|max:255',
+            'stock_status' => 'required|in:instock,outofstock',
+            'featured' => 'nullable|boolean',
+            'quantity' => 'required|integer|min:0',
+            'category_id' => 'nullable|exists:categories,id',
+            'brand_id' => 'nullable|exists:brands,id',
+            'image' => 'nullable|mimes:png,jpg,jpeg|max:2048', 
+            'images.*' => 'nullable|mimes:png,jpg,jpeg|max:2048'
+        ]);
+
+        $product = Product::find($request->id);
+        if(!$product){
+            return redirect()->back()->with('error', 'Không tìm thấy sản phẩm bạn cần');
+        }
+        $product->name = $request->name;
+        $product->slug = Str::slug($request->slug);
+        $product->short_description = $request->short_description;
+        $product->description = $request->description;
+        $product->regular_price = $request->regular_price;
+        $product->sale_price = $request->sale_price;
+        $product->SKU = $request->SKU;
+        $product->stock_status = $request->stock_status;
+        $product->featured = $request->featured ?? 0;
+        $product->quantity = $request->quantity;
+        $product->category_id = $request->category_id;
+        $product->brand_id = $request->brand_id;
+    
+        $product->save();
+
+        
+         if($request->hasFile('image')){
+        // Xóa ảnh chính cũ
+        $oldPrimaryImage = $product->images()->where('is_primary', true)->first();
+        if($oldPrimaryImage){
+            if(\Illuminate\Support\Facades\File::exists(public_path('uploads/products/'.$oldPrimaryImage->imageName))){
+                \Illuminate\Support\Facades\File::delete(public_path('uploads/products/'.$oldPrimaryImage->imageName));
+            }
+            $oldPrimaryImage->delete();
+        }
+
+        // Upload ảnh chính mới
+        $image = $request->file('image');
+        $file_extension = $image->extension();
+        $file_name = Carbon::now()->timestamp . '_main.' . $file_extension;
+        $destinationPath = public_path('uploads/products');
+        
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
+        }
+        
+        $image->move($destinationPath, $file_name);
+        
+        Image::create([
+            'product_id' => $product->id,
+            'imageName' => $file_name,
+            'is_primary' => true
+        ]);
+    }
+
+    // Xử lý bộ sưu tập ảnh (nếu có upload ảnh mới)
+    if($request->hasFile('images')){
+        $images = $request->file('images');
+        $destinationPath = public_path('uploads/products');
+
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
+        }
+
+        foreach($images as $image){
+            $file_extension = $image->extension();
+            $file_name = Carbon::now()->timestamp . '_' . uniqid() . '.' . $file_extension;
+            $image->move($destinationPath, $file_name);
+            
+            Image::create([
+                'product_id' => $product->id,
+                'imageName' => $file_name,
+                'is_primary' => false
+            ]);
+        }
+    }
+
+    return redirect()->route('admin.products')->with('status', 'Cập nhật sản phẩm thành công!');
+    }
+    
+    public function product_delete($id){
+        $product = Product::find($id);
+        if(!$product){  // ← SỬA: Kiểm tra !$product thay vì $id
+            return redirect()->back()->with('error', 'Không tìm thấy sản phẩm bạn cần');
+        }
+    
+        // Xóa tất cả ảnh của sản phẩm
+        foreach($product->images as $image){
+            if(\Illuminate\Support\Facades\File::exists(public_path('uploads/products/'.$image->imageName))){
+                \Illuminate\Support\Facades\File::delete(public_path('uploads/products/'.$image->imageName));
+            }
+            $image->delete();
+        }
+        
+        $product->delete();
+        return redirect()->route('admin.products')->with('status', 'Xóa sản phẩm thành công');
+    }
+
+
+
+
+
+#endregion
+
+
+
+
 }
 

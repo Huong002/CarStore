@@ -16,7 +16,7 @@
                   <i class="icon-chevron-right"></i>
                </li>
                <li>
-                  <div class="text-tiny">All Products</div>
+                  <div class="text-tiny">Danh sách sản phẩm</div>
                </li>
          </ul>
       </div>
@@ -35,23 +35,23 @@
                   </form>
                </div>
                <a class="tf-button style-1 w208" href="{{route('admin.product.add')}}"><i
-                     class="icon-plus"></i>Add new</a>
+                     class="icon-plus"></i>Thêm mới</a>
          </div>
          <div class="table-responsive">
                <table class="table table-striped table-bordered">
                   <thead>
                      <tr>
-                           <th>#</th>
-                           <th>Name</th>
-                           <th>Price</th>
-                           <th>SalePrice</th>
+                           <th>STT</th>
+                           <th>Tên sản phẩm</th>
+                           <th>Giá</th>
+                           <th>Giá khuyến mãi</th>
                            <th>SKU</th>
-                           <th>Category</th>
-                           <th>Brand</th>
-                           <th>Featured</th>
-                           <th>Stock</th>
-                           <th>Quantity</th>
-                           <th>Action</th>
+                           <th>Danh mục</th>
+                           <th>Thương hiệu</th>
+                           <th>Nổi bật</th>
+                           <th>Kho</th>
+                           <th>Số lượng</th>
+                           <th></th>
                      </tr>
                   </thead>
                   <tbody>
@@ -69,10 +69,10 @@
                 @else
                     <img src="{{asset('uploads/products/default.jpg')}}" alt="{{$product->name}}" class="image" style="width: 50px; height: 50px; object-fit: cover;">
                 @endif
-                              </div>
+                        </div>
                               <div class="name">
-                                 <a href="#" class="body-title-2">Product6</a>
-                                 <div class="text-tiny mt-3">product6</div>
+                                 <a href="#" class="body-title-2">{{$product->name}}</a>
+                                 <div class="text-tiny mt-3">{{$product->slug}}</div>
                               </div>
                            </td>
                            <td>${{number_format($product->regular_price, 2)}}</td>
@@ -90,15 +90,16 @@
                                           <i class="icon-eye"></i>
                                        </div>
                                  </a>
-                                 <a href="#">
-                                       <div class="item edit">
-                                          <i class="icon-edit-3"></i>
-                                       </div>
+                                 <a href="{{ route('admin.product.edit', ['id' => $product->id]) }}">
+                                    <div class="item edit">
+                                       <i class="icon-edit-3"></i>
+                                    </div>
                                  </a>
-                                 <form action="#" method="POST">
-                                       <div class="item text-danger delete">
-                                          <i class="icon-trash-2"></i>
-                                       </div>
+                                 <form action="{{ route('admin.product.delete', ['id' => $product->id]) }}" method="DELETE">
+                                    @csrf
+                                    <div class="item text-danger delete">
+                                       <i class="icon-trash-2"></i>
+                                    </div>
                                  </form>
                               </div>
                            </td>
@@ -111,6 +112,7 @@
          <div class="divider"></div>
          <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
 
+          {{$products->links('pagination::bootstrap-5')}}
 
          </div>
       </div>
@@ -119,3 +121,33 @@
 
 
 @endsection
+
+
+@push('scripts')
+<script>
+   $(function(){
+      $('.delete').on('click', function(e){
+         e.preventDefault();
+         var form = $(this).closest('form');
+         swal({
+            title: 'Bạn có chắn chắn muốn xóa sản phẩm?',
+            text: 'Bạn muốn xóa hàng này?',
+            icon: "warning",
+            buttons: {
+                cancel: "Không",
+                confirm: {
+                    text: "Có",
+                    value: true,
+                    visible: true,
+                    className: "",
+                    closeModal: true
+                }
+            },
+            dangerMode: true,
+         }).then(function(result){
+            if(result) form.submit();
+         });
+      });
+   });
+</script>
+@endpush

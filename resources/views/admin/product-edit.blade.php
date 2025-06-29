@@ -10,7 +10,7 @@
             <h3>Thêm sản phẩm</h3>
             <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
                   <li>
-                     <a href="index-2.html">
+                     <a href="{{route('admin.index')}}">
                         <div class="text-tiny">Dashboard</div>
                      </a>
                   </li>
@@ -18,7 +18,7 @@
                      <i class="icon-chevron-right"></i>
                   </li>
                   <li>
-                     <a href="all-product.html">
+                     <a href="{{route('admin.products')}}">
                         <div class="text-tiny">Sản phẩm</div>
                      </a>
                   </li>
@@ -32,16 +32,18 @@
          </div>
          <!-- form-add-product -->
          <form class="tf-section-2 form-add-product" method="POST" enctype="multipart/form-data"
-            action="{{route('admin.product.store')}}">
+            action="{{route('admin.product.update')}}">
           @csrf
+          @method('PUT')
             <div class="wg-box">
              
                   <fieldset class="name">
                      <div class="body-title mb-10">Tên sản phẩm <span class="tf-color-1">*</span>
                      </div>
                      <input class="mb-10" type="text" placeholder="Enter product name"
-                        name="name" tabindex="0" value="{{old('name')}}" aria-required="true" required="">
-                     <div class="text-tiny">Tên sản phẩm ko vượt quá 100 kí tự</div>
+                        name="name" tabindex="0" value="{{$product->name}}" aria-required="true" required="">
+                     <div class="text-tiny">Do not exceed 100 characters when entering the
+                        product name.</div>
                   </fieldset>
                   @error('name') 
                   <span class="alert alert-danger text-center">{{$message}}</span>
@@ -50,7 +52,7 @@
                   <fieldset class="name">
                      <div class="body-title mb-10">Tên đường dẫn <span class="tf-color-1">*</span></div>
                      <input class="mb-10" type="text" placeholder="Enter product slug"
-                        name="slug" tabindex="0" value="{{old('slug')}}" aria-required="true" required="">
+                        name="slug" tabindex="0" value="{{$product->slug}}" aria-required="true" required="">
                      <div class="text-tiny">Không vượt quá 100 kí tự</div>
                   </fieldset>
                   @error('slug') 
@@ -123,8 +125,15 @@
                      </div>
                      <div class="upload-image flex-grow">
                         <div class="item" id="imgpreview" style="display:none">
-                              <img src="../../../localhost_8000/images/upload/upload-1.png"
-                                 class="effect8" alt="">
+                        @if($product->images && $product->images->count() > 0)
+                            @php
+                                $primaryImage = $product->images->where('is_primary', 1)->first();
+                                $displayImage = $primaryImage ? $primaryImage : $product->images->first();
+                            @endphp
+                            <div class="item" id="imgpreview">
+                                <img src="{{asset('uploads/products/'.$displayImage->imageName)}}" class="effect8" alt="">
+                            </div>
+                        @endif
                         </div>
                         <div id="upload-file" class="item up-load">
                               <label class="uploadfile" for="myFile">
@@ -142,9 +151,13 @@
                   <fieldset>
                      <div class="body-title mb-10">Tải bộ sưu tập ảnh</div>
                      <div class="upload-image mb-16">
-                        <!-- <div class="item">
-         <img src="images/upload/upload-1.png" alt="">
-      </div>                                                 -->
+                        @if($product->images && $product->images->count() > 1)
+                            @foreach($product->images->where('is_primary', '!=', 1) as $image)
+                                <div class="item">
+                                    <img src="{{asset('uploads/products/'.$image->imageName)}}" alt="">
+                                </div>
+                            @endforeach
+                        @endif
                         <div id="galUpload" class="item up-load">
                               <label class="uploadfile" for="gFile">
                                  <span class="icon">
@@ -174,7 +187,7 @@
                         <div class="body-title mb-10">Giá khuyến mãi <span
                                  class="tf-color-1">*</span></div>
                         <input class="mb-10" type="text" placeholder="Hãy nhập giá khuyến mãi"
-                              name="sale_price" tabindex="0" value="{{old('regular_price')}}" aria-required="true"
+                              name="sale_price" tabindex="0" value="{{$product->sale_price}}" aria-required="true"
                               required="">
                      </fieldset>
                      @error('sale_price') 
@@ -188,7 +201,7 @@
                         <div class="body-title mb-10">SKU <span class="tf-color-1">*</span>
                         </div>
                         <input class="mb-10" type="text" placeholder="Hãy nhập SKU" name="SKU"
-                              tabindex="0" value="{{old('SKU')}}" aria-required="true" required="">
+                              tabindex="0" value="{{$product->SKU}}" aria-required="true" required="">
                      </fieldset>
                      @error('SKU') 
                <span class="alert alert-danger text-center">{{$message}}</span>
@@ -197,7 +210,7 @@
                         <div class="body-title mb-10">Số lượng <span class="tf-color-1">*</span>
                         </div>
                         <input class="mb-10" type="text" placeholder="Hãy nhập số lượng"
-                              name="quantity" tabindex="0" value="{{old('quantity')}}" aria-required="true"
+                              name="quantity" tabindex="0" value="{{$product->quantity}}" aria-required="true"
                               required="">
                      </fieldset>
                   </div>
