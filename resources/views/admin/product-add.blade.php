@@ -39,7 +39,7 @@
                   <fieldset class="name">
                      <div class="body-title mb-10">Tên sản phẩm <span class="tf-color-1">*</span>
                      </div>
-                     <input class="mb-10" type="text" placeholder="Enter product name"
+                     <input class="mb-10" type="text" placeholder="Nhập tên sản phẩm"
                         name="name" tabindex="0" value="{{old('name')}}" aria-required="true" required="">
                      <div class="text-tiny">Tên sản phẩm ko vượt quá 100 kí tự</div>
                   </fieldset>
@@ -49,7 +49,7 @@
 
                   <fieldset class="name">
                      <div class="body-title mb-10">Tên đường dẫn <span class="tf-color-1">*</span></div>
-                     <input class="mb-10" type="text" placeholder="Enter product slug"
+                     <input class="mb-10" type="text" placeholder="Nhập tên sản phẩm"
                         name="slug" tabindex="0" value="{{old('slug')}}" aria-required="true" required="">
                      <div class="text-tiny">Không vượt quá 100 kí tự</div>
                   </fieldset>
@@ -97,9 +97,9 @@
                      <div class="body-title mb-10">Mô tả ngắn <span
                               class="tf-color-1">*</span></div>
                      <textarea class="mb-10 ht-150" name="short_description"
-                        placeholder="Short Description" tabindex="0" aria-required="true"
+                        placeholder="Nhập mô tả ngắn" tabindex="0" aria-required="true"
                         required=""></textarea>
-                     <div class="text-tiny">Không vượt quá 100 kí tự.</div>
+                     <div class="text-tiny"></div>
                   </fieldset>
                   @error('short_description') 
                   <span class="alert alert-danger text-center">{{$message}}</span>
@@ -108,10 +108,9 @@
                   <fieldset class="description">
                      <div class="body-title mb-10">Mô tả <span class="tf-color-1">*</span>
                      </div>
-                     <textarea class="mb-10" name="description" placeholder="Description"
+                     <textarea class="mb-10" name="description" placeholder="Nhập mô tả"
                         tabindex="0" aria-required="true" required=""></textarea>
-                     <div class="text-tiny">Do not exceed 100 characters when entering the
-                        product name.</div>
+                     <div class="text-tiny"></div>
                   </fieldset>
                   @error('description') 
                <span class="alert alert-danger text-center">{{$message}}</span>

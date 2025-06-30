@@ -16,7 +16,7 @@
                   <i class="icon-chevron-right"></i>
                </li>
                <li>
-                  <div class="text-tiny">Categories</div>
+                  <div class="text-tiny">Danh mục</div>
                </li>
          </ul>
       </div>
@@ -35,7 +35,7 @@
                   </form>
                </div>
                <a class="tf-button style-1 w208" href="{{route('admin.category.add')}}"><i
-                     class="icon-plus"></i>Add new</a>
+                     class="icon-plus"></i>Thêm mới</a>
          </div>
          <div class="wg-table table-all-user">
                <div class="table-responsive">
@@ -45,11 +45,11 @@
                   <table class="table table-striped table-bordered">
                      <thead>
                            <tr>
-                              <th>#</th>
-                              <th>Name</th>
+                              <th>STT</th>
+                              <th>Tên</th>
                               <th>Slug</th>
-                              <th>Products</th>
-                              <th>Action</th>
+                              <th>Sản phẩm</th>
+                              <th></th>
                            </tr>
                      </thead>
                      <tbody>

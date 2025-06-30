@@ -51,7 +51,7 @@
                <span class="alert alert-danger text-center">{{$message}}</span>
                @enderror
                <fieldset>
-                  <div class="body-title">Upload images <span class="tf-color-1">*</span>
+                  <div class="body-title">Tải ảnh <span class="tf-color-1">*</span>
                   </div>
                   <div class="upload-image flex-grow">
                      @if($category->image)
@@ -64,8 +64,8 @@
                            <span class="icon">
                                  <i class="icon-upload-cloud"></i>
                               </span>
-                              <span class="body-text">Drop your images here or select <span
-                                       class="tf-color">click to browse</span></span>
+                              <span class="body-text">Thả ảnh tại đây hoặc <span
+                              class="tf-color">chọn từ thiết bị</span></span>
                               <input type="file" id="myFile" name="image" accept="image/*">
                            </label>
                      </div>
