@@ -13,15 +13,18 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->decimal('tax');
-            $table->decimal('total');
+            $table->unsignedBigInteger('customer_id');
+            $table->unsignedBigInteger('employee_id');
+            $table->decimal('tax', 10, 2)->default(0);
+            $table->decimal('total', 15, 2)->default(0);
             $table->string('status');
             $table->date('order_date');
-            $table->int('total_item');
-            //$tabel->string('deliveredOn');
+            $table->integer('total_item');
+            // $table->string('delivered_on')->nullable();
             $table->timestamps();
-            $table->foreign('customer_id')->references('id')->on
-            ('customers')->onDelete('cascade');
+
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
             
         });
     }

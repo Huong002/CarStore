@@ -5,8 +5,12 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Customer;
+use App\Models\Employee;
 use App\Models\Product;
 use App\Models\Image;
+use App\Models\Order;
+use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 // use Intervention\Image\Laravel\Facades\Image;1
 
@@ -454,13 +458,86 @@ class AdminController extends Controller
     }
 
 
-
-
-
 #endregion
 
 
+    public function orders(){
+        $orders = Order::with(['orderDetails.product', 'customer', 'employee'])
+                    ->orderBy('created_at', 'DESC')
+                    ->paginate(10);
+        return view('admin.orders', compact('orders'));
+    }
 
+    public function order_add(){
+        $orderdetails = OrderDetail::orderBy('name', 'ASC')->get();
+        $customers = Customer::orderBy('name', 'ASC')->get();
+        $employees=Employee::orderBy('name', 'ASC')->get();
+        return view('admin.order-add', compact('orderdetails', 'customers', 'employees'));
+        
+
+    }
+    public function order_store(Request $request){
+        $request->validate([
+            'customer_id' => 'required|exists:customers,id',
+            'employee_id' => 'required|exists:employees,id',
+            'tax' => 'nullable|numeric|min:0',
+            'total' => 'required|numeric|min:0',
+            'status' => 'required|in:pending,processing,shipped,delivered,cancelled',
+            'order_date' => 'required|date',
+            'total_item' => 'required|integer|min:1',
+            'products' => 'required|array|min:1',
+            'products.*.product_id' => 'required|exists:products,id',
+            'products.*.quantity' => 'required|integer|min:1',
+            'products.*.price' => 'required|numeric|min:0',
+        ]);
+
+        $order = new Order();
+        $order->customer_id = $request->customer_id;
+        $order->employee_id = $request->employee_id;
+        $order->tax = $request->tax ??0;
+        $order->status = $request->status;
+        $order->order_date = $request->order_date;
+        $order->total_item = $request->total_item;
+        $order->save();
+
+        // tao order detail;
+        foreach($request->products as $productData){
+            OrderDetail::create([
+                'order_id' => $order->id,
+                'product_id' => $productData['product_id'],
+                'quantity' => $productData['quantity'],
+                'price' => $productData['price'],
+                'total' => $productData['quantity'] * $productData['price'],
+            ]);
+    
+            // Cập nhật số lượng sản phẩm trong kho (tuỳ chọn)
+            $product = Product::find($productData['product_id']);
+            if($product){
+                $product->quantity -= $productData['quantity'];
+                if($product->quantity <= 0){
+                    $product->stock_status = 'outofstock';
+                }
+                $product->save();
+            }
+        }
+        
+
+        return  redirect()->route('admin.orders').with('message', 'Thêm mới đơn hàng thành công');
+    
+    }
+    public function order_detail($id){
+        $order = Order::with([
+            'orderDetails.product.category', 
+            'orderDetails.product.brand', 
+            'orderDetails.product.images', 
+            'customer', 
+            'employee'
+        ])->findOrFail($id);
+        
+    return view('admin.order-detail', compact('order'));
+    }
+
+    
+    
 
 }
-

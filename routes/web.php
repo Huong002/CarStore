@@ -46,4 +46,12 @@ Route::middleware(['auth', AuthAdmin::class])->group(function(){
     Route::get('/admin/product/edit/{id}', [AdminController::class, 'product_edit'])->name('admin.product.edit');
     Route::put('/admin/product/update', [AdminController::class, 'product_update'])->name('admin.product.update');
     Route::delete('/admin/product/delete/{id}', [AdminController::class, 'product_delete'])->name('admin.product.delete');
+   
+    
+    // doon hang
+    Route::get('admin/orders', [AdminController::class, 'orders'])->name('admin.orders');
+    Route::get('admin/order/add', [AdminController::class, 'order_add'])->name('admin.order.add');
+    Route::post('admin/order/store', [AdminController::class, 'order_store'])->name('admin.order.store');
+   Route::get('admin/order/detail/{id}', [AdminController::class, 'order_detail'])->name('admin.order.details');
+
 });

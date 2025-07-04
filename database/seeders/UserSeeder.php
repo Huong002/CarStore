@@ -28,6 +28,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password123'),
                 'utype' => 'USR',
                 'email_verified_at' => now(),
+                'customer_id' => 1,  // Sửa: customer_is → customer_id
             ],
             [
                 'name' => 'Trần Thị Bình',
@@ -35,18 +36,21 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password123'),
                 'utype' => 'USR',
                 'email_verified_at' => now(),
+                'customer_id' => 2,  // Sửa: customer_is → customer_id
             ],
             [
                 'name' => 'Lê Minh Cường',
-                'email' => 'customer3@example.com',
+                'email' => 'employee1@example.com',
                 'password' => Hash::make('password123'),
                 'utype' => 'USR',
                 'email_verified_at' => now(),
+                'employee_id' => 1,  // Sửa: emplyee_id → employee_id
             ]
         ];
-
+    
         foreach ($users as $userData) {
             User::create($userData);
         }
+    
     }
 }

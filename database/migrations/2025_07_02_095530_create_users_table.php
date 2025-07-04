@@ -18,8 +18,12 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('utype')->default('USR')->comment('ADM for Admin and USR for User and Customer'); // xac dinh vai tro cua nguoi dung trong he thong
+            $table->unsignedBigInteger('customer_id')->nullable();
+            $table->unsignedBigInteger('employee_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
