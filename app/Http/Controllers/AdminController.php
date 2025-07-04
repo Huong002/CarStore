@@ -12,6 +12,9 @@ use App\Models\Image;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+
 // use Intervention\Image\Laravel\Facades\Image;1
 
 
@@ -536,6 +539,48 @@ class AdminController extends Controller
         
     return view('admin.order-detail', compact('order'));
     }
+
+    // nguoi dung
+    public function users(){
+        $users = User::with(['customer', 'employee'])
+                    ->orderBy('created_at', 'DESC')
+                    ->paginate(10);
+        return view('admin.users', compact('users'));
+    }
+    
+    public function user_edit($id){
+        $user = User::with(['customer', 'employee'])->findOrFail($id);
+        $customers = Customer::orderBy('customerName', 'ASC')->get();
+        $employees = Employee::orderBy('name', 'ASC')->get();
+        return view('admin.user-edit', compact('user', 'customers', 'employees'));
+    }
+
+    public function user_update(Request $request){
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $request->id,
+            'password' => 'nullable|string|min:6',
+            'utype' => 'required|in:USR,ADM',
+            'customer_id' => 'nullable|exists:customers,id',
+            'employee_id' => 'nullable|exists:employees,id',
+        ]);
+        $user = User::findOrFail($request->id);
+        $user ->name = $request ->name;
+        $user -> email = $request ->email;
+       // $user ->phone = $request ->phone;
+       $user->utype = $request->utype;
+       $user->customer_id = $request->customer_id;
+       $user->employee_id = $request->employee_id;
+
+       if($request -> password){
+        $user->password = Hash::make($request->password);
+       }
+       $user->save();
+       return redirect()->route('admin.users')->with('message', 'Đã cập nhập thông tin tài khoản thành công');
+       
+        
+    }
+    
 
     
     
