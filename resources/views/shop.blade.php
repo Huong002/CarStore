@@ -16,7 +16,7 @@
             <h5 class="accordion-header" id="accordion-heading-1">
               <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse"
                 data-bs-target="#accordion-filter-1" aria-expanded="true" aria-controls="accordion-filter-1">
-                Product Categories
+                Danh mục
                 <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
                   <g aria-hidden="true" stroke="none" fill-rule="evenodd">
                     <path
@@ -27,38 +27,13 @@
             </h5>
             <div id="accordion-filter-1" class="accordion-collapse collapse show border-0"
               aria-labelledby="accordion-heading-1" data-bs-parent="#categories-list">
-              <div class="accordion-body px-0 pb-0 pt-3">
+              <div class="accordion-body px-0 pb-0 pt-3" style="max-height: 250px; overflow-y: auto;">
                 <ul class="list list-inline mb-0">
+                  @foreach($categories as $category)
                   <li class="list-item">
-                    <a href="#" class="menu-link py-1">Dresses</a>
+                    <a href="{{ route('shop.index', ['category' => $category->id]) }}" class="menu-link py-1">{{$category->name}}</a>
                   </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">Shorts</a>
-                  </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">Sweatshirts</a>
-                  </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">Swimwear</a>
-                  </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">Jackets</a>
-                  </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">T-Shirts & Tops</a>
-                  </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">Jeans</a>
-                  </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">Trousers</a>
-                  </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">Men</a>
-                  </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">Jumpers & Cardigans</a>
-                  </li>
+                  @endforeach
                 </ul>
               </div>
             </div>
@@ -71,7 +46,7 @@
             <h5 class="accordion-header" id="accordion-heading-1">
               <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse"
                 data-bs-target="#accordion-filter-2" aria-expanded="true" aria-controls="accordion-filter-2">
-                Color
+                Màu sắc 
                 <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
                   <g aria-hidden="true" stroke="none" fill-rule="evenodd">
                     <path
@@ -100,7 +75,7 @@
           </div>
         </div>
 
-
+<!-- 
         <div class="accordion" id="size-filters">
           <div class="accordion-item mb-4 pb-3">
             <h5 class="accordion-header" id="accordion-heading-size">
@@ -129,7 +104,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
 
 
         <div class="accordion" id="brand-filters">
@@ -137,7 +112,7 @@
             <h5 class="accordion-header" id="accordion-heading-brand">
               <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse"
                 data-bs-target="#accordion-filter-brand" aria-expanded="true" aria-controls="accordion-filter-brand">
-                Brands
+                Thương hiệu
                 <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
                   <g aria-hidden="true" stroke="none" fill-rule="evenodd">
                     <path
@@ -164,34 +139,13 @@
                     placeholder="Search" />
                 </div>
                 <ul class="multi-select__list list-unstyled">
+                  @foreach($brands as $brand)
                   <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Adidas</span>
-                    <span class="text-secondary">2</span>
+                    <span class="me-auto">{{$brand->name}}</span>
+                    <span class="text-secondary"></span>
                   </li>
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Balmain</span>
-                    <span class="text-secondary">7</span>
-                  </li>
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Balenciaga</span>
-                    <span class="text-secondary">10</span>
-                  </li>
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Burberry</span>
-                    <span class="text-secondary">39</span>
-                  </li>
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Kenzo</span>
-                    <span class="text-secondary">95</span>
-                  </li>
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Givenchy</span>
-                    <span class="text-secondary">1092</span>
-                  </li>
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Zara</span>
-                    <span class="text-secondary">48</span>
-                  </li>
+                  @endforeach
+                 
                 </ul>
               </div>
             </div>
@@ -204,7 +158,7 @@
             <h5 class="accordion-header mb-2" id="accordion-heading-price">
               <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse"
                 data-bs-target="#accordion-filter-price" aria-expanded="true" aria-controls="accordion-filter-price">
-                Price
+                Giá
                 <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
                   <g aria-hidden="true" stroke="none" fill-rule="evenodd">
                     <path
@@ -369,12 +323,14 @@
                 <div class="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
                   <div class="swiper-wrapper">
                     <div class="swiper-slide">
-                      <a href="details.html"><img loading="lazy" src="{{asset('uploads/products')}}/{{$product->image}}" width="330"
+                      <a href="{{route('shop.product.details', ['product_slug'=>$product->slug])}}">{{$product->name}}"><img loading="lazy" src="{{asset('uploads/products')}}/{{$product->image}}" width="330"
                           height="400" alt="{{$product->name}}" class="pc__img"></a>
                     </div>
                     <div class="swiper-slide">
-                      <a href="details.html"><img loading="lazy" src="assets/images/products/product_1-1.jpg"
-                          width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
+                      @foreach(explode(",", $product->images) as $gimg)
+                      <a href="{{route('shop.product.details', ['product_slug'=>$product->slug])}}">{{$product->name}}"><img loading="lazy" src="{{asset('uploads/products')}}/{{$gimg}}"
+                          width="330" height="400" alt="{{$product->name}}" class="pc__img"></a>
+                      @endforeach
                     </div>
                   </div>
                   <span class="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11"
@@ -393,13 +349,13 @@
 
               <div class="pc__info position-relative">
                 <p class="pc__category">{{$product->category->name}}</p>
-                <h6 class="pc__title"><a href="details.html">{{$product->name}}</a></h6>
+                <h6 class="pc__title"><a href="{{route('shop.product.details', $product->slug)}}">{{$product->name}}</a></h6>
                 <div class="product-card__price d-flex">
                   <span class="money price">
                      @if($product->sale_price)
-                     <s>${{$product->regular_price}}</s> ${{$product->sale_price}}
+                     <s>{{number_format($product->regular_price, 0, ",", ".")}}VND</s> {{number_format($product->sale_price, 0, ",", ".")}}VND
                      @else
-                     ${{$product->regular_price}}
+                     ${{number_format($product->regular_price, 0, ",", ".")}} VND
                      @endif
                   </span>
                 </div>

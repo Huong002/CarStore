@@ -504,7 +504,7 @@
   </header>
 
     @yield("content")
-  <hr class="mt-5 text-secondary" />
+  <!-- <hr class="mt-5 text-secondary" />
   <footer class="footer footer_type_2">
     <div class="footer-middle container">
       <div class="row row-cols-lg-5 row-cols-2">
@@ -561,8 +561,8 @@
               </a>
             </li>
           </ul>
-        </div>
-
+        </div> -->
+<!-- 
         <div class="footer-column footer-menu mb-4 mb-lg-0">
           <h6 class="sub-menu__title text-uppercase">Company</h6>
           <ul class="sub-menu__list list-unstyled">
@@ -620,7 +620,7 @@
         </div>
       </div>
     </div>
-  </footer>
+  </footer> -->
 
 
   <footer class="footer-mobile container w-100 px-5 d-md-none bg-body">
