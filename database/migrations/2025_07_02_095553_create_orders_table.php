@@ -21,6 +21,7 @@ return new class extends Migration
             $table->date('order_date');
             $table->integer('total_item');
             // $table->string('delivered_on')->nullable();
+            $table->boolean('isDeleted')->default(false);
             $table->timestamps();
 
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');

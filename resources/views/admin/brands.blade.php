@@ -5,7 +5,7 @@
 <div class="main-content-inner">
    <div class="main-content-wrap">
       <div class="flex items-center flex-wrap justify-between gap20 mb-27">
-         <h3>Brands</h3>
+         <h3>Thương hiệu</h3>
          <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
                <li>
                   <a href="{{route('admin.index')}}">
@@ -45,7 +45,7 @@
                   <table class="table table-striped table-bordered">
                      <thead>
                            <tr>
-                              <th>#</th>
+                              <th>STT</th>
                               <th>Tên hãng</th>
                               <th>Tên đường dẫn</th>
                               <th>Sản phẩm</th>
@@ -57,7 +57,8 @@
 
                      
                            <tr>
-                              <td>{{$brand->id}}</td>
+                              <!-- <td>{{$brand->id}}</td> -->
+                              <td>{{$loop->iteration}}</td> 
                               <td class="pname">
                                  <div class="image">
                                        <img src="{{asset('uploads/brands')}}/{{$brand->image}}" alt="{{$brand->name}}" class="image">
@@ -109,8 +110,7 @@
          e.preventDefault();
          var form = $(this).closest('form');
          swal({
-            title: 'Bạn có chắn chắn muốn xóa sản phẩm?',
-            text: 'Bạn muốn xóa hàng này?',
+            title: 'Bạn có chắn chắn muốn xóa thương hiệu?',
             icon: "warning",
             buttons: {
                 cancel: "Không",

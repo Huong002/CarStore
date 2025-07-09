@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use PhpParser\Node\Stmt\Return_;
 
 class User extends Authenticatable
 {
@@ -51,5 +52,11 @@ class User extends Authenticatable
     }
     public function employee(){
         return $this->belongsTo(Employee::class, 'employee_id');
+    }
+    public function cart(){
+        return $this->hasMany(Cart::class);
+    }
+    public function review(){
+        return $this->hasMany(Review::class);
     }
 }

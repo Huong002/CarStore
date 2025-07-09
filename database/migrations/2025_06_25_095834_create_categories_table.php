@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('image')->nullable();
             $table->string('parent_id')->nullable();
+            $table->boolean('isDeleted')->default(false);
             $table->timestamps();
         });
     }
