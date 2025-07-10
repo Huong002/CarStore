@@ -47,16 +47,24 @@ class User extends Authenticatable
         ];
     }
 
-    public function customer(){
+    public function customer()
+    {
         return $this->belongsTo(Customer::class, 'customer_id');
     }
-    public function employee(){
+    public function employee()
+    {
         return $this->belongsTo(Employee::class, 'employee_id');
     }
-    public function cart(){
+    public function cart()
+    {
         return $this->hasMany(Cart::class);
     }
-    public function review(){
+    public function review()
+    {
         return $this->hasMany(Review::class);
+    }
+    public function notification()
+    {
+        return $this->hasMany(Notification::class);
     }
 }

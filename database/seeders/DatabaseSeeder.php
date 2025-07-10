@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\Brand;
+use App\Models\CartItem;
 use App\Models\Employee;
 use App\Models\OrderDetail;
 use App\Models\Product;
@@ -28,7 +29,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
 
             ProductSeeder::class,
-
+            CartSeeder::class,
+            CartItemSeeder::class,
             // ImageSeeder::class,
 
             OrderSeeder::class,
