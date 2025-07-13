@@ -5,7 +5,7 @@
 <div class="main-content-inner">
    <div class="main-content-wrap">
       <div class="flex items-center flex-wrap justify-between gap20 mb-27">
-         <h3>Danh sách sản phẩm</h3>
+         <h3>Danh sách sản phẩm đã xóa</h3>
          <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
             <li>
                <a href="index.html">
@@ -16,7 +16,7 @@
                <i class="icon-chevron-right"></i>
             </li>
             <li>
-               <div class="text-tiny">Danh sách sản phẩm</div>
+               <div class="text-tiny">Danh sách sản phẩm đã xóa</div>
             </li>
          </ul>
       </div>
@@ -90,17 +90,19 @@
                                  <i class="icon-eye"></i>
                               </div>
                            </a>
-                           <a href="{{ route('admin.product.edit', ['id' => $product->id]) }}">
-                              <div class="item edit">
-                                 <i class="icon-edit-3"></i>
-                              </div>
-                           </a>
-                           <form action="{{ route('admin.product.soft_delete', ['id' => $product->id]) }}" method="POST">
+                           <form action="{{ route('admin.product.restore', ['id' => $product->id]) }}" method="POST" style="display: inline;">
+                              @csrf
+                              @method('PATCH')
+                              <button type="submit" class="item edit" style="border: none; background: none; padding: 0;">
+                                 <i class="bi bi-arrow-repeat"></i>
+                              </button>
+                           </form>
+                           <form action="{{route('admin.product.delete', ['id' => $product->id]) }}" method="POST" style="display: inline;">
                               @csrf
                               @method('DELETE')
-                              <div class="item text-danger delete">
+                              <button type="submit" class="item text-danger delete" style="border: none; background: none; padding: 0;">
                                  <i class="icon-trash-2"></i>
-                              </div>
+                              </button>
                            </form>
                         </div>
                      </td>
@@ -119,6 +121,7 @@
       </div>
    </div>
 </div>
+
 
 
 @endsection

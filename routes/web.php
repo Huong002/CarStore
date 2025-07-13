@@ -47,11 +47,14 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::delete('/admin/product/delete/{id}', [AdminController::class, 'product_delete'])->name('admin.product.delete');
     // them xoa mem
     // danh sach san pham xoa mem
-    Route::get('admin/product/history', [AdminController::class, 'product_his'])->name('admin.product.his');
+    Route::get('admin/products/history', [AdminController::class, 'product_his'])->name('admin.product.history');
     // xoa mem
     Route::delete('admin/product/soft-delete/{id}', [AdminController::class, 'product_soft_delete'])->name('admin.product.soft_delete');
     // khoi phuc: 
-    Route::get('/admin/product/restore/{id}', [AdminController::class, 'product_restore'])->name('admin.product.restore');
+    Route::patch('/admin/product/restore/{id}', [AdminController::class, 'product_restore'])->name('admin.product.restore');
+
+    // xóa vĩnh viễn sản phẩm
+    Route::delete('/admin/product/force-delete/{id}', [AdminController::class, 'product_force_delete'])->name('admin.product.force-delete');
 
 
     // doon hang

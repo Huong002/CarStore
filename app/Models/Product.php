@@ -27,48 +27,7 @@ class Product extends Model
     ];
 
     protected $dates = ['deleted_at'];
-    protected static function booted()
-    {
-        static::addGlobalScope('notSoftDeleted', function ($builder) {
-            $builder->where('isDeleted', false);
-        });
-    }
-
-    public function scopeOnlySoftDeleted($query)
-    {
-        return $query->withoutGlobalScope('notSoftDeleted')->where('isDeleted', true);
-    }
-
-    public function scopeWithSoftDeleted($query)
-    {
-        return $query->withoutGlobalScope('notSoftDeleted');
-    }
-
-    public function delete()
-    {
-        $this->update([
-            'isDeleted' => true,
-            'deleted_at' => now()
-        ]);
-
-        return true;
-    }
-
-    public function restore()
-    {
-        $this->update([
-            'isDeleted' => false,
-            'deleted_at' => null
-        ]);
-
-        return true;
-    }
-
-    public function isSoftDeleted()
-    {
-        return $this->isDeleted === true;
-    }
-
+    
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');

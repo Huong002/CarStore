@@ -247,7 +247,6 @@ class AdminController extends Controller
     public function products()
     {
         $products = Product::with(['category', 'brand', 'images'])
-            ->where('isDeleted', false)
             ->orderBy('created_at', 'DESC')
             ->paginate(10);
         return view('admin.products', compact('products'));
@@ -430,7 +429,7 @@ class AdminController extends Controller
             ]);
         }
 
-        // Xử lý bộ sưu tập ảnh (nếu có upload ảnh mới)
+        // Xử lý bộ sưu tập ản
         if ($request->hasFile('images')) {
             $images = $request->file('images');
             $destinationPath = public_path('uploads/products');
@@ -457,8 +456,8 @@ class AdminController extends Controller
 
     public function product_delete($id)
     {
-        $product = Product::find($id);
-        if (!$product) {  // ← SỬA: Kiểm tra !$product thay vì $id
+        $product = Product::onlyTrashed()->find($id);
+        if (!$product) {
             return redirect()->back()->with('error', 'Không tìm thấy sản phẩm bạn cần');
         }
 
@@ -467,18 +466,17 @@ class AdminController extends Controller
             if (\Illuminate\Support\Facades\File::exists(public_path('uploads/products/' . $image->imageName))) {
                 \Illuminate\Support\Facades\File::delete(public_path('uploads/products/' . $image->imageName));
             }
-            $image->delete();
+            $image->forceDelete();
         }
 
-        $product->delete();
+        $product->forceDelete();
         return redirect()->route('admin.products')->with('status', 'Xóa sản phẩm thành công');
     }
     // lay danh sach cac san pham co isDeleted = true
     public function product_his()
     {
-        $products = Product::with(['category', 'brand', 'images'])
-            ->onlyTrashed()
-            ->orderBy('deleted_at', 'DESC')
+        $products = Product::onlyTrashed()->with(['category', 'brand', 'images'])
+            ->orderBy('updated_at', 'DESC')
             ->paginate(10);
 
         return view('admin.product-history', compact('products'));
@@ -488,7 +486,7 @@ class AdminController extends Controller
     {
         $product  = Product::find($id);
         if (!$product) {
-            return redirect()->back()->with('error', 'Không tìm thấy sản phẩm bạn cần xóa'); // ✅ Sửa
+            return redirect()->back()->with('error', 'Không tìm thấy sản phẩm bạn cần xóa');
         }
         $product->delete();
         return redirect()->route('admin.products')->with('status', 'Chuyển vào thùng rác thành công');
@@ -499,9 +497,42 @@ class AdminController extends Controller
         $product = Product::onlyTrashed()->findOrFail($id);
         $product->restore();
 
-        return redirect()->route('admin.products.history')->with('status', 'Khôi phục sản phẩm thành công!');
+        return redirect()->route('admin.product.history')->with('status', 'Khôi phục sản phẩm thành công!');
     }
+    // // xóa vĩnh viễn sản phẩm (không thể khôi phục)
+    // public function product_force_delete(Request $request, $id)
+    // {
+    //     try {
+    //         $product = Product::findOrFail($id);
+
+    //         // Xóa tất cả hình ảnh liên quan
+    //         foreach ($product->images as $image) {
+    //             // Xóa file vật lý
+    //             $imagePath = public_path('uploads/' . $image->path);
+    //             if (file_exists($imagePath)) {
+    //                 unlink($imagePath);
+    //             }
+    //             // Xóa record trong database
+    //             $image->delete();
+    //         }
+
+    //         // Xóa vĩnh viễn sản phẩm
+    //         $product->forceDelete();
+
+    //         return redirect()
+    //             ->route('admin.products.history')
+    //             ->with('success', 'Sản phẩm đã được xóa vĩnh viễn thành công!');
+    //     } catch (\Exception $e) {
+    //         return redirect()
+    //             ->route('admin.products.history')
+    //             ->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
+    //     }
+    // }
     #endregion
+
+
+
+    #region Hoa Don
 
 
     public function orders()
@@ -705,3 +736,5 @@ class AdminController extends Controller
         return redirect()->route('admin.users')->with('message', 'Đã cập nhập thông tin tài khoản thành công');
     }
 }
+
+    #endregion
