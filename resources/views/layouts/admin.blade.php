@@ -39,12 +39,12 @@
     <div id="page" class="">
       <div class="layout-wrap">
         <!-- <div id="preload" class="preload-container">
-    <div class="preloading">
-        <span></span>
-    </div>
-</div> -->
+          <div class="preloading">
+            <span></span>
+          </div>
+        </div> -->
 
-        <div class="section-menu-left">
+        <div class="section-menu-left" style="background-color: seashell">
           <div class="box-logo">
             <a href="{{route('admin.index')}}" id="site-logo-inner">
               <img
@@ -61,7 +61,7 @@
           </div>
           <div class="center">
             <div class="center-item">
-              <div class="center-heading">Main Home</div>
+              <div class="center-heading">NHÀ CHÍNH</div>
               <ul class="menu-list">
                 <li class="menu-item">
                   <a href="{{route('admin.index')}}" class="">
@@ -196,12 +196,12 @@
                     class=""
                     id="logo_header_mobile"
                     alt=""
-                    src="images/logo/logo.png"
-                    data-light="images/logo/logo.png"
-                    data-dark="images/logo/logo.png"
+                    src="{{ asset('images/logo/logo.png') }}"
+                    data-light="{{ asset('images/logo/logo.png') }}"
+                    data-dark="{{ asset('images/logo/logo.png') }}"
                     data-width="154px"
                     data-height="52px"
-                    data-retina="images/logo/logo.png" />
+                    data-retina="{{asset('images/logo/logo.png')}}" />
                 </a>
                 <div class="button-show-hide">
                   <i class="icon-menu-left"></i>
@@ -444,8 +444,8 @@
                           <img src="{{ asset('images/avatar/user-1.png') }}" alt="" />
                         </span>
                         <span class="flex flex-column">
-                          <span class="body-title mb-2">Kristin Watson</span>
-                          ng74
+                          <span class="body-title mb-2">Trần Phước Hưỡng</span>
+
                           <span class="text-tiny">Admin</span>
                         </span>
                       </span>

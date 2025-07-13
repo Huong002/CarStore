@@ -535,24 +535,55 @@ class AdminController extends Controller
     #region Hoa Don
 
 
-    public function orders()
+    // public function orders()
+    // {
+    //     $pendingCount = Order::where('status', 'pending')->count();
+    //     $approvedCount = Order::where('status', 'approved')->count();
+    //     $cancelledCount = Order::where('status', 'cancelled')->count();
+    //     $orders = Order::with(['orderDetails.product', 'customer', 'employee'])
+    //         ->orderBy('created_at', 'DESC')
+    //         ->paginate(10);
+    //     return view('admin.orders', compact('orders', 'pendingCount', 'approvedCount', 'cancelledCount'));
+    // }
+    public function orders(Request $request)
     {
-        $pendingCount = Order::where('status', 'pending')->count();
-        $approvedCount = Order::where('status', 'approved')->count();
-        $cancelledCount = Order::where('status', 'cancelled')->count();
-        $orders = Order::with(['orderDetails.product', 'customer', 'employee'])
-            ->orderBy('created_at', 'DESC')
-            ->paginate(10);
-        return view('admin.orders', compact('orders', 'pendingCount', 'approvedCount', 'cancelledCount'));
-    }
+        $status = $request->get('status', 'all');
+        $search = $request->get('name');
+        $query = Order::with(['customer', 'employee']);
 
-    public function order_add()
-    {
-        $orderdetails = OrderDetail::orderBy('name', 'ASC')->get();
-        $customers = Customer::orderBy('name', 'ASC')->get();
-        $employees = Employee::orderBy('name', 'ASC')->get();
-        return view('admin.order-add', compact('orderdetails', 'customers', 'employees'));
+        if ($status && $status != 'all') {
+            $query->where('status', $status);
+        }
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('id', 'like', '%' . $search . '%')
+                    ->orWhereHas('customer', function ($customerQuery) use ($search) {
+                        $customerQuery->where('customerName', 'like', '%' . $search . '%');
+                    });
+            });
+        }
+
+        $orders = $query->orderBy('created_at', 'DESC')->paginate(10);
+
+        // Đếm số lượng theo từng trạng thái
+        $statusCounts = [
+            'all' => Order::count(),
+            'pending' => Order::where('status', 'pending')->count(),
+            'approved' => Order::where('status', 'approved')->count(),
+            'completed' => Order::where('status', 'completed')->count(),
+            'cancelled' => Order::where('status', 'cancelled')->count(),
+        ];
+
+        return view('admin.orders', compact('orders', 'statusCounts'));
     }
+    // public function order_add()
+    // {
+    //     // $orderdetails = OrderDetail::orderBy('name', 'ASC')->get();
+    //     $customers = Customer::orderBy('customerName', 'ASC')->get();
+    //     $employees = Employee::orderBy('name', 'ASC')->get();
+    //     return view('admin.order-add', compact('customers', 'employees'));
+    // }
+
     public function order_store(Request $request)
     {
         $request->validate([
