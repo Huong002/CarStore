@@ -42,28 +42,29 @@
                <table class="table table-striped table-bordered">
                   <thead>
                      <tr>
-                        <th>STT</th>
-                        <th>Tên người dùng</th>
-                        <th>Số điện thoại</th>
-                        <th>Email</th>
+                        <th class="text-center">STT</th>
+                        <th class="text-center">Tên người dùng</th>
+                        <th class="text-center">Số điện thoại</th>
+                        <th class="text-center">Email</th>
+                        <th class="text-center">Trạng thái</th>
                         <th class="text-center">Tổng số hóa đơn</th>
-                        <th></th>
+                        <th class="text-center"></th>
                      </tr>
                   </thead>
                   <tbody>
                      @foreach($users as $user)
                      <tr>
-                        <td>{{$loop->iteration}}</td>
-                        <td class="pname">
-                           <div class="image">
+                        <td class="text-center">{{$loop->iteration}}</td>
+                        <td class="pname text-center">
+                           <div class="image" style="display: inline-block;">
                               <img src="user-1.html" alt="" class="image">
                            </div>
-                           <div class="name">
+                           <div class="name" style="display: inline-block;">
                               <a href="#" class="body-title-2">{{$user->name}}</a>
                               <div class="text-tiny mt-3">{{$user->utype}}</div>
                            </div>
                         </td>
-                        <td> @if($user->customer)
+                        <td class="text-center">@if($user->customer)
                            {{ $user->customer->phone }}
                            @elseif($user->employee)
                            {{ $user->employee->phone }}
@@ -71,15 +72,37 @@
                            <span class="text-muted">Không có</span>
                            @endif
                         </td>
-                        <td>{{$user->email}}</td>
+                        <td class="text-center">{{$user->email}}</td>
+                        <td class="text-center">@if($user->isLock)
+                           <span class="badge bg-danger">Đã khóa</span>
+                           @else
+                           <span class="badge bg-success">Hoạt động</span>
+                           @endif
+                        </td>
                         <td class="text-center"><a href="#" target="_blank">0</a></td>
-                        <td>
-                           <div class="list-icon-function">
+                        <td class="text-center">
+                           <div class="list-icon-function" style="justify-content: center;">
                               <a href="#">
                                  <div class="item edit">
                                     <i class="icon-edit-3"></i>
                                  </div>
                               </a>
+                              @if(!$user->isLock)
+                              <form action="{{ route('admin.user.lock', $user->id) }}" method="POST" style="display:inline;">
+                                 @csrf
+                                 <button type="submit" class="item lock" style="background: none; border: none; padding: 0;" title="Khóa tài khoản">
+                                    <i class="bi bi-lock-fill" style="color: #d97706; font-size: 18px;"></i>
+                                 </button>
+                              </form>
+                              @else
+                              <!-- Nút mở khóa tài khoản -->
+                              <form action="{{ route('admin.user.unlock', $user->id) }}" method="POST" style="display:inline;">
+                                 @csrf
+                                 <button type="submit" class="item unlock" style="background: none; border: none; padding: 0;" title="Mở khóa tài khoản">
+                                    <i class="bi bi-key-fill" style="color: #facc15; font-size: 18px;"></i>
+                                 </button>
+                              </form>
+                              @endif
                            </div>
                         </td>
                      </tr>

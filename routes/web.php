@@ -72,9 +72,14 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     // Thao tác đơn hàng
     Route::post('/admin/order/approve/{id}', [AdminController::class, 'order_approve'])->name('order.approve');
     Route::post('/admin/order/cancel/{id}', [AdminController::class, 'order_cancel'])->name('order.cancel');
-    
+
 
     // nguoi dung
     Route::get('admin/users/', [AdminController::class, 'users'])->name('admin.users');
-    
+    Route::post('admin/users/{id}/lock', [AdminController::class, 'user_lock'])->name('admin.user.lock');
+    Route::post('admin/users/{id}/unlock', [AdminController::class, 'user_unlock'])->name('admin.user.unlock');
+
+
+
+
 });

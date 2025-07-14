@@ -807,6 +807,24 @@ class AdminController extends Controller
         return redirect()->route('admin.users')->with('message', 'Đã cập nhập thông tin tài khoản thành công');
     }
 
+    public function user_lock($id)
+    {
+        $user = User::findOrFail($id);
+        $user->isLock = true;
+        $user->save();
+
+        return redirect()->back()->with('status', 'Đã khóa tài khoản thành công');
+    }
+    public function user_unlock($id)
+    {
+        $user = User::findOrFail($id);
+        $user->isLock = false;
+        $user->save();
+
+        return redirect()->back()->with('status', 'Đã mở khóa tài khoản thành công');
+    }
+
+
     #endregion
 
 
