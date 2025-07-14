@@ -244,11 +244,34 @@ class AdminController extends Controller
 
     #region SanPham
     // product
-    public function products()
+    // public function products()
+    // {
+    //     $products = Product::with(['category', 'brand', 'images'])
+    //         ->orderBy('created_at', 'DESC')
+    //         ->paginate(10);
+    //     return view('admin.products', compact('products'));
+    // }
+
+    public function products(Request $request)
     {
-        $products = Product::with(['category', 'brand', 'images'])
-            ->orderBy('created_at', 'DESC')
-            ->paginate(10);
+        $search = $request->get('name');
+        $query = Product::with(['category', 'brand', 'images'])->orderBy('created_at', 'DESC');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('SKU', 'like', '%' . $search . '%')
+                    ->orWhereHas('category', function ($catQuery) use ($search) {
+                        $catQuery->where('name', 'like', '%' . $search . '%');
+                    })
+                    ->orWhereHas('brand', function ($brandQuery) use ($search) {
+                        $brandQuery->where('name', 'like', '%' . $search . '%');
+                    });
+            });
+        }
+
+        $products = $query->paginate(10);
+
         return view('admin.products', compact('products'));
     }
     public function product_add()
@@ -726,11 +749,28 @@ class AdminController extends Controller
 
 
     // nguoi dung
-    public function users()
+    public function users(Request $request)
     {
-        $users = User::with(['customer', 'employee'])
-            ->orderBy('created_at', 'DESC')
-            ->paginate(10);
+        $search = $request->get('name');
+        $query = User::with(['customer', 'employee'])->orderBy('created_at', 'DESC');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%')
+                    ->orWhereHas('customer', function ($customerQuery) use ($search) {
+                        $customerQuery->where('customerName', 'like', '%' . $search . '%')
+                            ->orWhere('phone', 'like', '%' . $search . '%');
+                    })
+                    ->orWhereHas('employee', function ($employeeQuery) use ($search) {
+                        $employeeQuery->where('name', 'like', '%' . $search . '%')
+                            ->orWhere('phone', 'like', '%' . $search . '%');
+                    });
+            });
+        }
+
+        $users = $query->paginate(10);
+
         return view('admin.users', compact('users'));
     }
 
@@ -766,6 +806,9 @@ class AdminController extends Controller
         $user->save();
         return redirect()->route('admin.users')->with('message', 'Đã cập nhập thông tin tài khoản thành công');
     }
-}
 
     #endregion
+
+
+
+}
