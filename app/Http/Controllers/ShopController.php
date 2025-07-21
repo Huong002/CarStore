@@ -27,6 +27,7 @@ class ShopController extends Controller
         $categories = Category::orderBy('name', 'ASC')->get();
         $brands = Brand::orderBy('name', 'ASC')->get();
         return view('details', compact( 'product', 'rproducts' ,'categories', 'brands'))  ; 
+        
     }
     
 }

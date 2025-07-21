@@ -82,11 +82,12 @@
                         <td class="text-center"><a href="#" target="_blank">0</a></td>
                         <td class="text-center">
                            <div class="list-icon-function" style="justify-content: center;">
-                              <a href="#">
+                              <!-- <a href="#">
                                  <div class="item edit">
                                     <i class="icon-edit-3"></i>
                                  </div>
-                              </a>
+                              </a> -->
+                              @if($user->utype !== 'ADM')
                               @if(!$user->isLock)
                               <form action="{{ route('admin.user.lock', $user->id) }}" method="POST" style="display:inline;">
                                  @csrf
@@ -95,13 +96,13 @@
                                  </button>
                               </form>
                               @else
-                              <!-- Nút mở khóa tài khoản -->
                               <form action="{{ route('admin.user.unlock', $user->id) }}" method="POST" style="display:inline;">
                                  @csrf
                                  <button type="submit" class="item unlock" style="background: none; border: none; padding: 0;" title="Mở khóa tài khoản">
                                     <i class="bi bi-key-fill" style="color: #facc15; font-size: 18px;"></i>
                                  </button>
                               </form>
+                              @endif
                               @endif
                            </div>
                         </td>

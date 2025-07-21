@@ -29,8 +29,130 @@
   <link rel="stylesheet" type="text/css" href="{{ asset('css/custom.css')}}" />
   <!-- Thêm vào phần <head> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
   @stack("styles")
 </head>
+
+<style>
+  .modal-content {
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+    font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", sans-serif;
+  }
+
+  .modal-header {
+    border-bottom: 1px solid #e5e5e5;
+    padding: 16px 24px;
+    background-color: #f9f9f9;
+  }
+
+  .modal-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: #1d1d1f;
+  }
+
+  .btn-close {
+    font-size: 1.2rem;
+    opacity: 0.5;
+  }
+
+  .btn-edit {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: #007aff;
+    cursor: pointer;
+    padding: 0;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+  }
+
+  .btn-edit:hover {
+    color: #005bb5;
+  }
+
+  .icon-edit:before {
+    content: "\270E";
+    font-family: Arial, sans-serif;
+  }
+
+  .modal-body {
+    padding: 24px;
+  }
+
+  .avatar {
+    border: 2px solid #e5e5e5;
+  }
+
+  .info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .info-label {
+    font-weight: 500;
+    color: #6e6e73;
+    width: 80px;
+    margin-right: 16px;
+  }
+
+  .info-value {
+    font-size: 15px;
+    color: #1d1d1f;
+    flex-grow: 1;
+  }
+
+  .edit-field {
+    border: 1px solid #d2d2d7;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 15px;
+    color: #1d1d1f;
+    background-color: #fff;
+  }
+
+  .edit-field:focus {
+    border-color: #007aff;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.2);
+  }
+
+  .modal-footer {
+    border-top: 1px solid #e5e5e5;
+    padding: 16px 24px;
+    justify-content: flex-end;
+  }
+
+  .btn-primary {
+    background-color: #007aff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 15px;
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background-color: #005bb5;
+  }
+
+  .btn-secondary {
+    background-color: #f9f9f9;
+    border: 1px solid #d2d2d7;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 15px;
+    color: #1d1d1f;
+  }
+
+  .btn-secondary:hover {
+    background-color: #e5e5e5;
+  }
+</style>
 
 
 
@@ -112,6 +234,11 @@
                         <div class="text">Thương hiệu</div>
                       </a>
                     </li>
+                    <li class="sub-menu-item">
+                      <a href="{{route('admin.brand.history')}}" class="">
+                        <div class="text">Lịch sử xóa</div>
+                      </a>
+                    </li>
                   </ul>
                 </li>
                 <li class="menu-item has-children">
@@ -170,7 +297,12 @@
                     <div class="text">Tài khoản</div>
                   </a>
                 </li>
-
+                <!-- <li class="menu-item"> -->
+                <!-- <a href="{{route('admin.notifications')}}" class="">
+                    <div class="icon"><i class="icon-user"></i></div>
+                    <div class="text">Thông báo</div>
+                  </a>
+                </li> -->
                 <li class="menu-item">
                   <a href="settings.html" class="">
                     <div class="icon"><i class="icon-settings"></i></div>
@@ -444,9 +576,9 @@
                           <img src="{{ asset('images/avatar/user-1.png') }}" alt="" />
                         </span>
                         <span class="flex flex-column">
-                          <span class="body-title mb-2">Trần Phước Hưỡng</span>
+                          <span class="body-title mb-2">{{ Auth::user()->name }}</span>
 
-                          <span class="text-tiny">Admin</span>
+                          <span class="text-tiny">{{ Auth::user()->utype }}</span>
                         </span>
                       </span>
                     </button>
@@ -454,14 +586,14 @@
                       class="dropdown-menu dropdown-menu-end has-content"
                       aria-labelledby="dropdownMenuButton3">
                       <li>
-                        <a href="#" class="user-item">
+                        <a href="#" class="user-item" data-bs-toggle="modal" data-bs-target="#accountModal">
                           <div class="icon">
                             <i class="icon-user"></i>
                           </div>
-                          <div class="body-title-2">Account</div>
+                          <div class="body-title-2">Tài khoản</div>
                         </a>
                       </li>
-                      <li>
+                      <!-- <li>
                         <a href="#" class="user-item">
                           <div class="icon">
                             <i class="icon-mail"></i>
@@ -470,14 +602,7 @@
                           <div class="number">27</div>
                         </a>
                       </li>
-                      <li>
-                        <a href="#" class="user-item">
-                          <div class="icon">
-                            <i class="icon-file-text"></i>
-                          </div>
-                          <div class="body-title-2">Taskboard</div>
-                        </a>
-                      </li>
+
                       <li>
                         <a href="#" class="user-item">
                           <div class="icon">
@@ -485,14 +610,17 @@
                           </div>
                           <div class="body-title-2">Support</div>
                         </a>
-                      </li>
+                      </li> -->
                       <li>
-                        <a href="login.html" class="user-item">
-                          <div class="icon">
-                            <i class="icon-log-out"></i>
-                          </div>
-                          <div class="body-title-2">Log out</div>
-                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: inline;">
+                          @csrf
+                          <button type="submit" class="user-item" style="background: none; border: none; padding: 0;">
+                            <div class="icon">
+                              <i class="icon-log-out"></i>
+                            </div>
+                            <div class="body-title-2">Đăng xuất</div>
+                          </button>
+                        </form>
                       </li>
                     </ul>
                   </div>
@@ -641,8 +769,7 @@
   </script>
 
   @stack("scripts")
-</body>
 
-
+  @include('admin.account')
 
 </html>

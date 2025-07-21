@@ -14,7 +14,7 @@
                 </div>
                 <div>
                   <div class="body-text mb-2">Tổng hóa đơn</div>
-                  <h4>3</h4>
+                  <h4>{{ $orderTotal }}</h4>
                 </div>
               </div>
             </div>
@@ -28,7 +28,7 @@
                 </div>
                 <div>
                   <div class="body-text mb-2">Tổng doanh thu</div>
-                  <h4>481.34</h4>
+                  <h4>{{number_format($totalStatis) }}VNĐ</h4>
                 </div>
               </div>
             </div>
@@ -42,7 +42,7 @@
                 </div>
                 <div>
                   <div class="body-text mb-2">Đơn hàng chờ xử lí</div>
-                  <h4>3</h4>
+                  <h4>{{$orderPending}}</h4>
                 </div>
               </div>
             </div>
@@ -58,7 +58,7 @@
                   <div class="body-text mb-2">
                     Doanh thu đơn chờ duyệt
                   </div>
-                  <h4>481.34</h4>
+                  <h4>{{number_format($totalStatisPending)}} VNĐ</h4>
                 </div>
               </div>
             </div>
@@ -76,7 +76,7 @@
                   <div class="body-text mb-2">
                     Đơn hàng đã giao
                   </div>
-                  <h4>0</h4>
+                  <h4>{{$orderComplated}}</h4>
                 </div>
               </div>
             </div>
@@ -92,7 +92,7 @@
                   <div class="body-text mb-2">
                     Doanh thu đơn đã giao
                   </div>
-                  <h4>0.00</h4>
+                  <h4>{{number_format($totalStatis)}} VNĐ</h4>
                 </div>
               </div>
             </div>
@@ -108,7 +108,7 @@
                   <div class="body-text mb-2">
                     Đơn đã hủy
                   </div>
-                  <h4>0</h4>
+                  <h4>{{$orderCancelled}}</h4>
                 </div>
               </div>
             </div>
@@ -124,7 +124,7 @@
                   <div class="body-text mb-2">
                     Doanh thu đơn đã hủy
                   </div>
-                  <h4>0.00</h4>
+                  <h4>{{number_format($totalStatisCancelled)}}</h4>
                 </div>
               </div>
             </div>
@@ -146,10 +146,10 @@
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
               <li>
-                <a href="javascript:void(0);">Tuần này</a>
+                <a href="javascript:void(0);">Theo tháng</a>
               </li>
               <li>
-                <a href="javascript:void(0);">Tuần trước</a>
+                <a href="javascript:void(0);">Theo năm</a>
               </li>
             </ul>
           </div>
@@ -194,7 +194,7 @@
         <div class="flex items-center justify-between">
           <h5>Đơn gần đây</h5>
           <div class="dropdown default">
-            <a class="btn btn-secondary dropdown-toggle" href="#">
+            <a class="btn btn-secondary dropdown-toggle" href="{{route('admin.orders')}}">
               <span class="view-all">Xem toàn bộ</span>
             </a>
           </div>
@@ -204,7 +204,7 @@
             <table class="table table-striped table-bordered">
               <thead>
                 <tr>
-                  <th style="width: 80px">OrderNo</th>
+                  <th style="width: 80px">STT</th>
                   <th>Tên</th>
                   <th class="text-center">Phone</th>
                   <th class="text-center">Tạm tính</th>
@@ -214,25 +214,25 @@
                   <th class="text-center">Trạng thái</th>
                   <th class="text-center">Ngày giao</th>
                   <th class="text-center">Sổ lượng</th>
-                  <th class="text-center">Delivered On</th>
+                  <!-- <th class="text-center">Delivered On</th> -->
                   <th></th>
                 </tr>
               </thead>
               <tbody>
+                @foreach($currentOrders as $currentOrder)
                 <tr>
-                  <td class="text-center">1</td>
-                  <td class="text-center">Divyansh Kumar</td>
-                  <td class="text-center">1234567891</td>
-                  <td class="text-center">$172.00</td>
-                  <td class="text-center">$36.12</td>
-                  <td class="text-center">$208.12</td>
-
-                  <td class="text-center">ordered</td>
-                  <td class="text-center">2024-07-11 00:54:14</td>
-                  <td class="text-center">2</td>
-                  <td></td>
+                  <td class="text-center">{{$loop->iteration}}</td>
+                  <td class="text-center">{{ $currentOrder->customer->customerName ?? 'N/A' }}</td>
+                  <td class="text-center">{{ $currentOrder->customer->phone ?? 'N/A' }}</td>
+                  <td class="text-center">{{ number_format($currentOrder->total - $currentOrder->tax) }} VNĐ</td>
+                  <td class="text-center">{{ number_format($currentOrder->tax) }} VNĐ</td>
+                  <td class="text-center">{{ number_format($currentOrder->total) }} VNĐ</td>
+                  <td class="text-center">{{ $currentOrder->status }}</td>
+                  <td class="text-center">{{ $currentOrder->order_date }}</td>
+                  <td class="text-center">{{ $currentOrder->total_item }}</td>
+                  <!-- <td class="text-center">{{ $currentOrder->delivered_on ?? '' }}</td> -->
                   <td class="text-center">
-                    <a href="#">
+                    <a href="{{ route('admin.order.details', $currentOrder->id) }}">
                       <div class="list-icon-function view-icon">
                         <div class="item eye">
                           <i class="icon-eye"></i>
@@ -241,6 +241,7 @@
                     </a>
                   </td>
                 </tr>
+                @endforeach
               </tbody>
             </table>
           </div>

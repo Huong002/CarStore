@@ -41,25 +41,25 @@
             <table class="table table-striped table-bordered">
                <thead>
                   <tr>
-                     <th>STT</th>
-                     <th>Tên sản phẩm</th>
-                     <th>Giá</th>
-                     <th>Giá khuyến mãi</th>
-                     <th>SKU</th>
-                     <th>Danh mục</th>
-                     <th>Thương hiệu</th>
-                     <th>Nổi bật</th>
-                     <th>Kho</th>
-                     <th>Số lượng</th>
-                     <th></th>
+                     <th class="text-center" style="white-space:nowrap;">STT</th>
+                     <th class="text-center" style="min-width: 140px;">Tên sản phẩm</th>
+                     <th class="text-center" style="min-width: 160px;">Giá</th>
+                     <th class="text-center" style="min-width: 160px;">Giá khuyến mãi</th>
+                     <th class="text-center" style="white-space:nowrap;">SKU</th>
+                     <!-- <th class="text-center" style="white-space:nowrap;">Danh mục</th> -->
+                     <th class="text-center" style="white-space:nowrap;">Thương hiệu</th>
+                     <!-- <th class="text-center" style="white-space:nowrap;">Nổi bật</th> -->
+                     <th class="text-center" style="white-space:nowrap;">Kho</th>
+                     <th class="text-center" style="white-space:nowrap;">Số lượng</th>
+                     <th class="text-center" style="white-space:nowrap;"></th>
                   </tr>
                </thead>
                <tbody>
                   @foreach($products as $product)
                   <tr>
-                     <td>{{$product->id}}</td>
-                     <td class="pname">
-                        <div class="image">
+                     <td class="text-center" style="white-space:nowrap;">{{$product->id}}</td>
+                     <td class="pname text-center" style="white-space:nowrap;">
+                        <div class="image" style="display:inline-block;vertical-align:middle;">
                            @if($product->images && $product->images->count() > 0)
                            @php
                            $primaryImage = $product->images->where('is_primary', 1)->first();
@@ -70,20 +70,20 @@
                            <img src="{{asset('uploads/products/default.jpg')}}" alt="{{$product->name}}" class="image" style="width: 50px; height: 50px; object-fit: cover;">
                            @endif
                         </div>
-                        <div class="name">
+                        <div class="name" style="display:inline-block;vertical-align:middle;">
                            <a href="#" class="body-title-2">{{$product->name}}</a>
                            <div class="text-tiny mt-3">{{$product->slug}}</div>
                         </div>
                      </td>
-                     <td>${{number_format($product->regular_price, 2)}}</td>
-                     <td>${{number_format($product->sale_price, 2)}}</td>
-                     <td>{{$product->SKU}}</td>
-                     <td>{{$product->category ? $product->category->name : 'N/A'}}</td>
-                     <td>{{$product->brand ? $product->brand->name : 'N/A'}}</td>
-                     <td>{{$product->featured == 1 ? "Có" : "Không"}}</td>
-                     <td>{{$product->stock_status}}</td>
-                     <td>{{$product->quantity}}</td>
-                     <td>
+                     <td class="text-center">{{number_format($product->regular_price)}} VNĐ</td>
+                     <td class="text-center">{{number_format($product->sale_price)}} VNĐ</td>
+                     <td class="text-center" style="white-space:nowrap;">{{$product->SKU}}</td>
+                     <!-- <td class="text-center" style="white-space:nowrap;">{{$product->category ? $product->category->name : 'N/A'}}</td> -->
+                     <td class="text-center" style="white-space:nowrap;">{{$product->brand ? $product->brand->name : 'N/A'}}</td>
+                     <!-- <td class="text-center" style="white-space:nowrap;">{{$product->featured == 1 ? "Có" : "Không"}}</td> -->
+                     <td class="text-center" style="white-space:nowrap;">{{$product->stock_status}}</td>
+                     <td class="text-center" style="white-space:nowrap;">{{$product->quantity}}</td>
+                     <td class="text-center" style="white-space:nowrap;">
                         <div class="list-icon-function">
                            <a href="#" target="_blank">
                               <div class="item eye">

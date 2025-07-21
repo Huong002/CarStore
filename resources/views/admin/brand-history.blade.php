@@ -76,7 +76,14 @@
                                     <i class="icon-edit-3"></i>
                                  </div>
                               </a>
-                              <form action="{{ route('admin.brand.soft_delete', ['id' => $brand->id]) }}" method="POST">
+                              <form action="{{route('admin.brand.restore', ['id'=>$brand->id] )}}" method="POST">
+                                 @csrf
+                                 @method('PATCH')
+                                 <button type="submit" class="item edit" style="border: none; background: none; padding: 0;">
+                                    <i class="bi bi-arrow-repeat"></i>
+                                 </button>
+                              </form>
+                              <form action="{{route('admin.brand.delete', ['id'=>$brand->id] )}}" method="POST">
                                  @csrf
                                  @method('DELETE')
                                  <div class="item text-danger delete">

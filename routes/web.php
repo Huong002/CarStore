@@ -29,7 +29,9 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::get('/admin/brand/edit/{id}', [AdminController::class, 'brand_edit'])->name('admin.brand.edit');
     Route::put('/admin/brand/update', [AdminController::class, 'brand_update'])->name('admin.brand.update');
     Route::delete('/admin/brand.delete/{id}', [AdminController::class, 'brand_delete'])->name('admin.brand.delete');
-
+    Route::patch('/admin/brand/restore/{id}', [AdminController::class, 'brand_restore'])->name('admin.brand.restore');
+    Route::delete('admin/brand/soft-delete/{id}', [AdminController::class, 'brand_soft_delete'])->name('admin.brand.soft_delete');
+    Route::get('admin/brand/history', [AdminController::class, 'brand_his'])->name('admin.brand.history');
     // danh muc
     Route::get('/admin/categories', [AdminController::class, 'categories'])->name('admin.categories');
     Route::get('/admin/categories/add', [AdminController::class, 'category_add'])->name('admin.category.add');
@@ -80,6 +82,15 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::post('admin/users/{id}/unlock', [AdminController::class, 'user_unlock'])->name('admin.user.unlock');
 
 
+    //acount for admin
+    Route::post('admin/account/{id}', [AdminController::class, 'user_update'])->name('admin.account.update');
 
+
+    // notification
+    Route::get('admin/notification', [AdminController::class, 'notifications'])->name('admin.notifications');
+    Route::patch('admin/notification/history', [AdminController::class, 'notification-history'])->name('admin.notification.history');
+    Route::post('admin/notification/store', [AdminController::class, 'notification_store'])->name('admin.notification.store');
+    Route::delete('admin/notification/delete/{id}', [AdminController::class, 'notification_delete'])->name('admin.notification.delete');
+    Route::delete('admin/notification/softs_delete', [AdminController::class, 'notification_soft_delete'])->name('admin.notifiction.soft_delete');
 
 });

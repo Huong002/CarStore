@@ -16,6 +16,11 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Soap\Sdl;
+use App\Models\Notification;
+use App\Http\Controllers\StatisticsController;
+use App\Models\UserNotification;
+use Illuminate\Cache\Events\RetrievingKey;
+use Mockery\Matcher\Not;
 
 // use Intervention\Image\Laravel\Facades\Image;1
 
@@ -24,49 +29,36 @@ class AdminController extends Controller
 {
     public function index()
     {
-        return view('admin.index');
+        $orderTotal = StatisticsController::totalOrder();
+        $orderPending = StatisticsController::orderPenfing();
+        $orderCancelled = StatisticsController::orderCancelled();
+        $orderComplated = StatisticsController::orderCompleted();
+        $currentOrders = StatisticsController::currentOrder();
+        $orderApprored = StatisticsController::orderApproed();
+        $totalStatis = StatisticsController::totalRevenue();
+        $totalStatisApproved = StatisticsController::totalRevenueApproved();
+        $totalStatisComplated = StatisticsController::totalRevenueCompleted();
+        $totalStatisCancelled = StatisticsController::totalRevenueCancelled();
+        $totalStatisPending = StatisticsController::totalRevenuePending();
+        return view('admin.index', compact('orderTotal', 'orderPending', 'orderCancelled', 'orderComplated', 'currentOrders', 'orderApprored', 'totalStatis', 'totalStatisCancelled', 'totalStatisApproved', 'totalStatisComplated', 'totalStatisPending'));
     }
 
-
     #region ThuongHieu
-    public function brands()
+    public function brands(Request $request)
     {
-        $brands = Brand::orderBy('id', 'DESC')->paginate(10);
+        $search = $request->get('name');
+        $query = Brand::query();
+        if ($search) {
+            $query->where('name', 'like', "%$search%");
+        }
+        $brands = $query->orderBy('id', 'DESC')->whereNull('deleted_at')->paginate(10);
         return view('admin.brands', compact('brands'));
     }
     public function add_brand()
     {
         return view('admin.brand-add');
     }
-    // public function brand_store(Request $request){
-    //     $request->validate([
-    //         'name'  => 'required',
-    //         'slug'  => 'required|unique:brands,slug',
-    //         'image' => 'mimes:png,jpg,jpeg|max:2048'
-    //     ]);
 
-
-    //     $brand = new Brand();
-    //     $brand->name= $request->name;
-    //     $brand->slug=str::slug($request->name);
-    //     $image=$request->file('image');
-    //     $file_extenstion = $request->file('image')->extension();
-    //     $file_name= Carbon::now()->timestamp.'.'.$file_extenstion;
-    //     $this->GenerateBrandThumbailsImage($image,$file_name);
-    //     $brand->image= $file_name;
-    //     $brand->save();
-    //     return redirect()->route('admin.brands')->with('status', 'Them hang thanh cong');
-    // }
-
-    // public function GenerateBrandThumbailsImage($image, $imageName){
-    //     $destinmationPath =public_path('uploads/brands');
-    //     $img = Image::read($image->path());
-    //     $img->cover(124,124,"top");
-    //     $img->resize(124,124,function($contraint){
-    //         $contraint->aspecRatio();
-    //     })->save($destinmationPath.'/'.$imageName);
-
-    // }
 
     public function brand_store(Request $request)
     {
@@ -82,6 +74,9 @@ class AdminController extends Controller
         $image = $request->file('image');
         $file_extension = $image->extension();
         $file_name = Carbon::now()->timestamp . '.' . $file_extension;
+
+
+
 
 
         $destinationPath = public_path('uploads/brands');
@@ -127,9 +122,21 @@ class AdminController extends Controller
         return redirect()->route('admin.brands')->with('status', 'Cập nhật hãng thành công');
     }
 
-    public function brand_delete($id)
+
+    public function brand_soft_delete($id)
     {
         $brand = Brand::find($id);
+
+        if (!$brand) {
+            return redirect()->back()->with('error', 'Không tìm thấy thương hiệu');
+        }
+        $brand->delete();
+        return redirect()->route('admin.brands')->with('status', 'Đã chuyển thương hiệu xuống thùng rác');
+    }
+
+    public function brand_delete($id)
+    {
+        $brand = Brand::onlyTrashed()->find($id);
         if (!$brand) {
             return redirect()->back()->with('error', 'Không tìm thấy thương hiệu');
         }
@@ -140,9 +147,24 @@ class AdminController extends Controller
         if ($brand->image && \Illuminate\Support\Facades\File::exists(public_path('uploads/brands/' . $brand->image))) {
             \Illuminate\Support\Facades\File::delete(public_path('uploads/brands/' . $brand->image));
         }
-        $brand->delete();
+        $brand->forceDelete();
         return redirect()->route('admin.brands')->with('status', 'Đã xóa thương hiệu thành công');
     }
+    public function brand_his()
+    {
+        $brands = Brand::onlyTrashed()->orderBy('name')->paginate(10);
+
+        return view('admin.brand-history', compact('brands'));
+    }
+    public function brand_restore($id)
+    {
+
+        $brand = Brand::onlyTrashed()->find($id);
+
+        $brand->restore();
+        return redirect()->route('admin.product.history')->with('status', 'Đã khôi phục thành công');
+    }
+
 
 
     #endregion
@@ -157,9 +179,10 @@ class AdminController extends Controller
         $categories = Category::orderBy('id', 'DESC')->paginate(10);
         return view('admin.categories', compact('categories'));
     }
-    public  function category_add()
+    public function category_add()
     {
-        return view('admin.category-add');
+        $parentCategories = \App\Models\Category::orderBy('name')->get();
+        return view('admin.category-add', compact('parentCategories'));
     }
 
     public function category_store(Request $request)
@@ -549,7 +572,7 @@ class AdminController extends Controller
     //         return redirect()
     //             ->route('admin.products.history')
     //             ->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
-    //     }
+    //     d
     // }
     #endregion
 
@@ -586,6 +609,8 @@ class AdminController extends Controller
             });
         }
 
+
+
         $orders = $query->orderBy('created_at', 'DESC')->paginate(10);
 
         // Đếm số lượng theo từng trạng thái
@@ -599,6 +624,7 @@ class AdminController extends Controller
 
         return view('admin.orders', compact('orders', 'statusCounts'));
     }
+
     // public function order_add()
     // {
     //     // $orderdetails = OrderDetail::orderBy('name', 'ASC')->get();
@@ -827,6 +853,85 @@ class AdminController extends Controller
 
     #endregion
 
+    #region Thong bao
+    public function notifications()
+    {
+        $notifications = Notification::orderBy('created_at', 'desc')->paginate(10);
+        return view('admin.notifications', compact('notifications'));
+    }
+    public function notification_add()
+    {
+        $users = User::orderBy('name', 'ASC')->get();
+        return view('admin.notification-add', compact('users'));
+    }
+
+    public function notification_store(Request $request)
+    {
+
+        // tao doi tuong de gan du lie
+        $notification = new Notification();
+        $notification->name = $request->name;
+        $notification->content = $request->content;
+        // savwe vao csdl 
+        $notification->save();
+        return redirect()->route('admin.notifications')->with('status', 'Bạn đã thêm thông báo thành công');
+    }
+
+    public function notification_edit($id)
+    {
+        $notification = Notification::find($id);
+        return view('admin.notification-edit', compact('notification'));
+    }
+    public function notifiction_supdate(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'content' => 'required|string',
+        ]);
+        $notification = Notification::find($request->id);
+        if (!$notification) {
+            return redirect()->back()->with('error', 'Không tìm thấy id bạn cần');
+        }
+        $notification->name = $request->name;
+        $notification->content = $request->content;
+
+        $notification->save();
+        return redirect()->route('admin.notification.update')->with('status', 'Cập nhập thành công');
+    }
+    // xoa thong bao
+    public function delete($id)
+    {
+        $notification = Notification::find($id);
+        if (!$notification) {
+            return redirect()->back()->with('error', 'Không tìm thấy id bạn cần');
+        }
+        $notification->forceDelete();
+        return redirect()->route('admin.notifications')->with('status', 'Chúc mừng bạn xóa thành công');
+    }
+    // danh sach 
+    public function notification_history()
+    {
+        $notifications = Notification::onlyTrashed()->orderBy('created_at', 'desc')->paginate(10);
+        return view('admin.notification-history', compact('notifications'));
+    }
 
 
+    public function notification_restore($id)
+    {
+        $notification = Notification::onlyTrashed()->find($id);
+        if (!$notification) {
+            return redirect()->back()->with('error', 'Không tìm thấy thông báo bạn cần');
+        }
+        $notification->restore();
+        return redirect()->route('admin.notification.history')->with('status', 'Chúc mừng đã khôi phục thông báo thành công');
+    }
+    public function notificaion_list_user($id)
+    {
+        $notifications = UserNotification::where('user_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
+        return view('admin.notifications', compact($notifications));
+    }
+    #endregion
 }
