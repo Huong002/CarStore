@@ -34,5 +34,6 @@ class NotificationSeeder extends Seeder
         foreach ($notifications as $data) {
             Notification::create($data);
         }
+        // test push for dev-huong
     }
 }
