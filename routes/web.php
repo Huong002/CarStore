@@ -6,6 +6,7 @@ use App\Http\Middleware\AuthAdmin;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ShopController;
 
 Auth::routes();
@@ -74,6 +75,7 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     // Thao tác đơn hàng
     Route::post('/admin/order/approve/{id}', [AdminController::class, 'order_approve'])->name('order.approve');
     Route::post('/admin/order/cancel/{id}', [AdminController::class, 'order_cancel'])->name('order.cancel');
+    Route::get('/admin/invoice/print/{id}', [InvoiceController::class, 'printInvoice'])->name('order.invoice.print');
 
 
     // nguoi dung
@@ -92,5 +94,4 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::post('admin/notification/store', [AdminController::class, 'notification_store'])->name('admin.notification.store');
     Route::delete('admin/notification/delete/{id}', [AdminController::class, 'notification_delete'])->name('admin.notification.delete');
     Route::delete('admin/notification/softs_delete', [AdminController::class, 'notification_soft_delete'])->name('admin.notifiction.soft_delete');
-
 });
