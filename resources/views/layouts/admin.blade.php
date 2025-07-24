@@ -213,7 +213,7 @@
                     </li>
                     <li class="sub-menu-item">
                       <a href="{{route('admin.product.history')}}" class="">
-                        <div class="text">Lịch sử</div>
+                        <div class="text">Thùng rác</div>
                       </a>
                     </li>
                   </ul>
@@ -236,7 +236,7 @@
                     </li>
                     <li class="sub-menu-item">
                       <a href="{{route('admin.brand.history')}}" class="">
-                        <div class="text">Lịch sử xóa</div>
+                        <div class="text">Thùng rác</div>
                       </a>
                     </li>
                   </ul>

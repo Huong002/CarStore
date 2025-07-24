@@ -5,25 +5,24 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class InvoiceController extends Controller
 {
-    // tao tin hoa don'
     public function printInvoice($id)
     {
         $invoice = Order::with('orderDetails')->findOrFail($id);
         $html = $this->generateInvoiceHtml($invoice);
-        return response($html)->header('Content-Type', 'text/html');
+        $pdf = Pdf::loadHTML($html)->setPaper('a5', 'portrait');
+        return $pdf->download('hoa-don-' . $invoice->id . '.pdf');
     }
-    // tao noi dung html hoa don
     public function generateInvoiceHtml($invoice)
     {
-        // Định dạng tiền tệ
+
         $formatCurrency = function ($amount) {
             return number_format($amount, 0, ',', '.') . ' VNĐ';
         };
 
-        // Chuyển số tiền thành chữ (hàm đơn giản, có thể dùng thư viện khác)
         $convertToWords = function ($number) {
             $words = [
                 '',
@@ -37,18 +36,17 @@ class InvoiceController extends Controller
                 'tám',
                 'chín'
             ];
-            return $words[$number] ?? 'không'; 
+            return $words[$number] ?? 'không';
         };
 
-        // Dữ liệu mẫu cho thông tin cửa hàng
+
         $storeInfo = [
-            'name' => 'Sirdà Song Thắng',
+            'name' => 'HT Auto Store',
             'address' => 'p.Cao Lãnh, Phạm Hữu Lầu, Đồng Tháp',
             'phone' => '0123 456 789',
             'email' => 'info@songthang.com'
         ];
 
-        // Tạo nội dung HTML
         ob_start();
 ?>
         <!DOCTYPE html>
@@ -56,50 +54,73 @@ class InvoiceController extends Controller
 
         <head>
             <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Hóa Đơn <?= $invoice->id ?></title>
             <style>
+                @font-face {
+                    font-family: 'DejaVu Sans';
+                    font-style: normal;
+                    font-weight: normal;
+                    src: url('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/fonts/DejaVuSans.ttf') format('truetype');
+                }
+
                 body {
-                    font-family: Arial, sans-serif;
+                    font-family: 'DejaVu Sans', sans-serif;
                     background: #f9f1e7;
+                    color: #222;
                 }
 
                 .invoice {
-                    width: 800px;
-                    margin: 20px auto;
-                    padding: 20px;
-                    border: 1px solid #000;
+                    width: 400px;
+                    margin: 10px auto;
+                    padding: 8px 8px;
+                    background: #fff;
+                    border: 1px solid #bbb;
+                    border-radius: 8px;
                 }
 
                 .logo {
-                    width: 50px;
-                    height: 50px;
+                    width: 48px;
+                    height: 48px;
                     background: #000;
                     border-radius: 50%;
                     float: left;
+                    margin-right: 16px;
                 }
 
                 .header {
                     text-align: center;
-                    margin-bottom: 20px;
+                    margin-bottom: 12px;
+                }
+
+                .header h2 {
+                    color: #e53935;
+                    margin: 0 0 8px 0;
+                    letter-spacing: 2px;
                 }
 
                 .store-info {
-                    font-size: 12px;
+                    font-size: 13px;
                     color: #555;
+                    margin-bottom: 8px;
+                }
+
+                .info-row {
+                    font-size: 14px;
+                    margin-bottom: 8px;
                 }
 
                 .items-table {
                     width: 100%;
                     border-collapse: collapse;
-                    margin: 20px 0;
+                    margin: 18px 0;
                 }
 
                 .items-table th,
                 .items-table td {
-                    border: 1px solid #000;
-                    padding: 8px;
-                    text-align: left;
+                    border: 1px solid #bbb;
+                    padding: 7px 5px;
+                    text-align: center;
+                    font-size: 13px;
                 }
 
                 .items-table th {
@@ -109,48 +130,54 @@ class InvoiceController extends Controller
                 .total {
                     text-align: right;
                     font-weight: bold;
+                    font-size: 15px;
+                    margin-top: 10px;
                 }
 
                 .footer {
                     text-align: center;
-                    color: #ff0000;
-                    margin-top: 20px;
-                }
-
-                @media print {
-                    body {
-                        margin: 0;
-                    }
+                    color: #e53935;
+                    margin-top: 18px;
+                    font-size: 14px;
                 }
             </style>
         </head>
 
-        <body onload="window.print()">
+        <body>
             <div class="invoice">
                 <div style="overflow: hidden;">
-                    <div class="logo" style="background-image: url('/images/logo.png');"></div>
+                    <div class="logo"></div>
                     <div class="header">
-                        <h2 style="color: #ff0000;">HÓA ĐƠN</h2>
-                        <p><?= $storeInfo['name'] ?></p>
-                        <p class="store-info"><?= $storeInfo['address'] ?> | <?= $storeInfo['phone'] ?> | <?= $storeInfo['email'] ?></p>
-                        <p>Khách hàng: <?= $invoice->customer_name ?? '' ?> | Mã hóa đơn: <?= $invoice->id ?></p>
-                        <p>Ngày: <?= isset($invoice->date) ? \Carbon\Carbon::parse($invoice->date)->format('d/m/Y') : '' ?></p>
+                        <h2>HÓA ĐƠN</h2>
+                        <div class="store-info"><?= $storeInfo['name'] ?> | <?= $storeInfo['address'] ?> | <?= $storeInfo['phone'] ?> | <?= $storeInfo['email'] ?></div>
+                    </div>
+                    <div class="info-row">
+                        Khách hàng: <?= $invoice->customer_name ?? '' ?> &nbsp; | &nbsp; Mã hóa đơn: <?= $invoice->id ?>
+                    </div>
+                    <div class="info-row">
+                        Ngày: <?= isset($invoice->date) ? \Carbon\Carbon::parse($invoice->date)->format('d/m/Y') : '' ?>
                     </div>
                 </div>
                 <table class="items-table">
                     <thead>
                         <tr>
-                            <th>ẢNH</th>
-                            <th>MỤC</th>
-                            <th>SỐ LƯỢNG</th>
-                            <th>ĐƠN GIÁ</th>
-                            <th>THÀNH TIỀN</th>
+                            <th>Ảnh</th>
+                            <th>Mục</th>
+                            <th>Số lượng</th>
+                            <th>Đơn giá</th>
+                            <th>Thành tiền</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($invoice->orderDetails as $item): ?>
                             <tr>
-                                <td><img src="<?= $item->image_url ?? '/images/default.png' ?>" width="50" height="50"></td>
+                                <td>
+                                    <?php if (!empty($item->image_url)): ?>
+                                        <img src="<?= $item->image_url ?>" width="38" height="38">
+                                    <?php else: ?>
+                                        <span style="color:#bbb;">Không có</span>
+                                    <?php endif; ?>
+                                </td>
                                 <td><?= $item->product_name ?? '' ?></td>
                                 <td><?= $item->quantity ?></td>
                                 <td><?= $formatCurrency($item->price) ?></td>
@@ -160,11 +187,11 @@ class InvoiceController extends Controller
                     </tbody>
                 </table>
                 <div class="total">
-                    <p>Tổng cộng: <?= $formatCurrency($invoice->total) ?></p>
-                    <p>(Bằng chữ: <?= $convertToWords((int)$invoice->total) ?> triệu đồng)</p>
+                    Tổng cộng: <?= $formatCurrency($invoice->total) ?><br>
+                    (Bằng chữ: <?= $convertToWords((int)$invoice->total) ?> đồng)
                 </div>
                 <div class="footer">
-                    <p style="color: #ff0000;">XIN CẢM ƠN!</p>
+                    <p>XIN CẢM ƠN!</p>
                     <p>Thời gian thanh toán: <?= \Carbon\Carbon::now()->format('d/m/Y H:i') ?></p>
                 </div>
             </div>

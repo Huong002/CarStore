@@ -1,15 +1,16 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+  <!-- CSRF Token -->
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+  <title>{{ config('app.name', 'Laravel') }}</title>
 
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
   <meta name="author" content="surfside media" />
   <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}" type="image/x-icon">
@@ -24,7 +25,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
     crossorigin="anonymous" referrerpolicy="no-referrer">
-    @stack("styles")
+  @stack("styles")
 </head>
 
 <body class="gradient-bg">
@@ -271,7 +272,7 @@
       </a>
 
       <div class="logo">
-        <a href="index.html">
+        <a href="{{route('home.index')}}">
           <img src="{{ asset('assets/images/logo.png') }}" alt="Uomo" class="logo__image d-block" />
         </a>
       </div>
@@ -310,20 +311,20 @@
         <div class="overflow-hidden">
           <ul class="navigation__list list-unstyled position-relative">
             <li class="navigation__item">
-              <a href="index.html" class="navigation__link">Home</a>
+              <a href="{{route('home.index')}}" class="navigation__link">Home</a>
             </li>
             <li class="navigation__item">
               <a href="{{route('shop.index')}}" class="navigation__link">Shop</a>
             </li>
             <li class="navigation__item">
-              <a href="cart.html" class="navigation__link">Cart</a>
+              <a href="{{route('cart.index')}}" class="navigation__link">Cart</a>
             </li>
             <li class="navigation__item">
-              <a href="about.html" class="navigation__link">About</a>
+              <a href="{{route('about.index')}}" class="navigation__link">About</a>
             </li>
-            <li class="navigation__item">
+            <!-- <li class="navigation__item">
               <a href="contact.html" class="navigation__link">Contact</a>
-            </li>
+            </li> -->
           </ul>
         </div>
       </div>
@@ -391,7 +392,7 @@
     <div class="container">
       <div class="header-desk header-desk_type_1">
         <div class="logo">
-          <a href="index.html">
+          <a href="{{route('home.index')}}">
             <img src="{{ asset('assets/images/logo.png') }}" alt="Uomo" class="logo__image d-block" />
           </a>
         </div>
@@ -399,20 +400,20 @@
         <nav class="navigation">
           <ul class="navigation__list list-unstyled d-flex">
             <li class="navigation__item">
-              <a href="index.html" class="navigation__link">Home</a>
+              <a href="{{route('home.index')}}" class="navigation__link">Home</a>
             </li>
             <li class="navigation__item">
               <a href="{{route('shop.index')}}" class="navigation__link">Shop</a>
             </li>
             <li class="navigation__item">
-              <a href="cart.html" class="navigation__link">Cart</a>
+              <a href="{{route('cart.index')}}" class="navigation__link">Cart</a>
             </li>
             <li class="navigation__item">
-              <a href="about.html" class="navigation__link">About</a>
+              <a href="{{route('about.index')}}" class="navigation__link">About</a>
             </li>
-            <li class="navigation__item">
+            <!-- <li class="navigation__item">
               <a href="contact.html" class="navigation__link">Contact</a>
-            </li>
+            </li> -->
           </ul>
         </nav>
 
@@ -474,8 +475,8 @@
           </div>
           @else
           <div class="header-tools__item hover-container">
-          <a href="{{ Auth::user()?->utype === 'ADM' ? route('admin.index') : route('user.index') }}" class="header-tools__item">
-          <span class="pr-6px">{{ Auth::user()?->name }}</span>
+            <a href="{{ Auth::user()?->utype === 'ADM' ? route('admin.index') : route('user.index') }}" class="header-tools__item">
+              <span class="pr-6px">{{ Auth::user()?->name }}</span>
               <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
                 <use href="#icon_user" />
@@ -484,7 +485,7 @@
           </div>
 
           @endguest
-        
+
           <a href="wishlist.html" class="header-tools__item">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <use href="#icon_heart" />
@@ -503,7 +504,7 @@
     </div>
   </header>
 
-    @yield("content")
+  @yield("content")
   <!-- <hr class="mt-5 text-secondary" />
   <footer class="footer footer_type_2">
     <div class="footer-middle container">
@@ -562,7 +563,7 @@
             </li>
           </ul>
         </div> -->
-<!-- 
+  <!-- 
         <div class="footer-column footer-menu mb-4 mb-lg-0">
           <h6 class="sub-menu__title text-uppercase">Company</h6>
           <ul class="sub-menu__list list-unstyled">
@@ -646,7 +647,7 @@
       </div>
 
       <div class="col-4">
-        <a href="index.html" class="footer-mobile__link d-flex flex-column align-items-center">
+        <a href="{{route('home.index')}}" class="footer-mobile__link d-flex flex-column align-items-center">
           <div class="position-relative">
             <svg class="d-block" width="18" height="18" viewBox="0 0 20 20" fill="none"
               xmlns="http://www.w3.org/2000/svg">
@@ -669,8 +670,8 @@
   <script src="{{ asset('assets/js/plugins/swiper.min.js') }}"></script>
   <script src="{{ asset('assets/js/plugins/countdown.js') }}"></script>
   <script src="{{ asset('assets/js/theme.js') }}"></script>
-    @stack("scripts")
-  
+  @stack("scripts")
+
 </body>
 
 </html>
