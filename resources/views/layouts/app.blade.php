@@ -25,6 +25,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
     crossorigin="anonymous" referrerpolicy="no-referrer">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
   @stack("styles")
 </head>
 
@@ -209,7 +212,7 @@
     </symbol>
     <symbol id="icon_degree" viewBox="0 0 40 30">
       <path
-        d="M25.1785 26.2222C24.5971 26.2222 24.0926 25.7901 24.0173 25.1984C23.9358 24.5563 24.3899 23.9697 25.0317 23.8879C28.7347 23.4161 32.0507 22.4127 34.3688 21.062C36.4889 19.8269 37.6562 18.3749 37.6562 16.9736C37.6562 15.4291 36.2902 14.1653 35.144 13.3767C34.6109 13.0099 34.476 12.2806 34.8428 11.7471C35.2096 11.214 35.9393 11.0791 36.4724 11.4459C38.7802 13.0334 40 14.9447 40 16.9739C40 19.2767 38.461 21.3907 35.549 23.0871C32.9278 24.6142 29.3936 25.6952 25.328 26.2131C25.2776 26.2192 25.2276 26.2222 25.1785 26.2222Z"
+        d="M25.1785 26.2222C24.5971 26.2222 24.0926 25.7901 24.0173 25.1984C23.9358 24.5563 24.3899 23.9697 25.0317 23.811.7471C35.2096 11.214 35.9393 11.0791 36.4724 11.4459C38.7802 13.0334 40 14.9447 40 16.9739C40 19.2767 38.461 21.3907 35.549 23.0871C32.9278 24.6142 29.3936 25.6952 25.328 26.2131C25.2776 26.2192 25.2276 26.2222 25.1785 26.2222Z"879C28.7347 23.4161 32.0507 22.4127 34.3688 21.062C36.4889 19.8269 37.6562 18.3749 37.6562 16.9736C37.6562 15.4291 36.2902 14.1653 35.144 13.3767C34.6109 13.0099 34.476 12.2806 34.8428 
         fill="currentColor" />
       <path
         d="M19.7144 24.5435L16.5894 21.4185C16.1316 20.9607 15.3897 20.9607 14.932 21.4185C14.4745 21.8759 14.4745 22.6181 14.932 23.0756L15.8451 23.9887C12.3441 23.627 9.16353 22.8119 6.70076 21.6275C3.93189 20.296 2.34375 18.5996 2.34375 16.9736C2.34375 15.5945 3.48084 14.1611 5.54536 12.9373C6.1023 12.6074 6.28602 11.8884 5.95613 11.3318C5.62592 10.7749 4.90693 10.5911 4.35029 10.921C0.754701 13.0524 0 15.3888 0 16.9736C0 19.5737 2.01905 21.9767 5.68513 23.74C8.53059 25.1081 12.2113 26.0245 16.2213 26.3791L14.932 27.6685C14.4745 28.126 14.4745 28.8681 14.932 29.3259C15.1609 29.5545 15.4608 29.6689 15.7608 29.6689C16.0605 29.6689 16.3605 29.5545 16.5894 29.3259L19.7144 26.2009C20.1718 25.7431 20.1718 25.0009 19.7144 24.5435Z"
@@ -505,123 +508,6 @@
   </header>
 
   @yield("content")
-  <!-- <hr class="mt-5 text-secondary" />
-  <footer class="footer footer_type_2">
-    <div class="footer-middle container">
-      <div class="row row-cols-lg-5 row-cols-2">
-        <div class="footer-column footer-store-info col-12 mb-4 mb-lg-0">
-          <div class="logo">
-            <a href="index.html">
-              <img src="{{ asset('assets/images/logo.png') }}" alt="HTAutoStore" class="logo__image d-block" />
-            </a>
-          </div>
-          <p class="footer-address">123 Beach Avenue, Surfside City, CA 00000</p>
-          <p class="m-0"><strong class="fw-medium">contact@surfsidemedia.in</strong></p>
-          <p><strong class="fw-medium">+1 000-000-0000</strong></p>
-
-          <ul class="social-links list-unstyled d-flex flex-wrap mb-0">
-            <li>
-              <a href="#" class="footer__social-link d-block">
-                <svg class="svg-icon svg-icon_facebook" width="9" height="15" viewBox="0 0 9 15"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <use href="#icon_facebook" />
-                </svg>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="footer__social-link d-block">
-                <svg class="svg-icon svg-icon_twitter" width="14" height="13" viewBox="0 0 14 13"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <use href="#icon_twitter" />
-                </svg>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="footer__social-link d-block">
-                <svg class="svg-icon svg-icon_instagram" width="14" height="13" viewBox="0 0 14 13"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <use href="#icon_instagram" />
-                </svg>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="footer__social-link d-block">
-                <svg class="svg-icon svg-icon_youtube" width="16" height="11" viewBox="0 0 16 11"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M15.0117 1.8584C14.8477 1.20215 14.3281 0.682617 13.6992 0.518555C12.5234 0.19043 7.875 0.19043 7.875 0.19043C7.875 0.19043 3.19922 0.19043 2.02344 0.518555C1.39453 0.682617 0.875 1.20215 0.710938 1.8584C0.382812 3.00684 0.382812 5.46777 0.382812 5.46777C0.382812 5.46777 0.382812 7.90137 0.710938 9.07715C0.875 9.7334 1.39453 10.2256 2.02344 10.3896C3.19922 10.6904 7.875 10.6904 7.875 10.6904C7.875 10.6904 12.5234 10.6904 13.6992 10.3896C14.3281 10.2256 14.8477 9.7334 15.0117 9.07715C15.3398 7.90137 15.3398 5.46777 15.3398 5.46777C15.3398 5.46777 15.3398 3.00684 15.0117 1.8584ZM6.34375 7.68262V3.25293L10.2266 5.46777L6.34375 7.68262Z" />
-                </svg>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="footer__social-link d-block">
-                <svg class="svg-icon svg-icon_pinterest" width="14" height="15" viewBox="0 0 14 15"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <use href="#icon_pinterest" />
-                </svg>
-              </a>
-            </li>
-          </ul>
-        </div> -->
-  <!-- 
-        <div class="footer-column footer-menu mb-4 mb-lg-0">
-          <h6 class="sub-menu__title text-uppercase">Company</h6>
-          <ul class="sub-menu__list list-unstyled">
-            <li class="sub-menu__item"><a href="about-2.html" class="menu-link menu-link_us-s">About Us</a></li>
-            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Careers</a></li>
-            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Affiliates</a></li>
-            <li class="sub-menu__item"><a href="blog_list1.html" class="menu-link menu-link_us-s">Blog</a></li>
-            <li class="sub-menu__item"><a href="contact-2.html" class="menu-link menu-link_us-s">Contact Us</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-column footer-menu mb-4 mb-lg-0">
-          <h6 class="sub-menu__title text-uppercase">Shop</h6>
-          <ul class="sub-menu__list list-unstyled">
-            <li class="sub-menu__item"><a href="shop2.html" class="menu-link menu-link_us-s">New Arrivals</a></li>
-            <li class="sub-menu__item"><a href="shop3.html" class="menu-link menu-link_us-s">Accessories</a></li>
-            <li class="sub-menu__item"><a href="shop4.html" class="menu-link menu-link_us-s">Men</a></li>
-            <li class="sub-menu__item"><a href="shop5.html" class="menu-link menu-link_us-s">Women</a></li>
-            <li class="sub-menu__item"><a href="shop1.html" class="menu-link menu-link_us-s">Shop All</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-column footer-menu mb-4 mb-lg-0">
-          <h6 class="sub-menu__title text-uppercase">Help</h6>
-          <ul class="sub-menu__list list-unstyled">
-            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Customer Service</a></li>
-            <li class="sub-menu__item"><a href="account_dashboard.html" class="menu-link menu-link_us-s">My Account</a>
-            </li>
-            <li class="sub-menu__item"><a href="store_location.html" class="menu-link menu-link_us-s">Find a Store</a>
-            </li>
-            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Legal & Privacy</a></li>
-            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Gift Card</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-column footer-menu mb-4 mb-lg-0">
-          <h6 class="sub-menu__title text-uppercase">Categories</h6>
-          <ul class="sub-menu__list list-unstyled">
-            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Shirts</a></li>
-            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Jeans</a></li>
-            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Shoes</a></li>
-            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Bags</a></li>
-            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Shop All</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <div class="container d-md-flex align-items-center">
-        <span class="footer-copyright me-auto">©2024 Surfside Media</span>
-        <div class="footer-settings d-md-flex align-items-center">
-          <a href="privacy-policy.html">Privacy Policy</a> &nbsp;|&nbsp; <a href="terms-conditions.html">Terms &amp;
-            Conditions</a>
-        </div>
-      </div>
-    </div>
-  </footer> -->
 
 
   <footer class="footer-mobile container w-100 px-5 d-md-none bg-body">
