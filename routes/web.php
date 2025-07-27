@@ -101,3 +101,4 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::delete('admin/notification/delete/{id}', [AdminController::class, 'notification_delete'])->name('admin.notification.delete');
     Route::delete('admin/notification/softs_delete', [AdminController::class, 'notification_soft_delete'])->name('admin.notifiction.soft_delete');
 });
+    Route::get('/location', function () { return view('location'); })->name('location.index');
