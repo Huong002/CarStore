@@ -1,0 +1,54 @@
+<?php
+
+namespace Database\Seeders;
+
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class ImageSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $images = [
+            ['BMW_2 _Series_3.jpg', true, 1],
+            ['BMW_3 Series_10.jpg', false, 1],
+            ['BMW_320i_12.jpg', false, 1],
+            ['BMW_4_Series_4.jpg', true, 2],
+            ['BMW_750i_11.jpg', false, 2],
+            ['BMW_iX3_5.jpg', true, 3],
+            ['BMW_Mpower_7.jpg', false, 3],
+            ['BMW_M_6.jpg', false, 3],
+            ['BMW_X1_2.jpg', true, 4],
+            ['BMW_X3_8.jpg', false, 4],
+            ['BMW_X5_1.jpg', true, 5],
+            ['BMW_X7_9.jpg', false, 5],
+            ['Porsche_60th_Anniversary_911_ClubCoupe_Bonjourlife_2.jpg', true, 6],
+            ['Porsche_718_Cayman_GTS_2018_9.jpg', false, 6],
+            ['Porsche_911_GT3 2015_PTS_Fashion_Gray_3.jpg', false, 6],
+            ['Porsche_911_Turbo_S_Cabriolet_1.jpg', true, 7],
+            ['Porsche_918_Spyder_4.jpg', false, 7],
+            ['Porsche_991_GT3_Touring_2018_10.jpg', true, 8],
+            ['Porsche_992_GT3_Touring_2022_11.jpg', false, 8],
+            ['Porsche_996_Carrera_4S_2004_12.jpg', true, 9],
+            ['Porsche_GT_3_Stance_5.jpg', false, 9],
+            ['Porsche_Macan_7_7.jpg', true, 10],
+            ['Porsche_Macan_GTS_2020MY_6.jpg', false, 10],
+            ['Porsche_turbo_GT_2022_8.jpg', true, 11],
+        ];
+
+        foreach ($images as [$imageName, $isPrimary, $productId]) {
+            DB::table('images')->insert([
+                'imageName' => $imageName,
+                'is_primary' => $isPrimary,
+                'product_id' => $productId,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+    }
+}
