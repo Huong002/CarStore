@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
             ProductSeeder::class,
             CartSeeder::class,
             CartItemSeeder::class,
-            // ImageSeeder::class,
+            ImageSeeder::class,
 
             OrderSeeder::class,
 
