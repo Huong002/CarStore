@@ -6,12 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class CartItem extends Model
 {
-    public function product(){
-        return $this->hasMany(Product::class);
+    // Cho phép gán cột status và các cột cần thiết
+    protected $fillable = [
+        'cart_id',
+        'product_id',
+        'quantity',
+        'price',
+        'status'
+    ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
     }
-    public function cart(){
+
+    public function cart()
+    {
         return $this->belongsTo(Cart::class);
-    
     }
-    
 }
