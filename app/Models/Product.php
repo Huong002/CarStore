@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Product extends Model
 {
     use HasFactory, SoftDeletes;
+
     protected $fillable = [
         'name',
         'slug',
@@ -27,7 +28,7 @@ class Product extends Model
     ];
 
     protected $dates = ['deleted_at'];
-    
+
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
@@ -37,21 +38,31 @@ class Product extends Model
     {
         return $this->belongsTo(Brand::class, 'brand_id');
     }
-    public function cartitem()
+
+    // Sửa lại: Một sản phẩm có nhiều cart item
+    public function cartItems()
     {
-        return $this->belongsTo(CartItem::class);
+        return $this->hasMany(CartItem::class, 'product_id', 'id');
     }
 
-
+    // Lấy tất cả ảnh của sản phẩm
     public function images()
     {
-        return $this->hasMany(Image::class);
+        return $this->hasMany(Image::class, 'product_id', 'id');
+    }
+
+    // Lấy ảnh chính (primary image)
+    public function primaryImage()
+    {
+        return $this->hasOne(Image::class, 'product_id', 'id')
+                    ->where('is_primary', 1);
     }
 
     public function orderDetail()
     {
         return $this->hasMany(OrderDetail::class);
     }
+
     public function review()
     {
         return $this->hasMany(Review::class);
