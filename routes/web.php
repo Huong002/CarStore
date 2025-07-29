@@ -10,6 +10,10 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\Home\CartController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\PayPalController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\DepositController;
+use App\Http\Controllers\CheckoutController;
 
 Auth::routes();
 
@@ -102,3 +106,33 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::delete('admin/notification/softs_delete', [AdminController::class, 'notification_soft_delete'])->name('admin.notifiction.soft_delete');
 });
     Route::get('/location', function () { return view('location'); })->name('location.index');
+Route::prefix('cart')->name('cart.')->group(function () {
+    Route::get('/', [CartController::class, 'index'])->name('index');
+    Route::post('/add', [CartController::class, 'add'])->name('add');
+    Route::patch('/update/{productId}', [CartController::class, 'update'])->name('update');
+    Route::delete('/remove/{productId}', [CartController::class, 'remove'])->name('remove');
+    Route::delete('/clear', [CartController::class, 'clear'])->name('clear');
+    Route::patch('/update-ajax/{productId}', [CartController::class, 'updateAjax'])->name('updateAjax');
+
+    // Những route này yêu cầu đăng nhập:
+    Route::middleware('auth')->group(function () {
+        Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+        Route::post('/submit-deposit', [CartController::class, 'submitDeposit'])->name('submitDeposit');
+    });
+});
+
+// PayPal routes – yêu cầu đăng nhập khi thực hiện thanh toán
+Route::middleware('auth')->group(function () {
+    Route::get('paypal', [PayPalController::class, 'index'])->name('paypal.index');
+    Route::post('paypal/pay', [PayPalController::class, 'payWithPayPal'])->name('paypal.pay');
+    Route::get('paypal/success', [PayPalController::class, 'success'])->name('paypal.success');
+    Route::get('paypal/cancel', [PayPalController::class, 'cancel'])->name('paypal.cancel');
+
+    Route::post('/order/place', [OrderController::class, 'placeOrder'])->name('order.place');
+    Route::get('/checkout/from-deposit/{id}', [CheckoutController::class, 'fromDeposit'])->name('checkout.fromDeposit');
+
+    // THÊM ROUTE NÀY:
+    Route::get('/order/success/{id}', [OrderController::class, 'success'])->name('order.success');
+});
+// Danh sách đơn đặt cọc (có thể cho xem mà không đăng nhập, tùy bạn)
+Route::get('/deposit', [DepositController::class, 'list'])->name('deposit.list');
