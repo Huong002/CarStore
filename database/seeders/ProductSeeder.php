@@ -12,7 +12,7 @@ class ProductSeeder extends Seeder
     {
         $products = [
             [
-                'name' => 'BMW 2 Series 2023',
+                'name' => 'BMW M5 Sedan 2010',
                 'slug' => Str::slug('BMW 2 Series 2023'),
                 'short_description' => 'Coupe thể thao nhỏ gọn, mạnh mẽ',
                 'description' => 'BMW 2 Series 2023 là mẫu coupe thể thao với thiết kế năng động, nội thất sang trọng. Xe được trang bị động cơ 2.0L TwinPower Turbo, công suất 255 mã lực, hộp số tự động 8 cấp Steptronic. Hệ thống lái nhạy, hệ thống treo thích ứng M Sport, cùng các công nghệ hiện đại như màn hình cảm ứng 10.25 inch, hỗ trợ Apple CarPlay/Android Auto, và gói an toàn Active Guard Plus.',
@@ -96,7 +96,7 @@ class ProductSeeder extends Seeder
                 'brand_id' => 2, // Porsche
             ],
             [
-      
+
                 'name' => 'Porsche 911 Turbo S Cabriolet 2023',
                 'slug' => Str::slug('Porsche 911 Turbo S Cabriolet 2023'),
                 'short_description' => 'Siêu xe mui trần hiệu suất cao',

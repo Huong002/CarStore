@@ -308,8 +308,16 @@
             <div class="pc__img-wrapper">
               <div class="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
                 <div class="swiper-wrapper">
+                  @php
+                  $mainImage = '';
+                  if ($product->images && count($product->images)) {
+                  // Lấy ảnh chính nếu có, nếu không lấy ảnh đầu tiên
+                  $primary = $product->images->firstWhere('is_primary', 1);
+                  $mainImage = $primary ? $primary->imageName : $product->images[0]->imageName;
+                  }
+                  @endphp
                   <div class="swiper-slide">
-                    <a href="{{route('shop.product.details', ['product_slug'=>$product->slug])}}">{{$product->name}}"><img loading="lazy" src="{{asset('uploads/products')}}/{{$product->image}}" width="330"
+                    <a href="{{route('shop.product.details', ['product_slug'=>$product->slug])}}">{{$product->name}}"><img loading="lazy" src="{{asset('uploads/products')}}/{{$mainImage}}" width="330"
                         height="400" alt="{{$product->name}}" class="pc__img"></a>
                   </div>
                   <div class="swiper-slide">
@@ -401,8 +409,10 @@
       </nav>
     </div>
 
+
     <div class="divider"></div>
     <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">{{$products->links('pagination::bootstrap-5')}}</div>
+
   </section>
 </main>
 
@@ -442,6 +452,8 @@
     </div>
   </div>
 </div>
+
+
 
 
 <script>

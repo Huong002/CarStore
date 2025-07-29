@@ -19,7 +19,7 @@ class ShopController extends Controller
         // $categories = Category::orderBy('name', 'ASC')->get();
         // $brands = Brand::orderBy('name', 'ASC')->get();
         // return view('shop', compact('products', 'categories', 'brands'));
-        $query = $request->input('search');
+        $query = $request->input('search_product');
         $products = Product::with(['category', 'brand', 'images'])
             ->where('stock_status', 'instock');
 
