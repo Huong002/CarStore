@@ -24,4 +24,9 @@ class CartItem extends Model
     {
         return $this->belongsTo(Cart::class);
     }
+    public function deposit()
+{
+    return $this->hasOne(\App\Models\Deposit::class, 'cart_item_id');
+}
+
 }
