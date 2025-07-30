@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('customer_id');
             $table->unsignedBigInteger('employee_id');
-            $table->decimal('tax', 10, 2)->default(0);
+            $table->decimal('tax', 15, 2)->default(0);
             $table->decimal('total', 15, 2)->default(0);
             $table->enum('status', ['pending', 'approved', 'cancelled', 'completed'])->default('pending');
             $table->date('order_date');
