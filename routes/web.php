@@ -14,6 +14,7 @@ use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 
 Auth::routes();
 
@@ -23,6 +24,7 @@ Route::get('/shop/{product_slug}', [ShopController::class, 'product_details'])->
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 Route::get('/cart/confirm', [CartController::class, 'confirm'])->name('cart.confirm');
+
 Route::get('/about', [AboutController::class, 'index'])->name('about.index');
 
 Route::middleware(['auth'])->group(function () {
