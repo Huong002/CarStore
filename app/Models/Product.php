@@ -27,7 +27,7 @@ class Product extends Model
     ];
 
     protected $dates = ['deleted_at'];
-    
+
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
@@ -55,5 +55,9 @@ class Product extends Model
     public function review()
     {
         return $this->hasMany(Review::class);
+    }
+    public function color()
+    {
+        return $this->belongsTo(Color::class);
     }
 }

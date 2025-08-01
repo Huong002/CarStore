@@ -6,6 +6,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Category;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class CategorySeeder extends Seeder
 {
@@ -16,39 +18,59 @@ class CategorySeeder extends Seeder
     {
         $categories = [
             [
-                'name' => 'Xe coupe',
-                'slug' => 'xe-coupe',
-                'image' => 'coupe.jpg',
+                'name' => 'Sedan',
+                'slug' => Str::slug('Sedan'),
+                'image' => null,
                 'parent_id' => null,
+                'isDeleted' => false,
             ],
             [
-                'name' => 'Xe SUV',
-                'slug' => 'xe-suv',
-                'image' => 'suv.jpg',
+                'name' => 'SUV',
+                'slug' => Str::slug('SUV'),
+                'image' => null,
                 'parent_id' => null,
+                'isDeleted' => false,
             ],
             [
-                'name' => 'Xe điện',
-                'slug' => 'xe-dien',
-                'image' => 'electric.jpg',
+                'name' => 'Coupe',
+                'slug' => Str::slug('Coupe'),
+                'image' => null,
                 'parent_id' => null,
+                'isDeleted' => false,
             ],
             [
-                'name' => 'Xe thể thao',
-                'slug' => 'xe-the-thao',
-                'image' => 'sports.jpg',
+                'name' => 'Convertible',
+                'slug' => Str::slug('Convertible'),
+                'image' => null,
                 'parent_id' => null,
+                'isDeleted' => false,
             ],
             [
-                'name' => 'Xe convertible',
-                'slug' => 'xe-convertible',
-                'image' => 'convertible.jpg',
+                'name' => 'Hatchback',
+                'slug' => Str::slug('Hatchback'),
+                'image' => null,
                 'parent_id' => null,
+                'isDeleted' => false,
+            ],
+            [
+                'name' => 'Wagon',
+                'slug' => Str::slug('Wagon'),
+                'image' => null,
+                'parent_id' => null,
+                'isDeleted' => false,
             ],
         ];
 
-        foreach ($categories as $categoryData) {
-            Category::create($categoryData);
+        foreach ($categories as $category) {
+            DB::table('categories')->insert([
+                'name' => $category['name'],
+                'slug' => $category['slug'],
+                'image' => $category['image'],
+                'parent_id' => $category['parent_id'],
+                'isDeleted' => $category['isDeleted'],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
         }
     }
 }

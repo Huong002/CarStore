@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Product;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class ProductSeeder extends Seeder
 {
@@ -13,163 +14,235 @@ class ProductSeeder extends Seeder
         $products = [
             [
                 'name' => 'BMW M5 Sedan 2010',
-                'slug' => Str::slug('BMW 2 Series 2023'),
-                'short_description' => 'Coupe thể thao nhỏ gọn, mạnh mẽ',
-                'description' => 'BMW 2 Series 2023 là mẫu coupe thể thao với thiết kế năng động, nội thất sang trọng. Xe được trang bị động cơ 2.0L TwinPower Turbo, công suất 255 mã lực, hộp số tự động 8 cấp Steptronic. Hệ thống lái nhạy, hệ thống treo thích ứng M Sport, cùng các công nghệ hiện đại như màn hình cảm ứng 10.25 inch, hỗ trợ Apple CarPlay/Android Auto, và gói an toàn Active Guard Plus.',
-                'regular_price' => 1500000000, // 1.5 tỷ
-                'sale_price' => 1450000000,   // 1.45 tỷ
-                'SKU' => 'BMW2S2023001',
-                'stock_status' => 'instock',
-                'featured' => true,
-                'quantity' => 10,
-                'category_id' => 1, // Xe coupe
-                'brand_id' => 1, // BMW
-            ],
-            [
-                'name' => 'BMW 4 Series 2023',
-                'slug' => Str::slug('BMW 4 Series 2023'),
-                'short_description' => 'Coupe sang trọng với thiết kế táo bạo',
-                'description' => 'BMW 4 Series 2023 nổi bật với lưới tản nhiệt cỡ lớn đặc trưng, động cơ 2.0L TwinPower Turbo sản sinh 258 mã lực, kết hợp hộp số tự động 8 cấp. Nội thất bọc da Vernasca, hệ thống giải trí iDrive 7.0, màn hình 12.3 inch. Xe tích hợp các tính năng an toàn như cảnh báo va chạm, hỗ trợ giữ làn, và đỗ xe tự động.',
-                'regular_price' => 2000000000, // 2 tỷ
-                'sale_price' => 1900000000,   // 1.9 tỷ
-                'SKU' => 'BMW4S2023001',
-                'stock_status' => 'instock',
-                'featured' => true,
-                'quantity' => 8,
-                'category_id' => 1, // Xe coupe
-                'brand_id' => 1, // BMW
-            ],
-            [
-                'name' => 'BMW iX3 2023',
-                'slug' => Str::slug('BMW iX3 2023'),
-                'short_description' => 'SUV điện cao cấp, thân thiện môi trường',
-                'description' => 'BMW iX3 2023 là mẫu SUV chạy điện với động cơ điện 286 mã lực, pin 80 kWh, phạm vi hoạt động khoảng 460 km (WLTP). Xe sở hữu thiết kế hiện đại, nội thất bọc da Sensatec, màn hình kép 12.3 inch, và hệ thống hỗ trợ lái xe tiên tiến như Driving Assistant Professional. Tăng tốc 0-100 km/h trong 6.8 giây.',
-                'regular_price' => 2500000000, // 2.5 tỷ
-                'sale_price' => 2400000000,   // 2.4 tỷ
-                'SKU' => 'BMWiX32023001',
+                'slug' => Str::slug('BMW M5 Sedan 2010'),
+                'short_description' => 'Sedan thể thao sang trọng với hiệu suất mạnh mẽ.',
+                'description' => 'BMW M5 Sedan 2010 là mẫu sedan hiệu suất cao thuộc dòng 5 Series, được trang bị động cơ V10 5.0L, sản sinh công suất 500 mã lực và mô-men xoắn 520 Nm. Xe sở hữu hộp số tự động SMG 7 cấp hoặc số sàn 6 cấp, cho khả năng tăng tốc từ 0-100 km/h trong 4,7 giây. Nội thất bọc da cao cấp, hệ thống giải trí iDrive hiện đại và thiết kế ngoại thất đậm chất thể thao với lưới tản nhiệt đặc trưng và bộ mâm hợp kim 19 inch. Đây là lựa chọn lý tưởng cho những ai yêu thích sự kết hợp giữa sang trọng và tốc độ.',
+                'regular_price' => 85000.00,
+                'sale_price' => 80000.00,
+                'SKU' => 'BMW-M5-2010',
                 'stock_status' => 'instock',
                 'featured' => true,
                 'quantity' => 5,
-                'category_id' => 3, // Xe điện
+                'category_id' => 1, // Sedan
                 'brand_id' => 1, // BMW
+                'color_id' => 4,
             ],
             [
-                'name' => 'BMW X1 2023',
-                'slug' => Str::slug('BMW X1 2023'),
-                'short_description' => 'SUV compact cao cấp, linh hoạt',
-                'description' => 'BMW X1 2023 là mẫu SUV nhỏ gọn với động cơ 2.0L TwinPower Turbo, công suất 204 mã lực, hộp số ly hợp kép 7 cấp. Thiết kế ngoại thất mạnh mẽ, nội thất hiện đại với màn hình cong BMW Curved Display, hệ điều hành iDrive 8. Hệ thống an toàn bao gồm hỗ trợ đỗ xe, cảnh báo điểm mù, và camera 360 độ.',
-                'regular_price' => 1800000000, // 1.8 tỷ
-                'sale_price' => 1750000000,   // 1.75 tỷ
-                'SKU' => 'BMWX12023001',
+                'name' => 'BMW ActiveHybrid 5 Sedan 2012',
+                'slug' => Str::slug('BMW ActiveHybrid 5 Sedan 2012'),
+                'short_description' => 'Sedan hybrid tiết kiệm nhiên liệu, hiệu suất cao.',
+                'description' => 'BMW ActiveHybrid 5 Sedan 2012 là mẫu xe hybrid đầu tiên trong dòng 5 Series, kết hợp động cơ xăng I6 3.0L tăng áp kép (TwinPower Turbo) với mô-tơ điện, tạo ra tổng công suất 335 mã lực và mô-men xoắn 450 Nm. Xe sử dụng hộp số tự động 8 cấp, cho phép tăng tốc từ 0-100 km/h trong 5,7 giây, đồng thời đạt mức tiêu hao nhiên liệu ấn tượng khoảng 6,4 lít/100 km. Nội thất sang trọng với ghế da Dakota, hệ thống iDrive cải tiến và màn hình 10,2 inch. Thiết kế ngoại thất tinh tế với các chi tiết mạ chrome và mâm hợp kim 18 inch, mang lại vẻ ngoài hiện đại và đẳng cấp.',
+                'regular_price' => 60000.00,
+                'sale_price' => null,
+                'SKU' => 'BMW-AH5-2012',
                 'stock_status' => 'instock',
-                'featured' => true,
-                'quantity' => 12,
-                'category_id' => 2, // Xe SUV
+                'featured' => false,
+                'quantity' => 8,
+                'category_id' => 1, // Sedan
                 'brand_id' => 1, // BMW
+                'color_id' => 4,
+
             ],
             [
-                'name' => 'BMW X5 2023',
-                'slug' => Str::slug('BMW X5 2023'),
-                'short_description' => 'SUV cỡ lớn sang trọng, mạnh mẽ',
-                'description' => 'BMW X5 2023 mang đến trải nghiệm lái đỉnh cao với động cơ 3.0L TwinPower Turbo, công suất 340 mã lực, hộp số tự động 8 cấp. Nội thất xa xỉ với da Merino, hệ thống âm thanh Harman Kardon, và màn hình 12.3 inch. Xe được trang bị hệ dẫn động 4 bánh xDrive, hỗ trợ off-road và các tính năng an toàn tiên tiến.',
-                'regular_price' => 3500000000, // 3.5 tỷ
-                'sale_price' => 3400000000,   // 3.4 tỷ
-                'SKU' => 'BMWX52023001',
-                'stock_status' => 'instock',
-                'featured' => true,
-                'quantity' => 6,
-                'category_id' => 2, // Xe SUV
-                'brand_id' => 1, // BMW
-            ],
-            [
-                'name' => 'Porsche 911 Club Coupe 60th Anniversary',
-                'slug' => Str::slug('Porsche 911 Club Coupe 60th Anniversary'),
-                'short_description' => 'Siêu xe kỷ niệm, phiên bản giới hạn',
-                'description' => 'Porsche 911 Club Coupe 60th Anniversary là phiên bản đặc biệt kỷ niệm 60 năm, với động cơ 3.0L 6 xy-lanh, công suất 480 mã lực, hộp số PDK 7 cấp. Thiết kế ngoại thất độc đáo với màu sơn đặc biệt, nội thất bọc da Alcantara, hệ thống giải trí PCM 6.0, và các chi tiết tùy chỉnh thủ công.',
-                'regular_price' => 6000000000, // 6 tỷ
-                'sale_price' => 5800000000,   // 5.8 tỷ
-                'SKU' => 'P911CC2023001',
+                'name' => 'Audi TT RS Coupe 2012',
+                'slug' => Str::slug('Audi TT RS Coupe 2012'),
+                'short_description' => 'Coupe thể thao với thiết kế trẻ trung, mạnh mẽ.',
+                'description' => 'Audi TT RS Coupe 2012 là phiên bản hiệu suất cao của dòng TT, được trang bị động cơ 5 xy-lanh 2.5L tăng áp, sản sinh công suất 360 mã lực và mô-men xoắn 465 Nm. Xe có khả năng tăng tốc từ 0-100 km/h trong 4,1 giây nhờ hệ dẫn động bốn bánh Quattro và hộp số ly hợp kép S-tronic 7 cấp. Thiết kế ngoại thất nổi bật với lưới tản nhiệt Singleframe, cản trước thể thao và mâm hợp kim 19 inch. Nội thất bọc da Alcantara, ghế thể thao ôm sát và hệ thống âm thanh Bose cao cấp, mang lại trải nghiệm lái xe đầy phấn khích.',
+                'regular_price' => 55000.00,
+                'sale_price' => 52000.00,
+                'SKU' => 'AUDI-TTRS-2012',
                 'stock_status' => 'instock',
                 'featured' => true,
                 'quantity' => 3,
-                'category_id' => 4, // Xe thể thao
-                'brand_id' => 2, // Porsche
+                'category_id' => 3, // Coupe
+                'brand_id' => 3, // Audi
+                'color_id' => 4,
             ],
             [
-
-                'name' => 'Porsche 911 Turbo S Cabriolet 2023',
-                'slug' => Str::slug('Porsche 911 Turbo S Cabriolet 2023'),
-                'short_description' => 'Siêu xe mui trần hiệu suất cao',
-                'description' => 'Porsche 911 Turbo S Cabriolet 2023 sở hữu động cơ 3.8L 6 xy-lanh, công suất 650 mã lực, tăng tốc 0-100 km/h trong 2.8 giây. Hộp số PDK 8 cấp, hệ dẫn động 4 bánh. Nội thất bọc da cao cấp, màn hình 10.9 inch, hệ thống âm thanh Burmester, và gói an toàn Porsche Active Safe.',
-                'regular_price' => 6500000000, // 6.5 tỷ
-                'sale_price' => 6300000000,   // 6.3 tỷ
-                'SKU' => 'P911TS2023001',
+                'name' => 'BMW X3 SUV 2012',
+                'slug' => Str::slug('BMW X3 SUV 2012'),
+                'short_description' => 'SUV cao cấp, đa dụng và mạnh mẽ.',
+                'description' => 'BMW X3 SUV 2012 thuộc thế hệ thứ hai (F25), được trang bị động cơ xăng hoặc diesel, với tùy chọn nổi bật là động cơ I6 3.0L tăng áp (xDrive35i) sản sinh 306 mã lực và mô-men xoắn 400 Nm. Xe sử dụng hộp số tự động 8 cấp và hệ dẫn động bốn bánh xDrive, cho khả năng tăng tốc từ 0-100 km/h trong 5,7 giây. Nội thất rộng rãi với ghế da Nevada, hệ thống iDrive với màn hình 8,8 inch và các tính năng an toàn như kiểm soát ổn định động lực học (DSC). Thiết kế ngoại thất hiện đại với lưới tản nhiệt lớn và mâm hợp kim 18-19 inch, phù hợp cho cả đô thị và địa hình nhẹ.',
+                'regular_price' => 45000.00,
+                'sale_price' => null,
+                'SKU' => 'BMW-X3-2012',
+                'stock_status' => 'instock',
+                'featured' => false,
+                'quantity' => 10,
+                'category_id' => 2, // SUV
+                'brand_id' => 1, // BMW
+                'color_id' => 5,
+            ],
+            [
+                'name' => 'BMW 3 Series Wagon 2012',
+                'slug' => Str::slug('BMW 3 Series Wagon 2012'),
+                'short_description' => 'Wagon thực dụng, phong cách thể thao.',
+                'description' => 'BMW 3 Series Wagon 2012 (F31) là mẫu xe wagon thuộc dòng 3 Series, kết hợp không gian chở hàng rộng rãi với hiệu suất lái đặc trưng của BMW. Xe được trang bị động cơ I4 2.0L tăng áp (328i) sản sinh 240 mã lực và mô-men xoắn 350 Nm, đi kèm hộp số tự động 8 cấp hoặc số sàn 6 cấp. Hệ dẫn động cầu sau hoặc xDrive giúp xe tăng tốc từ 0-100 km/h trong khoảng 6 giây. Nội thất sang trọng với ghế da, hệ thống iDrive và khoang hành lý linh hoạt (lên đến 1.500L khi gập ghế). Thiết kế ngoại thất năng động với mâm hợp kim 17 inch và lưới tản nhiệt đặc trưng.',
+                'regular_price' => 40000.00,
+                'sale_price' => 38000.00,
+                'SKU' => 'BMW-3W-2012',
+                'stock_status' => 'instock',
+                'featured' => false,
+                'quantity' => 6,
+                'category_id' => 6, // Wagon
+                'brand_id' => 1, // BMW
+                'color_id' => 11,
+            ],
+            [
+                'name' => 'BMW X6 SUV 2012',
+                'slug' => Str::slug('BMW X6 SUV 2012'),
+                'short_description' => 'SUV coupe thời thượng, hiệu suất cao.',
+                'description' => 'BMW X6 SUV 2012 (E71) là mẫu SUV coupe độc đáo, kết hợp thiết kế thể thao với tính năng đa dụng. Xe được trang bị động cơ I6 3.0L tăng áp (xDrive35i) hoặc V8 4.4L tăng áp (xDrive50i), sản sinh công suất lên đến 400 mã lực. Hệ dẫn động bốn bánh xDrive và hộp số tự động 8 cấp mang lại khả năng tăng tốc 0-100 km/h trong 5,4 giây (xDrive50i). Nội thất sang trọng với ghế da cao cấp, hệ thống iDrive và màn hình 10,2 inch. Thiết kế ngoại thất nổi bật với mái dốc kiểu coupe, lưới tản nhiệt lớn và mâm hợp kim 19-20 inch, tạo nên vẻ ngoài mạnh mẽ và khác biệt.',
+                'regular_price' => 65000.00,
+                'sale_price' => 62000.00,
+                'SKU' => 'BMW-X6-2012',
                 'stock_status' => 'instock',
                 'featured' => true,
                 'quantity' => 4,
-                'category_id' => 5, // Xe convertible
-                'brand_id' => 2, // Porsche
+                'category_id' => 2, // SUV
+                'brand_id' => 1, // BMW
+                'color_id' => 5,
             ],
             [
-                'name' => 'Porsche 911 GT3 Touring 2022',
-                'slug' => Str::slug('Porsche 911 GT3 Touring 2022'),
-                'short_description' => 'Siêu xe GT3 với thiết kế tinh tế',
-                'description' => 'Porsche 911 GT3 Touring 2022 sử dụng động cơ 4.0L 6 xy-lanh, công suất 502 mã lực, hộp số PDK 7 cấp hoặc số sàn 6 cấp. Xe có thiết kế thanh lịch, không cánh gió lớn, nội thất bọc da cao cấp, hệ thống treo thể thao PASM, và các tính năng hỗ trợ lái như Porsche Torque Vectoring.',
-                'regular_price' => 5500000000, // 5.5 tỷ
-                'sale_price' => 5300000000,   // 5.3 tỷ
-                'SKU' => 'P911GT32022001',
+                'name' => 'Porsche Panamera Sedan 2012',
+                'slug' => Str::slug('Porsche Panamera Sedan 2012'),
+                'short_description' => 'Sedan sang trọng với hiệu suất thể thao.',
+                'description' => 'Porsche Panamera Sedan 2012 là mẫu sedan 4 cửa kết hợp phong cách thể thao với sự sang trọng. Xe có nhiều tùy chọn động cơ, nổi bật là phiên bản Panamera Turbo với động cơ V8 4.8L tăng áp, sản sinh 500 mã lực và mô-men xoắn 700 Nm, tăng tốc từ 0-100 km/h trong 4,2 giây. Hệ dẫn động bốn bánh và hộp số PDK 7 cấp mang lại trải nghiệm lái mượt mà và mạnh mẽ. Nội thất bọc da cao cấp, hệ thống giải trí PCM với màn hình 7 inch và ghế thể thao điều chỉnh 14 hướng. Thiết kế ngoại thất đậm chất Porsche với đèn LED và mâm hợp kim 19 inch.',
+                'regular_price' => 90000.00,
+                'sale_price' => null,
+                'SKU' => 'POR-PAN-2012',
                 'stock_status' => 'instock',
-                'featured' => true,
-                'quantity' => 5,
-                'category_id' => 4, // Xe thể thao
-                'brand_id' => 2, // Porsche
-            ],
-            [
-                'name' => 'Porsche 996 Carrera 4S 2004',
-                'slug' => Str::slug('Porsche 996 Carrera 4S 2004'),
-                'short_description' => 'Siêu xe cổ điển, hiệu suất vượt thời gian',
-                'description' => 'Porsche 996 Carrera 4S 2004 là mẫu xe mang tính biểu tượng với động cơ 3.6L 6 xy-lanh, công suất 320 mã lực, hệ dẫn động 4 bánh. Nội thất bọc da cổ điển, hệ thống âm thanh Bose, và thiết kế ngoại thất mang phong cách thập niên 2000. Xe vẫn giữ được sự mạnh mẽ và phong cách đặc trưng của Porsche.',
-                'regular_price' => 3000000000, // 3 tỷ
-                'sale_price' => 2800000000,   // 2.8 tỷ
-                'SKU' => 'P996C4S2004001',
-                'stock_status' => 'instock',
-                'featured' => true,
+                'featured' => false,
                 'quantity' => 7,
-                'category_id' => 4, // Xe thể thao
+                'category_id' => 1, // Sedan
                 'brand_id' => 2, // Porsche
+                'color_id' => 4,
             ],
             [
-                'name' => 'Porsche Macan 2023',
-                'slug' => Str::slug('Porsche Macan 2023'),
-                'short_description' => 'SUV thể thao sang trọng',
-                'description' => 'Porsche Macan 2023 kết hợp phong cách SUV với hiệu suất thể thao, sử dụng động cơ 2.0L Turbo, công suất 265 mã lực, hộp số PDK 7 cấp. Nội thất bọc da cao cấp, màn hình 10.9 inch, hệ thống âm thanh Bose. Xe trang bị hệ dẫn động 4 bánh và các tính năng an toàn như cảnh báo lệch làn, hỗ trợ đỗ xe.',
-                'regular_price' => 3200000000, // 3.2 tỷ
-                'sale_price' => 3100000000,   // 3.1 tỷ
-                'SKU' => 'PMAC2023001',
+                'name' => 'Chevrolet Corvette ZR1 2012',
+                'slug' => Str::slug('Chevrolet Corvette ZR1 2012'),
+                'short_description' => 'Siêu xe Mỹ với hiệu suất đỉnh cao.',
+                'description' => 'Chevrolet Corvette ZR1 2012 là mẫu siêu xe hiệu suất cao, được trang bị động cơ V8 6.2L siêu nạp, sản sinh công suất 638 mã lực và mô-men xoắn 819 Nm. Xe sử dụng hộp số sàn 6 cấp, cho khả năng tăng tốc từ 0-100 km/h trong 3,4 giây và tốc độ tối đa hơn 330 km/h. Hệ thống treo Magnetic Ride Control và phanh gốm carbon đảm bảo hiệu suất vượt trội trên đường đua. Nội thất bọc da cao cấp, ghế thể thao và hệ thống âm thanh Bose. Thiết kế ngoại thất khí động học với cánh lướt gió carbon và mâm hợp kim 19-20 inch.',
+                'regular_price' => 110000.00,
+                'sale_price' => 105000.00,
+                'SKU' => 'CHEV-ZR1-2012',
                 'stock_status' => 'instock',
                 'featured' => true,
-                'quantity' => 10,
-                'category_id' => 2, // Xe SUV
-                'brand_id' => 2, // Porsche
+                'quantity' => 2,
+                'category_id' => 3, // Coupe
+                'brand_id' => 4, // Chevrolet
+                'color_id' => 11,
             ],
             [
-                'name' => 'Porsche Turbo GT 2022',
-                'slug' => Str::slug('Porsche Turbo GT 2022'),
-                'short_description' => 'Siêu xe hiệu suất đỉnh cao',
-                'description' => 'Porsche Turbo GT 2022 là phiên bản mạnh mẽ với động cơ 4.0L V8, công suất 640 mã lực, tăng tốc 0-100 km/h trong 3.0 giây. Hộp số PDK 8 cấp, hệ dẫn động 4 bánh. Nội thất thể thao với ghế đua carbon, hệ thống giải trí PCM 6.0, và các tính năng an toàn như Porsche Ceramic Composite Brakes (PCCB).',
-                'regular_price' => 7000000000, // 7 tỷ
-                'sale_price' => 6800000000,   // 6.8 tỷ
-                'SKU' => 'PTGT2022001',
+                'name' => 'Chevrolet Corvette Convertible 2012',
+                'slug' => Str::slug('Chevrolet Corvette Convertible 2012'),
+                'short_description' => 'Siêu xe mui trần mạnh mẽ, phong cách.',
+                'description' => 'Chevrolet Corvette Convertible 2012 mang đến trải nghiệm lái xe mui trần đầy phấn khích, được trang bị động cơ V8 6.2L, sản sinh công suất 430 mã lực (phiên bản cơ bản) hoặc 505 mã lực (Grand Sport). Hộp số sàn 6 cấp hoặc tự động 6 cấp giúp xe tăng tốc từ 0-100 km/h trong khoảng 4,2 giây. Nội thất bọc da cao cấp, ghế thể thao và hệ thống giải trí với màn hình cảm ứng. Mái xếp mềm vận hành bằng điện, kết hợp với thiết kế ngoại thất khí động học và mâm hợp kim 18-19 inch, tạo nên vẻ ngoài mạnh mẽ và quyến rũ.',
+                'regular_price' => 95000.00,
+                'sale_price' => null,
+                'SKU' => 'CHEV-CV-2012',
+                'stock_status' => 'instock',
+                'featured' => false,
+                'quantity' => 5,
+                'category_id' => 4, // Convertible
+                'brand_id' => 4, // Chevrolet
+                'color_id' => 5,
+            ],
+            [
+                'name' => 'Mercedes-Benz SL-Class Coupe 2009',
+                'slug' => Str::slug('Mercedes-Benz SL-Class Coupe 2009'),
+                'short_description' => 'Coupe mui cứng sang trọng, hiệu suất cao.',
+                'description' => 'Mercedes-Benz SL-Class Coupe 2009 (R230) là mẫu xe mui cứng có thể thu vào, kết hợp sự sang trọng với hiệu suất thể thao. Phiên bản SL550 được trang bị động cơ V8 5.5L, sản sinh 382 mã lực và mô-men xoắn 530 Nm, tăng tốc từ 0-100 km/h trong 5,4 giây. Hộp số tự động 7 cấp và hệ thống treo Active Body Control mang lại sự êm ái và ổn định. Nội thất bọc da cao cấp, ghế massage tích hợp và hệ thống COMAND với màn hình 6,5 inch. Thiết kế ngoại thất thanh lịch với lưới tản nhiệt lớn và mâm hợp kim 18 inch.',
+                'regular_price' => 80000.00,
+                'sale_price' => 75000.00,
+                'SKU' => 'MB-SL-2009',
                 'stock_status' => 'instock',
                 'featured' => true,
                 'quantity' => 3,
-                'category_id' => 4, // Xe thể thao
+                'category_id' => 3, // Coupe
+                'brand_id' => 5, // Mercedes-Benz
+                'color_id' => 4,
+            ],
+            [
+                'name' => 'Volkswagen Beetle Hatchback 2012',
+                'slug' => Str::slug('Volkswagen Beetle Hatchback 2012'),
+                'short_description' => 'Hatchback phong cách retro, trẻ trung.',
+                'description' => 'Volkswagen Beetle Hatchback 2012 là thế hệ thứ hai của mẫu xe mang phong cách retro, được trang bị động cơ I4 2.0L tăng áp (phiên bản Turbo) sản sinh 200 mã lực và mô-men xoắn 280 Nm, tăng tốc từ 0-100 km/h trong 7,5 giây. Hộp số DSG 6 cấp hoặc số sàn 6 cấp mang lại trải nghiệm lái năng động. Nội thất hiện đại với ghế bọc da hoặc vải, hệ thống giải trí Fender cao cấp và màn hình cảm ứng 5 inch. Thiết kế ngoại thất đặc trưng với hình dáng tròn trịa, đèn pha tròn và mâm hợp kim 17-18 inch.',
+                'regular_price' => 25000.00,
+                'sale_price' => null,
+                'SKU' => 'VW-BEETLE-2012',
+                'stock_status' => 'instock',
+                'featured' => false,
+                'quantity' => 12,
+                'category_id' => 5, // Hatchback
+                'brand_id' => 6, // Volkswagen
+                'color_id' => 11,
+            ],
+            [
+                'name' => 'Jaguar XK XKR 2012',
+                'slug' => Str::slug('Jaguar XK XKR 2012'),
+                'short_description' => 'Grand tourer sang trọng, mạnh mẽ.',
+                'description' => 'Jaguar XK XKR 2012 là mẫu grand tourer cao cấp, được trang bị động cơ V8 5.0L siêu nạp, sản sinh 510 mã lực và mô-men xoắn 625 Nm, tăng tốc từ 0-100 km/h trong 4,6 giây. Hộp số tự động 6 cấp và hệ thống treo thích ứng mang lại sự cân bằng giữa hiệu suất và sự thoải mái. Nội thất bọc da cao cấp, ghế thể thao điều chỉnh 16 hướng và hệ thống giải trí với màn hình cảm ứng 7 inch. Thiết kế ngoại thất thanh lịch với lưới tản nhiệt lớn, đèn LED và mâm hợp kim 19-20 inch, toát lên vẻ sang trọng và mạnh mẽ.',
+                'regular_price' => 85000.00,
+                'sale_price' => 82000.00,
+                'SKU' => 'JAG-XKR-2012',
+                'stock_status' => 'instock',
+                'featured' => true,
+                'quantity' => 4,
+                'category_id' => 3, // Coupe
+                'brand_id' => 7, // Jaguar
+                'color_id' => 4,
+            ],
+            [
+                'name' => 'Porsche 911 Turbo S 2022',
+                'slug' => Str::slug('Porsche 911 Turbo S 2022'),
+                'short_description' => 'Siêu xe thể thao với hiệu suất đỉnh cao.',
+                'description' => 'Porsche 911 Turbo S 2022 (992) là phiên bản đỉnh cao của dòng 911, được trang bị động cơ 6 xy-lanh phẳng 3.8L tăng áp kép, sản sinh 640 mã lực và mô-men xoắn 800 Nm. Xe tăng tốc từ 0-100 km/h trong 2,7 giây và đạt tốc độ tối đa 330 km/h. Hệ dẫn động bốn bánh và hộp số PDK 8 cấp mang lại khả năng vận hành linh hoạt. Nội thất bọc da cao cấp, ghế thể thao 18 hướng và hệ thống PCM với màn hình 10,9 inch. Thiết kế ngoại thất khí động học với cánh gió sau điều chỉnh và mâm hợp kim 20-21 inch.',
+                'regular_price' => 200000.00,
+                'sale_price' => null,
+                'SKU' => 'POR-911TS-2022',
+                'stock_status' => 'instock',
+                'featured' => true,
+                'quantity' => 2,
+                'category_id' => 3, // Coupe
                 'brand_id' => 2, // Porsche
+                'color_id' => 5,
+            ],
+            [
+                'name' => 'Porsche Macan 2020',
+                'slug' => Str::slug('Porsche Macan 2020'),
+                'short_description' => 'SUV compact sang trọng, thể thao.',
+                'description' => 'Porsche Macan 2020 là mẫu SUV compact cao cấp, được trang bị động cơ I4 2.0L tăng áp (phiên bản cơ bản) sản sinh 248 mã lực và mô-men xoắn 370 Nm, tăng tốc từ 0-100 km/h trong 6,7 giây. Hộp số PDK 7 cấp và hệ dẫn động bốn bánh mang lại trải nghiệm lái năng động. Nội thất bọc da, ghế thể thao và hệ thống PCM với màn hình cảm ứng 10,9 inch. Thiết kế ngoại thất đặc trưng với đèn LED, lưới tản nhiệt lớn và mâm hợp kim 18-21 inch, tạo nên vẻ ngoài mạnh mẽ và tinh tế, phù hợp cho cả đô thị và đường trường.',
+                'regular_price' => 60000.00,
+                'sale_price' => 58000.00,
+                'SKU' => 'POR-MACAN-2020',
+                'stock_status' => 'instock',
+                'featured' => true,
+                'quantity' => 6,
+                'category_id' => 2, // SUV
+                'brand_id' => 2, // Porsche
+                'color_id' => 5,
             ],
         ];
 
-        foreach ($products as $productData) {
-            Product::create($productData);
+        foreach ($products as $product) {
+            DB::table('products')->insert([
+                'name' => $product['name'],
+                'slug' => $product['slug'],
+                'short_description' => $product['short_description'],
+                'description' => $product['description'],
+                'regular_price' => $product['regular_price'],
+                'sale_price' => $product['sale_price'],
+                'SKU' => $product['SKU'],
+                'stock_status' => $product['stock_status'],
+                'featured' => $product['featured'],
+                'quantity' => $product['quantity'],
+                'category_id' => $product['category_id'],
+                'brand_id' => $product['brand_id'],
+                'color_id' => $product['color_id'],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
         }
     }
 }
