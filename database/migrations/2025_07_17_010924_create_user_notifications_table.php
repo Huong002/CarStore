@@ -12,15 +12,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-   
+
         Schema::create('user_notifications', function (Blueprint $table) {
             $table->id();
-            $table->boolean('isArchived');
-            $table->boolean('isRead');
+            $table->boolean('isArchived')->default(false);
+            $table->boolean('isRead')->default(false);
             $table->softDeletes();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('notification_id');
-            $table->date('createdAt');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('notification_id')->references('id')->on('notifications')->onDelete('cascade');

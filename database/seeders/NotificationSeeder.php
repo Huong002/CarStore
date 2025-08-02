@@ -15,19 +15,24 @@ class NotificationSeeder extends Seeder
     {
         $notifications = [
             [
-                'name' => 'Chào mừng',
+                'name' => 'Chào mừng khách hàng mới',
                 'content' => 'Chào mừng bạn đến với hệ thống!',
-                'user_id' => 1,
+                'type' => 'customer', // Dành cho khách hàng
             ],
             [
                 'name' => 'Đơn hàng mới',
-                'content' => 'Bạn có một đơn hàng mới.',
-                'user_id' => 2,
+                'content' => 'Có một đơn hàng mới cần xử lý',
+                'type' => 'employee', // Dành cho nhân viên
             ],
             [
-                'name' => 'Cập nhật tài khoản',
-                'content' => 'Thông tin tài khoản đã được cập nhật.',
-                'user_id' => 1,
+                'name' => 'Báo cáo doanh thu',
+                'content' => 'Báo cáo doanh thu tháng mới đã sẵn sàng',
+                'type' => 'admin', // Dành cho admin
+            ],
+            [
+                'name' => 'Cập nhật hệ thống',
+                'content' => 'Hệ thống vừa được cập nhật tính năng mới',
+                'type' => 'all', // Dành cho tất cả
             ],
         ];
 

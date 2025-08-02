@@ -34,9 +34,9 @@ class DatabaseSeeder extends Seeder
             ImageSeeder::class,
 
             OrderSeeder::class,
-
             OrderDetailSeeder::class,
-
+            NotificationSeeder::class,
+            UserNotificationSeeder::class,
         ]);
     }
 }

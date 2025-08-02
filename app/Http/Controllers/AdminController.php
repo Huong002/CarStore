@@ -933,5 +933,37 @@ class AdminController extends Controller
             ->get();
         return view('admin.notifications', compact($notifications));
     }
+    public function notifitionById()
+    {
+        // Lấy thông tin user đang đăng nhập
+        $currentUser = \Illuminate\Support\Facades\Auth::user();
+
+        if (!$currentUser) {
+            return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để xem thông báo');
+        }
+
+        // Xác định loại thông báo dựa vào quyền của người dùng
+        $notificationTypes = ['all']; // Loại thông báo chung cho tất cả
+
+        if ($currentUser->utype === 'ADM') {
+            $notificationTypes[] = 'admin';
+        } elseif ($currentUser->employee_id) {
+            $notificationTypes[] = 'employee';
+        } elseif ($currentUser->customer_id) {
+            $notificationTypes[] = 'customer';
+        }
+
+        // Lấy các notification phù hợp với quyền của user
+        $notificationIds = Notification::whereIn('type', $notificationTypes)->pluck('id');
+
+        // Lấy danh sách thông báo dành cho user đang đăng nhập
+        $user_notifications = UserNotification::where('user_id', $currentUser->id)
+            ->whereIn('notification_id', $notificationIds)
+            ->with('notification') // Eager loading để lấy thông tin notification
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('admin.notifications', ['notifications' => $user_notifications]);
+    }
     #endregion
 }
