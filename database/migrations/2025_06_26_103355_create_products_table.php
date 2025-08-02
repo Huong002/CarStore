@@ -16,11 +16,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->unique()->nullable();
             $table->string('short_description')->nullable();
-            $table->text('description', 15,2)->nullable();
-            $table->decimal('regular_price', 15,2)->nullable();
-            $table->decimal('sale_price', 15,2)->nullable();
+            $table->text('description', 15, 2)->nullable();
+            $table->decimal('regular_price', 15, 2)->nullable();
+            $table->decimal('sale_price', 15, 2)->nullable();
             $table->string('SKU');
             $table->enum('stock_status', ['instock', 'outofstock']);
+            $table->unsignedBigInteger('color_id')->nullable();
             $table->boolean('featured')->default(false);
             $table->unsignedInteger('quantity')->default(10);
             $table->bigInteger('category_id')->unsigned()->nullable();
@@ -28,9 +29,8 @@ return new class extends Migration
             $table->timestamps();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
+            $table->foreign('color_id')->references('id')->on('colors')->onDelete('cascade');
         });
-        
-      
     }
 
     /**
