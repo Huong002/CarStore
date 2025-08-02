@@ -1,6 +1,36 @@
 @extends('layouts.app')
 @section('content')
+<style>
+    .color-swatches {
+        gap: 8px;
+    }
 
+    .swatch-color-label {
+        display: inline-flex;
+        align-items: center;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .swatch-box {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #ccc;
+        border-radius: 50%;
+        display: inline-block;
+        transition: border-color 0.3s, transform 0.2s;
+    }
+
+    .swatch-checkbox:checked+.swatch-box {
+        border-color: #007bff;
+        transform: scale(1.1);
+    }
+
+    .swatch-checkbox:focus+.swatch-box {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
+    }
+</style>
 <main class="pt-90">
     <section class="shop-main container d-flex pt-4 pt-xl-5">
         <div class="shop-sidebar side-sticky bg-body" id="shopFilter">
@@ -15,9 +45,13 @@
             <!-- Thêm thanh tìm kiếm với nút quét hình ảnh -->
             <div class="search-field mb-4 d-flex align-items-center">
                 <div class="search-field__input-wrapper position-relative flex-grow-1 me-2">
+                    <input type="text" name="search_product" class="search-field__input form-control form-control-sm border-light border-2"
+                        placeholder="Tìm kiếm sản phẩm..." value="{{ $search ?? '' }}" />
+                </div>
+                <!-- <div class="search-field__input-wrapper position-relative flex-grow-1 me-2">
                     <input type="text" name="search_product" class="search-field__input form-control form-control-sm border-light border-2" placeholder="Tìm kiếm sản phẩm..." />
 
-                </div>
+                </div> -->
 
                 <button class="scan-button btn btn-outline-secondary border-0 p-2" title="Quét hình ảnh">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -46,11 +80,15 @@
                         aria-labelledby="accordion-heading-1" data-bs-parent="#categories-list">
                         <div class="accordion-body px-0 pb-0 pt-3" style="max-height: 250px; overflow-y: auto;">
                             <ul class="list list-inline mb-0">
-                                @foreach($categories as $category)
-                                <li class="list-item">
-                                    <a href="{{ route('shop.index', ['category' => $category->id]) }}" class="menu-link py-1">{{$category->name}}</a>
+                                @foreach($allCategories as $category)
+                                <li class="list-item d-flex align-items-center py-1">
+                                    <input type="checkbox" name="categories[]" value="{{ $category->id }}"
+                                        id="category_{{ $category->id }}" class="me-2"
+                                        {{ in_array($category->id, $selectedCategoryIds) ? 'checked' : '' }}>
+                                    <label for="category_{{ $category->id }}" class="menu-link py-1">{{ $category->name }}</label>
                                 </li>
                                 @endforeach
+
                             </ul>
                         </div>
                     </div>
@@ -76,9 +114,16 @@
                         aria-labelledby="accordion-heading-1" data-bs-parent="#color-filters">
                         <div class="accordion-body px-0 pb-0">
                             <div class="d-flex flex-wrap">
-                                @foreach($colors as $color)
-                                <a href="#" class="swatch-color js-filter" title="{{ $color->name }}" style="color: {{ $color->colorCode }}"></a>
+                                @foreach($allColors as $color)
+                                <label class="swatch-color-label me-2 mb-2" for="color_{{ $color->id }}" title="{{ $color->name }}">
+                                    <input type="checkbox" name="colors[]" value="{{ $color->id }}"
+                                        id="color_{{ $color->id }}" class="swatch-checkbox"
+                                        style="display: none;" {{ in_array($color->id, $selectedColorIds) ? 'checked' : '' }}>
+                                    <span class="swatch-box" style="background-color: {{ $color->colorCode }};"></span>
+                                </label>
                                 @endforeach
+
+
                             </div>
                         </div>
                     </div>
@@ -103,25 +148,19 @@
                     <div id="accordion-filter-brand" class="accordion-collapse collapse show border-0"
                         aria-labelledby="accordion-heading-brand" data-bs-parent="#brand-filters">
                         <div class="search-field multi-select accordion-body px-0 pb-0">
-                            <select class="d-none" multiple name="total-numbers-list">
-                                <option value="1">Adidas</option>
-                                <option value="2">Balmain</option>
-                                <option value="3">Balenciaga</option>
-                                <option value="4">Burberry</option>
-                                <option value="5">Kenzo</option>
-                                <option value="5">Givenchy</option>
-                                <option value="5">Zara</option>
-                            </select>
+
                             <div class="search-field__input-wrapper mb-3">
                                 <input type="text" name="search_text"
                                     class="search-field__input form-control form-control-sm border-light border-2"
                                     placeholder="Search" />
                             </div>
                             <ul class="multi-select__list list-unstyled">
-                                @foreach($brands as $brand)
-                                <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                                    <span class="me-auto">{{$brand->name}}</span>
-                                    <span class="text-secondary"></span>
+                                @foreach($allBrands as $brand)
+                                <li class="list-item d-flex align-items-center py-1">
+                                    <input type="checkbox" name="brands[]" value="{{ $brand->id }}"
+                                        id="brand_{{ $brand->id }}" class="me-2"
+                                        {{ in_array($brand->id, $selectedBrandIds) ? 'checked' : '' }}>
+                                    <label for="brand_{{ $brand->id }}" class="menu-link py-1">{{ $brand->name }}</label>
                                 </li>
                                 @endforeach
 
@@ -131,7 +170,7 @@
                 </div>
             </div>
 
-
+            <!-- 
             <div class="accordion" id="price-filters">
                 <div class="accordion-item mb-4">
                     <h5 class="accordion-header mb-2" id="accordion-heading-price">
@@ -162,6 +201,11 @@
                         </div>
                     </div>
                 </div>
+            </div> -->
+
+
+            <div class="accordion-body px-0 pb-0">
+                <button id="applyFilters" class="btn btn-primary">Áp dụng bộ lọc</button>
             </div>
         </div>
 
@@ -380,31 +424,12 @@
                 @endforeach
             </div>
 
-            <nav class="shop-pages d-flex justify-content-between mt-3" aria-label="Page navigation">
-                <a href="#" class="btn-link d-inline-flex align-items-center">
-                    <svg class="me-1" width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg">
-                        <use href="#icon_prev_sm" />
-                    </svg>
-                    <span class="fw-medium">PREV</span>
-                </a>
-                <ul class="pagination mb-0">
-                    <li class="page-item"><a class="btn-link px-1 mx-2 btn-link_active" href="#">1</a></li>
-                    <li class="page-item"><a class="btn-link px-1 mx-2" href="#">2</a></li>
-                    <li class="page-item"><a class="btn-link px-1 mx-2" href="#">3</a></li>
-                    <li class="page-item"><a class="btn-link px-1 mx-2" href="#">4</a></li>
-                </ul>
-                <a href="#" class="btn-link d-inline-flex align-items-center">
-                    <span class="fw-medium me-1">NEXT</span>
-                    <svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg">
-                        <use href="#icon_next_sm" />
-                    </svg>
-                </a>
-            </nav>
+            <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">{{$products->links('pagination::bootstrap-5')}}</div>
         </div>
 
 
         <div class="divider"></div>
-        <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">{{$products->links('pagination::bootstrap-5')}}</div>
+
 
     </section>
 </main>
@@ -455,24 +480,55 @@
         const scanButton = $(".scan-button");
         const myFileInput = $("#myFile");
         const submitImageBtn = $("#submitImage");
+        const applyFiltersBtn = $("#applyFilters");
 
         // Log kiểm tra
         console.log("scanButton:", scanButton.length);
         console.log("myFileInput:", myFileInput.length);
         console.log("submitImageBtn:", submitImageBtn.length);
+        console.log("filterSearch:", applyFiltersBtn.length);
 
+        //  hien thi modal cho scan 
         scanButton.on("click", function(e) {
             e.preventDefault();
             var modal = new bootstrap.Modal(document.getElementById("scanModal"));
             modal.show();
         });
+        // ham tim kiem. nhant u khoa tu tim kiem, sa do chuyen huong den trinh duye url moi
+        // function performSearch(searchTerm) {
+        //     if (searchTerm) {
+        //         const url = new URL(window.location.href);
+        //         url.searchParams.set("search", searchTerm);
+        //         window.location.href = url.toString();
+        //     }
+        // }
+        // Thay đổi hàm performSearch để xử lý tất cả các tham số lọc
+        function performSearch(searchTerm, categories = [], colors = [], brands = []) {
+            const url = new URL(window.location.href);
 
-        function performSearch(searchTerm) {
-            if (searchTerm) {
-                const url = new URL(window.location.href);
-                url.searchParams.set("search", searchTerm);
-                window.location.href = url.toString();
+            // Reset các tham số tìm kiếm trước đó
+            url.searchParams.delete("search");
+            url.searchParams.delete("categories");
+            url.searchParams.delete("colors");
+            url.searchParams.delete("brands");
+
+            // Thêm các tham số mới nếu có
+            if (searchTerm) url.searchParams.set("search", searchTerm);
+
+            if (categories && categories.length) {
+                url.searchParams.set("categories", categories.join(','));
             }
+
+            if (colors && colors.length) {
+                url.searchParams.set("colors", colors.join(','));
+            }
+
+            if (brands && brands.length) {
+                url.searchParams.set("brands", brands.join(','));
+            }
+
+            // Chuyển hướng đến URL mới
+            window.location.href = url.toString();
         }
 
         // Preview ảnh khi chọn file
@@ -497,9 +553,13 @@
                 const formData = new FormData();
                 formData.append("image", file);
 
-                fetch("http://127.0.0.1:5000/predict", {
+                // Sử dụng route của Laravel để xử lý ảnh thay vì gọi trực tiếp API Python
+                fetch("{{ route('shop.scan.image') }}", {
                         method: "POST",
                         body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        },
                     })
                     .then((response) => response.json())
                     .then((data) => {
@@ -513,6 +573,29 @@
                     })
                     .catch((error) => console.error("Error:", error));
             }
+        });
+
+        // xu li cho bo loc 
+        applyFiltersBtn.on("click", function(e) {
+            e.preventDefault(); // Ngăn hành vi mặc định của button
+            const searchTerm = searchInput.val() || '';
+            const categories = $('input[name="categories[]"]:checked').map(function() {
+                return this.value;
+            }).get();
+            const colors = $('input[name="colors[]"]:checked').map(function() {
+                return this.value;
+            }).get();
+            const brands = $('input[name="brands[]"]:checked').map(function() {
+                return this.value;
+            }).get();
+
+            console.log("Filters:", {
+                searchTerm,
+                categories,
+                colors,
+                brands
+            }); // Debug
+            performSearch(searchTerm, categories, colors, brands);
         });
     });
 </script>
