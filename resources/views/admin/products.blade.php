@@ -42,7 +42,7 @@
                <thead>
                   <tr>
                      <th class="text-center" style="white-space:nowrap;">STT</th>
-                     <th class="text-center" style="min-width: 140px;">Tên sản phẩm</th>
+                     <th style="min-width: 140px; text-align:left;">Tên sản phẩm</th>
                      <th class="text-center" style="min-width: 160px;">Giá</th>
                      <th class="text-center" style="min-width: 160px;">Giá khuyến mãi</th>
                      <th class="text-center" style="white-space:nowrap;">SKU</th>
@@ -58,7 +58,7 @@
                   @foreach($products as $product)
                   <tr>
                      <td class="text-center" style="white-space:nowrap;">{{$product->id}}</td>
-                     <td class="pname text-center" style="white-space:nowrap;">
+                     <td class="pname" style="white-space:nowrap; text-align:left;">
                         <div class="image" style="display:inline-block;vertical-align:middle;">
                            @if($product->images && $product->images->count() > 0)
                            @php
@@ -71,8 +71,12 @@
                            @endif
                         </div>
                         <div class="name" style="display:inline-block;vertical-align:middle;">
-                           <a href="#" class="body-title-2">{{$product->name}}</a>
-                           <div class="text-tiny mt-3">{{$product->slug}}</div>
+                           <a href="#" class="body-title-2" style="text-align:left; display:block; max-width:220px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="{{$product->name}}">
+                              {{ \Illuminate\Support\Str::limit($product->name, 20) }}
+                           </a>
+                           <div class="text-tiny mt-3" style="text-align:left; max-width:220px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="{{$product->slug}}">
+                              {{ \Illuminate\Support\Str::limit($product->slug, 25) }}
+                           </div>
                         </div>
                      </td>
                      <td class="text-center">{{number_format($product->regular_price)}} VNĐ</td>
@@ -151,4 +155,5 @@
       });
    });
 </script>
+
 @endpush

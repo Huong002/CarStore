@@ -21,13 +21,13 @@ class Product extends Model
         'stock_status',
         'featured',
         'quantity',
-        'image',
-        'images',
+   
         'category_id',
         'brand_id'
     ];
 
     protected $dates = ['deleted_at'];
+
 
     public function category()
     {
@@ -66,5 +66,9 @@ class Product extends Model
     public function review()
     {
         return $this->hasMany(Review::class);
+    }
+    public function color()
+    {
+        return $this->belongsTo(Color::class);
     }
 }
