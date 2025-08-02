@@ -44,12 +44,17 @@ class Product extends Model
     {
         return $this->hasMany(CartItem::class, 'product_id', 'id');
     }
+public function images()
+{
+    return $this->hasMany(Image::class, 'product_id', 'id');
+}
 
     // Lấy tất cả ảnh của sản phẩm
-    public function images()
-    {
-        return $this->hasMany(Image::class, 'product_id', 'id');
-    }
+    public function galleryImages()
+{
+    return $this->hasMany(Image::class, 'product_id', 'id');
+}
+
 
     // Lấy ảnh chính (primary image)
     public function primaryImage()
@@ -67,4 +72,10 @@ class Product extends Model
     {
         return $this->hasMany(Review::class);
     }
+
+    public function reviews()
+{
+    return $this->hasMany(Review::class);
+}
+
 }
