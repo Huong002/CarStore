@@ -104,9 +104,17 @@
             <circle cx="12" cy="9" r="2.5" />
         </symbol>
 
-
-
         <symbol id="icon_heart" viewBox="0 0 20 20">
+            <path d="M10 18s-6-4.35-9-8.5C-1 5.5 2 1 6.5 1
+       A5.5 5.5 0 0 1 10 3.5
+       A5.5 5.5 0 0 1 13.5 1
+       C18 1 21 5.5 19 9.5
+       C16 13.65 10 18 10 18Z" fill="currentColor" />
+        </symbol>
+
+
+
+        <!-- <symbol id="icon_heart" viewBox="0 0 20 20">
             <g clip-path="url(#clip0_6_54)">
                 <path
                     d="M18.3932 3.30806C16.218 1.13348 12.6795 1.13348 10.5049 3.30806L9.99983 3.81285L9.49504 3.30806C7.32046 1.13319 3.78163 1.13319 1.60706 3.30806C-0.523361 5.43848 -0.537195 8.81542 1.57498 11.1634C3.50142 13.3041 9.18304 17.929 9.4241 18.1248C9.58775 18.2578 9.78467 18.3226 9.9804 18.3226C9.98688 18.3226 9.99335 18.3226 9.99953 18.3223C10.202 18.3317 10.406 18.2622 10.575 18.1248C10.816 17.929 16.4982 13.3041 18.4253 11.1631C20.5371 8.81542 20.5233 5.43848 18.3932 3.30806ZM17.1125 9.98188C15.6105 11.6505 11.4818 15.0919 9.99953 16.3131C8.51724 15.0922 4.38944 11.6511 2.88773 9.98218C1.41427 8.34448 1.40044 6.01214 2.85564 4.55693C3.59885 3.81402 4.57488 3.44227 5.5509 3.44227C6.52693 3.44227 7.50295 3.81373 8.24616 4.55693L9.3564 5.66718C9.48856 5.79934 9.65516 5.87822 9.82999 5.90589C10.1137 5.96682 10.4216 5.88764 10.6424 5.66747L11.7532 4.55693C13.2399 3.07082 15.6582 3.07111 17.144 4.55693C18.5992 6.01214 18.5854 8.34448 17.1125 9.98188Z"
@@ -117,7 +125,7 @@
                     <rect width="20" height="20" fill="white" />
                 </clipPath>
             </defs>
-        </symbol>
+        </symbol> -->
         <symbol id="icon_star" viewBox="0 0 9 9">
             <path
                 d="M4.0172 0.313075L2.91869 2.64013L0.460942 3.0145C0.0201949 3.08129 -0.15644 3.64899 0.163185 3.97415L1.94131 5.78447L1.52075 8.34177C1.44505 8.80402 1.91103 9.15026 2.30131 8.93408L4.5 7.72661L6.69869 8.93408C7.08897 9.14851 7.55495 8.80402 7.47925 8.34177L7.05869 5.78447L8.83682 3.97415C9.15644 3.64899 8.97981 3.08129 8.53906 3.0145L6.08131 2.64013L4.9828 0.313075C4.78598 -0.101718 4.2157 -0.10699 4.0172 0.313075Z" />
@@ -270,6 +278,76 @@
         </symbol>
     </svg>
     <style>
+    .wishlist-icon svg path {
+        fill: white !important;
+        stroke: black !important;
+        stroke-width: 2;
+    }
+
+
+    .cart-dropdown {
+        display: none;
+        position: absolute;
+        top: 45px;
+        right: 0;
+        width: 280px;
+        background: #fff;
+        border: 1px solid #ddd;
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+        padding: 12px;
+        border-radius: 12px;
+        /* Bo góc */
+        z-index: 1000;
+    }
+
+    .cart-dropdown ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .cart-dropdown li {
+        padding: 8px 0;
+        border-bottom: 1px solid #f0f0f0;
+        font-size: 15px;
+    }
+
+    .cart-dropdown li:last-child {
+        border-bottom: none;
+    }
+
+    .cart-dropdown li a {
+        text-decoration: none;
+        color: #5E83AE;
+        /* Màu chữ */
+        font-weight: 500;
+        transition: color 0.3s;
+    }
+
+    .cart-dropdown li a:hover {
+        color: #3c5a7a;
+    }
+
+    .cart-dropdown li {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        /* khoảng cách icon với chữ */
+        padding: 8px 0;
+        border-bottom: 1px solid #f0f0f0;
+        font-size: 15px;
+    }
+
+    .cart-dropdown li:last-child {
+        border-bottom: none;
+    }
+
+    .cart-item-icon {
+        font-size: 16px;
+        color: #5E83AE;
+    }
+
+    /*  */
     .dropdown-menu {
         border-radius: 12px;
         background-color: #fff;
@@ -322,13 +400,13 @@
                 </a>
             </div>
 
-            <a href="#" class="header-tools__item header-tools__cart js-open-aside" data-aside="cartDrawer">
+            <!-- <a href="#" class="header-tools__item header-tools__cart js-open-aside" data-aside="cartDrawer">
                 <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <use href="#icon_cart" />
                 </svg>
                 <span class="cart-amount d-block position-absolute js-cart-items-count">3</span>
-            </a>
+            </a> -->
         </div>
 
         <nav
@@ -579,21 +657,159 @@
                     </a>
 
                     <!-- ❤️ Wishlist -->
-                    <a href="wishlist.html" class="header-tools__item">
+                    <!-- ❤️ Wishlist -->
+                    <a href="#" class="header-tools__item header-wishlist">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <use href="#icon_heart" />
                         </svg>
                     </a>
 
+                    <!--  -->
+
+                    <!-- Wishlist Popup -->
+                    <div id="wishlistModal" class="wishlist-modal" style="display:none;">
+                        <div class="wishlist-header">
+                            <div class="wishlist-header-left">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="red"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 
+                         2 12.28 2 8.5 
+                         2 5.42 4.42 3 7.5 3 
+                         c1.74 0 3.41 0.81 4.5 2.09 
+                         C13.09 3.81 14.76 3 16.5 3 
+                         19.58 3 22 5.42 22 8.5 
+                         c0 3.78-3.4 6.86-8.55 11.54 
+                         L12 21.35z" />
+                                </svg>
+                                <span>Sản phẩm yêu thích</span>
+                            </div>
+                            <button id="wishlistClose" class="close-btn" aria-label="Đóng">&times;</button>
+                        </div>
+
+                        <!-- Danh sách sản phẩm yêu thích -->
+                        <ul class="wishlist-items" id="wishlistItems">
+                            <!-- Nội dung sẽ được render bằng JS -->
+                        </ul>
+                    </div>
+
+
+                    <style>
+                    .wishlist-modal {
+                        position: absolute;
+                        top: 100px;
+                        right: 80px;
+                        background: #fff;
+                        border-radius: 12px;
+                        width: 280px;
+                        padding: 12px;
+                        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+                        display: none;
+                        z-index: 9999;
+                        font-family: Arial, sans-serif;
+                        animation: fadeIn 0.25s ease-in-out;
+                    }
+
+                    @keyframes fadeIn {
+                        from {
+                            opacity: 0;
+                            transform: translateY(-5px);
+                        }
+
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+
+                    .wishlist-header {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        font-weight: bold;
+                        margin-bottom: 10px;
+                    }
+
+                    .wishlist-header-left {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 6px;
+                        white-space: nowrap;
+                    }
+
+                    .wishlist-header-left svg {
+                        display: inline-block;
+                        vertical-align: middle;
+                    }
+
+                    .wishlist-items {
+                        display: block;
+                        margin-top: 8px;
+                        list-style: none;
+                        padding: 0;
+                        margin: 0;
+                        max-height: 220px;
+                        overflow-y: auto;
+                    }
+
+                    .wishlist-items li {
+                        display: block;
+                        padding: 6px 0;
+                        border-bottom: 1px solid #eee;
+                        font-size: 14px;
+                        word-break: break-word;
+                    }
+
+                    .wishlist-items li.empty-message {
+                        text-align: center;
+                        color: #666;
+                        border-bottom: none;
+                        padding: 10px 0;
+                        font-style: italic;
+                        white-space: normal;
+                    }
+
+                    .close-btn {
+                        background: transparent;
+                        border: none;
+                        font-size: 20px;
+                        cursor: pointer;
+                        color: #666;
+                        transition: color 0.2s ease;
+                    }
+
+                    .close-btn:hover {
+                        color: red;
+                    }
+                    </style>
+
                     <!-- 🛒 Cart -->
-                    <a href="cart.html" class="header-tools__item header-tools__cart">
+                    <!-- <a href="cart.html" class="header-tools__item header-tools__cart">
                         <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <use href="#icon_cart" />
                         </svg>
                         <span class="cart-amount d-block position-absolute js-cart-items-count">3</span>
-                    </a>
+                    </a> -->
+                    <div class="header-tools d-flex align-items-center">
+                        <div class="header-tools__item header-tools__cart position-relative" id="cart-icon">
+                            <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <use href="#icon_cart" />
+                            </svg>
+                            <!-- Badge số lượng -->
+                            <span class="cart-amount d-block position-absolute js-cart-items-count">0</span>
 
+                            <!-- Dropdown cart -->
+                            <div id="cart-dropdown" class="cart-dropdown">
+                                <ul id="cart-items-list">
+                                    <!-- Render bằng JS -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--  -->
                 </div>
             </div>
         </div>
@@ -656,6 +872,281 @@
     @endauth
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('js/account.js') }}"></script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // ================== THAM CHIẾU CÁC PHẦN TỬ ==================
+        const cartIcon = document.getElementById('cart-icon');
+        const cartDropdown = document.getElementById('cart-dropdown');
+        const cartItemsList = document.getElementById('cart-items-list');
+        const cartCountBadge = document.querySelector('.js-cart-items-count');
+
+        const wishlistModal = document.getElementById('wishlistModal');
+        const wishlistClose = document.getElementById('wishlistClose');
+
+        const userIcon = document.getElementById('user-icon');
+        const userDropdown = document.getElementById('user-dropdown');
+
+        let wishlistTimer = null;
+        let cartTimer = null;
+
+        // ================== GIỎ HÀNG DROPDOWN ==================
+        function renderCartItems(data) {
+            cartItemsList.innerHTML = "";
+            if (data.length === 0) {
+                cartItemsList.innerHTML = "<li>Giỏ hàng trống</li>";
+                return;
+            }
+
+            data.forEach(item => {
+                const li = document.createElement("li");
+                const icon = document.createElement("span");
+                icon.innerHTML = "&#128722;";
+                icon.classList.add("cart-item-icon");
+
+                const a = document.createElement("a");
+                a.href = "/cart";
+                a.textContent = item.product ? item.product.name : 'Sản phẩm';
+
+                li.appendChild(icon);
+                li.appendChild(a);
+                cartItemsList.appendChild(li);
+            });
+        }
+
+        function updateCartCount() {
+            fetch('/api/cart-count?t=' + Date.now())
+                .then(res => res.json())
+                .then(data => {
+                    if (cartCountBadge) {
+                        cartCountBadge.textContent = data.count;
+                    }
+                })
+                .catch(err => console.error('Lỗi lấy số lượng giỏ hàng:', err));
+        }
+        updateCartCount();
+
+        function autoCloseCart() {
+            clearTimeout(cartTimer);
+            cartTimer = setTimeout(() => {
+                cartDropdown.style.display = "none";
+            }, 3000);
+        }
+
+        if (cartIcon) {
+            cartIcon.addEventListener('click', (e) => {
+                if (e.target.tagName.toLowerCase() === 'a') return;
+                e.preventDefault();
+                fetch('/api/cart-items?t=' + Date.now())
+                    .then(res => res.json())
+                    .then(data => {
+                        renderCartItems(data);
+
+                        // --- Đóng wishlist và user khi mở giỏ hàng ---
+                        if (wishlistModal) wishlistModal.style.display = 'none';
+                        if (userDropdown) userDropdown.style.display = 'none';
+
+                        cartDropdown.style.display =
+                            cartDropdown.style.display === "block" ? "none" : "block";
+
+                        if (cartDropdown.style.display === "block") {
+                            autoCloseCart();
+                        }
+                    });
+            });
+
+            document.addEventListener("click", (e) => {
+                if (!cartIcon.contains(e.target)) {
+                    cartDropdown.style.display = "none";
+                }
+            });
+        }
+
+        // ================== WISHLIST ==================
+        function addToWishlist(product) {
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            if (!wishlist.some(item => item.id === product.id)) {
+                wishlist.push(product);
+                localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            }
+        }
+
+        function removeFromWishlist(productId) {
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            wishlist = wishlist.filter(item => item.id !== productId);
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        }
+
+        function renderWishlist() {
+            const listEl = document.getElementById('wishlistItems');
+            listEl.innerHTML = '';
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+            if (wishlist.length === 0) {
+                listEl.innerHTML = '<li class="empty-message">Chưa có sản phẩm yêu thích</li>';
+                return;
+            }
+
+            wishlist.forEach(item => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <img src="${item.image}" alt="${item.name}"
+                        style="width:40px; height:40px; object-fit:cover; border-radius:4px;">
+                    <span>${item.name}</span>
+                </div>
+                <button class="wishlist-remove-btn" data-product-id="${item.id}"
+                        style="background:none; border:none; cursor:pointer; color:#888;">
+                    🗑
+                </button>
+            </div>
+        `;
+                listEl.appendChild(li);
+            });
+        }
+
+        function autoCloseWishlist() {
+            clearTimeout(wishlistTimer);
+            wishlistTimer = setTimeout(() => {
+                wishlistModal.style.display = "none";
+            }, 3000);
+        }
+
+        // Click icon heart
+        document.addEventListener('click', function(e) {
+            // 1. Nút thêm/xóa yêu thích
+            let btn = e.target.closest('button.main-product-wishlist');
+            if (!btn) {
+                btn = e.target.closest('button.js-add-wishlist');
+            }
+
+            if (btn) {
+                e.preventDefault();
+                btn.classList.toggle('active');
+
+                const svg = btn.querySelector('svg');
+                const product = {
+                    id: btn.dataset.productId,
+                    name: btn.dataset.productName || 'Sản phẩm',
+                    image: btn.dataset.productImage || ''
+                };
+
+                if (btn.classList.contains('active')) {
+                    addToWishlist(product);
+                    svg.style.fill = 'red';
+                    renderWishlist();
+
+                    if (cartDropdown) cartDropdown.style.display = 'none';
+                    if (userDropdown) userDropdown.style.display = 'none';
+
+                    wishlistModal.style.display = 'block';
+                    autoCloseWishlist();
+                } else {
+                    removeFromWishlist(product.id);
+                    svg.style.fill = '#666';
+                }
+                return;
+            }
+
+            // 2. Nút mở modal wishlist
+            const openLink = e.target.closest('.open-wishlist-modal');
+            if (openLink) {
+                e.preventDefault();
+                renderWishlist();
+
+                if (cartDropdown) cartDropdown.style.display = 'none';
+                if (userDropdown) userDropdown.style.display = 'none';
+
+                wishlistModal.style.display = 'block';
+                autoCloseWishlist();
+            }
+
+            // 3. Nút mở modal wishlist từ menu
+            const menuBtn = e.target.closest('.add-to-wishlist');
+            if (menuBtn) {
+                e.preventDefault();
+                renderWishlist();
+
+                if (cartDropdown) cartDropdown.style.display = 'none';
+                if (userDropdown) userDropdown.style.display = 'none';
+
+                wishlistModal.style.display = 'block';
+                autoCloseWishlist();
+            }
+
+            // 4. Nút mở modal wishlist từ icon ở header
+            const headerWishlist = e.target.closest('.header-wishlist');
+            if (headerWishlist) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                renderWishlist();
+
+                if (cartDropdown) cartDropdown.style.display = 'none';
+                if (userDropdown) userDropdown.style.display = 'none';
+
+                if (wishlistModal.style.display === 'block') {
+                    wishlistModal.style.display = 'none';
+                } else {
+                    wishlistModal.style.display = 'block';
+                    autoCloseWishlist();
+                }
+            }
+        });
+
+        // Xóa trong wishlist modal
+        document.getElementById('wishlistItems').addEventListener('click', function(e) {
+            const removeBtn = e.target.closest('.wishlist-remove-btn');
+            if (removeBtn) {
+                const productId = removeBtn.dataset.productId;
+                removeFromWishlist(productId);
+
+                document.querySelectorAll(
+                    `.js-add-wishlist[data-product-id="${productId}"], .add-to-wishlist[data-product-id="${productId}"]`
+                ).forEach(heartBtn => {
+                    heartBtn.classList.remove('active');
+                    const svg = heartBtn.querySelector('svg');
+                    if (svg) svg.style.fill = '#666';
+                });
+
+                renderWishlist();
+            }
+        });
+
+        // Đóng modal wishlist khi click ngoài
+        if (wishlistClose) {
+            wishlistClose.addEventListener('click', () => wishlistModal.style.display = 'none');
+        }
+        window.addEventListener('click', function(e) {
+            if (e.target === wishlistModal) {
+                wishlistModal.style.display = 'none';
+            }
+        });
+
+        // ================== USER DROPDOWN ==================
+        if (userIcon && userDropdown) {
+            userIcon.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                if (cartDropdown) cartDropdown.style.display = 'none';
+                if (wishlistModal) wishlistModal.style.display = 'none';
+
+                userDropdown.style.display =
+                    userDropdown.style.display === "block" ? "none" : "block";
+            });
+
+            document.addEventListener("click", (e) => {
+                if (!userIcon.contains(e.target) && !userDropdown.contains(e.target)) {
+                    userDropdown.style.display = "none";
+                }
+            });
+        }
+    });
+    </script>
+
+
 
 </body>
 
