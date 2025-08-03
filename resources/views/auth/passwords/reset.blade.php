@@ -5,8 +5,8 @@
     <div class="card shadow-lg border-0 rounded-4" style="max-width: 400px; width: 100%;">
         <div class="card-body p-4">
             <div class="text-center mb-3">
-                <h4 class="fw-bold mb-1">Reset Password</h4>
-                <p class="text-muted small mb-0">Enter your new password</p>
+                <h4 class="fw-bold mb-1">Đặt lại mật khẩu</h4>
+                <p class="text-muted small mb-0">Nhập mật khẩu mới của bạn</p>
             </div>
 
             <form method="POST" action="{{ route('password.update') }}">
@@ -28,7 +28,7 @@
 
                 {{-- New Password --}}
                 <div class="mb-3">
-                    <label for="password" class="form-label small mb-1">New Password</label>
+                    <label for="password" class="form-label small mb-1">Mật khẩu mới</label>
                     <div class="input-group input-group-sm">
                         <span class="input-group-text bg-white"><i class="bi bi-lock"></i></span>
                         <input id="password" type="password"
@@ -41,7 +41,7 @@
 
                 {{-- Confirm Password --}}
                 <div class="mb-4">
-                    <label for="password-confirm" class="form-label small mb-1">Confirm Password</label>
+                    <label for="password-confirm" class="form-label small mb-1">Xác nhận mật khẩu</label>
                     <div class="input-group input-group-sm">
                         <span class="input-group-text bg-white"><i class="bi bi-lock-fill"></i></span>
                         <input id="password-confirm" type="password" class="form-control" name="password_confirmation"
@@ -50,11 +50,11 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 shadow-sm">
-                    Reset Password
+                    Đặt lại mật khẩu
                 </button>
 
                 <div class="text-center mt-3 small">
-                    <a href="{{ route('login') }}" class="fw-semibold">Back to Login</a>
+                    <a href="{{ route('login') }}" class="fw-semibold">Quay lại đăng nhập</a>
                 </div>
             </form>
         </div>

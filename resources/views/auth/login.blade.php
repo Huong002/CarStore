@@ -7,8 +7,9 @@
         <div class="card-body p-4 p-md-5">
             <div class="text-center mb-4">
                 {{-- Bỏ logo --}}
-                <h3 class="mt-3 mb-1 fw-bold">Welcome Back</h3>
-                <p class="text-muted small mb-0">Login to your account</p>
+                <h3 class="mt-3 mb-1 fw-bold">Chào mừng trở lại</h3>
+                <p class="text-muted small mb-0">Vui lòng đăng nhập vào tài khoản của bạn</p>
+
             </div>
 
             <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate>
@@ -16,7 +17,7 @@
 
                 {{-- Email --}}
                 <div class="mb-3">
-                    <label for="email" class="form-label fw-semibold">Email address</label>
+                    <label for="email" class="form-label fw-semibold">Địa chỉ Email</label>
                     <div class="input-group">
                         <span class="input-group-text bg-white">
                             <i class="bi bi-envelope"></i>
@@ -31,7 +32,7 @@
 
                 {{-- Password --}}
                 <div class="mb-3">
-                    <label for="password" class="form-label fw-semibold">Password</label>
+                    <label for="password" class="form-label fw-semibold">Mật khẩu</label>
                     <div class="input-group">
                         <span class="input-group-text bg-white">
                             <i class="bi bi-lock"></i>
@@ -48,19 +49,19 @@
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="remember" name="remember">
-                        <label class="form-check-label small" for="remember">Remember me</label>
+                        <label class="form-check-label small" for="remember">Lưu đăng nhập</label>
                     </div>
-                    <a href="{{ route('password.request') }}" class="small text-decoration-none">Forgot password?</a>
+                    <a href="{{ route('password.request') }}" class="small text-decoration-none">Quên mật khẩu?</a>
                 </div>
 
                 {{-- Button --}}
                 <button class="btn btn-primary w-100 py-2 rounded-pill shadow-sm" type="submit">
-                    Log In
+                    Đăng nhập
                 </button>
 
                 <div class="text-center mt-4">
-                    <span class="text-secondary small">Don't have an account?</span>
-                    <a href="{{ route('register') }}" class="btn btn-link p-0 ms-1">Create Account</a>
+                    <span class="text-secondary small">Bạn chưa có tài khoản?</span>
+                    <a href="{{ route('register') }}" class="btn btn-link p-0 ms-1">Tạo tài khoản</a>
                 </div>
             </form>
         </div>
