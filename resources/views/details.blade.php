@@ -2,36 +2,36 @@
 @section('content')
 
 <style>
-/* Mặc định trái tim xám */
-.js-add-wishlist svg {
-    color: #666;
-    cursor: pointer;
-    transition: color 0.2s ease;
-}
+    /* Mặc định trái tim xám */
+    .js-add-wishlist svg {
+        color: #666;
+        cursor: pointer;
+        transition: color 0.2s ease;
+    }
 
-/* Khi được click */
-.js-add-wishlist.icon-heart-active svg {
-    color: red !important;
-}
+    /* Khi được click */
+    .js-add-wishlist.icon-heart-active svg {
+        color: red !important;
+    }
 
-.add-to-wishlist svg {
-    fill: #666;
-    /* màu xám mặc định */
-    cursor: pointer;
-    transition: fill 0.3s ease;
-}
+    .add-to-wishlist svg {
+        fill: #666;
+        /* màu xám mặc định */
+        cursor: pointer;
+        transition: fill 0.3s ease;
+    }
 
-.add-to-wishlist.active svg {
-    fill: red;
-    /* màu đỏ khi được click */
-}
+    .add-to-wishlist.active svg {
+        fill: red;
+        /* màu đỏ khi được click */
+    }
 
-/* Đảm bảo nút không bị che */
-.pc__btn-wl {
-    z-index: 100;
-    position: relative;
-    cursor: pointer;
-}
+    /* Đảm bảo nút không bị che */
+    .pc__btn-wl {
+        z-index: 100;
+        position: relative;
+        cursor: pointer;
+    }
 </style>
 
 
@@ -198,8 +198,9 @@
                 <div class="product-single__addtolinks">
                     <button type="button"
                         class="menu-link menu-link_us-s pc__btn-wl js-add-wishlist main-product-wishlist bg-transparent border-0"
-                        data-product-id="{{ $product->id }}" data-product-name="{{ $product->name }}"
-                        data-product-image="{{ asset('uploads/products/' . $product->primaryImage->imageName) }}"
+                        data-product-id="{{ $product->id }}"
+                        data-product-name="{{ $product->name }}"
+                        data-product-image="{{ $product->primaryImage ? asset('uploads/products/' . $product->primaryImage->imageName) : asset('assets/images/no-image.png') }}"
                         style="display:flex; align-items:center; gap:6px; cursor:pointer;">
                         <svg width="16" height="16" viewBox="0 0 20 20">
                             <use href="#icon_heart" />
@@ -391,45 +392,45 @@
 
                             {{-- CSS trực tiếp --}}
                             <style>
-                            .pc__atc {
-                                border-radius: 8px !important;
-                            }
+                                .pc__atc {
+                                    border-radius: 8px !important;
+                                }
 
 
-                            .btn.btn-primary {
-                                background-color: #5E83AE !important;
-                                border: none !important;
-                                border-radius: 8px !important;
-                            }
+                                .btn.btn-primary {
+                                    background-color: #5E83AE !important;
+                                    border: none !important;
+                                    border-radius: 8px !important;
+                                }
 
-                            .btn.btn-primary:hover {
-                                background-color: #4a6b8c !important;
-                            }
+                                .btn.btn-primary:hover {
+                                    background-color: #4a6b8c !important;
+                                }
 
-                            .star-rating {
-                                direction: rtl;
-                                display: inline-flex;
-                                font-size: 2rem;
-                            }
+                                .star-rating {
+                                    direction: rtl;
+                                    display: inline-flex;
+                                    font-size: 2rem;
+                                }
 
-                            .star-rating input[type=radio] {
-                                display: none;
-                            }
+                                .star-rating input[type=radio] {
+                                    display: none;
+                                }
 
-                            .star-rating label {
-                                color: #ccc;
-                                cursor: pointer;
-                                transition: color 0.2s;
-                            }
+                                .star-rating label {
+                                    color: #ccc;
+                                    cursor: pointer;
+                                    transition: color 0.2s;
+                                }
 
-                            .star-rating label:hover,
-                            .star-rating label:hover~label {
-                                color: gold;
-                            }
+                                .star-rating label:hover,
+                                .star-rating label:hover~label {
+                                    color: gold;
+                                }
 
-                            .star-rating input[type=radio]:checked~label {
-                                color: gold;
-                            }
+                                .star-rating input[type=radio]:checked~label {
+                                    color: gold;
+                                }
                             </style>
 
                             {{-- Đánh giá sao --}}
@@ -576,7 +577,7 @@
                             <button
                                 class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
                                 data-product-id="{{ $rproduct->id }}" data-product-name="{{ $rproduct->name }}"
-                                data-product-image="{{ asset('uploads/products/' . $rproduct->primaryImage->imageName) }}">
+                                data-product-image="{{ $rproduct->primaryImage ? asset('uploads/products/' . $rproduct->primaryImage->imageName) : asset('assets/images/no-image.png') }}">
                                 <svg width="16" height="16" viewBox="0 0 20 20">
                                     <use href="#icon_heart" />
                                 </svg>
@@ -586,7 +587,6 @@
 
 
 
-                            <!--  -->
                         </div>
                     </div>
                     @endforeach
@@ -621,80 +621,80 @@
 </main>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function() {
 
-    // ---- Xử lý Share Modal ----
-    const shareBtn = document.querySelector('.to-share');
-    const modal = document.getElementById('shareModal');
-    const overlay = document.getElementById('modalOverlay');
-    const shareLinkInput = document.getElementById('shareLink');
-    const copyBtn = document.getElementById('copyBtn');
-    const closeBtn = document.getElementById('closeBtn');
+        // ---- Xử lý Share Modal ----
+        const shareBtn = document.querySelector('.to-share');
+        const modal = document.getElementById('shareModal');
+        const overlay = document.getElementById('modalOverlay');
+        const shareLinkInput = document.getElementById('shareLink');
+        const copyBtn = document.getElementById('copyBtn');
+        const closeBtn = document.getElementById('closeBtn');
 
-    function openModal() {
-        const currentUrl = window.location.href.split('#')[0];
-        shareLinkInput.value = currentUrl;
-        modal.style.display = 'block';
-        overlay.style.display = 'block';
-    }
+        function openModal() {
+            const currentUrl = window.location.href.split('#')[0];
+            shareLinkInput.value = currentUrl;
+            modal.style.display = 'block';
+            overlay.style.display = 'block';
+        }
 
-    function closeModal() {
-        modal.style.display = 'none';
-        overlay.style.display = 'none';
-    }
+        function closeModal() {
+            modal.style.display = 'none';
+            overlay.style.display = 'none';
+        }
 
-    if (shareBtn) shareBtn.addEventListener('click', openModal);
+        if (shareBtn) shareBtn.addEventListener('click', openModal);
 
-    if (copyBtn) {
-        copyBtn.addEventListener('click', () => {
-            shareLinkInput.select();
-            shareLinkInput.setSelectionRange(0, 99999);
-            navigator.clipboard.writeText(shareLinkInput.value).then(() => {
-                alert('Đã sao chép link!');
-                closeModal();
+        if (copyBtn) {
+            copyBtn.addEventListener('click', () => {
+                shareLinkInput.select();
+                shareLinkInput.setSelectionRange(0, 99999);
+                navigator.clipboard.writeText(shareLinkInput.value).then(() => {
+                    alert('Đã sao chép link!');
+                    closeModal();
+                });
             });
+        }
+
+        if (closeBtn) closeBtn.addEventListener('click', closeModal);
+        if (overlay) overlay.addEventListener('click', closeModal);
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeModal();
         });
-    }
 
-    if (closeBtn) closeBtn.addEventListener('click', closeModal);
-    if (overlay) overlay.addEventListener('click', closeModal);
+        // ---- Reset sao đánh giá khi load trang ----
+        document.querySelectorAll('.star-rating input[type=radio]').forEach(input => {
+            input.checked = false;
+        });
 
-    document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') closeModal();
-    });
-
-    // ---- Reset sao đánh giá khi load trang ----
-    document.querySelectorAll('.star-rating input[type=radio]').forEach(input => {
-        input.checked = false;
-    });
-
-    // ---- Xử lý click trái tim ----
-    document.addEventListener('click', function(e) {
-        // Loại 1: .js-add-wishlist
-        const btn1 = e.target.closest('.js-add-wishlist');
-        if (btn1) {
-            e.preventDefault();
-            btn1.classList.toggle('icon-heart-active');
-            return;
-        }
-
-        // Loại 2: .add-to-wishlist
-        const btn2 = e.target.closest('.add-to-wishlist');
-        if (btn2) {
-            e.preventDefault();
-            btn2.classList.toggle('active');
-
-            // Đổi màu cho SVG bằng color (dành cho <use>)
-            const svg = btn2.querySelector('svg');
-            if (btn2.classList.contains('active')) {
-                svg.style.color = 'red';
-            } else {
-                svg.style.color = '#666';
+        // ---- Xử lý click trái tim ----
+        document.addEventListener('click', function(e) {
+            // Loại 1: .js-add-wishlist
+            const btn1 = e.target.closest('.js-add-wishlist');
+            if (btn1) {
+                e.preventDefault();
+                btn1.classList.toggle('icon-heart-active');
+                return;
             }
-        }
-    });
 
-});
+            // Loại 2: .add-to-wishlist
+            const btn2 = e.target.closest('.add-to-wishlist');
+            if (btn2) {
+                e.preventDefault();
+                btn2.classList.toggle('active');
+
+                // Đổi màu cho SVG bằng color (dành cho <use>)
+                const svg = btn2.querySelector('svg');
+                if (btn2.classList.contains('active')) {
+                    svg.style.color = 'red';
+                } else {
+                    svg.style.color = '#666';
+                }
+            }
+        });
+
+    });
 </script>
 
 

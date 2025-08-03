@@ -481,47 +481,31 @@
                     </div>
                     @else
                     <div class="header-tools__item hover-container">
-                        @if(Auth::user()->utype === 'ADM')
-                        <a href="{{ route('admin.index') }}" class="header-tools__item">
-                            <span class="pr-6px">{{ Auth::user()->name }}</span>
-                            <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <use href="#icon_user" />
-                            </svg>
-                        </a>
-                        @else
                         <div class="dropdown">
-                            <button
-                                class="btn dropdown-toggle p-0 d-flex align-items-center gap-3 border-0 bg-transparent"
+                            <button class="btn dropdown-toggle p-0 d-flex align-items-center gap-3 border-0 bg-transparent"
                                 type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ asset('images/avatar/user-1.png') }}" alt="Avatar" width="40" height="40"
+                                <img src="{{ Auth::user()->image ? asset('images/avatar/' . Auth::user()->image) : asset('images/avatar/user-1.png') }}"
+                                    alt="Avatar" width="40" height="40"
                                     style="border-radius: 50%; object-fit: cover;">
                                 <div class="d-flex flex-column text-start">
                                     <span class="fw-bold">{{ Auth::user()->name }}</span>
                                     <span class="text-muted small">{{ Auth::user()->utype }}</span>
                                 </div>
                             </button>
-
                             <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3 px-1 py-2"
                                 aria-labelledby="userDropdown" style="min-width: 220px;">
+                                <li><a class="dropdown-item" href="#">Tài khoản của tôi</a></li>
                                 <li>
-                                    <a href="#" class="dropdown-item d-flex align-items-center gap-2 py-2 px-3"
-                                        data-bs-toggle="modal" data-bs-target="#accountModal">
-                                        <i class="bi bi-person fs-5"></i> Tài khoản
-                                    </a>
+                                    <hr class="dropdown-divider">
                                 </li>
                                 <li>
-                                    <form action="{{ route('logout') }}" method="POST" class="m-0">
+                                    <form method="POST" action="{{ route('logout') }}">
                                         @csrf
-                                        <button type="submit"
-                                            class="dropdown-item d-flex align-items-center gap-2 py-2 px-3 w-100 border-0 bg-transparent">
-                                            <i class="bi bi-box-arrow-right fs-5"></i> Đăng xuất
-                                        </button>
+                                        <button type="submit" class="dropdown-item">Đăng xuất</button>
                                     </form>
                                 </li>
                             </ul>
                         </div>
-                        @endif
                     </div>
                     @endguest
 
@@ -660,7 +644,7 @@
                     </style>
 
                     <!-- 🛒 Cart -->
-                    <!-- <a href="cart.html" class="header-tools__item header-tools__cart">
+                    <!-- <a href="cart.html" claSss="header-tools__item header-tools__cart">
                         <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <use href="#icon_cart" />
@@ -739,6 +723,13 @@
     <script src="{{ asset('assets/js/plugins/countdown.js') }}"></script>
     <script src="{{ asset('assets/js/theme.js') }}"></script>
 
+    @stack("scripts")
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    @auth
+    @include('user.account')
+    @endauth
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('js/account.js') }}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             // ================== THAM CHIẾU CÁC PHẦN TỬ ==================

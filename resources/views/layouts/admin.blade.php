@@ -29,6 +29,7 @@
   <link rel="stylesheet" type="text/css" href="{{ asset('css/custom.css')}}" />
   <!-- Thêm vào phần <head> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <link rel="stylesheet" type="text/css" href="{{ asset('css/avatar.css')}}" />
 
   @stack("styles")
 </head>
@@ -85,6 +86,14 @@
 
   .avatar {
     border: 2px solid #e5e5e5;
+    border-radius: 50% !important;
+    object-fit: cover !important;
+    width: 40px !important;
+    height: 40px !important;
+    aspect-ratio: 1/1 !important;
+    display: inline-block;
+    overflow: hidden !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
 
   .info-item {
@@ -160,11 +169,7 @@
   <div id="wrapper">
     <div id="page" class="">
       <div class="layout-wrap">
-        <!-- <div id="preload" class="preload-container">
-          <div class="preloading">
-            <span></span>
-          </div>
-        </div> -->
+
 
         <div class="section-menu-left" style="background-color: seashell">
           <div class="box-logo">
@@ -572,8 +577,9 @@
                       data-bs-toggle="dropdown"
                       aria-expanded="false">
                       <span class="header-user wg-user">
-                        <span class="image">
-                          <img src="{{ asset('images/avatar/user-1.png') }}" alt="" />
+                        <span class="user-avatar-container">
+                          <img src="{{ Auth::user()->image ? asset('images/avatar/' . Auth::user()->image) : asset('images/avatar/user-1.png') }}"
+                            alt="Avatar" class="user-avatar">
                         </span>
                         <span class="flex flex-column">
                           <span class="body-title mb-2">{{ Auth::user()->name }}</span>
@@ -771,5 +777,15 @@
   @stack("scripts")
 
   @include('admin.account')
+
+  // tao the link css buoc tirnh duyet tai lai css moi nhat ma khong dung cache
+  <script>
+    // Force CSS reload to avoid cache
+    var link = document.createElement("link");
+    link.href = "/css/avatar.css?v=" + Date.now();
+    link.type = "text/css";
+    link.rel = "stylesheet";
+    document.getElementsByTagName("head")[0].appendChild(link);
+  </script>
 
 </html>
