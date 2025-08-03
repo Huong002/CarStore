@@ -31,6 +31,8 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
   <link rel="stylesheet" type="text/css" href="{{ asset('css/avatar.css')}}" />
 
+  @yield('styles')
+  
   @stack("styles")
 </head>
 
@@ -308,6 +310,12 @@
                     <div class="text">Thông báo</div>
                   </a>
                 </li> -->
+                <li class="menu-item">
+                  <a href="{{route('admin.inbox')}}" class="">
+                    <div class="icon"><i class="icon-bell"></i></div>
+                    <div class="text">inbox</div>
+                  </a>
+                </li>
                 <li class="menu-item">
                   <a href="settings.html" class="">
                     <div class="icon"><i class="icon-settings"></i></div>
@@ -600,15 +608,15 @@
                         </a>
                       </li>
                       <!-- <li>
-                        <a href="#" class="user-item">
+                        <a href="{{('admin.inbox')}}" class="user-item">
                           <div class="icon">
                             <i class="icon-mail"></i>
                           </div>
                           <div class="body-title-2">Inbox</div>
                           <div class="number">27</div>
                         </a>
-                      </li>
-
+                      </li> -->
+                      <!--
                       <li>
                         <a href="#" class="user-item">
                           <div class="icon">
