@@ -13,27 +13,7 @@ use Illuminate\Support\Facades\Log;
 
 class ShopController extends Controller
 {
-    // public function index(Request $request)
-    // {
 
-    //     // Lấy từ cả ô tìm kiếm và query string
-    //     $search = $request->input('search') ?? $request->input('search_product');
-    //     $products = Product::with(['category', 'brand', 'images', 'color'])
-    //         ->where('stock_status', 'instock')
-    //         ->when($search, function ($query) use ($search) {
-    //             $query->where('name', 'like', '%' . $search . '%');
-    //         })
-    //         ->orderBy('created_at', 'desc')
-    //         ->paginate(12);
-
-    //     $maxPrice = Product::max('regular_price');
-    //     $minPrice = Product::min('regular_price');
-
-    //     $colors = Color::orderBy('name', 'asc')->get();
-    //     $categories = Category::orderBy('name', 'asc')->get();
-    //     $brands = Brand::orderBy('name', 'asc')->get();
-    //     return view('shop', compact('products', 'categories', 'brands', 'colors', 'maxPrice', 'minPrice'));
-    // }
     public function index(Request $request)
     {
         // Lấy các tham số từ request (ô tìm kiếm và query string)
@@ -103,6 +83,11 @@ class ShopController extends Controller
 
         // Phân trang kết quả
         $products = $query->orderBy('created_at', 'desc')->paginate(12)->withQueryString();
+        
+        foreach ($products as $product) {
+            $product->reviews_count = $product->reviews()->count();
+            $product->average_rating = $product->reviews()->avg('rating') ? round($product->reviews()->avg('rating'), 1) : 0;
+        }
 
         // Lấy giá trị min-max để hiển thị slider giá
         $maxPrice = Product::max('regular_price');
@@ -123,7 +108,9 @@ class ShopController extends Controller
             'search',
             'selectedCategoryIds',
             'selectedColorIds',
-            'selectedBrandIds'
+            'selectedBrandIds',
+
+
         ));
     }
     public function product_details($product_slug)
@@ -245,7 +232,11 @@ class ShopController extends Controller
         $product = Product::with(['reviews.user'])
             ->findOrFail($id);
 
-        return view('shop.detail', compact('product'));
+        // Tính rating trung bình và số lượng review
+        $reviewsCount = $product->reviews->count();
+        $averageRating = $reviewsCount > 0 ? round($product->reviews->avg('rating'), 1) : 0;
+
+        return view('shop.detail', compact('product', 'reviewsCount', 'averageRating'));
     }
     public function wishlistShow($id)
     {

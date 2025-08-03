@@ -306,15 +306,15 @@
                 <div class="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
                     <select class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0" aria-label="Sort Items"
                         name="total-number">
-                        <option selected>Default Sorting</option>
-                        <option value="1">Featured</option>
-                        <option value="2">Best selling</option>
-                        <option value="3">Alphabetically, A-Z</option>
-                        <option value="3">Alphabetically, Z-A</option>
-                        <option value="3">Price, low to high</option>
-                        <option value="3">Price, high to low</option>
-                        <option value="3">Date, old to new</option>
-                        <option value="3">Date, new to old</option>
+                        <option selected>Sắp xếp mặc định</option>
+                        <option value="1">Nổi bật</option>
+                        <option value="2">Bán chạy nhất</option>
+                        <option value="3">Theo bảng chữ cái, A-Z</option>
+                        <option value="4">Theo bảng chữ cái, Z-A</option>
+                        <option value="5">Giá, thấp đến cao</option>
+                        <option value="6">Giá, cao đến thấp</option>
+                        <option value="7">Ngày, cũ đến mới</option>
+                        <option value="8">Ngày, mới đến cũ</option>
                     </select>
 
                     <div class="shop-asc__seprator mx-3 bg-light d-none d-md-block order-md-0"></div>
@@ -332,7 +332,7 @@
                                 xmlns="http://www.w3.org/2000/svg">
                                 <use href="#icon_filter" />
                             </svg>
-                            <span class="text-uppercase fw-medium d-inline-block align-middle">Filter</span>
+                            <span class="text-uppercase fw-medium d-inline-block align-middle">Lọc</span>
                         </button>
                     </div>
                 </div>
@@ -394,9 +394,9 @@
                             <div class="product-card__price d-flex">
                                 <span class="money price">
                                     @if($product->sale_price)
-                                    <s>{{number_format($product->regular_price, 0, ",", ".")}}VND</s> {{number_format($product->sale_price, 0, ",", ".")}}VND
+                                    <s>{{number_format($product->regular_price, 0, ",", ".")}}VNĐ</s> {{number_format($product->sale_price, 0, ",", ".")}}VNĐ
                                     @else
-                                    ${{number_format($product->regular_price, 0, ",", ".")}} VND
+                                    {{number_format($product->regular_price, 0, ",", ".")}} VNĐ
                                     @endif
                                 </span>
                             </div>
@@ -418,7 +418,9 @@
                                         <use href="#icon_star" />
                                     </svg>
                                 </div>
-                                <span class="reviews-note text-lowercase text-secondary ms-1">8k+ reviews</span>
+                                <span class="reviews-note text-lowercase text-secondary ms-1">
+                                    {{ $product->reviews_count }} đánh giá
+                                </span>
                             </div>
 
                             <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
@@ -434,7 +436,8 @@
                 @endforeach
             </div>
 
-            <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">{{$products->links('pagination::bootstrap-5')}}</div>
+            <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">{{$products->links('pagination::bootstrap-5')}}
+            </div>
         </div>
 
 
