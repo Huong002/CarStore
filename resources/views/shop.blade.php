@@ -106,7 +106,7 @@
                             <div class="search-field__input-wrapper mb-3">
                                 <input type="text" name="search_text"
                                     class="search-field__input form-control form-control-sm border-light border-2"
-                                    placeholder="Search" />
+                                    placeholder="Tìm..." />
                             </div>
                             <ul class="multi-select__list list-unstyled">
                                 @foreach($brands as $brand)
