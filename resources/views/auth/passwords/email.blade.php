@@ -6,8 +6,8 @@
     <div class="card shadow-lg border-0 rounded-4" style="max-width: 420px; width: 100%;">
         <div class="card-body p-4 p-md-5">
             <div class="text-center mb-4">
-                <h3 class="fw-bold mb-1">Forgot Password</h3>
-                <p class="text-muted small mb-0">Enter your email to receive a reset link</p>
+                <h3 class="fw-bold mb-1">Quên mật khẩu</h3>
+                <p class="text-muted small mb-0">Nhập email của bạn để nhận liên kết đặt lại mật khẩu</p>
             </div>
 
             {{-- Hiển thị thông báo thành công --}}
@@ -20,7 +20,7 @@
 
                 {{-- Email --}}
                 <div class="mb-4">
-                    <label for="email" class="form-label fw-semibold">Email Address</label>
+                    <label for="email" class="form-label fw-semibold">Địa chỉ Email</label>
                     <div class="input-group">
                         <span class="input-group-text bg-white">
                             <i class="bi bi-envelope"></i>
@@ -35,11 +35,11 @@
 
                 {{-- Button --}}
                 <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 shadow-sm">
-                    Send Reset Link
+                    Gửi liên kết đặt lại mật khẩu
                 </button>
 
                 <div class="text-center mt-4">
-                    <a href="{{ route('login') }}" class="btn btn-link p-0 small">Back to Login</a>
+                    <a href="{{ route('login') }}" class="btn btn-link p-0 small">Quay lại đăng nhập</a>
                 </div>
             </form>
         </div>

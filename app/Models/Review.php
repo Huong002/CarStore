@@ -7,6 +7,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Review extends Model
 {
+ use HasFactory;
+
+    protected $fillable = [
+        'product_id',
+        'user_id',
+        'name',
+        'email',
+        'content',
+        'rating',
+        'status',
+    ];
+
     public function product(){
         return $this->belongsTo(Product::class);
     }

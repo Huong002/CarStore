@@ -7,6 +7,8 @@ use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Color;
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class ShopController extends Controller
@@ -125,76 +127,35 @@ class ShopController extends Controller
         ));
     }
     public function product_details($product_slug)
-    {
-        $product = Product::where('slug', $product_slug)->first();
-        $rproducts  = Product::where('slug', '<>', $product->slug)->get()->take(8);
+{
+    // $product = Product::with(['primaryImage', 'images'])->where('slug', $product_slug)->firstOrFail();
+    $product = Product::with(['primaryImage', 'galleryImages'])
+                  ->where('slug', $product_slug)
+                  ->firstOrFail();
 
-        $categories = Category::orderBy('name', 'ASC')->get();
-        $brands = Brand::orderBy('name', 'ASC')->get();
-        return view('details', compact('product', 'rproducts', 'categories', 'brands'));
-    }
+    $rproducts  = Product::where('slug', '<>', $product->slug)->take(8)->get();
 
-    /**
-     * Xử lý tìm kiếm bằng hình ảnh
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function scanImage(Request $request)
-    {
-        try {
-            // Kiểm tra xem có file ảnh được gửi lên không
-            if (!$request->hasFile('image')) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Không tìm thấy file ảnh'
-                ], 400);
-            }
+    $categories = Category::orderBy('name', 'ASC')->get();
+    $brands = Brand::orderBy('name', 'ASC')->get();
+      // Thêm dòng này để kiểm tra dữ liệu
+    // dd($product->primaryImage, $product->galleryImages);
 
-            $image = $request->file('image');
+    return view('details', compact('product', 'rproducts', 'categories', 'brands'));
+}
 
-            // Kiểm tra định dạng file
-            $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
-            if (!in_array($image->getMimeType(), $allowedMimeTypes)) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Định dạng file không hợp lệ. Chỉ hỗ trợ JPEG, PNG, JPG và GIF.'
-                ], 400);
-            }
+public function show($id)
+{
+    $product = Product::with(['reviews.user'])
+        ->findOrFail($id);
 
-            // Tạo một HTTP client để gửi ảnh đến API nhận diện
-            $client = new \GuzzleHttp\Client();
+    return view('shop.detail', compact('product'));
+}
+public function wishlistShow($id)
+{
+    $product = \App\Models\Product::with(['images', 'primaryImage'])->findOrFail($id);
 
-            // Gửi ảnh đến API nhận diện (Python Flask)
-            $response = $client->post('http://127.0.0.1:5000/predict', [
-                'multipart' => [
-                    [
-                        'name' => 'image',
-                        'contents' => fopen($image->getPathname(), 'r'),
-                        'filename' => $image->getClientOriginalName()
-                    ]
-                ]
-            ]);
+    return view('wishlistshow', compact('product'));
+}
 
-            // Lấy kết quả nhận diện
-            $result = json_decode($response->getBody(), true);
-
-            // Log kết quả để debug
-            Log::info('Image Recognition Result:', $result);
-
-            return response()->json($result);
-        } catch (\GuzzleHttp\Exception\ConnectException $e) {
-            Log::error('API không phản hồi: ' . $e->getMessage());
-            return response()->json([
-                'success' => false,
-                'message' => 'Không thể kết nối đến máy chủ nhận diện. Vui lòng thử lại sau.'
-            ], 503);
-        } catch (\Exception $e) {
-            Log::error('Lỗi xử lý ảnh: ' . $e->getMessage());
-            return response()->json([
-                'success' => false,
-                'message' => 'Đã xảy ra lỗi khi xử lý ảnh: ' . $e->getMessage()
-            ], 500);
-        }
-    }
+ 
 }

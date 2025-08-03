@@ -11,7 +11,7 @@
     @endif
 
     <div class="table-responsive">
-        <table class="table table-bordered table-striped table-hover align-middle">
+        <table class="table table-bordered table-striped table-hover align-middle" style="white-space: normal;">
             <thead class="text-center">
                 <tr>
                     <th>Mã đơn cọc</th>
@@ -61,11 +61,13 @@
                 @endforelse
             </tbody>
         </table>
+
     </div>
 </div>
 
 <style>
 /* Màu tiêu đề bảng */
+
 .table-responsive table.table>thead,
 .table-responsive table.table>thead>tr,
 .table-responsive table.table>thead>tr>th {

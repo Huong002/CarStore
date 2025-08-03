@@ -39,8 +39,35 @@
                     @csrf
                     <button type="submit" class="btn-save">Cập nhật</button>
                 </form>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-secondary btn-sm rounded btn-close-custom" data-bs-dismiss="modal">
+                    Đóng
+                </button>
+
+
             </div>
         </div>
     </div>
 </div>
+<style>
+/* Áp dụng bo góc giống nhau cho cả hai nút */
+.btn-save,
+.btn-close-custom {
+    border-radius: 8px;
+    /* bo góc nhẹ */
+}
+
+/* Style riêng cho nút Cập nhật */
+.btn-save {
+    background-color: #5E83AE;
+    border: none;
+    color: #fff;
+    padding: 6px 14px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-save:hover {
+    background-color: #4d6d94;
+    /* màu đậm hơn khi hover */
+}
+</style>
