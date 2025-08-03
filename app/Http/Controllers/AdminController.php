@@ -965,5 +965,11 @@ class AdminController extends Controller
 
         return view('admin.notifications', ['notifications' => $user_notifications]);
     }
+
+
+    public function inbox()
+    {
+        return view('admin.notifications');
+    }
     #endregion
 }
