@@ -45,6 +45,12 @@ public function show($id)
 
     return view('shop.detail', compact('product'));
 }
+public function wishlistShow($id)
+{
+    $product = \App\Models\Product::with(['images', 'primaryImage'])->findOrFail($id);
+
+    return view('wishlistshow', compact('product'));
+}
 
  
 }
