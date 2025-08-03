@@ -149,3 +149,7 @@ Route::middleware('auth')->group(function () {
 
 });
  Route::get('/api/cart-count', [CartController::class, 'countItems'])->name('cart.count');
+ 
+ // Xem chi tiết sản phẩm yêu thích theo id
+Route::get('/wishlistshow/{id}', [ShopController::class, 'wishlistShow'])->name('wishlist.show');
+Route::post('/cart', [CartController::class, 'add'])->name('cart.add');
