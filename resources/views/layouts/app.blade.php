@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="{{ asset('css/account.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link
@@ -415,7 +416,7 @@
                 <form action="#" method="GET" class="search-field position-relative mt-4 mb-3">
                     <div class="position-relative">
                         <input class="search-field__input w-100 border rounded-1" type="text" name="search-keyword"
-                            placeholder="Search products" />
+                            placeholder="Tìm kiếm sản phẩm" />
                         <button class="btn-icon search-popup__submit pb-0 me-2" type="submit">
                             <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -555,10 +556,13 @@
 
                         <div class="search-popup js-hidden-content">
                             <form action="#" method="GET" class="search-field container">
-                                <p class="text-uppercase text-secondary fw-medium mb-4">What are you looking for?</p>
+                                <p class="text-uppercase text-dark fw-medium mb-4">
+                                    Bạn đang tìm mẫu xe nào?
+                                </p>
+
                                 <div class="position-relative">
                                     <input class="search-field__input search-popup__input w-100 fw-medium" type="text"
-                                        name="search-keyword" placeholder="Search products" />
+                                        name="search-keyword" placeholder="Tìm kiếm sản phẩm" />
                                     <button class="btn-icon search-popup__submit" type="submit">
                                         <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -570,22 +574,30 @@
 
                                 <div class="search-popup__results">
                                     <div class="sub-menu search-suggestion">
-                                        <h6 class="sub-menu__title fs-base">Quicklinks</h6>
+                                        <h6 class="sub-menu__title fs-base">Liên kết nhanh</h6>
                                         <ul class="sub-menu__list list-unstyled">
-                                            <li class="sub-menu__item"><a href="shop2.html"
-                                                    class="menu-link menu-link_us-s">New Arrivals</a>
+                                            <li class="sub-menu__item">
+                                                <a href="xe-moi.html" class="menu-link menu-link_us-s">Xe mới về</a>
                                             </li>
-                                            <li class="sub-menu__item"><a href="#"
-                                                    class="menu-link menu-link_us-s">Dresses</a></li>
-                                            <li class="sub-menu__item"><a href="shop3.html"
-                                                    class="menu-link menu-link_us-s">Accessories</a>
+                                            <li class="sub-menu__item">
+                                                <a href="xe-da-qua-su-dung.html" class="menu-link menu-link_us-s">Xe đã
+                                                    qua sử dụng</a>
                                             </li>
-                                            <li class="sub-menu__item"><a href="#"
-                                                    class="menu-link menu-link_us-s">Footwear</a></li>
-                                            <li class="sub-menu__item"><a href="#"
-                                                    class="menu-link menu-link_us-s">Sweatshirt</a></li>
+                                            <li class="sub-menu__item">
+                                                <a href="phu-tung.html" class="menu-link menu-link_us-s">Phụ tùng & phụ
+                                                    kiện</a>
+                                            </li>
+                                            <li class="sub-menu__item">
+                                                <a href="bao-duong.html" class="menu-link menu-link_us-s">Dịch vụ bảo
+                                                    dưỡng</a>
+                                            </li>
+                                            <li class="sub-menu__item">
+                                                <a href="khuyen-mai.html" class="menu-link menu-link_us-s">Ưu đãi &
+                                                    khuyến mãi</a>
+                                            </li>
                                         </ul>
                                     </div>
+
 
                                     <div class="search-result row row-cols-5"></div>
                                 </div>
@@ -744,7 +756,6 @@
 
                     .wishlist-items {
                         display: block;
-                        margin-top: 8px;
                         list-style: none;
                         padding: 0;
                         margin: 0;
@@ -980,7 +991,16 @@
         function renderWishlist() {
             const listEl = document.getElementById('wishlistItems');
             listEl.innerHTML = '';
-            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+            let wishlist;
+            try {
+                wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            } catch (e) {
+                wishlist = [];
+            }
+
+            // Lọc những item hợp lệ (có id và name)
+            wishlist = wishlist.filter(item => item && item.id && item.name);
 
             if (wishlist.length === 0) {
                 listEl.innerHTML = '<li class="empty-message">Chưa có sản phẩm yêu thích</li>';
@@ -992,9 +1012,11 @@
                 li.innerHTML = `
             <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
                 <div style="display:flex; align-items:center; gap:8px;">
-                    <img src="${item.image}" alt="${item.name}"
+                    <img src="${item.image || '/default.jpg'}" alt="${item.name}"
                         style="width:40px; height:40px; object-fit:cover; border-radius:4px;">
-                    <span>${item.name}</span>
+                    <a href="/wishlistshow/${item.id}" style="color:#333; text-decoration:none;">
+                        ${item.name}
+                    </a>
                 </div>
                 <button class="wishlist-remove-btn" data-product-id="${item.id}"
                         style="background:none; border:none; cursor:pointer; color:#888;">
@@ -1026,9 +1048,14 @@
                 btn.classList.toggle('active');
 
                 const svg = btn.querySelector('svg');
+                const productName = btn.dataset.productName;
+                const productId = btn.dataset.productId;
+
+                if (!productName || !productId) return;
+
                 const product = {
-                    id: btn.dataset.productId,
-                    name: btn.dataset.productName || 'Sản phẩm',
+                    id: productId,
+                    name: productName,
                     image: btn.dataset.productImage || ''
                 };
 
