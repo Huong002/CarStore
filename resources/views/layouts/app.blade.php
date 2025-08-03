@@ -2,30 +2,22 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-   <meta charset="utf-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-   <!-- CSRF Token -->
-   <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-   <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="author" content="surfside media" />
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.gstatic.com/">
-    <link rel="stylesheet" href="{{ asset('css/account.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link
         href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
         rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <link href="https://fonts.googleapis.com/css2?family=Allura&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/css/plugins/swiper.min.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" type="text/css" />
@@ -33,6 +25,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
         crossorigin="anonymous" referrerpolicy="no-referrer">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     @stack("styles")
 </head>
 
@@ -50,6 +45,11 @@
         <symbol id="icon_twitter" viewBox="0 0 14 13">
             <path
                 d="M12.5508 3.59668C13.0977 3.18652 13.5898 2.69434 13.9727 2.12012C13.4805 2.33887 12.9062 2.50293 12.332 2.55762C12.9336 2.20215 13.3711 1.65527 13.5898 0.97168C13.043 1.2998 12.4141 1.5459 11.7852 1.68262C11.2383 1.1084 10.5 0.780273 9.67969 0.780273C8.09375 0.780273 6.80859 2.06543 6.80859 3.65137C6.80859 3.87012 6.83594 4.08887 6.89062 4.30762C4.51172 4.1709 2.37891 3.02246 0.957031 1.2998C0.710938 1.70996 0.574219 2.20215 0.574219 2.74902C0.574219 3.7334 1.06641 4.6084 1.85938 5.12793C1.39453 5.10059 0.929688 4.99121 0.546875 4.77246V4.7998C0.546875 6.19434 1.53125 7.34277 2.84375 7.61621C2.625 7.6709 2.35156 7.72559 2.10547 7.72559C1.91406 7.72559 1.75 7.69824 1.55859 7.6709C1.91406 8.81934 2.98047 9.63965 4.23828 9.66699C3.25391 10.4326 2.02344 10.8975 0.683594 10.8975C0.4375 10.8975 0.21875 10.8701 0 10.8428C1.25781 11.6631 2.76172 12.1279 4.40234 12.1279C9.67969 12.1279 12.5508 7.78027 12.5508 3.97949C12.5508 3.84277 12.5508 3.7334 12.5508 3.59668Z" />
+        </symbol>
+        <symbol id="icon_location" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+            <circle cx="12" cy="9" r="2.5" />
         </symbol>
         <symbol id="icon_instagram" viewBox="0 0 14 13">
             <path
@@ -98,24 +98,7 @@
                 d="M17.6562 4.6875H15.2755C14.9652 2.05164 12.7179 0 10 0C7.28215 0 5.0348 2.05164 4.72445 4.6875H2.34375C1.91227 4.6875 1.5625 5.03727 1.5625 5.46875V19.2188C1.5625 19.6502 1.91227 20 2.34375 20H17.6562C18.0877 20 18.4375 19.6502 18.4375 19.2188V5.46875C18.4375 5.03727 18.0877 4.6875 17.6562 4.6875ZM10 1.5625C11.8548 1.5625 13.3992 2.91621 13.6976 4.6875H6.30238C6.60082 2.91621 8.14516 1.5625 10 1.5625ZM16.875 18.4375H3.125V6.25H4.6875V8.59375C4.6875 9.02523 5.03727 9.375 5.46875 9.375C5.90023 9.375 6.25 9.02523 6.25 8.59375V6.25H13.75V8.59375C13.75 9.02523 14.0998 9.375 14.5312 9.375C14.9627 9.375 15.3125 9.02523 15.3125 8.59375V6.25H16.875V18.4375Z"
                 fill="currentColor" />
         </symbol>
-
-        <symbol id="icon_location" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
-            <circle cx="12" cy="9" r="2.5" />
-        </symbol>
-
         <symbol id="icon_heart" viewBox="0 0 20 20">
-            <path d="M10 18s-6-4.35-9-8.5C-1 5.5 2 1 6.5 1
-       A5.5 5.5 0 0 1 10 3.5
-       A5.5 5.5 0 0 1 13.5 1
-       C18 1 21 5.5 19 9.5
-       C16 13.65 10 18 10 18Z" fill="currentColor" />
-        </symbol>
-
-
-
-        <!-- <symbol id="icon_heart" viewBox="0 0 20 20">
             <g clip-path="url(#clip0_6_54)">
                 <path
                     d="M18.3932 3.30806C16.218 1.13348 12.6795 1.13348 10.5049 3.30806L9.99983 3.81285L9.49504 3.30806C7.32046 1.13319 3.78163 1.13319 1.60706 3.30806C-0.523361 5.43848 -0.537195 8.81542 1.57498 11.1634C3.50142 13.3041 9.18304 17.929 9.4241 18.1248C9.58775 18.2578 9.78467 18.3226 9.9804 18.3226C9.98688 18.3226 9.99335 18.3226 9.99953 18.3223C10.202 18.3317 10.406 18.2622 10.575 18.1248C10.816 17.929 16.4982 13.3041 18.4253 11.1631C20.5371 8.81542 20.5233 5.43848 18.3932 3.30806ZM17.1125 9.98188C15.6105 11.6505 11.4818 15.0919 9.99953 16.3131C8.51724 15.0922 4.38944 11.6511 2.88773 9.98218C1.41427 8.34448 1.40044 6.01214 2.85564 4.55693C3.59885 3.81402 4.57488 3.44227 5.5509 3.44227C6.52693 3.44227 7.50295 3.81373 8.24616 4.55693L9.3564 5.66718C9.48856 5.79934 9.65516 5.87822 9.82999 5.90589C10.1137 5.96682 10.4216 5.88764 10.6424 5.66747L11.7532 4.55693C13.2399 3.07082 15.6582 3.07111 17.144 4.55693C18.5992 6.01214 18.5854 8.34448 17.1125 9.98188Z"
@@ -126,7 +109,7 @@
                     <rect width="20" height="20" fill="white" />
                 </clipPath>
             </defs>
-        </symbol> -->
+        </symbol>
         <symbol id="icon_star" viewBox="0 0 9 9">
             <path
                 d="M4.0172 0.313075L2.91869 2.64013L0.460942 3.0145C0.0201949 3.08129 -0.15644 3.64899 0.163185 3.97415L1.94131 5.78447L1.52075 8.34177C1.44505 8.80402 1.91103 9.15026 2.30131 8.93408L4.5 7.72661L6.69869 8.93408C7.08897 9.14851 7.55495 8.80402 7.47925 8.34177L7.05869 5.78447L8.83682 3.97415C9.15644 3.64899 8.97981 3.08129 8.53906 3.0145L6.08131 2.64013L4.9828 0.313075C4.78598 -0.101718 4.2157 -0.10699 4.0172 0.313075Z" />
@@ -210,8 +193,7 @@
         </symbol>
         <symbol id="icon_close" viewBox="0 0 12 12">
             <path d="M0.311322 10.6261L10.9374 0L12 1.06261L1.37393 11.6887L0.311322 10.6261Z" fill="currentColor" />
-            <path d="M1.06261 0.106781L11.6887 10.7329L10.6261 11.7955L0 1.16939L1.06261 0.106781Z"
-                fill="currentColor" />
+            <path d="M1.06261 0.106781L11.6887 10.7329L10.6261 11.7955L0 1.16939L1.06261 0.106781Z" fill="currentColor" />
         </symbol>
         <symbol id="icon_view" viewBox="0 0 18 18">
             <path
@@ -235,7 +217,7 @@
         </symbol>
         <symbol id="icon_degree" viewBox="0 0 40 30">
             <path
-                d="M25.1785 26.2222C24.5971 26.2222 24.0926 25.7901 24.0173 25.1984C23.9358 24.5563 24.3899 23.9697 25.0317 23.8879C28.7347 23.4161 32.0507 22.4127 34.3688 21.062C36.4889 19.8269 37.6562 18.3749 37.6562 16.9736C37.6562 15.4291 36.2902 14.1653 35.144 13.3767C34.6109 13.0099 34.476 12.2806 34.8428 11.7471C35.2096 11.214 35.9393 11.0791 36.4724 11.4459C38.7802 13.0334 40 14.9447 40 16.9739C40 19.2767 38.461 21.3907 35.549 23.0871C32.9278 24.6142 29.3936 25.6952 25.328 26.2131C25.2776 26.2192 25.2276 26.2222 25.1785 26.2222Z"
+                d="M25.1785 26.2222C24.5971 26.2222 24.0926 25.7901 24.0173 25.1984C23.9358 24.5563 24.3899 23.9697 25.0317 23.811.7471C35.2096 11.214 35.9393 11.0791 36.4724 11.4459C38.7802 13.0334 40 14.9447 40 16.9739C40 19.2767 38.461 21.3907 35.549 23.0871C32.9278 24.6142 29.3936 25.6952 25.328 26.2131C25.2776 26.2192 25.2276 26.2222 25.1785 26.2222Z" 879C28.7347 23.4161 32.0507 22.4127 34.3688 21.062C36.4889 19.8269 37.6562 18.3749 37.6562 16.9736C37.6562 15.4291 36.2902 14.1653 35.144 13.3767C34.6109 13.0099 34.476 12.2806 34.8428
                 fill="currentColor" />
             <path
                 d="M19.7144 24.5435L16.5894 21.4185C16.1316 20.9607 15.3897 20.9607 14.932 21.4185C14.4745 21.8759 14.4745 22.6181 14.932 23.0756L15.8451 23.9887C12.3441 23.627 9.16353 22.8119 6.70076 21.6275C3.93189 20.296 2.34375 18.5996 2.34375 16.9736C2.34375 15.5945 3.48084 14.1611 5.54536 12.9373C6.1023 12.6074 6.28602 11.8884 5.95613 11.3318C5.62592 10.7749 4.90693 10.5911 4.35029 10.921C0.754701 13.0524 0 15.3888 0 16.9736C0 19.5737 2.01905 21.9767 5.68513 23.74C8.53059 25.1081 12.2113 26.0245 16.2213 26.3791L14.932 27.6685C14.4745 28.126 14.4745 28.8681 14.932 29.3259C15.1609 29.5545 15.4608 29.6689 15.7608 29.6689C16.0605 29.6689 16.3605 29.5545 16.5894 29.3259L19.7144 26.2009C20.1718 25.7431 20.1718 25.0009 19.7144 24.5435Z"
@@ -279,135 +261,36 @@
         </symbol>
     </svg>
     <style>
-    .wishlist-icon svg path {
-        fill: white !important;
-        stroke: black !important;
-        stroke-width: 2;
-    }
+        #header {
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
 
-
-    .cart-dropdown {
-        display: none;
-        position: absolute;
-        top: 45px;
-        right: 0;
-        width: 280px;
-        background: #fff;
-        border: 1px solid #ddd;
-        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
-        padding: 12px;
-        border-radius: 12px;
-        /* Bo góc */
-        z-index: 1000;
-    }
-
-    .cart-dropdown ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .cart-dropdown li {
-        padding: 8px 0;
-        border-bottom: 1px solid #f0f0f0;
-        font-size: 15px;
-    }
-
-    .cart-dropdown li:last-child {
-        border-bottom: none;
-    }
-
-    .cart-dropdown li a {
-        text-decoration: none;
-        color: #5E83AE;
-        /* Màu chữ */
-        font-weight: 500;
-        transition: color 0.3s;
-    }
-
-    .cart-dropdown li a:hover {
-        color: #3c5a7a;
-    }
-
-    .cart-dropdown li {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        /* khoảng cách icon với chữ */
-        padding: 8px 0;
-        border-bottom: 1px solid #f0f0f0;
-        font-size: 15px;
-    }
-
-    .cart-dropdown li:last-child {
-        border-bottom: none;
-    }
-
-    .cart-item-icon {
-        font-size: 16px;
-        color: #5E83AE;
-    }
-
-    /*  */
-    .dropdown-menu {
-        border-radius: 12px;
-        background-color: #fff;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    }
-
-    .dropdown-item {
-        font-weight: 500;
-        color: #333;
-        border-radius: 8px;
-        transition: background 0.2s ease;
-    }
-
-    .dropdown-item:hover {
-        background-color: #f3f4f6;
-    }
-
-    img[alt="Avatar"] {
-        border-radius: 50%;
-        object-fit: cover;
-    }
-
-    .deposit-link {
-        color: #0d6efd !important;
-        text-decoration: underline;
-        cursor: pointer;
-    }
-
-    #header {
-        padding-top: 8px;
-        padding-bottom: 8px;
-    }
-
-      .logo__image {
-         max-width: 220px;
-      }
-   </style>
-   <div class="header-mobile header_sticky">
-      <div class="container d-flex align-items-center h-100">
-         <a class="mobile-nav-activator d-block position-relative" href="#">
-            <svg class="nav-icon" width="25" height="18" viewBox="0 0 25 18" xmlns="http://www.w3.org/2000/svg">
-               <use href="#icon_nav" />
-            </svg>
-            <button class="btn-close-lg position-absolute top-0 start-0 w-100"></button>
-         </a>
-
-         <div class="logo">
-            <a href="{{route('home.index')}}">
-               <img src="{{ asset('assets/images/logo.png') }}" alt="Uomo" class="logo__image d-block" />
+        .logo__image {
+            max-width: 220px;
+        }
+    </style>
+    <div class="header-mobile header_sticky">
+        <div class="container d-flex align-items-center h-100">
+            <a class="mobile-nav-activator d-block position-relative" href="#">
+                <svg class="nav-icon" width="25" height="18" viewBox="0 0 25 18" xmlns="http://www.w3.org/2000/svg">
+                    <use href="#icon_nav" />
+                </svg>
+                <button class="btn-close-lg position-absolute top-0 start-0 w-100"></button>
             </a>
-         </div>
 
-            <!-- <a href="#" class="header-tools__item header-tools__cart js-open-aside" data-aside="cartDrawer">
-                <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
+            <div class="logo">
+                <a href="{{route('home.index')}}">
+                    <img src="{{ asset('assets/images/logo.png') }}" alt="Uomo" class="logo__image d-block" />
+                </a>
+            </div>
+
+            <a href="#" class="header-tools__item header-tools__cart js-open-aside" data-aside="cartDrawer">
+                <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <use href="#icon_cart" />
                 </svg>
                 <span class="cart-amount d-block position-absolute js-cart-items-count">3</span>
-            </a> -->
+            </a>
         </div>
 
         <nav
@@ -416,7 +299,7 @@
                 <form action="#" method="GET" class="search-field position-relative mt-4 mb-3">
                     <div class="position-relative">
                         <input class="search-field__input w-100 border rounded-1" type="text" name="search-keyword"
-                            placeholder="Tìm kiếm sản phẩm" />
+                            placeholder="Search products" />
                         <button class="btn-icon search-popup__submit pb-0 me-2" type="submit">
                             <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -426,141 +309,138 @@
                         <button class="btn-icon btn-close-lg search-popup__reset pb-0 me-2" type="reset"></button>
                     </div>
 
-               <div class="position-absolute start-0 top-100 m-0 w-100">
-                  <div class="search-result"></div>
-               </div>
-            </form>
-         </div>
-
-         <div class="container">
-            <div class="overflow-hidden">
-               <ul class="navigation__list list-unstyled position-relative">
-                  <li class="navigation__item">
-                     <a href="{{route('home.index')}}" class="navigation__link">Home</a>
-                  </li>
-                  <li class="navigation__item">
-                     <a href="{{route('shop.index')}}" class="navigation__link">Shop</a>
-                  </li>
-                  <li class="navigation__item">
-                     <a href="{{route('cart.index')}}" class="navigation__link">Cart</a>
-                  </li>
-                  <li class="navigation__item">
-                     <a href="{{route('about.index')}}" class="navigation__link">About</a>
-                  </li>
-
-               </ul>
-            </div>
-         </div>
-
-         <div class="border-top mt-auto pb-2">
-            <div class="customer-links container mt-4 mb-2 pb-1">
-               <svg class="d-inline-block align-middle" width="20" height="20" viewBox="0 0 20 20" fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <use href="#icon_user" />
-               </svg>
-               <span class="d-inline-block ms-2 text-uppercase align-middle fw-medium">My Account</span>
+                    <div class="position-absolute start-0 top-100 m-0 w-100">
+                        <div class="search-result"></div>
+                    </div>
+                </form>
             </div>
 
+            <div class="container">
+                <div class="overflow-hidden">
+                    <ul class="navigation__list list-unstyled position-relative">
+                        <li class="navigation__item">
+                            <a href="{{route('home.index')}}" class="navigation__link">Home</a>
+                        </li>
+                        <li class="navigation__item">
+                            <a href="{{route('shop.index')}}" class="navigation__link">Shop</a>
+                        </li>
+                        <li class="navigation__item">
+                            <a href="{{route('cart.index')}}" class="navigation__link">Cart</a>
+                        </li>
+                        <li class="navigation__item">
+                            <a href="{{route('about.index')}}" class="navigation__link">About</a>
+                        </li>
 
-
-            <ul class="container social-links list-unstyled d-flex flex-wrap mb-0">
-               <li>
-                  <a href="#" class="footer__social-link d-block ps-0">
-                     <svg class="svg-icon svg-icon_facebook" width="9" height="15" viewBox="0 0 9 15"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <use href="#icon_facebook" />
-                     </svg>
-                  </a>
-               </li>
-               <li>
-                  <a href="#" class="footer__social-link d-block">
-                     <svg class="svg-icon svg-icon_twitter" width="14" height="13" viewBox="0 0 14 13"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <use href="#icon_twitter" />
-                     </svg>
-                  </a>
-               </li>
-               <li>
-                  <a href="#" class="footer__social-link d-block">
-                     <svg class="svg-icon svg-icon_instagram" width="14" height="13" viewBox="0 0 14 13"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <use href="#icon_instagram" />
-                     </svg>
-                  </a>
-               </li>
-               <li>
-                  <a href="#" class="footer__social-link d-block">
-                     <svg class="svg-icon svg-icon_youtube" width="16" height="11" viewBox="0 0 16 11"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                           d="M15.0117 1.8584C14.8477 1.20215 14.3281 0.682617 13.6992 0.518555C12.5234 0.19043 7.875 0.19043 7.875 0.19043C7.875 0.19043 3.19922 0.19043 2.02344 0.518555C1.39453 0.682617 0.875 1.20215 0.710938 1.8584C0.382812 3.00684 0.382812 5.46777 0.382812 5.46777C0.382812 5.46777 0.382812 7.90137 0.710938 9.07715C0.875 9.7334 1.39453 10.2256 2.02344 10.3896C3.19922 10.6904 7.875 10.6904 7.875 10.6904C7.875 10.6904 12.5234 10.6904 13.6992 10.3896C14.3281 10.2256 14.8477 9.7334 15.0117 9.07715C15.3398 7.90137 15.3398 5.46777 15.3398 5.46777C15.3398 5.46777 15.3398 3.00684 15.0117 1.8584ZM6.34375 7.68262V3.25293L10.2266 5.46777L6.34375 7.68262Z" />
-                     </svg>
-                  </a>
-               </li>
-               <li>
-                  <a href="#" class="footer__social-link d-block">
-                     <svg class="svg-icon svg-icon_pinterest" width="14" height="15" viewBox="0 0 14 15"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <use href="#icon_pinterest" />
-                     </svg>
-                  </a>
-               </li>
-            </ul>
-         </div>
-      </nav>
-   </div>
-
-
-   <header id="header" class="header header-fullwidth header-transparent-bg">
-      <div class="container">
-         <div class="header-desk header-desk_type_1">
-            <div class="logo">
-               <a href="{{route('home.index')}}">
-                  <img src="{{ asset('assets/images/logo.png') }}" alt="Uomo" class="logo__image d-block" />
-               </a>
+                    </ul>
+                </div>
             </div>
 
-            <nav class="navigation">
-               <ul class="navigation__list list-unstyled d-flex">
-                  <li class="navigation__item">
-                     <a href="{{route('home.index')}}" class="navigation__link">Home</a>
-                  </li>
-                  <li class="navigation__item">
-                     <a href="{{route('shop.index')}}" class="navigation__link">Shop</a>
-                  </li>
-                  <li class="navigation__item">
-                     <a href="{{route('cart.index')}}" class="navigation__link">Cart</a>
-                  </li>
-                  <li class="navigation__item">
-                     <a href="{{route('about.index')}}" class="navigation__link">About</a>
-                  </li>
-                  <!-- <li class="navigation__item">
+            <div class="border-top mt-auto pb-2">
+                <div class="customer-links container mt-4 mb-2 pb-1">
+                    <svg class="d-inline-block align-middle" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <use href="#icon_user" />
+                    </svg>
+                    <span class="d-inline-block ms-2 text-uppercase align-middle fw-medium">My Account</span>
+                </div>
+
+
+
+                <ul class="container social-links list-unstyled d-flex flex-wrap mb-0">
+                    <li>
+                        <a href="#" class="footer__social-link d-block ps-0">
+                            <svg class="svg-icon svg-icon_facebook" width="9" height="15" viewBox="0 0 9 15"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <use href="#icon_facebook" />
+                            </svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="footer__social-link d-block">
+                            <svg class="svg-icon svg-icon_twitter" width="14" height="13" viewBox="0 0 14 13"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <use href="#icon_twitter" />
+                            </svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="footer__social-link d-block">
+                            <svg class="svg-icon svg-icon_instagram" width="14" height="13" viewBox="0 0 14 13"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <use href="#icon_instagram" />
+                            </svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="footer__social-link d-block">
+                            <svg class="svg-icon svg-icon_youtube" width="16" height="11" viewBox="0 0 16 11"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M15.0117 1.8584C14.8477 1.20215 14.3281 0.682617 13.6992 0.518555C12.5234 0.19043 7.875 0.19043 7.875 0.19043C7.875 0.19043 3.19922 0.19043 2.02344 0.518555C1.39453 0.682617 0.875 1.20215 0.710938 1.8584C0.382812 3.00684 0.382812 5.46777 0.382812 5.46777C0.382812 5.46777 0.382812 7.90137 0.710938 9.07715C0.875 9.7334 1.39453 10.2256 2.02344 10.3896C3.19922 10.6904 7.875 10.6904 7.875 10.6904C7.875 10.6904 12.5234 10.6904 13.6992 10.3896C14.3281 10.2256 14.8477 9.7334 15.0117 9.07715C15.3398 7.90137 15.3398 5.46777 15.3398 5.46777C15.3398 5.46777 15.3398 3.00684 15.0117 1.8584ZM6.34375 7.68262V3.25293L10.2266 5.46777L6.34375 7.68262Z" />
+                            </svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="footer__social-link d-block">
+                            <svg class="svg-icon svg-icon_pinterest" width="14" height="15" viewBox="0 0 14 15"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <use href="#icon_pinterest" />
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+
+    <header id="header" class="header header-fullwidth header-transparent-bg">
+        <div class="container">
+            <div class="header-desk header-desk_type_1">
+                <div class="logo">
+                    <a href="{{route('home.index')}}">
+                        <img src="{{ asset('assets/images/logo.png') }}" alt="Uomo" class="logo__image d-block" />
+                    </a>
+                </div>
+
+                <nav class="navigation">
+                    <ul class="navigation__list list-unstyled d-flex">
+                        <li class="navigation__item">
+                            <a href="{{route('home.index')}}" class="navigation__link">Home</a>
+                        </li>
+                        <li class="navigation__item">
+                            <a href="{{route('shop.index')}}" class="navigation__link">Shop</a>
+                        </li>
+                        <li class="navigation__item">
+                            <a href="{{route('cart.index')}}" class="navigation__link">Cart</a>
+                        </li>
+                        <li class="navigation__item">
+                            <a href="{{route('about.index')}}" class="navigation__link">About</a>
+                        </li>
+                        <!-- <li class="navigation__item">
               <a href="contact.html" class="navigation__link">Contact</a>
             </li> -->
-               </ul>
-            </nav>
+                    </ul>
+                </nav>
 
-            <div class="header-tools d-flex align-items-center">
-               <div class="header-tools__item hover-container">
-                  <div class="js-hover__open position-relative">
-                     <a class="js-search-popup search-field__actor" href="#">
-                        <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
-                           xmlns="http://www.w3.org/2000/svg">
-                           <use href="#icon_search" />
-                        </svg>
-                        <i class="btn-icon btn-close-lg"></i>
-                     </a>
-                  </div>
+                <div class="header-tools d-flex align-items-center">
+                    <div class="header-tools__item hover-container">
+                        <div class="js-hover__open position-relative">
+                            <a class="js-search-popup search-field__actor" href="#">
+                                <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <use href="#icon_search" />
+                                </svg>
+                                <i class="btn-icon btn-close-lg"></i>
+                            </a>
+                        </div>
 
                         <div class="search-popup js-hidden-content">
                             <form action="#" method="GET" class="search-field container">
-                                <p class="text-uppercase text-dark fw-medium mb-4">
-                                    Bạn đang tìm mẫu xe nào?
-                                </p>
-
+                                <p class="text-uppercase text-secondary fw-medium mb-4">What are you looking for?</p>
                                 <div class="position-relative">
                                     <input class="search-field__input search-popup__input w-100 fw-medium" type="text"
-                                        name="search-keyword" placeholder="Tìm kiếm sản phẩm" />
+                                        name="search-keyword" placeholder="Search products" />
                                     <button class="btn-icon search-popup__submit" type="submit">
                                         <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -572,101 +452,88 @@
 
                                 <div class="search-popup__results">
                                     <div class="sub-menu search-suggestion">
-                                        <h6 class="sub-menu__title fs-base">Liên kết nhanh</h6>
+                                        <h6 class="sub-menu__title fs-base">Quicklinks</h6>
                                         <ul class="sub-menu__list list-unstyled">
-                                            <li class="sub-menu__item">
-                                                <a href="xe-moi.html" class="menu-link menu-link_us-s">Xe mới về</a>
+                                            <li class="sub-menu__item"><a href="shop2.html" class="menu-link menu-link_us-s">New Arrivals</a>
                                             </li>
-                                            <li class="sub-menu__item">
-                                                <a href="xe-da-qua-su-dung.html" class="menu-link menu-link_us-s">Xe đã
-                                                    qua sử dụng</a>
+                                            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Dresses</a></li>
+                                            <li class="sub-menu__item"><a href="shop3.html" class="menu-link menu-link_us-s">Accessories</a>
                                             </li>
-                                            <li class="sub-menu__item">
-                                                <a href="phu-tung.html" class="menu-link menu-link_us-s">Phụ tùng & phụ
-                                                    kiện</a>
-                                            </li>
-                                            <li class="sub-menu__item">
-                                                <a href="bao-duong.html" class="menu-link menu-link_us-s">Dịch vụ bảo
-                                                    dưỡng</a>
-                                            </li>
-                                            <li class="sub-menu__item">
-                                                <a href="khuyen-mai.html" class="menu-link menu-link_us-s">Ưu đãi &
-                                                    khuyến mãi</a>
-                                            </li>
+                                            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Footwear</a></li>
+                                            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Sweatshirt</a></li>
                                         </ul>
                                     </div>
 
-
-                           <div class="search-result row row-cols-5"></div>
+                                    <div class="search-result row row-cols-5"></div>
+                                </div>
+                            </form>
                         </div>
-                     </form>
-                  </div>
-               </div>
+                    </div>
 
-               @guest
-               <div class="header-tools__item hover-container">
-                  <a href="{{ route('login') }}" class="header-tools__item">
-                     <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <use href="#icon_user" />
-                     </svg>
-                  </a>
-               </div>
-               @else
-               <div class="header-tools__item hover-container">
-                  @if(Auth::user()->utype === 'ADM')
-                  <a href="{{ route('admin.index') }}" class="header-tools__item">
-                     <span class="pr-6px">{{ Auth::user()->name }}</span>
-                     <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <use href="#icon_user" />
-                     </svg>
-                  </a>
-                  @else
-                  <div class="dropdown">
-                     <button
-                        class="btn dropdown-toggle p-0 d-flex align-items-center gap-3 border-0 bg-transparent"
-                        type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="{{ asset('images/avatar/user-1.png') }}" alt="Avatar" width="40" height="40"
-                           style="border-radius: 50%; object-fit: cover;">
-                        <div class="d-flex flex-column text-start">
-                           <span class="fw-bold">{{ Auth::user()->name }}</span>
-                           <span class="text-muted small">{{ Auth::user()->utype }}</span>
+                    @guest
+                    <div class="header-tools__item hover-container">
+                        <a href="{{ route('login') }}" class="header-tools__item">
+                            <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <use href="#icon_user" />
+                            </svg>
+                        </a>
+                    </div>
+                    @else
+                    <div class="header-tools__item hover-container">
+                        @if(Auth::user()->utype === 'ADM')
+                        <a href="{{ route('admin.index') }}" class="header-tools__item">
+                            <span class="pr-6px">{{ Auth::user()->name }}</span>
+                            <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <use href="#icon_user" />
+                            </svg>
+                        </a>
+                        @else
+                        <div class="dropdown">
+                            <button
+                                class="btn dropdown-toggle p-0 d-flex align-items-center gap-3 border-0 bg-transparent"
+                                type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="{{ asset('images/avatar/user-1.png') }}" alt="Avatar" width="40" height="40"
+                                    style="border-radius: 50%; object-fit: cover;">
+                                <div class="d-flex flex-column text-start">
+                                    <span class="fw-bold">{{ Auth::user()->name }}</span>
+                                    <span class="text-muted small">{{ Auth::user()->utype }}</span>
+                                </div>
+                            </button>
+
+                            <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3 px-1 py-2"
+                                aria-labelledby="userDropdown" style="min-width: 220px;">
+                                <li>
+                                    <a href="#" class="dropdown-item d-flex align-items-center gap-2 py-2 px-3"
+                                        data-bs-toggle="modal" data-bs-target="#accountModal">
+                                        <i class="bi bi-person fs-5"></i> Tài khoản
+                                    </a>
+                                </li>
+                                <li>
+                                    <form action="{{ route('logout') }}" method="POST" class="m-0">
+                                        @csrf
+                                        <button type="submit"
+                                            class="dropdown-item d-flex align-items-center gap-2 py-2 px-3 w-100 border-0 bg-transparent">
+                                            <i class="bi bi-box-arrow-right fs-5"></i> Đăng xuất
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
                         </div>
-                     </button>
+                        @endif
+                    </div>
+                    @endguest
 
-                     <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3 px-1 py-2"
-                        aria-labelledby="userDropdown" style="min-width: 220px;">
-                        <li>
-                           <a href="#" class="dropdown-item d-flex align-items-center gap-2 py-2 px-3"
-                              data-bs-toggle="modal" data-bs-target="#accountModal">
-                              <i class="bi bi-person fs-5"></i> Tài khoản
-                           </a>
-                        </li>
-                        <li>
-                           <form action="{{ route('logout') }}" method="POST" class="m-0">
-                              @csrf
-                              <button type="submit"
-                                 class="dropdown-item d-flex align-items-center gap-2 py-2 px-3 w-100 border-0 bg-transparent">
-                                 <i class="bi bi-box-arrow-right fs-5"></i> Đăng xuất
-                              </button>
-                           </form>
-                        </li>
-                     </ul>
-                  </div>
-                  @endif
-               </div>
-               @endguest
+                    <!-- 🔍 Icon Vị trí -->
+                    <a href="{{ route('location.index') }}" class="header-tools__item">
+                        <svg class="d-block" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <use href="#icon_location" />
+                        </svg>
+                    </a>
 
-               <!-- 🔍 Icon Vị trí -->
-               <a href="{{ route('location.index') }}" class="header-tools__item">
-                  <svg class="d-block" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                     xmlns="http://www.w3.org/2000/svg">
-                     <use href="#icon_location" />
-                  </svg>
-               </a>
 
-                    <!-- ❤️ Wishlist -->
                     <!-- ❤️ Wishlist -->
                     <a href="#" class="header-tools__item header-wishlist">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -704,92 +571,92 @@
 
 
                     <style>
-                    .wishlist-modal {
-                        position: absolute;
-                        top: 100px;
-                        right: 80px;
-                        background: #fff;
-                        border-radius: 12px;
-                        width: 280px;
-                        padding: 12px;
-                        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-                        display: none;
-                        z-index: 9999;
-                        font-family: Arial, sans-serif;
-                        animation: fadeIn 0.25s ease-in-out;
-                    }
-
-                    @keyframes fadeIn {
-                        from {
-                            opacity: 0;
-                            transform: translateY(-5px);
+                        .wishlist-modal {
+                            position: absolute;
+                            top: 100px;
+                            right: 80px;
+                            background: #fff;
+                            border-radius: 12px;
+                            width: 280px;
+                            padding: 12px;
+                            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+                            display: none;
+                            z-index: 9999;
+                            font-family: Arial, sans-serif;
+                            animation: fadeIn 0.25s ease-in-out;
                         }
 
-                        to {
-                            opacity: 1;
-                            transform: translateY(0);
+                        @keyframes fadeIn {
+                            from {
+                                opacity: 0;
+                                transform: translateY(-5px);
+                            }
+
+                            to {
+                                opacity: 1;
+                                transform: translateY(0);
+                            }
                         }
-                    }
 
-                    .wishlist-header {
-                        display: flex;
-                        align-items: center;
-                        justify-content: space-between;
-                        font-weight: bold;
-                        margin-bottom: 10px;
-                    }
+                        .wishlist-header {
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            font-weight: bold;
+                            margin-bottom: 10px;
+                        }
 
-                    .wishlist-header-left {
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        gap: 6px;
-                        white-space: nowrap;
-                    }
+                        .wishlist-header-left {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            gap: 6px;
+                            white-space: nowrap;
+                        }
 
-                    .wishlist-header-left svg {
-                        display: inline-block;
-                        vertical-align: middle;
-                    }
+                        .wishlist-header-left svg {
+                            display: inline-block;
+                            vertical-align: middle;
+                        }
 
-                    .wishlist-items {
-                        display: block;
-                        list-style: none;
-                        padding: 0;
-                        margin: 0;
-                        max-height: 220px;
-                        overflow-y: auto;
-                    }
+                        .wishlist-items {
+                            display: block;
+                            list-style: none;
+                            padding: 0;
+                            margin: 0;
+                            max-height: 220px;
+                            overflow-y: auto;
+                        }
 
-                    .wishlist-items li {
-                        display: block;
-                        padding: 6px 0;
-                        border-bottom: 1px solid #eee;
-                        font-size: 14px;
-                        word-break: break-word;
-                    }
+                        .wishlist-items li {
+                            display: block;
+                            padding: 6px 0;
+                            border-bottom: 1px solid #eee;
+                            font-size: 14px;
+                            word-break: break-word;
+                        }
 
-                    .wishlist-items li.empty-message {
-                        text-align: center;
-                        color: #666;
-                        border-bottom: none;
-                        padding: 10px 0;
-                        font-style: italic;
-                        white-space: normal;
-                    }
+                        .wishlist-items li.empty-message {
+                            text-align: center;
+                            color: #666;
+                            border-bottom: none;
+                            padding: 10px 0;
+                            font-style: italic;
+                            white-space: normal;
+                        }
 
-                    .close-btn {
-                        background: transparent;
-                        border: none;
-                        font-size: 20px;
-                        cursor: pointer;
-                        color: #666;
-                        transition: color 0.2s ease;
-                    }
+                        .close-btn {
+                            background: transparent;
+                            border: none;
+                            font-size: 20px;
+                            cursor: pointer;
+                            color: #666;
+                            transition: color 0.2s ease;
+                        }
 
-                    .close-btn:hover {
-                        color: red;
-                    }
+                        .close-btn:hover {
+                            color: red;
+                        }
                     </style>
 
                     <!-- 🛒 Cart -->
@@ -817,198 +684,187 @@
                             </div>
                         </div>
                     </div>
-
-                    <!--  -->
                 </div>
             </div>
         </div>
     </header>
 
-   @yield("content")
+    @yield("content")
 
 
-   <footer class="footer-mobile container w-100 px-5 d-md-none bg-body">
-      <div class="row text-center">
-         <div class="col-4">
-            <a href="{{route('home.index')}}" class="footer-mobile__link d-flex flex-column align-items-center">
-               <svg class="d-block" width="18" height="18" viewBox="0 0 18 18" fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <use href="#icon_home" />
-               </svg>
-               <span>Home</span>
-            </a>
-         </div>
+    <footer class="footer-mobile container w-100 px-5 d-md-none bg-body">
+        <div class="row text-center">
+            <div class="col-4">
+                <a href="{{route('home.index')}}" class="footer-mobile__link d-flex flex-column align-items-center">
+                    <svg class="d-block" width="18" height="18" viewBox="0 0 18 18" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <use href="#icon_home" />
+                    </svg>
+                    <span>Home</span>
+                </a>
+            </div>
 
-         <div class="col-4">
-            <a href="{{route('home.index')}}" class="footer-mobile__link d-flex flex-column align-items-center">
-               <svg class="d-block" width="18" height="18" viewBox="0 0 18 18" fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <use href="#icon_hanger" />
-               </svg>
-               <span>Shop</span>
-            </a>
-         </div>
+            <div class="col-4">
+                <a href="{{route('home.index')}}" class="footer-mobile__link d-flex flex-column align-items-center">
+                    <svg class="d-block" width="18" height="18" viewBox="0 0 18 18" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <use href="#icon_hanger" />
+                    </svg>
+                    <span>Shop</span>
+                </a>
+            </div>
 
-         <div class="col-4">
-            <a href="{{route('home.index')}}" class="footer-mobile__link d-flex flex-column align-items-center">
-               <div class="position-relative">
-                  <svg class="d-block" width="18" height="18" viewBox="0 0 20 20" fill="none"
-                     xmlns="http://www.w3.org/2000/svg">
-                     <use href="#icon_heart" />
-                  </svg>
-                  <span class="wishlist-amount d-block position-absolute js-wishlist-count">3</span>
-               </div>
-               <span>Wishlist</span>
-            </a>
-         </div>
-      </div>
-   </footer>
+            <div class="col-4">
+                <a href="{{route('home.index')}}" class="footer-mobile__link d-flex flex-column align-items-center">
+                    <div class="position-relative">
+                        <svg class="d-block" width="18" height="18" viewBox="0 0 20 20" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <use href="#icon_heart" />
+                        </svg>
+                        <span class="wishlist-amount d-block position-absolute js-wishlist-count">3</span>
+                    </div>
+                    <span>Wishlist</span>
+                </a>
+            </div>
+        </div>
+    </footer>
 
-   <div id="scrollTop" class="visually-hidden end-0"></div>
-   <div class="page-overlay"></div>
+    <div id="scrollTop" class="visually-hidden end-0"></div>
+    <div class="page-overlay"></div>
 
-   <script src="{{ asset('assets/js/plugins/jquery.min.js') }}"></script>
-   <script src="{{ asset('assets/js/plugins/bootstrap.bundle.min.js') }}"></script>
-   <script src="{{ asset('assets/js/plugins/bootstrap-slider.min.js') }}"></script>
-   <script src="{{ asset('assets/js/plugins/swiper.min.js') }}"></script>
-   <script src="{{ asset('assets/js/plugins/countdown.js') }}"></script>
-   <script src="{{ asset('assets/js/theme.js') }}"></script>
-   @stack("scripts")
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    @auth
-    @include('user.account')
-    @endauth
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('js/account.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/bootstrap-slider.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/swiper.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/countdown.js') }}"></script>
+    <script src="{{ asset('assets/js/theme.js') }}"></script>
 
     <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        // ================== THAM CHIẾU CÁC PHẦN TỬ ==================
-        const cartIcon = document.getElementById('cart-icon');
-        const cartDropdown = document.getElementById('cart-dropdown');
-        const cartItemsList = document.getElementById('cart-items-list');
-        const cartCountBadge = document.querySelector('.js-cart-items-count');
+        document.addEventListener("DOMContentLoaded", () => {
+            // ================== THAM CHIẾU CÁC PHẦN TỬ ==================
+            const cartIcon = document.getElementById('cart-icon');
+            const cartDropdown = document.getElementById('cart-dropdown');
+            const cartItemsList = document.getElementById('cart-items-list');
+            const cartCountBadge = document.querySelector('.js-cart-items-count');
 
-        const wishlistModal = document.getElementById('wishlistModal');
-        const wishlistClose = document.getElementById('wishlistClose');
+            const wishlistModal = document.getElementById('wishlistModal');
+            const wishlistClose = document.getElementById('wishlistClose');
 
-        const userIcon = document.getElementById('user-icon');
-        const userDropdown = document.getElementById('user-dropdown');
+            const userIcon = document.getElementById('user-icon');
+            const userDropdown = document.getElementById('user-dropdown');
 
-        let wishlistTimer = null;
-        let cartTimer = null;
+            let wishlistTimer = null;
+            let cartTimer = null;
 
-        // ================== GIỎ HÀNG DROPDOWN ==================
-        function renderCartItems(data) {
-            cartItemsList.innerHTML = "";
-            if (data.length === 0) {
-                cartItemsList.innerHTML = "<li>Giỏ hàng trống</li>";
-                return;
+            // ================== GIỎ HÀNG DROPDOWN ==================
+            function renderCartItems(data) {
+                cartItemsList.innerHTML = "";
+                if (data.length === 0) {
+                    cartItemsList.innerHTML = "<li>Giỏ hàng trống</li>";
+                    return;
+                }
+
+                data.forEach(item => {
+                    const li = document.createElement("li");
+                    const icon = document.createElement("span");
+                    icon.innerHTML = "&#128722;";
+                    icon.classList.add("cart-item-icon");
+
+                    const a = document.createElement("a");
+                    a.href = "/cart";
+                    a.textContent = item.product ? item.product.name : 'Sản phẩm';
+
+                    li.appendChild(icon);
+                    li.appendChild(a);
+                    cartItemsList.appendChild(li);
+                });
             }
 
-            data.forEach(item => {
-                const li = document.createElement("li");
-                const icon = document.createElement("span");
-                icon.innerHTML = "&#128722;";
-                icon.classList.add("cart-item-icon");
-
-                const a = document.createElement("a");
-                a.href = "/cart";
-                a.textContent = item.product ? item.product.name : 'Sản phẩm';
-
-                li.appendChild(icon);
-                li.appendChild(a);
-                cartItemsList.appendChild(li);
-            });
-        }
-
-        function updateCartCount() {
-            fetch('/api/cart-count?t=' + Date.now())
-                .then(res => res.json())
-                .then(data => {
-                    if (cartCountBadge) {
-                        cartCountBadge.textContent = data.count;
-                    }
-                })
-                .catch(err => console.error('Lỗi lấy số lượng giỏ hàng:', err));
-        }
-        updateCartCount();
-
-        function autoCloseCart() {
-            clearTimeout(cartTimer);
-            cartTimer = setTimeout(() => {
-                cartDropdown.style.display = "none";
-            }, 3000);
-        }
-
-        if (cartIcon) {
-            cartIcon.addEventListener('click', (e) => {
-                if (e.target.tagName.toLowerCase() === 'a') return;
-                e.preventDefault();
-                fetch('/api/cart-items?t=' + Date.now())
+            function updateCartCount() {
+                fetch('/api/cart-count?t=' + Date.now())
                     .then(res => res.json())
                     .then(data => {
-                        renderCartItems(data);
-
-                        // --- Đóng wishlist và user khi mở giỏ hàng ---
-                        if (wishlistModal) wishlistModal.style.display = 'none';
-                        if (userDropdown) userDropdown.style.display = 'none';
-
-                        cartDropdown.style.display =
-                            cartDropdown.style.display === "block" ? "none" : "block";
-
-                        if (cartDropdown.style.display === "block") {
-                            autoCloseCart();
+                        if (cartCountBadge) {
+                            cartCountBadge.textContent = data.count;
                         }
-                    });
-            });
+                    })
+                    .catch(err => console.error('Lỗi lấy số lượng giỏ hàng:', err));
+            }
+            updateCartCount();
 
-            document.addEventListener("click", (e) => {
-                if (!cartIcon.contains(e.target)) {
+            function autoCloseCart() {
+                clearTimeout(cartTimer);
+                cartTimer = setTimeout(() => {
                     cartDropdown.style.display = "none";
-                }
-            });
-        }
+                }, 3000);
+            }
 
-        // ================== WISHLIST ==================
-        function addToWishlist(product) {
-            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-            if (!wishlist.some(item => item.id === product.id)) {
-                wishlist.push(product);
+            if (cartIcon) {
+                cartIcon.addEventListener('click', (e) => {
+                    if (e.target.tagName.toLowerCase() === 'a') return;
+                    e.preventDefault();
+                    fetch('/api/cart-items?t=' + Date.now())
+                        .then(res => res.json())
+                        .then(data => {
+                            renderCartItems(data);
+
+                            // --- Đóng wishlist và user khi mở giỏ hàng ---
+                            if (wishlistModal) wishlistModal.style.display = 'none';
+                            if (userDropdown) userDropdown.style.display = 'none';
+
+                            cartDropdown.style.display =
+                                cartDropdown.style.display === "block" ? "none" : "block";
+
+                            if (cartDropdown.style.display === "block") {
+                                autoCloseCart();
+                            }
+                        });
+                });
+
+                document.addEventListener("click", (e) => {
+                    if (!cartIcon.contains(e.target)) {
+                        cartDropdown.style.display = "none";
+                    }
+                });
+            }
+
+            // ================== WISHLIST ==================
+            function addToWishlist(product) {
+                let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+                if (!wishlist.some(item => item.id === product.id)) {
+                    wishlist.push(product);
+                    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                }
+            }
+
+            function removeFromWishlist(productId) {
+                let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+                wishlist = wishlist.filter(item => item.id !== productId);
                 localStorage.setItem('wishlist', JSON.stringify(wishlist));
             }
-        }
 
-        function removeFromWishlist(productId) {
-            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-            wishlist = wishlist.filter(item => item.id !== productId);
-            localStorage.setItem('wishlist', JSON.stringify(wishlist));
-        }
+            function renderWishlist() {
+                const listEl = document.getElementById('wishlistItems');
+                listEl.innerHTML = '';
 
-        function renderWishlist() {
-            const listEl = document.getElementById('wishlistItems');
-            listEl.innerHTML = '';
+                let wishlist;
+                try {
+                    wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+                } catch (e) {
+                    wishlist = [];
+                }
 
-            let wishlist;
-            try {
-                wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-            } catch (e) {
-                wishlist = [];
-            }
+                // Lọc những item hợp lệ (có id và name)
+                wishlist = wishlist.filter(item => item && item.id && item.name);
 
-            // Lọc những item hợp lệ (có id và name)
-            wishlist = wishlist.filter(item => item && item.id && item.name);
+                if (wishlist.length === 0) {
+                    listEl.innerHTML = '<li class="empty-message">Chưa có sản phẩm yêu thích</li>';
+                    return;
+                }
 
-            if (wishlist.length === 0) {
-                listEl.innerHTML = '<li class="empty-message">Chưa có sản phẩm yêu thích</li>';
-                return;
-            }
-
-            wishlist.forEach(item => {
-                const li = document.createElement('li');
-                li.innerHTML = `
+                wishlist.forEach(item => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
             <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
                 <div style="display:flex; align-items:center; gap:8px;">
                     <img src="${item.image || '/default.jpg'}" alt="${item.name}"
@@ -1023,44 +879,62 @@
                 </button>
             </div>
         `;
-                listEl.appendChild(li);
-            });
-        }
-
-        function autoCloseWishlist() {
-            clearTimeout(wishlistTimer);
-            wishlistTimer = setTimeout(() => {
-                wishlistModal.style.display = "none";
-            }, 3000);
-        }
-
-        // Click icon heart
-        document.addEventListener('click', function(e) {
-            // 1. Nút thêm/xóa yêu thích
-            let btn = e.target.closest('button.main-product-wishlist');
-            if (!btn) {
-                btn = e.target.closest('button.js-add-wishlist');
+                    listEl.appendChild(li);
+                });
             }
 
-            if (btn) {
-                e.preventDefault();
-                btn.classList.toggle('active');
+            function autoCloseWishlist() {
+                clearTimeout(wishlistTimer);
+                wishlistTimer = setTimeout(() => {
+                    wishlistModal.style.display = "none";
+                }, 3000);
+            }
 
-                const svg = btn.querySelector('svg');
-                const productName = btn.dataset.productName;
-                const productId = btn.dataset.productId;
+            // Click icon heart
+            document.addEventListener('click', function(e) {
+                // 1. Nút thêm/xóa yêu thích
+                let btn = e.target.closest('button.main-product-wishlist');
+                if (!btn) {
+                    btn = e.target.closest('button.js-add-wishlist');
+                }
 
-                if (!productName || !productId) return;
+                if (btn) {
+                    e.preventDefault();
+                    btn.classList.toggle('active');
 
-                const product = {
-                    id: productId,
-                    name: productName,
-                    image: btn.dataset.productImage || ''
-                };
+                    const svg = btn.querySelector('svg');
+                    const productName = btn.dataset.productName;
+                    const productId = btn.dataset.productId;
 
-                if (btn.classList.contains('active')) {
-                    addToWishlist(product);
-                    svg.style.fill = 'red';
+                    if (!productName || !productId) return;
+
+                    const product = {
+                        id: productId,
+                        name: productName,
+                        image: btn.dataset.productImage || ''
+                    };
+
+                    if (btn.classList.contains('active')) {
+                        addToWishlist(product);
+                        svg.style.fill = 'red';
+                        renderWishlist();
+
+                        if (cartDropdown) cartDropdown.style.display = 'none';
+                        if (userDropdown) userDropdown.style.display = 'none';
+
+                        wishlistModal.style.display = 'block';
+                        autoCloseWishlist();
+                    } else {
+                        removeFromWishlist(product.id);
+                        svg.style.fill = '#666';
+                    }
+                    return;
+                }
+
+                // 2. Nút mở modal wishlist
+                const openLink = e.target.closest('.open-wishlist-modal');
+                if (openLink) {
+                    e.preventDefault();
                     renderWishlist();
 
                     if (cartDropdown) cartDropdown.style.display = 'none';
@@ -1068,111 +942,93 @@
 
                     wishlistModal.style.display = 'block';
                     autoCloseWishlist();
-                } else {
-                    removeFromWishlist(product.id);
-                    svg.style.fill = '#666';
                 }
-                return;
-            }
 
-            // 2. Nút mở modal wishlist
-            const openLink = e.target.closest('.open-wishlist-modal');
-            if (openLink) {
-                e.preventDefault();
-                renderWishlist();
+                // 3. Nút mở modal wishlist từ menu
+                const menuBtn = e.target.closest('.add-to-wishlist');
+                if (menuBtn) {
+                    e.preventDefault();
+                    renderWishlist();
 
-                if (cartDropdown) cartDropdown.style.display = 'none';
-                if (userDropdown) userDropdown.style.display = 'none';
+                    if (cartDropdown) cartDropdown.style.display = 'none';
+                    if (userDropdown) userDropdown.style.display = 'none';
 
-                wishlistModal.style.display = 'block';
-                autoCloseWishlist();
-            }
-
-            // 3. Nút mở modal wishlist từ menu
-            const menuBtn = e.target.closest('.add-to-wishlist');
-            if (menuBtn) {
-                e.preventDefault();
-                renderWishlist();
-
-                if (cartDropdown) cartDropdown.style.display = 'none';
-                if (userDropdown) userDropdown.style.display = 'none';
-
-                wishlistModal.style.display = 'block';
-                autoCloseWishlist();
-            }
-
-            // 4. Nút mở modal wishlist từ icon ở header
-            const headerWishlist = e.target.closest('.header-wishlist');
-            if (headerWishlist) {
-                e.preventDefault();
-                e.stopPropagation();
-
-                renderWishlist();
-
-                if (cartDropdown) cartDropdown.style.display = 'none';
-                if (userDropdown) userDropdown.style.display = 'none';
-
-                if (wishlistModal.style.display === 'block') {
-                    wishlistModal.style.display = 'none';
-                } else {
                     wishlistModal.style.display = 'block';
                     autoCloseWishlist();
                 }
-            }
-        });
 
-        // Xóa trong wishlist modal
-        document.getElementById('wishlistItems').addEventListener('click', function(e) {
-            const removeBtn = e.target.closest('.wishlist-remove-btn');
-            if (removeBtn) {
-                const productId = removeBtn.dataset.productId;
-                removeFromWishlist(productId);
+                // 4. Nút mở modal wishlist từ icon ở header
+                const headerWishlist = e.target.closest('.header-wishlist');
+                if (headerWishlist) {
+                    e.preventDefault();
+                    e.stopPropagation();
 
-                document.querySelectorAll(
-                    `.js-add-wishlist[data-product-id="${productId}"], .add-to-wishlist[data-product-id="${productId}"]`
-                ).forEach(heartBtn => {
-                    heartBtn.classList.remove('active');
-                    const svg = heartBtn.querySelector('svg');
-                    if (svg) svg.style.fill = '#666';
-                });
+                    renderWishlist();
 
-                renderWishlist();
-            }
-        });
+                    if (cartDropdown) cartDropdown.style.display = 'none';
+                    if (userDropdown) userDropdown.style.display = 'none';
 
-        // Đóng modal wishlist khi click ngoài
-        if (wishlistClose) {
-            wishlistClose.addEventListener('click', () => wishlistModal.style.display = 'none');
-        }
-        window.addEventListener('click', function(e) {
-            if (e.target === wishlistModal) {
-                wishlistModal.style.display = 'none';
-            }
-        });
-
-        // ================== USER DROPDOWN ==================
-        if (userIcon && userDropdown) {
-            userIcon.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-
-                if (cartDropdown) cartDropdown.style.display = 'none';
-                if (wishlistModal) wishlistModal.style.display = 'none';
-
-                userDropdown.style.display =
-                    userDropdown.style.display === "block" ? "none" : "block";
-            });
-
-            document.addEventListener("click", (e) => {
-                if (!userIcon.contains(e.target) && !userDropdown.contains(e.target)) {
-                    userDropdown.style.display = "none";
+                    if (wishlistModal.style.display === 'block') {
+                        wishlistModal.style.display = 'none';
+                    } else {
+                        wishlistModal.style.display = 'block';
+                        autoCloseWishlist();
+                    }
                 }
             });
-        }
-    });
+
+            // Xóa trong wishlist modal
+            document.getElementById('wishlistItems').addEventListener('click', function(e) {
+                const removeBtn = e.target.closest('.wishlist-remove-btn');
+                if (removeBtn) {
+                    const productId = removeBtn.dataset.productId;
+                    removeFromWishlist(productId);
+
+                    document.querySelectorAll(
+                        `.js-add-wishlist[data-product-id="${productId}"], .add-to-wishlist[data-product-id="${productId}"]`
+                    ).forEach(heartBtn => {
+                        heartBtn.classList.remove('active');
+                        const svg = heartBtn.querySelector('svg');
+                        if (svg) svg.style.fill = '#666';
+                    });
+
+                    renderWishlist();
+                }
+            });
+
+            // Đóng modal wishlist khi click ngoài
+            if (wishlistClose) {
+                wishlistClose.addEventListener('click', () => wishlistModal.style.display = 'none');
+            }
+            window.addEventListener('click', function(e) {
+                if (e.target === wishlistModal) {
+                    wishlistModal.style.display = 'none';
+                }
+            });
+
+            // ================== USER DROPDOWN ==================
+            if (userIcon && userDropdown) {
+                userIcon.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    if (cartDropdown) cartDropdown.style.display = 'none';
+                    if (wishlistModal) wishlistModal.style.display = 'none';
+
+                    userDropdown.style.display =
+                        userDropdown.style.display === "block" ? "none" : "block";
+                });
+
+                document.addEventListener("click", (e) => {
+                    if (!userIcon.contains(e.target) && !userDropdown.contains(e.target)) {
+                        userDropdown.style.display = "none";
+                    }
+                });
+            }
+        });
     </script>
 
-
+    @stack("scripts")
 
 </body>
 

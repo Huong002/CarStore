@@ -127,35 +127,130 @@ class ShopController extends Controller
         ));
     }
     public function product_details($product_slug)
-{
-    // $product = Product::with(['primaryImage', 'images'])->where('slug', $product_slug)->firstOrFail();
-    $product = Product::with(['primaryImage', 'galleryImages'])
-                  ->where('slug', $product_slug)
-                  ->firstOrFail();
+    {
+        try {
+            // Lấy thông tin sản phẩm kèm theo các mối quan hệ cần thiết
+            $product = Product::with([
+                'primaryImage',
+                'galleryImages',
+                'brand',
+                'category',
+                'color'
+            ])
+                ->where('slug', $product_slug)
+                ->firstOrFail();
 
-    $rproducts  = Product::where('slug', '<>', $product->slug)->take(8)->get();
+            // Log thông tin sản phẩm được xem để phân tích
+            Log::info('Product viewed', [
+                'product_id' => $product->id,
+                'product_name' => $product->name,
+                'user_id' => Auth::check() ? Auth::id() : 'guest'
+            ]);
 
-    $categories = Category::orderBy('name', 'ASC')->get();
-    $brands = Brand::orderBy('name', 'ASC')->get();
-      // Thêm dòng này để kiểm tra dữ liệu
-    // dd($product->primaryImage, $product->galleryImages);
+            // Lấy các sản phẩm liên quan (không bao gồm sản phẩm hiện tại)
+            $rproducts = Product::where('slug', '<>', $product->slug)
+                ->where(function ($query) use ($product) {
+                    // Ưu tiên sản phẩm cùng danh mục hoặc thương hiệu
+                    $query->where('category_id', $product->category_id)
+                        ->orWhere('brand_id', $product->brand_id);
+                })
+                ->inRandomOrder() // Xáo trộn kết quả để đa dạng
+                ->take(8)
+                ->get();
 
-    return view('details', compact('product', 'rproducts', 'categories', 'brands'));
-}
+            // Lấy danh sách danh mục và thương hiệu cho menu
+            $categories = Category::orderBy('name', 'ASC')->get();
+            $brands = Brand::orderBy('name', 'ASC')->get();
 
-public function show($id)
-{
-    $product = Product::with(['reviews.user'])
-        ->findOrFail($id);
+            return view('details', compact(
+                'product',
+                'rproducts',
+                'categories',
+                'brands'
+            ));
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            // Xử lý khi không tìm thấy sản phẩm
+            Log::error('Product not found', ['slug' => $product_slug]);
+            return redirect()->route('shop.index')
+                ->with('error', 'Sản phẩm không tồn tại hoặc đã bị xóa.');
+        } catch (\Exception $e) {
+            // Xử lý lỗi chung
+            Log::error('Error displaying product details', [
+                'slug' => $product_slug,
+                'error' => $e->getMessage()
+            ]);
+            return redirect()->route('shop.index')
+                ->with('error', 'Có lỗi xảy ra khi hiển thị chi tiết sản phẩm.');
+        }
+    }
+    public function scanImage(Request $request)
+    {
+        try {
+            // Kiểm tra xem có file ảnh được gửi lên không
+            if (!$request->hasFile('image')) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Không tìm thấy file ảnh'
+                ], 400);
+            }
 
-    return view('shop.detail', compact('product'));
-}
-public function wishlistShow($id)
-{
-    $product = \App\Models\Product::with(['images', 'primaryImage'])->findOrFail($id);
+            $image = $request->file('image');
 
-    return view('wishlistshow', compact('product'));
-}
+            // Kiểm tra định dạng file
+            $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
+            if (!in_array($image->getMimeType(), $allowedMimeTypes)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Định dạng file không hợp lệ. Chỉ hỗ trợ JPEG, PNG, JPG và GIF.'
+                ], 400);
+            }
 
- 
+            // Tạo một HTTP client để gửi ảnh đến API nhận diện
+            $client = new \GuzzleHttp\Client();
+
+            // Gửi ảnh đến API nhận diện (Python Flask)
+            $response = $client->post('http://127.0.0.1:5000/predict', [
+                'multipart' => [
+                    [
+                        'name' => 'image',
+                        'contents' => fopen($image->getPathname(), 'r'),
+                        'filename' => $image->getClientOriginalName()
+                    ]
+                ]
+            ]);
+
+            // Lấy kết quả nhận diện
+            $result = json_decode($response->getBody(), true);
+
+            // Log kết quả để debug
+            Log::info('Image Recognition Result:', $result);
+
+            return response()->json($result);
+        } catch (\GuzzleHttp\Exception\ConnectException $e) {
+            Log::error('API không phản hồi: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Không thể kết nối đến máy chủ nhận diện. Vui lòng thử lại sau.'
+            ], 503);
+        } catch (\Exception $e) {
+            Log::error('Lỗi xử lý ảnh: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Đã xảy ra lỗi khi xử lý ảnh: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+    public function show($id)
+    {
+        $product = Product::with(['reviews.user'])
+            ->findOrFail($id);
+
+        return view('shop.detail', compact('product'));
+    }
+    public function wishlistShow($id)
+    {
+        $product = \App\Models\Product::with(['images', 'primaryImage'])->findOrFail($id);
+
+        return view('wishlistshow', compact('product'));
+    }
 }

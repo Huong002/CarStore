@@ -21,7 +21,7 @@ class Product extends Model
         'stock_status',
         'featured',
         'quantity',
-   
+
         'category_id',
         'brand_id'
     ];
@@ -46,16 +46,19 @@ class Product extends Model
 
     // Lấy tất cả ảnh của sản phẩm
     public function galleryImages()
-{
-    return $this->hasMany(Image::class, 'product_id', 'id');
-}
-
+    {
+        return $this->hasMany(Image::class, 'product_id', 'id');
+    }
+    public function images()
+    {
+        return $this->hasMany(Image::class, 'product_id', 'id');
+    }
 
     // Lấy ảnh chính (primary image)
     public function primaryImage()
     {
         return $this->hasOne(Image::class, 'product_id', 'id')
-                    ->where('is_primary', 1);
+            ->where('is_primary', 1);
     }
 
     public function orderDetail()
@@ -70,5 +73,9 @@ class Product extends Model
     public function color()
     {
         return $this->belongsTo(Color::class);
+    }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
 }
