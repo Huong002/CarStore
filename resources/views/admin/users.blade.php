@@ -57,7 +57,9 @@
                         <td class="text-center">{{$loop->iteration}}</td>
                         <td class="pname text-center">
                            <div class="image" style="display: inline-block;">
-                              <img src="user-1.html" alt="" class="image">
+                              
+                              <img src="{{ asset('images/avatar/' . $user->image) }}" alt="" class="image"
+                                 style="width:50px; height:50px; object-fit:cover; border-radius:50%;">
                            </div>
                            <div class="name" style="display: inline-block;">
                               <a href="#" class="body-title-2">{{$user->name}}</a>
