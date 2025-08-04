@@ -106,16 +106,17 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     // notification
     Route::get('admin/notification', [AdminController::class, 'notifications'])->name('admin.notifications');
     Route::patch('admin/notification/history', [AdminController::class, 'notification-history'])->name('admin.notification.history');
+    Route::get('admin/notification/edit/{id}', [AdminController::class, 'notification_edit'])->name('admin.notification.edit');
+    Route::put('/admin/notification/update', [AdminController::class, 'notification_update'])->name('admin.notification.update');
+    Route::get('admin/notification/add', [AdminController::class, 'notification_add'])->name('admin.notification.add');
     Route::post('admin/notification/store', [AdminController::class, 'notification_store'])->name('admin.notification.store');
     Route::delete('admin/notification/delete/{id}', [AdminController::class, 'notification_delete'])->name('admin.notification.delete');
-    Route::delete('admin/notification/softs_delete', [AdminController::class, 'notification_soft_delete'])->name('admin.notifiction.soft_delete');
+    Route::delete('admin/notification/softs_delete', [AdminController::class, 'notification_soft_delete'])->name('admin.notification.soft_delete');
     // inbox
     Route::get('admin/inbox', [AdminController::class, 'inbox'])->name('admin.inbox');
 });
-Route::get('/location', function () {
-    return view('location');
-})->name('location.index');
-
+    Route::get('/location', function () { return view('location'); })->name('location.index');
+    
 Route::prefix('cart')->name('cart.')->group(function () {
     Route::get('/', [CartController::class, 'index'])->name('index');
     Route::post('/add', [CartController::class, 'add'])->name('add');
@@ -145,15 +146,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/order/success/{id}', [OrderController::class, 'success'])->name('order.success');
     // Danh sách đơn đặt cọc (có thể cho xem mà không đăng nhập, tùy bạn)
     Route::get('/deposit', [DepositController::class, 'list'])->name('deposit.list');
-
+   
     Route::get('/api/cart-items', [CartController::class, 'getItems'])->name('cart.items');
 
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 
-    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
-});
-Route::get('/api/cart-count', [CartController::class, 'countItems'])->name('cart.count');
+   Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 
-// Xem chi tiết sản phẩm yêu thích theo id
+});
+ Route::get('/api/cart-count', [CartController::class, 'countItems'])->name('cart.count');
+ 
+ // Xem chi tiết sản phẩm yêu thích theo id
 Route::get('/wishlistshow/{id}', [ShopController::class, 'wishlistShow'])->name('wishlist.show');
 Route::post('/cart', [CartController::class, 'add'])->name('cart.add');

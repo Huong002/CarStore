@@ -27,12 +27,36 @@ class AppServiceProvider extends ServiceProvider
         // Share notifications with admin layout
         View::composer('layouts.admin', function ($view) {
             if (Auth::check()) {
-                $userId = Auth::id();
-                $notifications = UserNotification::where('user_id', $userId)
-                    ->with('notification')
+                $currentUser = Auth::user();
+                $userId = $currentUser->id;
+
+                // Xác định loại thông báo dựa vào quyền của người dùng
+                $notificationTypes = ['all']; // Loại thông báo chung cho tất cả
+
+                if ($currentUser->utype === 'ADM') {
+                    $notificationTypes[] = 'admin';
+                } elseif ($currentUser->employee_id) {
+                    $notificationTypes[] = 'employee';
+                } elseif ($currentUser->customer_id) {
+                    $notificationTypes[] = 'customer';
+                }
+
+                // Debug: Log user info
+                \Illuminate\Support\Facades\Log::info('Current User ID: ' . $userId . ', Type: ' . $currentUser->utype);
+                \Illuminate\Support\Facades\Log::info('Notification Types: ' . implode(', ', $notificationTypes));
+
+                // Lấy tất cả thông báo của user này
+                $notifications = Notification::whereIn('type', $notificationTypes)
+                    ->whereNull('deleted_at')
                     ->orderBy('created_at', 'desc')
-                    ->limit(5)
+                    ->take(5)
                     ->get();
+
+                // Debug: Log số lượng thông báo tìm được
+                \Illuminate\Support\Facades\Log::info('Found notifications: ' . $notifications->count());
+                foreach ($notifications as $index => $notification) {
+                    \Illuminate\Support\Facades\Log::info("Notification #{$index}: {$notification->id} - {$notification->name} - {$notification->type}");
+                }
 
                 $view->with('notifications', $notifications);
             }

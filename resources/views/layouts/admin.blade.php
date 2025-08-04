@@ -285,6 +285,26 @@
                     </li>
                   </ul>
                 </li>
+                <li class="menu-item has-children">
+                  <a href="javascript:void(0);" class="menu-item-button">
+                    <div class="icon"><i class="icon-bell"></i></div>
+                    <div class="text">Thông báo</div>
+                  </a>
+                  <ul class="sub-menu">
+                    <li class="sub-menu-item">
+                      <a href="{{route('admin.notification.add')}}" class="">
+                        <div class="text">Thêm mới</div>
+                      </a>
+                    </li>
+                    <li class="sub-menu-item">
+                      <a href="{{route('admin.notifications')}}" class="">
+                        <div class="text">Danh sách</div>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+
+
                 <!-- <li class="menu-item">
                   <a href="slider.html" class="">
                     <div class="icon"><i class="icon-image"></i></div>
@@ -297,6 +317,12 @@
                     <div class="text">Coupns</div>
                   </a>
                 </li> -->
+                <li class="menu-item">
+                  <a href="{{route('admin.inbox')}}" class="">
+                    <div class="icon"><i class="bi bi-envelope"></i></div>
+                    <div class="text">Hộp thư</div>
+                  </a>
+                </li>
 
                 <li class="menu-item">
                   <a href="{{route('admin.users')}}" class="">
@@ -310,12 +336,7 @@
                     <div class="text">Thông báo</div>
                   </a>
                 </li> -->
-                <li class="menu-item">
-                  <a href="{{route('admin.inbox')}}" class="">
-                    <div class="icon"><i class="icon-bell"></i></div>
-                    <div class="text">inbox</div>
-                  </a>
-                </li>
+
                 <li class="menu-item">
                   <a href="settings.html" class="">
                     <div class="icon"><i class="icon-settings"></i></div>
@@ -499,7 +520,7 @@
                       data-bs-toggle="dropdown"
                       aria-expanded="false">
                       <span class="header-item">
-                        <span class="text-tiny">1</span>
+                        <span class="text-tiny">{{ $notifications->count() }}</span>
                         <i class="icon-bell"></i>
                       </span>
                     </button>
@@ -507,7 +528,7 @@
                       class="dropdown-menu dropdown-menu-end has-content"
                       aria-labelledby="dropdownMenuButton2">
                       <li>
-                        <h6>Notifications</h6>
+                        <h6>Thông báo</h6>
                       </li>
                       @forelse($notifications as $noti)
                       <li>
@@ -516,9 +537,9 @@
                             <i class="icon-noti-{{ $loop->iteration }}"></i>
                           </div>
                           <div>
-                            <div class="body-title-2">{{ $noti->notification->name ?? 'Thông báo' }}</div>
+                            <div class="body-title-2">{{ $noti->name }}</div>
                             <div class="text-tiny">
-                              {{ $noti->notification->content ?? '' }}
+                              {{ $noti->content }}
                             </div>
                             <div class="text-tiny text-muted">
                               {{ $noti->created_at->format('d/m/Y H:i') }}

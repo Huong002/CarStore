@@ -882,7 +882,7 @@ class AdminController extends Controller
         $notification = Notification::find($id);
         return view('admin.notification-edit', compact('notification'));
     }
-    public function notifiction_supdate(Request $request)
+    public function notification_update(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -968,7 +968,7 @@ class AdminController extends Controller
 
     public function inbox()
     {
-        return view('admin.notifications');
+        return view('admin.inbox');
     }
     #endregion
 }
