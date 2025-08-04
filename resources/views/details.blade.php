@@ -211,7 +211,6 @@
 
                     <share-button class="share-button">
 
-                        <!--  -->
 
                         <!-- Nút chia sẻ -->
                         <button
@@ -289,7 +288,6 @@
                             </div>
                         </div>
 
-                        <!--  -->
 
                     </share-button>
 
@@ -329,7 +327,6 @@
             <!--  -->
 
             <div class="tab-content">
-                {{-- Tab Mô tả --}}
                 <div class="tab-pane fade show active" id="tab-description" role="tabpanel"
                     aria-labelledby="tab-description-tab">
                     <div class="product-single__description">
@@ -338,7 +335,6 @@
                     </div>
                 </div>
 
-                {{-- Tab Thông tin chi tiết --}}
                 <div class="tab-pane fade" id="tab-additional-info" role="tabpanel"
                     aria-labelledby="tab-additional-info-tab">
                     <div class="product-single__description">
@@ -348,7 +344,6 @@
                     </div>
                 </div>
 
-                {{-- Tab đánh giá giữ nguyên --}}
                 <div class="tab-pane fade" id="tab-reviews" role="tabpanel" aria-labelledby="tab-reviews-tab">
 
                     <div class="product-single__reviews-list">

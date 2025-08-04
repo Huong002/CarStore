@@ -141,7 +141,7 @@ class ProductSeeder extends Seeder
                 'regular_price' => 4000000000,
                 'sale_price' => 380000000,
                 'SKU' => 'CHEV-CV-2012',
-                'stock_status' => 'instok',
+                'stock_status' => 'instock',
                 'featured' => false,
                 'quantity' => 5,
                 'category_id' => 4, // Convertible

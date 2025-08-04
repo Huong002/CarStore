@@ -423,11 +423,16 @@
                                 </span>
                             </div>
 
-                            <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                                title="Add To Wishlist">
-                                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <button type="button"
+                                class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
+                                data-product-id="{{ $product->id }}"
+                                data-product-name="{{ $product->name }}"
+                                data-product-image="{{ $product->primaryImage ? asset('uploads/products/' . $product->primaryImage->imageName) : asset('assets/images/no-image.png') }}"
+                                style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+                                <svg width="16" height="16" viewBox="0 0 20 20">
                                     <use href="#icon_heart" />
                                 </svg>
+
                             </button>
                         </div>
                     </div>
