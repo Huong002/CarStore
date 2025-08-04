@@ -641,6 +641,105 @@
                         .close-btn:hover {
                             color: red;
                         }
+
+                        /* Cart Dropdown CSS */
+                        .cart-dropdown {
+                            position: absolute;
+                            top: 100%;
+                            right: 0;
+                            background: #fff;
+                            border-radius: 12px;
+                            width: 320px;
+                            padding: 0;
+                            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+                            display: none;
+                            z-index: 9999;
+                            border: 1px solid #e5e5e5;
+                            animation: fadeIn 0.25s ease-in-out;
+                            font-family: Arial, sans-serif;
+                        }
+
+                        .cart-header {
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            font-weight: bold;
+                            padding: 12px 16px;
+                            border-bottom: 1px solid #f0f0f0;
+                        }
+
+                        .cart-header-left {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            gap: 8px;
+                            white-space: nowrap;
+                        }
+
+                        .cart-header-left svg {
+                            display: inline-block;
+                            vertical-align: middle;
+                            fill: #333;
+                        }
+
+                        .cart-dropdown ul {
+                            list-style: none;
+                            padding: 0;
+                            margin: 0;
+                            max-height: 300px;
+                            overflow-y: auto;
+                            padding: 8px 16px;
+                        }
+
+                        .cart-dropdown li {
+                            padding: 12px 0;
+                            border-bottom: 1px solid #f0f0f0;
+                            font-size: 14px;
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                        }
+
+                        .cart-dropdown li:last-child {
+                            border-bottom: none;
+                        }
+
+                        .cart-dropdown li.empty-message {
+                            text-align: center;
+                            color: #666;
+                            font-style: italic;
+                            padding: 20px 0;
+                            justify-content: center;
+                        }
+
+                        .cart-footer {
+                            padding: 12px 16px;
+                            border-top: 1px solid #f0f0f0;
+                        }
+
+                        .cart-footer .btn {
+                            padding: 8px 16px;
+                            font-size: 14px;
+                            border-radius: 6px;
+                        }
+
+                        .header-tools__cart {
+                            cursor: pointer;
+                        }
+
+                        .cart-amount {
+                            top: -8px;
+                            right: -8px;
+                            background: #dc3545;
+                            color: white;
+                            border-radius: 50%;
+                            width: 18px;
+                            height: 18px;
+                            font-size: 10px;
+                            text-align: center;
+                            line-height: 18px;
+                            font-weight: bold;
+                        }
                     </style>
 
                     <!-- 🛒 Cart -->
@@ -662,9 +761,20 @@
 
                             <!-- Dropdown cart -->
                             <div id="cart-dropdown" class="cart-dropdown">
+                                <div class="cart-header">
+                                    <div class="cart-header-left">
+                                        <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <use href="#icon_cart" />
+                                        </svg>
+                                        <span>Giỏ hàng</span>
+                                    </div>
+                                </div>
                                 <ul id="cart-items-list">
                                     <!-- Render bằng JS -->
                                 </ul>
+                                <div class="cart-footer">
+                                    <a href="{{ route('cart.index') }}" class="btn btn-primary w-100">Xem giỏ hàng</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -751,22 +861,27 @@
             function renderCartItems(data) {
                 cartItemsList.innerHTML = "";
                 if (data.length === 0) {
-                    cartItemsList.innerHTML = "<li>Giỏ hàng trống</li>";
+                    cartItemsList.innerHTML = '<li class="empty-message">Giỏ hàng trống</li>';
                     return;
                 }
 
                 data.forEach(item => {
                     const li = document.createElement("li");
-                    const icon = document.createElement("span");
-                    icon.innerHTML = "&#128722;";
-                    icon.classList.add("cart-item-icon");
-
-                    const a = document.createElement("a");
-                    a.href = "/cart";
-                    a.textContent = item.product ? item.product.name : 'Sản phẩm';
-
-                    li.appendChild(icon);
-                    li.appendChild(a);
+                    li.innerHTML = `
+                        <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; width:100%;">
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <img src="${item.product?.image || '/default.jpg'}" alt="${item.product?.name || 'Sản phẩm'}"
+                                    style="width:40px; height:40px; object-fit:cover; border-radius:4px;">
+                                <div>
+                                    <div style="font-weight:500;">${item.product?.name || 'Sản phẩm'}</div>
+                                    <div style="color:#666; font-size:12px;">Số lượng: ${item.quantity || 1}</div>
+                                </div>
+                            </div>
+                            <div style="font-weight:bold; color:#dc3545;">
+                                ${item.product?.regular_price ? new Intl.NumberFormat('vi-VN').format(item.product.regular_price) + 'đ' : ''}
+                            </div>
+                        </div>
+                    `;
                     cartItemsList.appendChild(li);
                 });
             }
@@ -799,9 +914,8 @@
                         .then(data => {
                             renderCartItems(data);
 
-                            // --- Đóng wishlist và user khi mở giỏ hàng ---
+                            // --- Đóng wishlist khi mở giỏ hàng ---
                             if (wishlistModal) wishlistModal.style.display = 'none';
-                            if (userDropdown) userDropdown.style.display = 'none';
 
                             cartDropdown.style.display =
                                 cartDropdown.style.display === "block" ? "none" : "block";
