@@ -14,6 +14,6 @@ class Notification extends Model
     // }
     public function usernotification()
     {
-        return $this->hasMany(UserNotification::class, 'usernotificaion_id');
+        return $this->hasMany(UserNotification::class, 'notification_id');
     }
 }

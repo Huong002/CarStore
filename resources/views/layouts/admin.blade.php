@@ -32,7 +32,7 @@
   <link rel="stylesheet" type="text/css" href="{{ asset('css/avatar.css')}}" />
 
   @yield('styles')
-  
+
   @stack("styles")
 </head>
 
@@ -509,68 +509,32 @@
                       <li>
                         <h6>Notifications</h6>
                       </li>
+                      @forelse($notifications as $noti)
                       <li>
-                        <div class="message-item item-1">
+                        <div class="message-item">
                           <div class="image">
-                            <i class="icon-noti-1"></i>
+                            <i class="icon-noti-{{ $loop->iteration }}"></i>
                           </div>
                           <div>
-                            <div class="body-title-2">Discount available</div>
+                            <div class="body-title-2">{{ $noti->notification->name ?? 'Thông báo' }}</div>
                             <div class="text-tiny">
-                              Morbi sapien massa, ultricies at rhoncus at,
-                              ullamcorper nec diam
+                              {{ $noti->notification->content ?? '' }}
+                            </div>
+                            <div class="text-tiny text-muted">
+                              {{ $noti->created_at->format('d/m/Y H:i') }}
                             </div>
                           </div>
                         </div>
                       </li>
+                      @empty
                       <li>
-                        <div class="message-item item-2">
-                          <div class="image">
-                            <i class="icon-noti-2"></i>
-                          </div>
-                          <div>
-                            <div class="body-title-2">
-                              Account has been verified
-                            </div>
-                            <div class="text-tiny">
-                              Mauris libero ex, iaculis vitae rhoncus et
-                            </div>
-                          </div>
+                        <div class="message-item">
+                          <div class="body-title-2">Không có thông báo mới</div>
                         </div>
                       </li>
+                      @endforelse
                       <li>
-                        <div class="message-item item-3">
-                          <div class="image">
-                            <i class="icon-noti-3"></i>
-                          </div>
-                          <div>
-                            <div class="body-title-2">
-                              Order shipped successfully
-                            </div>
-                            <div class="text-tiny">
-                              Integer aliquam eros nec sollicitudin
-                              sollicitudin
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="message-item item-4">
-                          <div class="image">
-                            <i class="icon-noti-4"></i>
-                          </div>
-                          <div>
-                            <div class="body-title-2">
-                              Order pending: <span>ID 305830</span>
-                            </div>
-                            <div class="text-tiny">
-                              Ultricies at rhoncus at ullamcorper
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <a href="#" class="tf-button w-full">View all</a>
+                        <a href="{{ route('admin.inbox') }}" class="tf-button w-full">Xem toàn bộ</a>
                       </li>
                     </ul>
                   </div>

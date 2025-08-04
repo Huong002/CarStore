@@ -933,7 +933,7 @@ class AdminController extends Controller
             ->get();
         return view('admin.notifications', compact($notifications));
     }
-    public function notifitionById()
+    public function notifitionByUser()
     {
         // Lấy thông tin user đang đăng nhập
         $currentUser = \Illuminate\Support\Facades\Auth::user();
@@ -953,14 +953,13 @@ class AdminController extends Controller
             $notificationTypes[] = 'customer';
         }
 
-        // Lấy các notification phù hợp với quyền của user
-        $notificationIds = Notification::whereIn('type', $notificationTypes)->pluck('id');
-
-        // Lấy danh sách thông báo dành cho user đang đăng nhập
+        // Lấy các notification phù hợp với quyền của user (Cách tối ưu hơn)
         $user_notifications = UserNotification::where('user_id', $currentUser->id)
-            ->whereIn('notification_id', $notificationIds)
-            ->with('notification') // Eager loading để lấy thông tin notification
-            ->orderBy('created_at', 'desc')
+            ->whereHas('notification', function ($query) use ($notificationTypes) {
+                $query->whereIn('type', $notificationTypes);
+            })
+            ->with('notification')
+            ->orderBy('created_at', 'desc')->take(5)
             ->paginate(10);
 
         return view('admin.notifications', ['notifications' => $user_notifications]);
