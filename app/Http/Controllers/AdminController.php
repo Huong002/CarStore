@@ -899,13 +899,13 @@ class AdminController extends Controller
         return redirect()->route('admin.notification.update')->with('status', 'Cập nhập thành công');
     }
     // xoa thong bao
-    public function delete($id)
+    public function notification_delete($id)
     {
         $notification = Notification::find($id);
         if (!$notification) {
             return redirect()->back()->with('error', 'Không tìm thấy id bạn cần');
         }
-        $notification->forceDelete();
+        $notification->delete();
         return redirect()->route('admin.notifications')->with('status', 'Chúc mừng bạn xóa thành công');
     }
     // danh sach 

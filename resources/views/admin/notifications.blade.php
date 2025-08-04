@@ -75,7 +75,7 @@
                                     <i class="icon-edit-3"></i>
                                  </div>
                               </a>
-                              <form action="{{ route('admin.notification.soft_delete', ['id' => $noti->id]) }}" method="POST">
+                              <form action="{{ route('admin.notification.delete', ['id' => $noti->id]) }}" method="POST">
                                  @csrf
                                  @method('DELETE')
                                  <div class="item text-danger delete">
