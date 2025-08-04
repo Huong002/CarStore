@@ -114,9 +114,14 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::delete('admin/notification/softs_delete', [AdminController::class, 'notification_soft_delete'])->name('admin.notification.soft_delete');
     // inbox
     Route::get('admin/inbox', [AdminController::class, 'inbox'])->name('admin.inbox');
+
+    // setting
+    Route::get('admin/setting', [AdminController::class, 'settings'])->name('admin.setting');
 });
-    Route::get('/location', function () { return view('location'); })->name('location.index');
-    
+Route::get('/location', function () {
+    return view('location');
+})->name('location.index');
+
 Route::prefix('cart')->name('cart.')->group(function () {
     Route::get('/', [CartController::class, 'index'])->name('index');
     Route::post('/add', [CartController::class, 'add'])->name('add');
@@ -146,16 +151,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/order/success/{id}', [OrderController::class, 'success'])->name('order.success');
     // Danh sách đơn đặt cọc (có thể cho xem mà không đăng nhập, tùy bạn)
     Route::get('/deposit', [DepositController::class, 'list'])->name('deposit.list');
-   
+
     Route::get('/api/cart-items', [CartController::class, 'getItems'])->name('cart.items');
 
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 
-   Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
-
+    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 });
- Route::get('/api/cart-count', [CartController::class, 'countItems'])->name('cart.count');
- 
- // Xem chi tiết sản phẩm yêu thích theo id
+Route::get('/api/cart-count', [CartController::class, 'countItems'])->name('cart.count');
+
+// Xem chi tiết sản phẩm yêu thích theo id
 Route::get('/wishlistshow/{id}', [ShopController::class, 'wishlistShow'])->name('wishlist.show');
 Route::post('/cart', [CartController::class, 'add'])->name('cart.add');

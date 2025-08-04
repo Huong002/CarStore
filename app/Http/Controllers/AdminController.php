@@ -970,5 +970,9 @@ class AdminController extends Controller
     {
         return view('admin.inbox');
     }
+    public function settings()
+    {
+        return view('admin.setting');
+    }
     #endregion
 }

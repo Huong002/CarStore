@@ -338,7 +338,7 @@
                 </li> -->
 
                 <li class="menu-item">
-                  <a href="settings.html" class="">
+                  <a href="{{route('admin.setting')}}" class="">
                     <div class="icon"><i class="icon-settings"></i></div>
                     <div class="text">Cài đặt</div>
                   </a>
