@@ -16,7 +16,7 @@
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.gstatic.com/">
     <link rel="stylesheet" href="{{ asset('css/account.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -24,7 +24,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
         rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"> -->
 
     <link href="https://fonts.googleapis.com/css2?family=Allura&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/css/plugins/swiper.min.css') }}" type="text/css" />
@@ -770,7 +770,9 @@
                                 <use href="#icon_cart" />
                             </svg>
                             <!-- Badge số lượng -->
-                            <span class="cart-amount d-block position-absolute js-cart-items-count">0</span>
+                            <!-- <span class="cart-amount d-block position-absolute js-cart-items-count">0</span> -->
+                            <span class="cart-amount js-cart-items-count" style="display:none;">0</span>
+
 
                             <!-- Dropdown cart -->
                             <div id="cart-dropdown" class="cart-dropdown">
@@ -936,44 +938,46 @@
                 const name = item.product?.name || 'Không có tên';
                 const price = item.product?.regular_price || 0;
                 const quantity = item.quantity || 1;
-
                 const imageName = item.product?.primary_image?.imageName || 'default.jpg';
                 const imageUrl =
                     `http://127.0.0.1:8000/uploads/products/${encodeURIComponent(imageName)}`;
 
                 const li = document.createElement("li");
                 li.innerHTML = `
-            <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; width:100%;">
-                <div style="display:flex; align-items:center; gap:8px;">
-                    <img src="${imageUrl}" alt="${name}"
-                        style="width:40px; height:40px; object-fit:cover; border-radius:4px;">
-                    <div>
-                        <div style="font-weight:500;">${name}</div>
-                        <div style="color:#666; font-size:12px;">Số lượng: ${quantity}</div>
+                    <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; width:100%;">
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <img src="${imageUrl}" alt="${name}"
+                                style="width:40px; height:40px; object-fit:cover; border-radius:4px;">
+                            <div>
+                                <div style="font-weight:500;">${name}</div>
+                                <div style="color:#666; font-size:12px;">Số lượng: ${quantity}</div>
+                            </div>
+                        </div>
+                        <div style="font-weight:bold; color:#dc3545;">
+                            ${new Intl.NumberFormat('vi-VN').format(price)}₫
+                        </div>
                     </div>
-                </div>
-                <div style="font-weight:bold; color:#dc3545;">
-                    ${new Intl.NumberFormat('vi-VN').format(price)}₫
-                </div>
-            </div>
-        `;
+                `;
                 cartItemsList.appendChild(li);
             });
         }
 
-
-
+        // ================== ĐẾM SỐ LƯỢNG GIỎ HÀNG ==================
         function updateCartCount() {
-            fetch('/api/cart-count?t=' + Date.now())
-                .then(res => res.json())
+            fetch('/api/cart-count')
+                .then(response => response.json())
                 .then(data => {
                     if (cartCountBadge) {
                         cartCountBadge.textContent = data.count;
+                        cartCountBadge.style.display = data.count > 0 ? 'inline-block' : 'none';
                     }
                 })
-                .catch(err => console.error('Lỗi lấy số lượng giỏ hàng:', err));
+                .catch(error => {
+                    console.error("Lỗi khi lấy số lượng giỏ hàng:", error);
+                });
         }
-        updateCartCount();
+
+        updateCartCount(); // Gọi ngay khi DOM load
 
         function autoCloseCart() {
             clearTimeout(cartTimer);
@@ -990,6 +994,8 @@
                     .then(res => res.json())
                     .then(data => {
                         renderCartItems(data);
+                        updateCartCount();
+
                         if (wishlistModal) wishlistModal.style.display = 'none';
 
                         cartDropdown.style.display =
@@ -1044,20 +1050,20 @@
             wishlist.forEach(item => {
                 const li = document.createElement('li');
                 li.innerHTML = `
-                <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
-                    <div style="display:flex; align-items:center; gap:8px;">
-                        <img src="${item.image || '/default.jpg'}" alt="${item.name}"
-                            style="width:40px; height:40px; object-fit:cover; border-radius:4px;">
-                        <a href="/wishlistshow/${item.id}" style="color:#333; text-decoration:none;">
-                            ${item.name}
-                        </a>
+                    <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <img src="${item.image || '/default.jpg'}" alt="${item.name}"
+                                style="width:40px; height:40px; object-fit:cover; border-radius:4px;">
+                            <a href="/wishlistshow/${item.id}" style="color:#333; text-decoration:none;">
+                                ${item.name}
+                            </a>
+                        </div>
+                        <button class="wishlist-remove-btn" data-product-id="${item.id}"
+                                style="background:none; border:none; cursor:pointer; color:#888;">
+                            🗑
+                        </button>
                     </div>
-                    <button class="wishlist-remove-btn" data-product-id="${item.id}"
-                            style="background:none; border:none; cursor:pointer; color:#888;">
-                        🗑
-                    </button>
-                </div>
-            `;
+                `;
                 listEl.appendChild(li);
             });
         }
@@ -1070,11 +1076,8 @@
         }
 
         document.addEventListener('click', function(e) {
-            let btn = e.target.closest('button.main-product-wishlist');
-            if (!btn) {
-                btn = e.target.closest('button.js-add-wishlist');
-            }
-
+            let btn = e.target.closest('button.main-product-wishlist') || e.target.closest(
+                'button.js-add-wishlist');
             if (btn) {
                 e.preventDefault();
                 btn.classList.toggle('active');
@@ -1159,6 +1162,7 @@
         if (wishlistClose) {
             wishlistClose.addEventListener('click', () => wishlistModal.style.display = 'none');
         }
+
         window.addEventListener('click', function(e) {
             if (e.target === wishlistModal) {
                 wishlistModal.style.display = 'none';
@@ -1168,7 +1172,9 @@
     </script>
 
 
-    @stack("scripts")
+
+
+
     <!-- Base image path for product images -->
     <!-- <span id="baseImageUrl" data-url="{{ asset('uploads/products') }}" style="display: none;"></span> -->
 
