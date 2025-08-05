@@ -270,12 +270,14 @@ public function clear()
 
         return view('checkout', compact('items', 'total', 'deposit'));
     }
-     public function getItems()
+      public function getItems()
     {
-        $userId = Auth::id() ; // test cố định 1 nếu chưa có login
+        // Nếu chưa đăng nhập, gán user_id tạm để test
+        $userId = Auth::id();
 
-        $items = CartItem::with('product')
-            ->whereHas('cart', function($q) use ($userId) {
+        // Lấy item giỏ hàng kèm theo sản phẩm và ảnh chính
+        $items = CartItem::with(['product.primaryImage'])
+            ->whereHas('cart', function ($q) use ($userId) {
                 $q->where('user_id', $userId);
             })
             ->get();
@@ -324,6 +326,7 @@ public function countItems()
 
     return response()->json(['count' => $count]);
 }
+
 
 
 }
