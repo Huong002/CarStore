@@ -5,7 +5,7 @@
    .form-control {
       height: 50px;
       border-radius: 12px;
-      font-size: 14px;
+      font-size: 14px; 
    }
 </style>
 <div class="main-content-inner">

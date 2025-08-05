@@ -46,5 +46,8 @@ class LoginController extends Controller
                 'email' => 'Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên.'
             ]);
         }
+        if ($user->utype === 'ADM') {
+            return redirect('/admin');
+        }
     }
 }
