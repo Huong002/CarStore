@@ -63,9 +63,10 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-dark w-100 rounded-pill py-2">
+                <button type="submit" class="btn btn-primary w-100 rounded-pill py-2">
                     Đăng ký
                 </button>
+
 
                 <div class="text-center mt-3 small">
                     Bạn đã có tài khoản?
