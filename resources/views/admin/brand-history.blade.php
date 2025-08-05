@@ -54,8 +54,6 @@
                   </thead>
                   <tbody>
                      @foreach($brands as $brand)
-
-
                      <tr>
                         <!-- <td>{{$brand->id}}</td> -->
                         <td>{{$loop->iteration}}</td>

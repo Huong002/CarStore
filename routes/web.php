@@ -17,6 +17,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ReviewController;
 
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\ChatController;
 
 Auth::routes();
 
@@ -32,6 +33,7 @@ Route::get('/about', [AboutController::class, 'index'])->name('about.index');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index');
+    Route::post('/chatbot/send', [ChatController::class, 'sendMessage'])->name('chatbot.send');
 });
 
 Route::middleware(['auth', AuthAdmin::class])->group(function () {
@@ -117,6 +119,8 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
 
     // setting
     Route::get('admin/setting', [AdminController::class, 'settings'])->name('admin.setting');
+    // chatbot
+    Route::post('/chatbot/send', [ChatController::class, 'sendMessage'])->name('chatbot.send');
 });
 Route::get('/location', function () {
     return view('location');

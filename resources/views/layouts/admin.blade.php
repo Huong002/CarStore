@@ -780,5 +780,8 @@
     link.rel = "stylesheet";
     document.getElementsByTagName("head")[0].appendChild(link);
   </script>
+  <!-- Chatbot Component -->
+  @include('components.chatbot-floating')
+</body>
 
 </html>

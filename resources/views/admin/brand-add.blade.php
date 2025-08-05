@@ -16,14 +16,14 @@
                </li>
                <li>
                   <a href="{{route('admin.brand.add')}}">
-                     <div class="text-tiny">Brands</div>
+                     <div class="text-tiny">Thương hiệu</div>
                   </a>
                </li>
                <li>
                   <i class="icon-chevron-right"></i>
                </li>
                <li>
-                  <div class="text-tiny">New Brand</div>
+                  <div class="text-tiny">Thêm thương hiệu</div>
                </li>
          </ul>
       </div>
