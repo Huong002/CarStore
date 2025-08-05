@@ -21,6 +21,67 @@ use App\Http\Controllers\ChatController;
 
 Auth::routes();
 
+// Route tạm thời để kiểm tra API key
+Route::get('/test-config', function () {
+    return response()->json([
+        'gemini_key_from_config' => config('services.gemini.api_key'),
+        'gemini_key_from_env' => env('GEMINI_API_KEY'),
+        'has_config_key' => !empty(config('services.gemini.api_key')),
+        'has_env_key' => !empty(env('GEMINI_API_KEY')),
+        'key_length' => strlen(config('services.gemini.api_key') ?? ''),
+        'status' => 'Config check completed'
+    ]);
+});
+
+// Route test kết nối Gemini API
+Route::get('/test-gemini', function () {
+    $apiKey = config('services.gemini.api_key');
+
+    if (!$apiKey) {
+        return response()->json(['error' => 'API key not found']);
+    }
+
+    try {
+        $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+
+        $data = [
+            'contents' => [
+                [
+                    'parts' => [
+                        ['text' => 'Hello, just testing connection']
+                    ]
+                ]
+            ]
+        ];
+
+        $response = \Illuminate\Support\Facades\Http::withOptions([
+            'verify' => false,
+            'timeout' => 30,
+            'curl' => [
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_SSL_VERIFYHOST => false,
+            ]
+        ])
+            ->withHeaders([
+                'Content-Type' => 'application/json',
+                'X-goog-api-key' => $apiKey
+            ])
+            ->post($url, $data);
+
+        return response()->json([
+            'success' => $response->successful(),
+            'status_code' => $response->status(),
+            'response' => $response->json(),
+            'message' => $response->successful() ? 'Connection successful' : 'Connection failed'
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => $e->getMessage(),
+            'success' => false
+        ]);
+    }
+});
+
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/shop/{product_slug}', [ShopController::class, 'product_details'])->name('shop.product.details');
@@ -31,9 +92,14 @@ Route::get('/cart/confirm', [CartController::class, 'confirm'])->name('cart.conf
 
 Route::get('/about', [AboutController::class, 'index'])->name('about.index');
 
+// dat chatbot ra ngoai 
+Route::post('/chatbot/send', [ChatController::class, 'sendMessage'])->name('chatbot.send');
+
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index');
-    Route::post('/chatbot/send', [ChatController::class, 'sendMessage'])->name('chatbot.send');
+    // Chatbot cho cả user và admin
+
 });
 
 Route::middleware(['auth', AuthAdmin::class])->group(function () {
@@ -48,6 +114,7 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::put('/admin/brand/update', [AdminController::class, 'brand_update'])->name('admin.brand.update');
     Route::delete('/admin/brand.delete/{id}', [AdminController::class, 'brand_delete'])->name('admin.brand.delete');
     Route::patch('/admin/brand/restore/{id}', [AdminController::class, 'brand_restore'])->name('admin.brand.restore');
+
     Route::delete('admin/brand/soft-delete/{id}', [AdminController::class, 'brand_soft_delete'])->name('admin.brand.soft_delete');
     Route::get('admin/brand/history', [AdminController::class, 'brand_his'])->name('admin.brand.history');
     // danh muc
@@ -119,8 +186,6 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
 
     // setting
     Route::get('admin/setting', [AdminController::class, 'settings'])->name('admin.setting');
-    // chatbot
-    Route::post('/chatbot/send', [ChatController::class, 'sendMessage'])->name('chatbot.send');
 });
 Route::get('/location', function () {
     return view('location');
@@ -166,4 +231,4 @@ Route::get('/api/cart-count', [CartController::class, 'countItems'])->name('cart
 
 // Xem chi tiết sản phẩm yêu thích theo id
 Route::get('/wishlistshow/{id}', [ShopController::class, 'wishlistShow'])->name('wishlist.show');
-Route::post('/cart', [CartController::class, 'add'])->name('cart.add');
+// Route::post('/cart', [CartController::class, 'add'])->name('cart.add');

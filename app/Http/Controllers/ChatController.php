@@ -26,13 +26,16 @@ class ChatController extends Controller
 
         $message = $request->input('message');
 
- 
-        $userType = Auth::user()->utype ?? 'USR';
+        // Kiểm tra user có đăng nhập không
+        $user = Auth::user();
+        $userType = $user ? ($user->utype ?? 'USR') : 'GUEST';
         $isAdmin = $userType === 'ADM';
 
         try {
-            // Lấy API key từ .env
-            $apiKey = env('GEMINI_API_KEY');
+            // Lấy API key từ config thay vì env trực tiếp
+            $apiKey = config('services.gemini.api_key');
+            Log::info('API Key exists: ' . ($apiKey ? 'Yes' : 'No'));
+            Log::info('API Key length: ' . strlen($apiKey));
 
             if (!$apiKey) {
                 return response()->json([
@@ -41,8 +44,8 @@ class ChatController extends Controller
                 ]);
             }
 
-            // URL API Gemini
-            $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" . $apiKey;
+            // URL API Gemini - sử dụng model mới nhất
+            $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
             // Tạo prompt với context về cửa hàng và vai trò người dùng
             $systemPrompt = "Bạn là trợ lý AI tư vấn cho HTAutoStore - cửa hàng chuyên bán đồ công nghệ và phụ kiện ô tô. 
@@ -53,11 +56,13 @@ class ChatController extends Controller
                 - Tư vấn chiến lược kinh doanh
                 - Giải đáp về báo cáo, thống kê
                 - Hướng dẫn sử dụng các tính năng admin"
-                :
-                "Người dùng hiện tại là KHÁCH HÀNG. Bạn có thể:"
+                : ($userType === 'GUEST' ?
+                    "Người dùng hiện tại là KHÁCH VÃNG LAI (chưa đăng nhập). Bạn có thể:" :
+                    "Người dùng hiện tại là KHÁCH HÀNG. Bạn có thể:"
+                )
             ) . "
-            - Tư vấn sản phẩm công nghệ (điện thoại, laptop, tai nghe, v.v.)
-            - Tư vấn phụ kiện ô tô (camera hành trình, cảm biến, đồ trang trí, v.v.)
+            - Tư vấn bán hàng dựa trên nhu cầu của người dùng
+            - Tư vấn ô tô (thông tin kĩ thuật chi tiết về sản phẩm v.v.)
             - Hỗ trợ khách hàng về chính sách bảo hành, đổi trả
             - Giải đáp thắc mắc về sản phẩm và dịch vụ
             - Trả lời bằng tiếng Việt, thân thiện và chuyên nghiệp
@@ -83,13 +88,24 @@ class ChatController extends Controller
                 ]
             ];
 
-            // Gửi request đến Gemini API
-            $response = Http::timeout(30)
+            // Gửi request đến Gemini API với cấu hình SSL và header mới
+            $response = Http::withOptions([
+                'verify' => false, // Tắt xác thực SSL để tránh lỗi cURL 60
+                'timeout' => 30,
+                'connect_timeout' => 10,
+                'curl' => [
+                    CURLOPT_SSL_VERIFYPEER => false,
+                    CURLOPT_SSL_VERIFYHOST => false,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_MAXREDIRS => 3,
+                ]
+            ])
                 ->withHeaders([
                     'Content-Type' => 'application/json',
+                    'X-goog-api-key' => $apiKey, // Sử dụng header mới thay vì query parameter
+                    'User-Agent' => 'Laravel-ChatBot/1.0',
                 ])
                 ->post($url, $data);
-
             if ($response->successful()) {
                 $result = $response->json();
 
@@ -105,19 +121,26 @@ class ChatController extends Controller
                     'message' => $this->formatResponse($reply)
                 ]);
             } else {
-                Log::error('Gemini API Error: ' . $response->body());
+                Log::error('Gemini API Error Response: Status ' . $response->status());
+                Log::error('Gemini API Error Body: ' . $response->body());
 
                 return response()->json([
                     'success' => false,
-                    'message' => 'Xin lỗi, hệ thống AI đang bận. Vui lòng thử lại sau ít phút.'
+                    'message' => 'Xin lỗi, hệ thống AI đang bận. Vui lòng thử lại sau ít phút.',
+                    'debug' => app()->environment('local') ? [
+                        'status' => $response->status(),
+                        'error' => $response->body()
+                    ] : null
                 ]);
             }
         } catch (Exception $e) {
             Log::error('Chatbot Error: ' . $e->getMessage());
+            Log::error('Chatbot Error Trace: ' . $e->getTraceAsString());
 
             return response()->json([
                 'success' => false,
-                'message' => 'Có lỗi xảy ra khi xử lý yêu cầu. Vui lòng thử lại sau.'
+                'message' => 'Có lỗi xảy ra khi xử lý yêu cầu. Vui lòng thử lại sau.',
+                'debug' => app()->environment('local') ? $e->getMessage() : null
             ]);
         }
     }
