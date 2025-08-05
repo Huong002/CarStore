@@ -85,15 +85,20 @@
                      <!-- <td class="text-center" style="white-space:nowrap;">{{$product->category ? $product->category->name : 'N/A'}}</td> -->
                      <td class="text-center" style="white-space:nowrap;">{{$product->brand ? $product->brand->name : 'N/A'}}</td>
                      <!-- <td class="text-center" style="white-space:nowrap;">{{$product->featured == 1 ? "Có" : "Không"}}</td> -->
-                     <td class="text-center" style="white-space:nowrap;">{{$product->stock_status}}</td>
+                     <td class="text-center" style="white-space:nowrap;">
+                        {!! $product->stock_status == 'instock'
+                        ? '<span class="badge bg-success">Còn hàng</span>'
+                        : '<span class="badge bg-danger">Hết hàng</span>' !!}
+                     </td>
+
                      <td class="text-center" style="white-space:nowrap;">{{$product->quantity}}</td>
                      <td class="text-center" style="white-space:nowrap;">
-                        <div class="list-icon-function">
-                           <a href="#" target="_blank">
+                        <div class="list-icon-function d-flex justify-content-center align-items-center gap-4">
+                           <!-- <a href="#" target="_blank">
                               <div class="item eye">
                                  <i class="icon-eye"></i>
                               </div>
-                           </a>
+                           </a> -->
                            <a href="{{ route('admin.product.edit', ['id' => $product->id]) }}">
                               <div class="item edit">
                                  <i class="icon-edit-3"></i>

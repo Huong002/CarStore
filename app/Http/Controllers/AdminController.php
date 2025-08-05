@@ -51,7 +51,7 @@ class AdminController extends Controller
         if ($search) {
             $query->where('name', 'like', "%$search%");
         }
-        $brands = $query->orderBy('id', 'DESC')->whereNull('deleted_at')->paginate(10);
+        $brands = $query->withCount('products')->orderBy('id', 'DESC')->whereNull('deleted_at')->paginate(10);
         return view('admin.brands', compact('brands'));
     }
     public function add_brand()

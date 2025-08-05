@@ -58,33 +58,7 @@
 
 
             </div>
-            <!-- <div>
-               <a class="tf-button style-1 w208" href="{{route('admin.order.add')}}">
-                  <i class="icon-plus"></i>Thêm đơn hàng
-               </a>
-            </div> -->
-            <!-- @if(request('status') && request('status') != 'all')
-            <div class="mt-15">
-               <span class="text-muted">Đang lọc: </span>
-               <span class="badge 
-            @if(request('status') == 'pending') bg-warning
-            @elseif(request('status') == 'approved') bg-info  
-            @elseif(request('status') == 'completed') bg-success
-            @elseif(request('status') == 'cancelled') bg-danger
-            @endif">
-                  @switch(request('status'))
-                  @case('pending') Chờ xử lý @break
-                  @case('approved') Đã duyệt @break
-                  @case('completed') Hoàn thành @break
-                  @case('cancelled') Đã hủy @break
-                  @endswitch
-                  ({{ $orders->total() }} đơn hàng)
-               </span>
-               <a href="{{ route('admin.orders') }}" class="text-primary ms-2" style="text-decoration: none;">
-                  <i class="icon-x"></i> Bỏ lọc
-               </a>
-            </div>
-            @endif -->
+
 
             <div class="wg-table table-all-user">
                <div class="table-responsive">
@@ -143,22 +117,25 @@
                            <td class="text-center">{{$order->order_date}}</td>
                            <td class="text-center">{{$order->total_item}}</td>
                            <td>
-                              <div style="display: flex; gap: 8px;">
-                                 <div class="list-icon-function">
-                                    <a href="{{route('admin.order.details', $order->id)}}" target="_blank">
-                                       <div class="item eye">
-                                          <i class="icon-eye"></i>
-                                       </div>
-                                    </a>
-                                 </div>
-                                 <div class="list-icon-function">
-                                    <a href="{{route('order.invoice.print', $order->id)}}" target="_blank" title="In hóa đơn">
-                                       <div class="item print">
-                                          <i class="icon-printer"></i>
-                                       </div>
-                                    </a>
+                              <div class="list-icon-function d-flex justify-content-center align-items-center gap-4 ">
+                                 <div style="display: flex; gap: 8px;">
+                                    <div class="list-icon-function">
+                                       <a href="{{route('admin.order.details', $order->id)}}" target="_blank">
+                                          <div class="item eye">
+                                             <i class="icon-eye"></i>
+                                          </div>
+                                       </a>
+                                    </div>
+                                    <div class="list-icon-functio">
+                                       <a href="{{route('order.invoice.print', $order->id)}}" target="_blank" title="In hóa đơn">
+                                          <div class="item print">
+                                             <i class="icon-printer"></i>
+                                          </div>
+                                       </a>
+                                    </div>
                                  </div>
                               </div>
+
                            </td>
 
                         </tr>
