@@ -770,8 +770,7 @@
                                 <use href="#icon_cart" />
                             </svg>
                             <!-- Badge số lượng -->
-                            <!-- <span class="cart-amount d-block position-absolute js-cart-items-count">0</span> -->
-                            <span class="cart-amount js-cart-items-count" style="display:none;">0</span>
+                            <span class="cart-amount d-block position-absolute js-cart-items-count">0</span>
 
 
                             <!-- Dropdown cart -->
@@ -963,8 +962,15 @@
         }
 
         // ================== ĐẾM SỐ LƯỢNG GIỎ HÀNG ==================
+        // Gọi khi DOM ready
+        updateCartCount();
+
+        // Trong hàm này gán lại mỗi lần
         function updateCartCount() {
-            fetch('/api/cart-count')
+            const cartCountBadge = document.querySelector('.js-cart-items-count');
+            fetch('/api/cart-count', {
+                    credentials: 'include'
+                })
                 .then(response => response.json())
                 .then(data => {
                     if (cartCountBadge) {
@@ -976,6 +982,7 @@
                     console.error("Lỗi khi lấy số lượng giỏ hàng:", error);
                 });
         }
+
 
         updateCartCount(); // Gọi ngay khi DOM load
 
