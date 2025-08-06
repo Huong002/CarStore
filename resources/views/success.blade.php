@@ -55,9 +55,42 @@
                             <tr>
                                 <td>{{ $detail->product->name ?? '' }}</td>
                                 <td>{{ $detail->quantity }}</td>
-                                <td>{{ number_format($detail->price,0,',','.') }}₫</td>
-                                <td>{{ number_format($detail->total,0,',','.') }}₫</td>
+
+                                {{-- Đơn giá: nếu có sale_price thì dùng, không thì dùng price --}}
+                                <!-- <td>
+                                    {{ number_format($detail->product->sale_price ?? $detail->price, 0, ',', '.') }}₫
+                                </td> -->
+                                <td>
+                                    @if (!is_null($detail->product->sale_price) && $detail->product->sale_price <
+                                        $detail->product->regular_price)
+                                        <span style="text-decoration: line-through; color: #999;">
+                                            {{ number_format($detail->product->regular_price, 0, ',', '.') }}₫
+                                        </span><br>
+                                        <span style="color: red;">
+                                            {{ number_format($detail->product->sale_price, 0, ',', '.') }}₫
+                                        </span>
+                                        @else
+                                        {{ number_format($detail->product->regular_price, 0, ',', '.') }}₫
+                                        @endif
+                                </td>
+
+
+                                {{-- Tổng tiền --}}
+                                <!-- <td>{{ number_format($detail->total, 0, ',', '.') }}₫</td> -->
+                                <td>
+                                    @php
+                                    $unitPrice = (!is_null($detail->product->sale_price) && $detail->product->sale_price
+                                    < $detail->product->regular_price)
+                                        ? $detail->product->sale_price
+                                        : $detail->product->regular_price;
+
+                                        $lineTotal = $unitPrice * $detail->quantity;
+                                        @endphp
+                                        {{ number_format($lineTotal, 0, ',', '.') }}₫
+                                </td>
+
                             </tr>
+
                             @endforeach
                         </tbody>
                     </table>
