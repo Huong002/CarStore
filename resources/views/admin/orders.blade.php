@@ -65,7 +65,7 @@
                   <table class="table table-striped table-bordered">
                      <thead>
                         <tr>
-                           <th style="width:70px">ID</th>
+                           <th class="text-center" style="width:70px">STT</th>
                            <th class="text-center">Khách hàng</th>
                            <th class="text-center">Nhân viên</th>
                            <th class="text-center">Thuế</th>
@@ -79,7 +79,8 @@
                      <tbody>
                         @foreach($orders as $order)
                         <tr>
-                           <td class="text-center">{{$order->id}}</td>
+                           <!-- <td class="text-center">{{$order->id}}</td> -->
+                           <td class="text-center">{{$loop->iteration}}</td>
                            <td class="text-center">
                               @if($order->customer)
                               {{$order->customer->customerName}}
@@ -120,12 +121,13 @@
                               <div class="list-icon-function d-flex justify-content-center align-items-center gap-4 ">
                                  <div style="display: flex; gap: 8px;">
                                     <div class="list-icon-function">
-                                       <a href="{{route('admin.order.details', $order->id)}}" target="_blank">
+                                       <a href="{{route('admin.order.details', $order->id)}}" target="">
                                           <div class="item eye">
                                              <i class="icon-eye"></i>
                                           </div>
                                        </a>
                                     </div>
+                                    @if($order->status != 'pending')
                                     <div class="list-icon-functio">
                                        <a href="{{route('order.invoice.print', $order->id)}}" target="_blank" title="In hóa đơn">
                                           <div class="item print">
@@ -133,6 +135,19 @@
                                           </div>
                                        </a>
                                     </div>
+                                    @endif
+                                    @if($order->status == 'pending')
+                                    <div class="list-icon-functio">
+                                       <form action="{{ route('admin.order.check', $order->id) }}" method="POST" style="display:inline;">
+                                          @csrf
+                                          <button type="submit" title="Duyệt đơn hàng" style="background: none; border: none; padding: 0;">
+                                             <div class="item print">
+                                                <i class="bi bi-check-circle-fill"></i>
+                                             </div>
+                                          </button>
+                                       </form>
+                                    </div>
+                                    @endif
                                  </div>
                               </div>
 

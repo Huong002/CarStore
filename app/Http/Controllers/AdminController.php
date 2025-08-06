@@ -58,6 +58,23 @@ class AdminController extends Controller
     {
         return view('admin.brand-add');
     }
+    public function check_order($id)
+    {
+        $order = Order::find($id);
+
+        if (!$order) {
+            return redirect()->back()->with('error', 'Không tìm thấy đơn hàng');
+        }
+
+        if ($order->status == 'pending') {
+            $order->status = 'approved';
+            $order->save();
+
+            return redirect()->back()->with('status', 'Đã chuyển đơn hàng sang trạng thái đã xử lý');
+        }
+
+        return redirect()->back()->with('info', 'Đơn hàng đã được xử lý trước đó');
+    }
 
 
     public function brand_store(Request $request)

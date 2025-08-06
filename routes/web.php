@@ -150,6 +150,7 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::post('admin/order/store', [AdminController::class, 'order_store'])->name('admin.order.store');
     Route::get('admin/order/detail/{id}', [AdminController::class, 'order_detail'])->name('admin.order.details');
     Route::get('/orders/status', [AdminController::class, 'order_status'])->name('orders.status');
+    Route::post('/admin/order/check/{id}', [AdminController::class, 'check_order'])->name('admin.order.check');
 
     // Phân loại theo trạng thái
     Route::get('/admin/orders/pending', [AdminController::class, 'orders_pending'])->name('orders.pending');

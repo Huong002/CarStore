@@ -1,4 +1,3 @@
-
 @extends('layouts.admin')
 @section('content')
 
@@ -37,7 +36,7 @@
             </div>
             <a class="tf-button style-1 w208" href="{{route('admin.orders')}}">Trở về</a>
          </div>
-         
+
          <div class="table-responsive">
             <table class="table table-striped table-bordered">
                <thead>
@@ -49,7 +48,7 @@
                      <th class="text-center">Danh mục</th>
                      <th class="text-center">Thương hiệu</th>
                      <th class="text-center">Tổng tiền</th>
-                     <th class="text-center">Thao tác</th>
+                     <!-- <th class="text-center">Thao tác</th> -->
                   </tr>
                </thead>
                <tbody>
@@ -58,19 +57,19 @@
                      <td class="pname">
                         <div class="image">
                            @if($detail->product && $detail->product->images->where('is_primary', true)->first())
-                              <img src="{{asset('uploads/products/'.$detail->product->images->where('is_primary', true)->first()->imageName)}}" 
-                                   alt="{{$detail->product->name}}" class="image" style="width: 60px; height: 60px; object-fit: cover;">
+                           <img src="{{asset('uploads/products/'.$detail->product->images->where('is_primary', true)->first()->imageName)}}"
+                              alt="{{$detail->product->name}}" class="image" style="width: 60px; height: 60px; object-fit: cover;">
                            @else
-                              <img src="{{asset('assets/images/no-image.png')}}" alt="No Image" class="image" style="width: 60px; height: 60px; object-fit: cover;">
+                           <img src="{{asset('assets/images/no-image.png')}}" alt="No Image" class="image" style="width: 60px; height: 60px; object-fit: cover;">
                            @endif
                         </div>
                         <div class="name">
                            @if($detail->product)
-                              <a href="{{route('admin.product.edit', $detail->product->id)}}" target="_blank" class="body-title-2">
-                                 {{$detail->product->name}}
-                              </a>
+                           <a href="{{route('admin.product.edit', $detail->product->id)}}" target="_blank" class="body-title-2">
+                              {{$detail->product->name}}
+                           </a>
                            @else
-                              <span class="text-muted">Sản phẩm đã bị xóa</span>
+                           <span class="text-muted">Sản phẩm đã bị xóa</span>
                            @endif
                         </div>
                      </td>
@@ -78,27 +77,27 @@
                      <td class="text-center">{{$detail->quantity}}</td>
                      <td class="text-center">
                         @if($detail->product)
-                           {{$detail->product->SKU}}
+                        {{$detail->product->SKU}}
                         @else
-                           <span class="text-muted">N/A</span>
+                        <span class="text-muted">N/A</span>
                         @endif
                      </td>
                      <td class="text-center">
                         @if($detail->product && $detail->product->category)
-                           {{$detail->product->category->name}}
+                        {{$detail->product->category->name}}
                         @else
-                           <span class="text-muted">Không có</span>
+                        <span class="text-muted">Không có</span>
                         @endif
                      </td>
                      <td class="text-center">
                         @if($detail->product && $detail->product->brand)
-                           {{$detail->product->brand->name}}
+                        {{$detail->product->brand->name}}
                         @else
-                           <span class="text-muted">Không có</span>
+                        <span class="text-muted">Không có</span>
                         @endif
                      </td>
                      <td class="text-center"><strong>{{number_format($detail->total, 0, ',', '.')}} VNĐ</strong></td>
-                     <td class="text-center">
+                     <!-- <td class="text-center">
                         @if($detail->product)
                            <a href="{{route('admin.product.edit', $detail->product->id)}}" target="_blank">
                               <div class="list-icon-function view-icon">
@@ -108,7 +107,7 @@
                               </div>
                            </a>
                         @endif
-                     </td>
+                     </td> -->
                   </tr>
                   @endforeach
                </tbody>
@@ -122,14 +121,14 @@
          <div class="my-account__address-item col-md-6">
             <div class="my-account__address-item__detail">
                @if($order->customer)
-                  <p><strong>Tên:</strong> {{$order->customer->customerName}}</p>
-                  <p><strong>Email:</strong> {{$order->customer->email}}</p>
-                  <p><strong>Địa chỉ:</strong> {{$order->customer->address}}</p>
-                  <p><strong>Điện thoại:</strong> {{$order->customer->phone}}</p>
-                  <p><strong>Giới tính:</strong> {{$order->customer->gender}}</p>
-                  <p><strong>Ngày sinh:</strong> {{$order->customer->birthDay}}</p>
+               <p><strong>Tên:</strong> {{$order->customer->customerName}}</p>
+               <p><strong>Email:</strong> {{$order->customer->email}}</p>
+               <p><strong>Địa chỉ:</strong> {{$order->customer->address}}</p>
+               <p><strong>Điện thoại:</strong> {{$order->customer->phone}}</p>
+               <p><strong>Giới tính:</strong> {{$order->customer->gender}}</p>
+               <p><strong>Ngày sinh:</strong> {{$order->customer->birthDay}}</p>
                @else
-                  <p class="text-muted">Thông tin khách hàng không có sẵn</p>
+               <p class="text-muted">Thông tin khách hàng không có sẵn</p>
                @endif
             </div>
          </div>
@@ -141,11 +140,11 @@
          <div class="my-account__address-item col-md-6">
             <div class="my-account__address-item__detail">
                @if($order->employee)
-                  <p><strong>Tên nhân viên:</strong> {{$order->employee->name}}</p>
-                  <p><strong>Email:</strong> {{$order->employee->email}}</p>
-                  <p><strong>Điện thoại:</strong> {{$order->employee->phone}}</p>
+               <p><strong>Tên nhân viên:</strong> {{$order->employee->name}}</p>
+               <p><strong>Email:</strong> {{$order->employee->email}}</p>
+               <p><strong>Điện thoại:</strong> {{$order->employee->phone}}</p>
                @else
-                  <p class="text-muted">Thông tin nhân viên không có sẵn</p>
+               <p class="text-muted">Thông tin nhân viên không có sẵn</p>
                @endif
             </div>
          </div>
@@ -194,7 +193,7 @@
          </table>
       </div>
 
-  
+
    </div>
 </div>
 
