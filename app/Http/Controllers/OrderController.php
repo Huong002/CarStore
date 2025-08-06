@@ -29,8 +29,17 @@ class OrderController extends Controller
             // 2. Lấy các item từ giỏ hàng
             $selectedItems = CartItem::whereIn('id', $request->selected_items)->get();
 
+            // // 3. Tính toán subtotal, tax và total
+            // $subtotal = $selectedItems->sum(fn($i) => $i->price * $i->quantity);
+            // $tax = $subtotal * 0.1;
+            // $total = $subtotal + $tax;
             // 3. Tính toán subtotal, tax và total
-            $subtotal = $selectedItems->sum(fn($i) => $i->price * $i->quantity);
+            $subtotal = $selectedItems->sum(function ($item) {
+                $product = $item->product;
+                $price = $product->sale_price ?? $product->price;
+                return $price * $item->quantity;
+            });
+
             $tax = $subtotal * 0.1;
             $total = $subtotal + $tax;
 
