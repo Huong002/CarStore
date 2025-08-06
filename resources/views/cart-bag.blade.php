@@ -48,197 +48,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 @endif
 
-<!-- chuyen qua dung theme nay nha -->
-
-<!-- <div class="shopping-cart">
-    <div class="cart-table__wrapper">
-        <table class="cart-table">
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th></th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Subtotal</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <div class="shopping-cart__product-item">
-                            <img loading="lazy" src="assets/images/cart-item-1.jpg" width="120" height="120" alt="" />
-                        </div>
-                    </td>
-                    <td>
-                        <div class="shopping-cart__product-item__detail">
-                            <h4>Zessi Dresses</h4>
-                            <ul class="shopping-cart__product-item__options">
-                                <li>Color: Yellow</li>
-                                <li>Size: L</li>
-                            </ul>
-                        </div>
-                    </td>
-                    <td>
-                        <span class="shopping-cart__product-price">$99</span>
-                    </td>
-                    <td>
-                        <div class="qty-control position-relative">
-                            <input type="number" name="quantity" value="3" min="1" class="qty-control__number text-center">
-                            <div class="qty-control__reduce">-</div>
-                            <div class="qty-control__increase">+</div>
-                        </div>
-                    </td>
-                    <td>
-                        <span class="shopping-cart__subtotal">$297</span>
-                    </td>
-                    <td>
-                        <a href="#" class="remove-cart">
-                            <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z" />
-                                <path d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z" />
-                            </svg>
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="shopping-cart__product-item">
-                            <img loading="lazy" src="assets/images/cart-item-2.jpg" width="120" height="120" alt="" />
-                        </div>
-                    </td>
-                    <td>
-                        <div class="shopping-cart__product-item__detail">
-                            <h4>Kirby T-Shirt</h4>
-                            <ul class="shopping-cart__product-item__options">
-                                <li>Color: Yellow</li>
-                                <li>Size: L</li>
-                            </ul>
-                        </div>
-                    </td>
-                    <td>
-                        <span class="shopping-cart__product-price">$99</span>
-                    </td>
-                    <td>
-                        <div class="qty-control position-relative">
-                            <input type="number" name="quantity" value="3" min="1" class="qty-control__number text-center">
-                            <div class="qty-control__reduce">-</div>
-                            <div class="qty-control__increase">+</div>
-                        </div>
-                    </td>
-                    <td>
-                        <span class="shopping-cart__subtotal">$297</span>
-                    </td>
-                    <td>
-                        <a href="#" class="remove-cart">
-                            <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z" />
-                                <path d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z" />
-                            </svg>
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="shopping-cart__product-item">
-                            <img loading="lazy" src="assets/images/cart-item-3.jpg" width="120" height="120" alt="" />
-                        </div>
-                    </td>
-                    <td>
-                        <div class="shopping-cart__product-item__detail">
-                            <h4>Cobleknit Shawl</h4>
-                            <ul class="shopping-cart__product-item__options">
-                                <li>Color: Yellow</li>
-                                <li>Size: L</li>
-                            </ul>
-                        </div>
-                    </td>
-                    <td>
-                        <span class="shopping-cart__product-price">$99</span>
-                    </td>
-                    <td>
-                        <div class="qty-control position-relative">
-                            <input type="number" name="quantity" value="3" min="1" class="qty-control__number text-center">
-                            <div class="qty-control__reduce">-</div>
-                            <div class="qty-control__increase">+</div>
-                        </div>
-                    </td>
-                    <td>
-                        <span class="shopping-cart__subtotal">$297</span>
-                    </td>
-                    <td>
-                        <a href="#" class="remove-cart">
-                            <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z" />
-                                <path d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z" />
-                            </svg>
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="cart-table-footer">
-            <form action="#" class="position-relative bg-body">
-                <input class="form-control" type="text" name="coupon_code" placeholder="Coupon Code">
-                <input class="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4" type="submit"
-                    value="APPLY COUPON">
-            </form>
-            <button class="btn btn-light">UPDATE CART</button>
-        </div>
-    </div>
-    <div class="shopping-cart__totals-wrapper">
-        <div class="sticky-content">
-            <div class="shopping-cart__totals">
-                <h3>Cart Totals</h3>
-                <table class="cart-totals">
-                    <tbody>
-                        <tr>
-                            <th>Subtotal</th>
-                            <td>$1300</td>
-                        </tr>
-                        <tr>
-                            <th>Shipping</th>
-                            <td>
-                                <div class="form-check">
-                                    <input class="form-check-input form-check-input_fill" type="checkbox" value=""
-                                        id="free_shipping">
-                                    <label class="form-check-label" for="free_shipping">Free shipping</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input form-check-input_fill" type="checkbox" value="" id="flat_rate">
-                                    <label class="form-check-label" for="flat_rate">Flat rate: $49</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input form-check-input_fill" type="checkbox" value=""
-                                        id="local_pickup">
-                                    <label class="form-check-label" for="local_pickup">Local pickup: $8</label>
-                                </div>
-                                <div>Shipping to AL.</div>
-                                <div>
-                                    <a href="#" class="menu-link menu-link_us-s">CHANGE ADDRESS</a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>VAT</th>
-                            <td>$19</td>
-                        </tr>
-                        <tr>
-                            <th>Total</th>
-                            <td>$1319</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="mobile_fixed-btn_wrapper">
-                <div class="button-wrapper container">
-                    <a href="{{route('cart.checkout')}}" class="btn btn-primary btn-checkout">PROCEED TO CHECKOUT</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
-
 <div class="shopping-cart">
     <div class="cart-table__wrapper">
         <table class="cart-table">
@@ -261,8 +70,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 $price = $item->product->sale_price ?? $item->product->regular_price;
                 $subtotal = $price * $item->quantity;
                 @endphp
-                <tr class="cart-item" data-product-id="{{ $item->product_id }}" data-price="{{ $price }}"
-                    data-subtotal="{{ $subtotal }}">
+                <!-- <tr class="cart-item" data-product-id="{{ $item->product_id }}" data-price="{{ $price }}"
+                    data-subtotal="{{ $subtotal }}"> -->
+                <tr class="cart-item" data-product-id="{{ $item->product->id }}"
+                    data-regular-price="{{ $item->product->regular_price }}"
+                    data-sale-price="{{ $item->product->sale_price }}"
+                    data-subtotal="{{ $item->product->sale_price > 0 ? $item->product->sale_price * $item->quantity : $item->product->regular_price * $item->quantity }}">
+
                     <td class="text-center align-middle" style="width: 40px;">
                         <input type="checkbox" class="form-check-input select-item" name="selected_products[]"
                             value="{{ $item->id }}" checked>
@@ -284,10 +98,38 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <li>Thương hiệu: {{ $item->product->brand->name ?? 'Không có' }}</li>
                                 <li>Danh mục: {{ $item->product->category->name ?? 'Không có' }}</li>
                             </ul>
+                            <!--  -->
+
+                            <!-- @php
+                            $price = $item->product->sale_price ?? $item->product->regular_price;
+                            $subtotal = $price * $item->quantity;
+                            @endphp
+
+                            <a href="#" class="deposit-link text-primary" style="text-decoration: underline;"
+                                data-product="{{ $item->product->name ?? 'Sản phẩm' }}" data-qty="{{ $item->quantity }}"
+                                data-total="{{ $subtotal }}" data-item-id="{{ $item->id }}" data-bs-toggle="modal"
+                                data-bs-target="#depositModal">
+                                Nhận đặt cọc
+                            </a> -->
+
+
+                            <!--  -->
                             <li>
-                                <a href="#" class="deposit-link text-primary" style="text-decoration: underline;"
+                                <!-- <a href="#" class="deposit-link text-primary" style="text-decoration: underline;"
                                     data-product="{{ $item->product->name ?? 'Sản phẩm' }}"
                                     data-qty="{{ $item->quantity }}" data-total="{{ $item->price * $item->quantity }}"
+                                    data-item-id="{{ $item->id }}" data-bs-toggle="modal"
+                                    data-bs-target="#depositModal">
+                                    Nhận đặt cọc
+                                </a> -->
+                                @php
+                                $price = $item->product->sale_price ?? $item->product->regular_price;
+                                $subtotal = $price * $item->quantity;
+                                @endphp
+
+                                <a href="#" class="deposit-link text-primary" style="text-decoration: underline;"
+                                    data-product="{{ $item->product->name ?? 'Sản phẩm' }}"
+                                    data-qty="{{ $item->quantity }}" data-total="{{ $subtotal }}"
                                     data-item-id="{{ $item->id }}" data-bs-toggle="modal"
                                     data-bs-target="#depositModal">
                                     Nhận đặt cọc
@@ -308,21 +150,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         </span>
                     </td>
 
-                    <!-- <td>
-                        <div class="qty-control position-relative">
-                            <div class="qty-control__reduce">-</div>
-                            <input type="number" name="quantity" min="1" value="{{ $item->quantity }}"
-                                class="qty-control__number text-center qty-input" style="width: 60px;">
-                            <div class="qty-control__increase">+</div>
-                        </div>
-                    </td> -->
+
                     <td>
                         <input type="number" class="form-control form-control-sm text-center qty-input"
                             style="width:70px" min="1" value="{{ $item->quantity }}">
                     </td>
                     <td>
                         <span class="shopping-cart__subtotal item-subtotal">
-                            {{ number_format($item->price * $item->quantity, 0, ',', '.') }}₫
+                            {{ number_format(($item->product->sale_price ?? $item->product->regular_price) * $item->quantity, 0, ',', '.') }}₫
+
                         </span>
                     </td>
                     <td>
@@ -807,10 +643,10 @@ function updateTotals() {
     let subtotal = 0;
     document.querySelectorAll('.select-item:checked').forEach(cb => {
         const tr = cb.closest('tr');
-        subtotal += parseFloat(tr.dataset.subtotal);
+        subtotal += parseFloat(tr.dataset.subtotal || 0);
     });
 
-    const taxRate = 0.1; // 10%
+    const taxRate = 0.1;
     const taxAmount = Math.round(subtotal * taxRate);
 
     let shippingFee = 0;
@@ -821,36 +657,48 @@ function updateTotals() {
 
     const total = subtotal + taxAmount + shippingFee;
 
-    const subtotalEl = document.getElementById('cart-subtotal');
-    const taxEl = document.getElementById('cart-tax');
-    const shippingEl = document.getElementById('cart-shipping');
+    document.getElementById('cart-subtotal').innerText = formatCurrency(subtotal);
+    document.getElementById('cart-tax').innerText = formatCurrency(taxAmount);
     const totalEl = document.getElementById('cart-total');
-
-    if (subtotalEl) subtotalEl.innerText = formatCurrency(subtotal);
-    if (taxEl) taxEl.innerText = formatCurrency(taxAmount);
-    if (shippingEl) shippingEl.innerText = formatCurrency(shippingFee);
     if (totalEl) totalEl.innerText = formatCurrency(total);
 }
 
+// Chọn tất cả
 document.getElementById('select-all')?.addEventListener('change', function() {
     document.querySelectorAll('.select-item').forEach(cb => cb.checked = this.checked);
     updateTotals();
 });
+
 document.querySelectorAll('.select-item').forEach(cb => cb.addEventListener('change', updateTotals));
 
+// Cập nhật số lượng
 document.querySelectorAll('.qty-input').forEach(input => {
     ['input', 'change'].forEach(evt => {
         input.addEventListener(evt, function() {
             const row = this.closest('tr');
             const productId = row.dataset.productId;
             const quantity = parseInt(this.value);
-            const price = parseFloat(row.dataset.price);
-            const newSubtotal = price * quantity;
+
+            const salePrice = parseFloat(row.dataset.salePrice);
+            const regularPrice = parseFloat(row.dataset.regularPrice);
+            const unitPrice = (!isNaN(salePrice) && salePrice > 0) ? salePrice : regularPrice;
+
+            const newSubtotal = unitPrice * quantity;
             row.dataset.subtotal = newSubtotal;
+
             row.querySelector('.shopping-cart__subtotal').innerText = formatCurrency(
                 newSubtotal);
-            updateTotals();
 
+            // Cập nhật modal đặt cọc (nếu có)
+            const depositLink = row.querySelector('.deposit-link');
+            if (depositLink) {
+                depositLink.dataset.qty = quantity;
+                depositLink.dataset.total = newSubtotal;
+            }
+
+            updateTotals(); // ✅ Gọi ngay với subtotal mới
+
+            // Gửi AJAX cập nhật
             fetch(`/cart/update-ajax/${productId}`, {
                     method: 'PATCH',
                     headers: {
@@ -875,13 +723,14 @@ document.querySelectorAll('.qty-input').forEach(input => {
     });
 });
 
+// Đặt cọc
 let currentOrderTotal = 0;
 document.querySelectorAll('.deposit-link').forEach(link => {
     link.addEventListener('click', function(e) {
         e.preventDefault();
         document.getElementById('depositProductName').innerText = this.dataset.product;
         document.getElementById('depositProductQty').innerText = this.dataset.qty;
-        document.getElementById('depositProductTotal').innerText = this.dataset.total;
+        document.getElementById('depositProductTotal').innerText = formatCurrency(this.dataset.total);
         document.getElementById('depositItemId').value = this.dataset.itemId;
         currentOrderTotal = parseFloat(this.dataset.total);
         document.getElementById('depositPercentage').value = "";
@@ -893,7 +742,7 @@ document.querySelectorAll('.deposit-link').forEach(link => {
     });
 });
 
-document.getElementById('depositPercentage').addEventListener('change', function() {
+document.getElementById('depositPercentage')?.addEventListener('change', function() {
     const percent = parseFloat(this.value);
     if (!isNaN(percent) && currentOrderTotal > 0) {
         const amount = Math.round(currentOrderTotal * percent / 100);
@@ -910,7 +759,7 @@ document.getElementById('depositPercentage').addEventListener('change', function
     }
 });
 
-document.getElementById('paymentMethod').addEventListener('change', function() {
+document.getElementById('paymentMethod')?.addEventListener('change', function() {
     const paypalContainer = document.getElementById('paypal-button-container');
     const cashButton = document.getElementById('cash-payment-button');
 
@@ -963,10 +812,8 @@ function renderPayPalButton() {
 }
 
 document.getElementById('checkoutForm')?.addEventListener('submit', function() {
-    // Xóa các input selected_items cũ (nếu có)
     this.querySelectorAll('input[name="selected_items[]"]').forEach(el => el.remove());
 
-    // Thêm các item đã chọn vào form
     document.querySelectorAll('.select-item:checked').forEach(cb => {
         const hidden = document.createElement('input');
         hidden.type = 'hidden';
@@ -975,7 +822,6 @@ document.getElementById('checkoutForm')?.addEventListener('submit', function() {
         this.appendChild(hidden);
     });
 
-    // ✅ Thêm phí vận chuyển và tên phương thức giao hàng
     const selectedShipping = document.querySelector('input[name="shipping_method"]:checked');
     if (selectedShipping) {
         document.getElementById('shipping_fee').value = selectedShipping.value;
@@ -983,7 +829,7 @@ document.getElementById('checkoutForm')?.addEventListener('submit', function() {
     }
 });
 
-
+// Tải trang
 window.addEventListener('DOMContentLoaded', () => {
     const selectAll = document.getElementById('select-all');
     if (selectAll) {
@@ -993,12 +839,12 @@ window.addEventListener('DOMContentLoaded', () => {
     updateTotals();
 });
 
-// ✅ Cập nhật tổng khi thay đổi phí vận chuyển
+// Cập nhật khi thay đổi phương thức giao hàng
 document.querySelectorAll('input[name="shipping_method"]').forEach(radio => {
     radio.addEventListener('change', updateTotals);
 });
 
-// ✅ Xử lý thay đổi địa chỉ
+// Đổi địa chỉ
 const changeLink = document.getElementById("change-address-link");
 const inputWrapper = document.getElementById("address-input-wrapper");
 const updateButton = document.getElementById("update-address");
