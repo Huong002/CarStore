@@ -232,7 +232,7 @@ public function add(Request $request)
 }
 
 
-   public function updateAjax(Request $request, $productId)
+public function updateAjax(Request $request, $productId)
 {
     $userId = Auth::id();
 
@@ -244,24 +244,35 @@ public function add(Request $request)
 
     $quantity = max(1, (int)$request->input('quantity'));
 
-    $cartItem = CartItem::where('cart_id', $cart->id)
+    $cartItem = CartItem::with('product')->where('cart_id', $cart->id)
         ->where('product_id', $productId)
         ->first();
 
-    if (!$cartItem) {
+    if (!$cartItem || !$cartItem->product) {
         return response()->json(['success' => false], 404);
     }
 
+    // Xác định giá (ưu tiên sale_price nếu có)
+    $price = $cartItem->product->sale_price ?? $cartItem->product->regular_price;
+
     // Cập nhật số lượng
     $cartItem->quantity = $quantity;
+    $cartItem->price = $price; // Cập nhật giá đúng luôn (nếu bạn lưu giá tại thời điểm mua)
     $cartItem->save();
 
-    // Tính lại subtotal và tổng
-    $itemSubtotalRaw = $cartItem->price * $cartItem->quantity;
-    $cartTotalRaw = CartItem::where('cart_id', $cart->id)
+    // Tính lại subtotal của item
+    $itemSubtotalRaw = $price * $quantity;
+
+    // Tính lại tổng giỏ hàng
+    $cartItems = CartItem::with('product')
+        ->where('cart_id', $cart->id)
         ->whereDoesntHave('deposit')
-        ->get()
-        ->sum(fn($item) => $item->price * $item->quantity);
+        ->get();
+
+    $cartTotalRaw = $cartItems->sum(function ($item) {
+        $itemPrice = $item->product->sale_price ?? $item->product->regular_price;
+        return $itemPrice * $item->quantity;
+    });
 
     return response()->json([
         'success' => true,
@@ -271,6 +282,7 @@ public function add(Request $request)
         'cart_total'        => number_format($cartTotalRaw, 0, ',', '.'),
     ]);
 }
+
 
   public function remove($productId)
 {
@@ -358,28 +370,28 @@ public function clear()
     }
 
     // API trả tổng số lượng sản phẩm
-public function getCartCount()
-{
-    // Lấy user đăng nhập
-    $userId = Auth::id();
+// public function getCartCount()
+// {
+//     // Lấy user đăng nhập
+//     $userId = Auth::id();
 
-    if (!$userId) {
-        return response()->json(['count' => 0]);
-    }
+//     if (!$userId) {
+//         return response()->json(['count' => 0]);
+//     }
 
-    // Lấy cart của user
-    $cart = \App\Models\Cart::where('user_id', $userId)->first();
+//     // Lấy cart của user
+//     $cart = \App\Models\Cart::where('user_id', $userId)->first();
 
-    $count = 0;
-    if ($cart) {
-        // Đếm tổng quantity (hoặc số dòng tuỳ yêu cầu)
-        $count = \App\Models\CartItem::where('cart_id', $cart->id)->sum('quantity');
-    }
+//     $count = 0;
+//     if ($cart) {
+//         // Đếm tổng quantity (hoặc số dòng tuỳ yêu cầu)
+//         $count = \App\Models\CartItem::where('cart_id', $cart->id)->sum('quantity');
+//     }
 
-    return response()->json(['count' => $count]);
+//     return response()->json(['count' => $count]);
 
 
-}
+// }
 
 
 // public function countItems()
@@ -400,23 +412,35 @@ public function getCartCount()
 
 //     return response()->json(['count' => $count]);
 // }
+// public function countItems()
+// {
+//     $userId = Auth::id();
+
+//     if (!$userId) {
+//         return response()->json(['count' => 0]);
+//     }
+
+//     $count = CartItem::whereHas('cart', function ($q) use ($userId) {
+//         $q->where('user_id', $userId);
+//     })
+//     ->sum('quantity');
+
+//     return response()->json(['count' => $count]);
+// }
+
 public function countItems()
-    {
-        $userId = Auth::id();
+{
+    $userId = Auth::id();
 
-        if (!$userId) {
-            return response()->json(['count' => 0]);
-        }
-
-        $count = CartItem::whereHas('cart', function ($q) use ($userId) {
-                $q->where('user_id', $userId);
-            })
-            ->where('status', 'pending') // Đảm bảo chỉ đếm sản phẩm chưa thanh toán
-            ->sum('quantity'); // Đếm tổng số lượng sản phẩm, không chỉ số dòng
-
-        return response()->json(['count' => $count]);
+    if (!$userId) {
+        return response()->json(['count' => 0]);
     }
 
+    $count = CartItem::whereHas('cart', function ($query) use ($userId) {
+        $query->where('user_id', $userId);
+    })->sum('quantity');
 
+    return response()->json(['count' => $count]);
+}
 
 }
