@@ -182,7 +182,7 @@ public function add(Request $request)
         if ($cartItem) {
             // Không cộng dồn, thông báo
             return redirect()->route('cart.index')
-                ->with('error', 'Sản phẩm này đã có trong giỏ hàng');
+                ->with('success', 'Sản phẩm thêm trong giỏ hàng');
         }
 
         // Tính giá: nếu có sale_price thì lấy sale_price, không thì lấy regular_price
