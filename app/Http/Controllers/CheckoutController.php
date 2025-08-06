@@ -9,18 +9,27 @@ use App\Models\CartItem;
 
 class CheckoutController extends Controller
 {
-    public function fromDeposit($id)
-    {
-        // Lấy thông tin deposit kèm cartItem và product
-        $deposit = Deposit::with('cartItem.product')->findOrFail($id);
+  public function fromDeposit($id)
+{
+    $deposit = Deposit::with('cartItem.product')->findOrFail($id);
+    $item = $deposit->cartItem;
+    $subtotal = $item->price * $item->quantity;
 
-        // Truyền sang view checkout.blade.php
-        return view('checkout', [
-            'deposit' => $deposit,
-            'items'   => collect([$deposit->cartItem]), // lấy item để hiển thị giỏ
-            'total'   => $deposit->cartItem->price * $deposit->cartItem->quantity
-        ]);
-    }
+    $shippingFee = 80000000; // ví dụ phí ship cố định
+    $tax = round($subtotal * 0.1); // ví dụ thuế VAT 10%
+    $total = $subtotal + $shippingFee + $tax;
+
+    return view('checkout', [
+        'deposit' => $deposit,
+        'items' => collect([$item]),
+        'subtotal' => $subtotal,
+        'shippingFee' => $shippingFee,
+        'tax' => $tax,
+        'total' => $total,
+        'shippingMethodName' => 'Giao hàng tiêu chuẩn', // nếu cần hiển thị
+    ]);
+}
+
 // public function checkout(Request $request)
 // {
 //     $shippingFee = (float) $request->input('shipping_fee', 0);
