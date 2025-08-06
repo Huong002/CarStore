@@ -204,7 +204,7 @@
                             <div class="search-field__input-wrapper mb-3">
                                 <input type="text" name="search_text"
                                     class="search-field__input form-control form-control-sm border-light border-2"
-                                    placeholder="Search" />
+                                    placeholder="Tìm kiếm sản phẩm...." />
                             </div>
                             <ul class="multi-select__list list-unstyled">
                                 @foreach($allBrands as $brand)
@@ -281,19 +281,28 @@
                         <div class="slide-split h-100 d-block d-md-flex overflow-hidden">
                             <div class="slide-split_text position-relative d-flex align-items-center"
                                 style="background-color: #f5e6e0;">
-                                <div class="slideshow-text container p-3 p-xl-5">
-                                    <h2
-                                        class="text-uppercase section-title fw-normal mb-3 animate animate_fade animate_btt animate_delay-2">
-                                        Women's <br /><strong>ACCESSORIES</strong></h2>
-                                    <p class="mb-0 animate animate_fade animate_btt animate_delay-5">Accessories are the
-                                        best way to
-                                        update your look. Add a title edge with new styles and new colors, or go for
-                                        timeless pieces.</h6>
+                                <div class="slideshow-text container p-3 p-xl-5 text-center">
+                                    <h2 class="text-uppercase section-title fw-bold mb-4 animate animate_fade animate_btt animate_delay-2"
+                                        style="font-size: 2.2rem; line-height: 1.4;">
+                                        KHÁM PHÁ <br>
+                                        <span style="color:#5E83AE; font-size: 1.5rem;">Ô TÔ CAO CẤP</span>
+                                    </h2>
+
+                                    <p class="mb-0 animate animate_fade animate_btt animate_delay-5"
+                                        style="font-size: 1rem; max-width: 550px; margin: 0 auto; line-height: 1.6; text-align: justify;">
+                                        Tận hưởng trải nghiệm lái xe đỉnh cao với những mẫu xe sang trọng,
+                                        hiện đại và công nghệ tiên tiến.
+                                        Đa dạng lựa chọn: từ xe gia đình tiện nghi đến xe thể thao đẳng cấp.
+                                    </p>
+
                                 </div>
+
+
+
                             </div>
                             <div class="slide-split_media position-relative">
                                 <div class="slideshow-bg" style="background-color: #f5e6e0;">
-                                    <img loading="lazy" src="assets/images/shop/shop_banner3.jpg" width="630"
+                                    <img loading="lazy" src="assets/images/shop/shop_banner_cart2.jpg" width="630"
                                         height="450" alt="Women's accessories"
                                         class="slideshow-bg__img object-fit-cover" />
                                 </div>
@@ -305,19 +314,26 @@
                         <div class="slide-split h-100 d-block d-md-flex overflow-hidden">
                             <div class="slide-split_text position-relative d-flex align-items-center"
                                 style="background-color: #f5e6e0;">
-                                <div class="slideshow-text container p-3 p-xl-5">
-                                    <h2
-                                        class="text-uppercase section-title fw-normal mb-3 animate animate_fade animate_btt animate_delay-2">
-                                        Women's <br /><strong>ACCESSORIES</strong></h2>
-                                    <p class="mb-0 animate animate_fade animate_btt animate_delay-5">Accessories are the
-                                        best way to
-                                        update your look. Add a title edge with new styles and new colors, or go for
-                                        timeless pieces.</h6>
+                                <div class="slideshow-text container p-3 p-xl-5 text-center">
+                                    <h2 class="text-uppercase section-title fw-bold mb-4 animate animate_fade animate_btt animate_delay-2"
+                                        style="font-size: 2.2rem; line-height: 1.4;">
+                                        KHÁM PHÁ <br>
+                                        <span style="color:#5E83AE; font-size: 1.5rem;">Ô TÔ CAO CẤP</span>
+                                    </h2>
+
+                                    <p class="mb-0 animate animate_fade animate_btt animate_delay-5"
+                                        style="font-size: 1rem; max-width: 550px; margin: 0 auto; line-height: 1.6; text-align: justify;">
+                                        Tận hưởng trải nghiệm lái xe đỉnh cao với những mẫu xe sang trọng,
+                                        hiện đại và công nghệ tiên tiến.
+                                        Đa dạng lựa chọn: từ xe gia đình tiện nghi đến xe thể thao đẳng cấp.
+                                    </p>
                                 </div>
+
+
                             </div>
                             <div class="slide-split_media position-relative">
                                 <div class="slideshow-bg" style="background-color: #f5e6e0;">
-                                    <img loading="lazy" src="assets/images/shop/shop_banner3.jpg" width="630"
+                                    <img loading="lazy" src="assets/images/shop/shop_banner_car.jpg" width="630"
                                         height="450" alt="Women's accessories"
                                         class="slideshow-bg__img object-fit-cover" />
                                 </div>
@@ -329,19 +345,25 @@
                         <div class="slide-split h-100 d-block d-md-flex overflow-hidden">
                             <div class="slide-split_text position-relative d-flex align-items-center"
                                 style="background-color: #f5e6e0;">
-                                <div class="slideshow-text container p-3 p-xl-5">
-                                    <h2
-                                        class="text-uppercase section-title fw-normal mb-3 animate animate_fade animate_btt animate_delay-2">
-                                        Women's <br /><strong>ACCESSORIES</strong></h2>
-                                    <p class="mb-0 animate animate_fade animate_btt animate_delay-5">Accessories are the
-                                        best way to
-                                        update your look. Add a title edge with new styles and new colors, or go for
-                                        timeless pieces.</h6>
+                                <div class="slideshow-text container p-3 p-xl-5 text-center">
+                                    <h2 class="text-uppercase section-title fw-bold mb-4 animate animate_fade animate_btt animate_delay-2"
+                                        style="font-size: 2.2rem; line-height: 1.4;">
+                                        KHÁM PHÁ <br>
+                                        <span style="color:#5E83AE; font-size: 1.5rem;">Ô TÔ CAO CẤP</span>
+                                    </h2>
+
+                                    <p class="mb-0 animate animate_fade animate_btt animate_delay-5"
+                                        style="font-size: 1rem; max-width: 550px; margin: 0 auto; line-height: 1.6; text-align: justify;">
+                                        Tận hưởng trải nghiệm lái xe đỉnh cao với những mẫu xe sang trọng,
+                                        hiện đại và công nghệ tiên tiến.
+                                        Đa dạng lựa chọn: từ xe gia đình tiện nghi đến xe thể thao đẳng cấp.
+                                    </p>
                                 </div>
+
                             </div>
                             <div class="slide-split_media position-relative">
                                 <div class="slideshow-bg" style="background-color: #f5e6e0;">
-                                    <img loading="lazy" src="assets/images/shop/shop_banner3.jpg" width="630"
+                                    <img loading="lazy" src="assets/images/shop/shop_banner_cart1.jpg" width="630"
                                         height="450" alt="Women's accessories"
                                         class="slideshow-bg__img object-fit-cover" />
                                 </div>
@@ -361,9 +383,9 @@
 
             <div class="d-flex justify-content-between mb-4 pb-md-2">
                 <div class="breadcrumb mb-0 d-none d-md-block flex-grow-1">
-                    <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">Home</a>
+                    <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">Trang chủ</a>
                     <span class="breadcrumb-separator menu-link fw-medium ps-1 pe-1">/</span>
-                    <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">The Shop</a>
+                    <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">Cửa hàng</a>
                 </div>
 
                 <div
