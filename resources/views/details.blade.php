@@ -48,6 +48,59 @@
 </style>
 
 
+{{-- CSS trực tiếp --}}
+<style>
+.pc__atc {
+    border-radius: 8px !important;
+}
+
+
+.btn.btn-primary {
+    background-color: #5E83AE !important;
+    border: none !important;
+    border-radius: 8px !important;
+}
+
+.btn.btn-primary:hover {
+    background-color: #4a6b8c !important;
+}
+
+.star-rating {
+    direction: rtl;
+    display: inline-flex;
+    font-size: 2rem;
+}
+
+.star-rating input[type=radio] {
+    display: none;
+}
+
+.star-rating label {
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.star-rating label:hover,
+.star-rating label:hover~label {
+    color: gold;
+}
+
+.star-rating input[type=radio]:checked~label {
+    color: gold;
+}
+
+.alert-toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    padding: 15px 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+</style>
 <main class="pt-90">
     <div class="mb-md-1 pb-md-3"></div>
     <section class="product-single container">
@@ -363,8 +416,9 @@
                         <div class="product-single__reviews-item">
                             <div class="customer-avatar">
                                 <img loading="lazy"
-                                    src="{{ $review->user && $review->user->avatar ? asset('storage/'.$review->user->avatar) : asset('assets/images/avatar.jpg') }}"
+                                    src="{{ $review->user && $review->user->image ? asset('images/avatar/' . $review->user->image) : asset('assets/images/avatar.jpg') }}"
                                     alt="{{ $review->name }}" />
+
                             </div>
                             <div class="customer-review">
                                 <div class="customer-name">
@@ -379,8 +433,16 @@
                                     </div>
                                 </div>
                                 <div class="review-date">{{ $review->created_at->format('d/m/Y') }}</div>
+                                <!-- <div class="review-text">
+                                    <p>{{ $review->content }}</p>
+                                </div> -->
                                 <div class="review-text">
                                     <p>{{ $review->content }}</p>
+                                    @if($review->image)
+                                    <img src="{{ asset($review->image) }}" alt="Hình ảnh đánh giá" width="200">
+                                    @endif
+
+
                                 </div>
                             </div>
                         </div>
@@ -391,65 +453,48 @@
                     <!--  -->
                     <div class="product-single__review-form mt-5">
                         @auth
-                        <form action="{{ route('reviews.store') }}" method="POST">
+
+                        <form action="{{ route('reviews.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
 
                             <h5>Gửi đánh giá của bạn</h5>
 
-                            {{-- CSS trực tiếp --}}
-                            <style>
-                            .pc__atc {
-                                border-radius: 8px !important;
-                            }
 
 
-                            .btn.btn-primary {
-                                background-color: #5E83AE !important;
-                                border: none !important;
-                                border-radius: 8px !important;
-                            }
 
-                            .btn.btn-primary:hover {
-                                background-color: #4a6b8c !important;
-                            }
 
-                            .star-rating {
-                                direction: rtl;
-                                display: inline-flex;
-                                font-size: 2rem;
-                            }
-
-                            .star-rating input[type=radio] {
-                                display: none;
-                            }
-
-                            .star-rating label {
-                                color: #ccc;
-                                cursor: pointer;
-                                transition: color 0.2s;
-                            }
-
-                            .star-rating label:hover,
-                            .star-rating label:hover~label {
-                                color: gold;
-                            }
-
-                            .star-rating input[type=radio]:checked~label {
-                                color: gold;
-                            }
-                            </style>
-
-                            {{-- Đánh giá sao --}}
                             <div class="select-star-rating mb-3">
                                 <label for="rating">Đánh giá sản phẩm của bạn *</label>
                                 <div class="star-rating">
                                     @for ($i = 5; $i >= 1; $i--)
-                                    <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}">
+                                    <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}"
+                                        {{ old('rating') == $i ? 'checked' : '' }}>
                                     <label for="star{{ $i }}">★</label>
                                     @endfor
+
                                 </div>
+                                @error('rating')
+                                <div class="text-danger mt-1">{{ $message }}</div>
+                                @enderror
+
                             </div>
+                            {{-- Hiển thị thông báo lỗi --}}
+                            @if ($errors->any())
+                            <div id="alert-message" class="alert alert-danger alert-toast">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            @endif
+
+                            @if (session('success'))
+                            <div id="alert-message" class="alert alert-success alert-toast">
+                                {{ session('success') }}
+                            </div>
+                            @endif
 
                             {{-- Nội dung review --}}
                             <div class="mb-3">
@@ -457,6 +502,25 @@
                                     required></textarea>
                             </div>
 
+                            {{-- Upload ảnh bằng icon --}}
+                            <div class="mb-3">
+                                <label for="imageUpload" class="d-block">Hình ảnh minh họa (tùy chọn):</label>
+                                <label for="imageUpload" style="cursor: pointer; display: inline-block;">
+                                    <!-- Icon "Photo" từ Heroicons -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="#5E83AE" width="30" height="30">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M3 5.25C3 4.007 4.007 3 5.25 3h13.5C19.993 3 21 4.007 21 5.25v13.5c0 1.243-1.007 2.25-2.25 2.25H5.25A2.25 2.25 0 013 18.75V5.25zM7.5 12.75l2.25 2.25 3.75-3.75L18 16.5M6.75 8.25h.008v.008H6.75V8.25z" />
+                                    </svg>
+                                </label>
+                                <input type="file" id="imageUpload" name="image" accept="image/*"
+                                    style="display: none;">
+                                <span id="file-name" class="ms-2 text-muted"></span>
+                            </div>
+
+
+
+                            {{-- Nút gửi --}}
                             <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
                         </form>
                         @else
@@ -704,7 +768,43 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Ẩn tất cả alert sau 3s
+    const alerts = document.querySelectorAll('.alert-toast'); // <-- CHỖ SỬA
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.style.transition = "opacity 0.5s ease";
+            alert.style.opacity = '0';
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 500);
+        }, 5000); // đổi thành 3000ms (3s)
+    });
 
+    // Hiển thị tên file
+    const imageUpload = document.getElementById('imageUpload');
+    const fileNameDisplay = document.getElementById('file-name');
+    if (imageUpload && fileNameDisplay) {
+        imageUpload.addEventListener('change', function(e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : 'Chưa chọn ảnh';
+            fileNameDisplay.textContent = fileName;
+        });
+    }
+
+    // Cảnh báo nếu chưa chọn sao
+    const form = document.querySelector('.product-single__review-form form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            const ratingChecked = form.querySelector('input[name="rating"]:checked');
+            if (!ratingChecked) {
+                e.preventDefault();
+                alert("Vui lòng chọn số sao để đánh giá sản phẩm!");
+            }
+        });
+    }
+});
+</script>
 
 
 @endsection
