@@ -3,7 +3,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div class="user-info">
-                    <img src="{{ asset('images/avatar/user-1.png') }}" alt="Avatar" class="avatar" width="50">
+                    <img src="{{ Auth::user()->image ? asset('images/avatar/' . Auth::user()->image) : asset('images/avatar/user-1.png') }}"
+                        alt="Avatar" class="avatar" width="50">
                     <div>
                         <h5 class="modal-title" id="accountModalLabel">{{ Auth::user()->name }}</h5>
                         <span class="email">{{ Auth::user()->email }}</span>
