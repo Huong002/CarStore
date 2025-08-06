@@ -21,7 +21,7 @@ class AuthAdmin
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check()) {
-            if (Auth::user()->utype === 'ADM') {
+            if (Auth::user()->utype !== 'CTM') {
                 if (!$request->is('admin*')) {
                     return redirect('/admin');
                 }

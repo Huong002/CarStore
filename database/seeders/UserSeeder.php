@@ -22,12 +22,13 @@ class UserSeeder extends Seeder
                 'image' => 'avatar1.jpg',
                 'utype' => 'ADM',
                 'email_verified_at' => now(),
+                'employee_id' => 1,
             ],
             [
                 'name' => 'Nguyễn Văn An',
                 'email' => 'customer1@example.com',
                 'password' => Hash::make('password123'),
-                'utype' => 'USR',
+                'utype' => 'CTM',
                 'image' => 'avatar2.jpg',
                 'email_verified_at' => now(),
                 'customer_id' => 1,
@@ -36,7 +37,7 @@ class UserSeeder extends Seeder
                 'name' => 'Trần Thị Bình',
                 'email' => 'customer2@example.com',
                 'password' => Hash::make('password123'),
-                'utype' => 'USR',
+                'utype' => 'CTM',
                 'image' => 'avatar3.jpg',
                 'email_verified_at' => now(),
                 'customer_id' => 2,
@@ -45,11 +46,12 @@ class UserSeeder extends Seeder
                 'name' => 'Lê Minh Cường',
                 'email' => 'employee1@example.com',
                 'password' => Hash::make('password123'),
-                'utype' => 'USR',
+                'utype' => 'EMP',
                 'image' => 'avatar4.jpg',
                 'email_verified_at' => now(),
-                'employee_id' => 1,  // Sửa: emplyee_id → employee_id
-            ]
+                'employee_id' => 2,  
+            ],
+       
         ];
 
         foreach ($users as $userData) {

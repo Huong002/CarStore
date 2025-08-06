@@ -20,7 +20,10 @@ use App\Models\Notification;
 use App\Http\Controllers\StatisticsController;
 use App\Models\UserNotification;
 use Illuminate\Cache\Events\RetrievingKey;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Mockery\Matcher\Not;
+
 
 // use Intervention\Image\Laravel\Facades\Image;1
 
@@ -57,23 +60,6 @@ class AdminController extends Controller
     public function add_brand()
     {
         return view('admin.brand-add');
-    }
-    public function check_order($id)
-    {
-        $order = Order::find($id);
-
-        if (!$order) {
-            return redirect()->back()->with('error', 'Không tìm thấy đơn hàng');
-        }
-
-        if ($order->status == 'pending') {
-            $order->status = 'approved';
-            $order->save();
-
-            return redirect()->back()->with('status', 'Đã chuyển đơn hàng sang trạng thái đã xử lý');
-        }
-
-        return redirect()->back()->with('info', 'Đơn hàng đã được xử lý trước đó');
     }
 
 
@@ -628,6 +614,7 @@ class AdminController extends Controller
 
 
 
+
         $orders = $query->orderBy('created_at', 'DESC')->paginate(10);
 
         // Đếm số lượng theo từng trạng thái
@@ -649,6 +636,30 @@ class AdminController extends Controller
     //     $employees = Employee::orderBy('name', 'ASC')->get();
     //     return view('admin.order-add', compact('customers', 'employees'));
     // }
+
+    public function check_order(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+        $user = Auth::user();
+
+        if (!$order) {
+            return redirect()->back()->with('error', 'Không tìm thấy đơn hàng');
+        }
+        if (!$user || !$user->employee_id) {
+            return redirect()->back()->with('error', 'Bạn không có quyền duyệt đơn hàng này');
+        }
+
+
+        if ($order->status == 'pending') {
+            $order->status = 'approved';
+            $order->employee_id = $user->employee_id;
+            $order->save();
+            return redirect()->back()->with('status', 'Đã chuyển đơn hàng sang trạng thái đã xử lý');
+        }
+
+        return redirect()->back()->with('info', 'Đơn hàng đã được xử lý trước đó');
+    }
+
 
     public function order_store(Request $request)
     {

@@ -41,23 +41,23 @@
             <table class="table table-striped table-bordered">
                <thead>
                   <tr>
-                     <th>STT</th>
-                     <th>Tên sản phẩm</th>
-                     <th>Giá</th>
-                     <th>Giá khuyến mãi</th>
-                     <th>SKU</th>
-                     <th>Danh mục</th>
-                     <th>Thương hiệu</th>
-                     <th>Nổi bật</th>
-                     <th>Kho</th>
-                     <th>Số lượng</th>
+                     <th class="text-center" style="white-space: norwap;">STT</th>
+                     <th class="text-center" style="white-space: norwap;">Tên sản phẩm</th>
+                     <th class="text-center" style="white-space: norwap;">Giá</th>
+                     <th class="text-center" style="white-space: norwap;">Giá khuyến mãi</th>
+                     <th class="text-center" style="white-space: norwap;">SKU</th>
+                     <th class="text-center" style="white-space: norwap;">Danh mục</th>
+                     <!-- <th class="text-center" style="white-space: norwap;">Thương hiệu</th> -->
+                     <!-- <th class="text-center" style="white-space: norwap;">Nổi bật</th> -->
+                     <th class="text-center" style="white-space: norwap;">Tình trạng</th>
+                     <th class="text-center" style="white-space: norwap;">Số lượng</th>
                      <th></th>
                   </tr>
                </thead>
                <tbody>
                   @foreach($products as $product)
                   <tr>
-                     <td>{{$product->id}}</td>
+                     <td>{{ $loop->iteration }}</td>
                      <td class="pname">
                         <div class="image">
                            @if($product->images && $product->images->count() > 0)
@@ -75,13 +75,17 @@
                            <div class="text-tiny mt-3">{{$product->slug}}</div>
                         </div>
                      </td>
-                     <td>${{number_format($product->regular_price, 2)}}</td>
-                     <td>${{number_format($product->sale_price, 2)}}</td>
+                     <td>{{number_format($product->regular_price)}} đ</td>
+                     <td>{{number_format($product->sale_price)}} đ</td>
                      <td>{{$product->SKU}}</td>
                      <td>{{$product->category ? $product->category->name : 'N/A'}}</td>
-                     <td>{{$product->brand ? $product->brand->name : 'N/A'}}</td>
-                     <td>{{$product->featured == 1 ? "Có" : "Không"}}</td>
-                     <td>{{$product->stock_status}}</td>
+                     <!-- <td>{{$product->brand ? $product->brand->name : 'N/A'}}</td> -->
+                     <!-- <td>{{$product->featured == 1 ? "Có" : "Không"}}</td> -->
+                     <td>
+                        <span class="badge {{ $product->stock_status == 'instock' ? 'bg-success' : 'bg-danger' }}">
+                           {{ $product->stock_status == 'instock' ? 'Còn hàng' : 'Hết hàng' }}
+                        </span>
+                     </td>
                      <td>{{$product->quantity}}</td>
                      <td>
                         <div class="list-icon-function">
