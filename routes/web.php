@@ -157,6 +157,7 @@ Route::get('/wishlistshow/{id}', [ShopController::class, 'wishlistShow'])->name(
 Route::post('/cart', [CartController::class, 'add'])->name('cart.add');
 
 // Không cần đổi gì nếu đã dùng fetch trong JS
-Route::middleware('auth')->get('/api/cart-count', [CartController::class, 'countItems'])->name('cart.count');
+// Route::middleware('auth')->get('/api/cart-count', [CartController::class, 'countItems'])->name('cart.count');
+Route::get('/api/cart-count', [CartController::class, 'countItems'])->name('cart.count');
 
 Route::get('/api/cart-items', [CartController::class, 'getItems'])->name('cart.items');
