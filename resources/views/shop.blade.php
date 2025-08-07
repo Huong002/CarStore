@@ -490,7 +490,7 @@
                             <p class="pc__category">{{$product->category->name}}</p>
                             <h6 class="pc__title"><a
                                     href="{{route('shop.product.details', $product->slug)}}">{{$product->name}}</a></h6>
-                            <div class="product-card__price d-flex">
+                            <!-- <div class="product-card__price d-flex">
                                 <span class="money price">
                                     @if($product->sale_price)
                                     <s>{{number_format($product->regular_price, 0, ",", ".")}}VNĐ</s>
@@ -499,7 +499,18 @@
                                     {{number_format($product->regular_price, 0, ",", ".")}} VNĐ
                                     @endif
                                 </span>
+                            </div> -->
+                            <div class="product-card__price d-flex">
+                                <span class="money price">
+                                    @if($product->sale_price > 0)
+                                    <s>{{ number_format($product->regular_price, 0, ",", ".") }} VNĐ</s>
+                                    {{ number_format($product->sale_price, 0, ",", ".") }} VNĐ
+                                    @else
+                                    {{ number_format($product->regular_price, 0, ",", ".") }} VNĐ
+                                    @endif
+                                </span>
                             </div>
+
                             <div class="product-card__review d-flex align-items-center">
                                 <div class="reviews-group d-flex">
                                     <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
