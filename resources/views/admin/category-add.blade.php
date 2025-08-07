@@ -3,9 +3,10 @@
 <style>
    .form-select,
    .form-control {
-      height: 40px;
+      height: 50px;
       border-radius: 12px;
       font-size: 14px;
+      border: 1px solid #dee2e6;
    }
 </style>
 <div class="main-content-inner">

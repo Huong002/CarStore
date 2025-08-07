@@ -106,9 +106,9 @@
                 </div>
                 <div>
                   <div class="body-text mb-2">
-                    Đơn đã hủy
+                    Đơn đã duyệt
                   </div>
-                  <h4>{{$orderCancelled}}</h4>
+                  <h4>{{$orderApprored}}</h4>
                 </div>
               </div>
             </div>
@@ -122,9 +122,9 @@
                 </div>
                 <div>
                   <div class="body-text mb-2">
-                    Doanh thu đơn đã hủy
+                    Doanh thu đơn đã duyệt
                   </div>
-                  <h4>{{number_format($totalStatisCancelled)}}</h4>
+                  <h4>{{number_format($totalStatisApproved)}}</h4>
                 </div>
               </div>
             </div>
@@ -134,7 +134,7 @@
 
       <div class="wg-box">
         <div class="flex items-center justify-between">
-          <h5>Earnings revenue</h5>
+          <h5>Biểu đồ doanh thu</h5>
           <div class="dropdown default">
             <button
               class="btn btn-secondary dropdown-toggle"
@@ -163,7 +163,7 @@
               </div>
             </div>
             <div class="flex items-center gap10">
-              <h4>$37,802</h4>
+              <h4>{{number_format($totalStatis, 0, ',', '.')}}</h4>
               <div class="box-icon-trending up">
                 <i class="icon-trending-up"></i>
                 <div class="body-title number">0.56%</div>
@@ -178,7 +178,7 @@
               </div>
             </div>
             <div class="flex items-center gap10">
-              <h4>$28,305</h4>
+              <h4>{{$orderTotal}}</h4>
               <div class="box-icon-trending up">
                 <i class="icon-trending-up"></i>
                 <div class="body-title number">0.56%</div>
@@ -252,3 +252,117 @@
 </div>
 
 @endsection
+
+@push('scripts')
+<script>
+  window.chartDataFromServer = <?php echo json_encode($chartData); ?>;
+
+  (function($) {
+    var tfLineChart = (function() {
+      var chartBar = function() {
+        var options = {
+          series: [{
+              name: "Tổng doanh thu",
+              data: window.chartDataFromServer.totalRevenue
+            },
+            {
+              name: "Đang xử lí",
+              data: window.chartDataFromServer.pendingRevenue
+            },
+            {
+              name: "Đã duyệt",
+              data: window.chartDataFromServer.approvedRevenue
+            },
+          ],
+          chart: {
+            type: "bar",
+            height: 325,
+            toolbar: {
+              show: false,
+            },
+          },
+          plotOptions: {
+            bar: {
+              horizontal: false,
+              columnWidth: "10px",
+              endingShape: "rounded",
+            },
+          },
+          dataLabels: {
+            enabled: false,
+          },
+          legend: {
+            show: false,
+          },
+          colors: ["#2377FC", "#FFA500", "#078407", "#FF0000"],
+          stroke: {
+            show: false,
+          },
+          xaxis: {
+            labels: {
+              style: {
+                colors: "#212529",
+              },
+            },
+            categories: [
+              "Th1",
+              "Th2",
+              "Th3",
+              "Th4",
+              "Th5",
+              "Th6",
+              "Th7",
+              "Th8",
+              "Th9",
+              "Th10",
+              "Th11",
+              "Th12",
+            ],
+          },
+          yaxis: {
+            show: false,
+          },
+          fill: {
+            opacity: 1,
+          },
+          tooltip: {
+            y: {
+              formatter: function(val) {
+                return new Intl.NumberFormat('vi-VN', {
+                  style: 'currency',
+                  currency: 'VND'
+                }).format(val);
+              },
+            },
+          },
+        };
+
+        chart = new ApexCharts(
+          document.querySelector("#line-chart-8"),
+          options
+        );
+        if ($("#line-chart-8").length > 0) {
+          chart.render();
+        }
+      };
+
+      /* Function ============ */
+      return {
+        init: function() {},
+        load: function() {
+          chartBar();
+        },
+        resize: function() {},
+      };
+    })();
+
+    jQuery(document).ready(function() {});
+
+    jQuery(window).on("load", function() {
+      tfLineChart.load();
+    });
+
+    jQuery(window).on("resize", function() {});
+  })(jQuery);
+</script>
+@endpush

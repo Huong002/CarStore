@@ -13,7 +13,7 @@ class StatisticsController extends Controller
     {
         return Order::count();
     }
-    // thong ke tong doanh thua
+    // thong ke tong doanh thu
     public static function totalRevenue()
     {
         return Order::sum('total');
@@ -40,7 +40,7 @@ class StatisticsController extends Controller
     }
 
     // doanh thu cho duyert
-    public static function orderPenfing()
+    public static function orderPending()
     {
         return Order::where('status', 'pending')->count();
     }
@@ -68,5 +68,42 @@ class StatisticsController extends Controller
     public static function totalRevenueCompleted()
     {
         return Order::where('status', 'completed')->sum('total');
+    }
+
+    // Lấy dữ liệu biểu đồ theo tháng
+    public static function getMonthlyChartData()
+    {
+        $monthlyTotalRevenue = [];
+        $monthlyPendingRevenue = [];
+        $monthlyApprovedRevenue = [];
+
+        // Lấy dữ liệu cho 12 tháng trong năm hiện tại
+        for ($month = 1; $month <= 12; $month++) {
+            // Tổng doanh thu theo tháng
+            $totalRevenue = Order::whereMonth('created_at', $month)
+                ->whereYear('created_at', date('Y'))
+                ->sum('total');
+            $monthlyTotalRevenue[] = (float) $totalRevenue;
+
+            // Doanh thu đơn hàng đang xử lý
+            $pendingRevenue = Order::whereMonth('created_at', $month)
+                ->whereYear('created_at', date('Y'))
+                ->where('status', 'pending')
+                ->sum('total');
+            $monthlyPendingRevenue[] = (float) $pendingRevenue;
+
+            // Doanh thu đơn hàng đã duyệt
+            $approvedRevenue = Order::whereMonth('created_at', $month)
+                ->whereYear('created_at', date('Y'))
+                ->where('status', 'approved')
+                ->sum('total');
+            $monthlyApprovedRevenue[] = (float) $approvedRevenue;
+        }
+
+        return [
+            'totalRevenue' => $monthlyTotalRevenue,
+            'pendingRevenue' => $monthlyPendingRevenue,
+            'approvedRevenue' => $monthlyApprovedRevenue
+        ];
     }
 }

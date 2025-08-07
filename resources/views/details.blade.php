@@ -173,8 +173,9 @@
                         <s>{{number_format($product->regular_price, 0, ',', '.')}}</s>
                         {{number_format($product->sale_price, 0, ',' , '.')}}
                         @else
-                        {{ number_format($product->regular_price, 0, ',', '.') }} VND</span>
-                    @endif
+                        {{ number_format($product->regular_price, 0, ',', '.') }} VND
+                        @endif
+                    </span>
                 </div>
                 <div class="product-single__short-desc">
                     <p>{{$product->short_description}}</p>

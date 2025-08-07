@@ -33,7 +33,7 @@ class AdminController extends Controller
     public function index()
     {
         $orderTotal = StatisticsController::totalOrder();
-        $orderPending = StatisticsController::orderPenfing();
+        $orderPending = StatisticsController::orderPending();
         $orderCancelled = StatisticsController::orderCancelled();
         $orderComplated = StatisticsController::orderCompleted();
         $currentOrders = StatisticsController::currentOrder();
@@ -43,7 +43,24 @@ class AdminController extends Controller
         $totalStatisComplated = StatisticsController::totalRevenueCompleted();
         $totalStatisCancelled = StatisticsController::totalRevenueCancelled();
         $totalStatisPending = StatisticsController::totalRevenuePending();
-        return view('admin.index', compact('orderTotal', 'orderPending', 'orderCancelled', 'orderComplated', 'currentOrders', 'orderApprored', 'totalStatis', 'totalStatisCancelled', 'totalStatisApproved', 'totalStatisComplated', 'totalStatisPending'));
+
+        // Lấy dữ liệu biểu đồ
+        $chartData = StatisticsController::getMonthlyChartData();
+
+        return view('admin.index', compact(
+            'orderTotal',
+            'orderPending',
+            'orderCancelled',
+            'orderComplated',
+            'currentOrders',
+            'orderApprored',
+            'totalStatis',
+            'totalStatisCancelled',
+            'totalStatisApproved',
+            'totalStatisComplated',
+            'totalStatisPending',
+            'chartData'
+        ));
     }
 
     #region ThuongHieu
