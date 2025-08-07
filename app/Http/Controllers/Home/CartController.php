@@ -428,6 +428,20 @@ public function clear()
 //     return response()->json(['count' => $count]);
 // }
 
+// public function countItems()
+// {
+//     $userId = Auth::id();
+
+//     if (!$userId) {
+//         return response()->json(['count' => 0]);
+//     }
+
+//     $count = CartItem::whereHas('cart', function ($query) use ($userId) {
+//         $query->where('user_id', $userId);
+//     })->sum('quantity');
+
+//     return response()->json(['count' => $count]);
+// }
 public function countItems()
 {
     $userId = Auth::id();
@@ -436,9 +450,13 @@ public function countItems()
         return response()->json(['count' => 0]);
     }
 
-    $count = CartItem::whereHas('cart', function ($query) use ($userId) {
-        $query->where('user_id', $userId);
-    })->sum('quantity');
+    // $count = CartItem::whereHas('cart', function ($query) use ($userId) {
+    //     $query->where('user_id', $userId);
+    // })->sum('quantity');
+     $count = CartItem::whereHas('cart', function ($q) use ($userId) {
+        $q->where('user_id', $userId);
+    })
+    ->count();
 
     return response()->json(['count' => $count]);
 }
