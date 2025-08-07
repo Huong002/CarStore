@@ -277,6 +277,12 @@
         </symbol>
     </svg>
     <style>
+    #userDropdown::after {
+        display: none !important;
+    }
+    </style>
+
+    <style>
     #header {
         padding-top: 8px;
         padding-bottom: 8px;
@@ -301,13 +307,13 @@
                 </a>
             </div>
 
-            <a href="#" class="header-tools__item header-tools__cart js-open-aside" data-aside="cartDrawer">
+            <!-- <a href="#" class="header-tools__item header-tools__cart js-open-aside" data-aside="cartDrawer">
                 <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <use href="#icon_cart" />
                 </svg>
-                <span class="cart-amount d-block position-absolute js-cart-items-count">3</span>
-            </a>
+                <span class="cart-amount d-block position-absolute js-cart-items-count">0</span>
+            </a> -->
         </div>
 
         <nav
@@ -815,7 +821,7 @@
                         </a>
                         @else
                         <div class="dropdown">
-                            <!-- ✅ Đặt đúng ID khớp với aria-labelledby -->
+                            <!-- Đặt đúng ID khớp với aria-labelledby -->
                             <button id="userDropdown"
                                 class="btn dropdown-toggle p-0 d-flex align-items-center border-0 bg-transparent"
                                 type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -963,15 +969,24 @@
 
         // ================== ĐẾM SỐ LƯỢNG GIỎ HÀNG ==================
         // Gọi khi DOM ready
-        updateCartCount();
+        //updateCartCount();
 
-        // Trong hàm này gán lại mỗi lần
         function updateCartCount() {
             const cartCountBadge = document.querySelector('.js-cart-items-count');
+
             fetch('/api/cart-count', {
                     credentials: 'include'
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok || response.redirected) {
+                        // Có thể bị redirect do chưa đăng nhập
+                        console.warn("Chưa đăng nhập hoặc lỗi truy cập.");
+                        return {
+                            count: 0
+                        }; // fallback
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     if (cartCountBadge) {
                         cartCountBadge.textContent = data.count;
@@ -1001,7 +1016,7 @@
                     .then(res => res.json())
                     .then(data => {
                         renderCartItems(data);
-                        updateCartCount();
+                        // updateCartCount();
 
                         if (wishlistModal) wishlistModal.style.display = 'none';
 
