@@ -235,12 +235,18 @@
                 </div>
                 <div class="product-single__price">
                     <span class="current-price">
-                        @if($product->sale_price)
+                        <!-- @if($product->sale_price)
                         <s>{{number_format($product->regular_price, 0, ',', '.')}}</s>
                         {{number_format($product->sale_price, 0, ',' , '.')}}
                         @else
                         {{ number_format($product->regular_price, 0, ',', '.') }} VND</span>
-                    @endif
+                    @endif -->
+                        @if($product->sale_price > 0)
+                        <s>{{ number_format($product->regular_price, 0, ",", ".") }} VNĐ</s>
+                        {{ number_format($product->sale_price, 0, ",", ".") }} VNĐ
+                        @else
+                        {{ number_format($product->regular_price, 0, ",", ".") }} VNĐ
+                        @endif
                 </div>
                 <div class="product-single__short-desc">
                     <p>{{$product->short_description}}</p>
@@ -634,7 +640,7 @@
                             </h6>
                             <div class="product-card__price d-flex">
                                 <span class="money price">
-                                    @if($rproduct->sale_price)
+                                    @if($rproduct->sale_price > 0)
                                     <s>{{number_format($rproduct->regular_price, 0, ',', '.') }} VND</s>
                                     {{number_format($rproduct->sale_price, 0, ',', '.') }} VND
                                     @else
