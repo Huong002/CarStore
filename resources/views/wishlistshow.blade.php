@@ -2,15 +2,30 @@
 
 @section('content')
 <style>
-.wishlist-table th {
-    white-space: nowrap;
-    /* Không cho chữ xuống dòng */
-    background-color: #8B4513;
-    /* Màu nâu */
-    color: white;
-    text-align: center;
-    vertical-align: middle;
+th {
+    font-weight: bold;
 }
+
+.description-container {
+    line-height: 1.5;
+}
+
+/* Ghi đè mọi nền tiêu đề bảng */
+.wishlist-table th {
+    background-color: transparent !important;
+    color: #000 !important;
+    font-weight: 600;
+    text-align: left;
+    padding: 14px 12px;
+    white-space: nowrap;
+}
+
+/* Đường kẻ màu xám phân cách thead và tbody */
+.wishlist-table thead tr {
+    border-bottom: 2px solid #999;
+    /* bạn có thể dùng #ccc nếu muốn nhạt hơn */
+}
+
 
 .wishlist-img {
     width: 100px;
@@ -128,15 +143,16 @@
         <table class="table table-bordered wishlist-table">
             <thead>
                 <tr>
-                    <th>Ảnh</th>
-                    <th>Tên sản phẩm</th>
-                    <th>Mô tả ngắn</th>
-                    <th>Giá</th>
-                    <th>Giá khuyến mãi</th>
-                    <th>Mô tả chi tiết</th>
-                    <th>Thao tác</th>
+                    <th class="fw-bold">Ảnh</th>
+                    <th class="fw-bold">Tên sản phẩm</th>
+                    <th class="fw-bold">Mô tả ngắn</th>
+                    <th class="fw-bold">Giá</th>
+                    <th class="fw-bold">Giá khuyến mãi</th>
+                    <th class="fw-bold">Mô tả chi tiết</th>
+                    <th class="fw-bold">Thao tác</th>
                 </tr>
             </thead>
+
             <tbody>
                 <tr>
                     <td>
@@ -157,7 +173,18 @@
                         <span class="text-muted">Không có</span>
                         @endif
                     </td>
-                    <td style="max-width: 300px;">{!! $product->description !!}</td>
+                    <td style="max-width: 300px;">
+                        <div class="description-container text-start">
+                            <div class="description-short">
+                                {!! Str::limit(strip_tags($product->description), 100) !!}
+                            </div>
+                            <div class="description-full d-none">
+                                {!! $product->description !!}
+                            </div>
+                            <a href="#" class="toggle-description text-primary" style="font-size: 14px;">Xem
+                                thêm</a>
+                        </div>
+                    </td>
                     <td>
                         @auth
                         <form action="{{ route('cart.add') }}" method="POST">
@@ -179,4 +206,29 @@
         </table>
     </div>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const toggleLinks = document.querySelectorAll('.toggle-description');
+
+    toggleLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const container = e.target.closest('.description-container');
+            const shortDesc = container.querySelector('.description-short');
+            const fullDesc = container.querySelector('.description-full');
+
+            if (fullDesc.classList.contains('d-none')) {
+                shortDesc.classList.add('d-none');
+                fullDesc.classList.remove('d-none');
+                e.target.textContent = 'Thu gọn';
+            } else {
+                shortDesc.classList.remove('d-none');
+                fullDesc.classList.add('d-none');
+                e.target.textContent = 'Xem thêm';
+            }
+        });
+    });
+});
+</script>
+
 @endsection
