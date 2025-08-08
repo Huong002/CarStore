@@ -194,12 +194,14 @@
             <div class="col-lg-5">
                 <div class="d-flex justify-content-between mb-4 pb-md-2">
                     <div class="breadcrumb mb-0 d-none d-md-block flex-grow-1">
-                        <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">Trang chủ</a>
+                        <a href="{{ route('home.index') }}"
+                            class="menu-link menu-link_us-s text-uppercase fw-medium">Trang chủ</a>
                         <span class="breadcrumb-separator menu-link fw-medium ps-1 pe-1">/</span>
-                        <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">Cửa hàng</a>
+                        <a href="{{ route('shop.index') }}"
+                            class="menu-link menu-link_us-s text-uppercase fw-medium">Cửa hàng</a>
                     </div><!-- /.breadcrumb -->
 
-                    <div
+                    <!-- <div
                         class="product-single__prev-next d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
                         <a href="#" class="text-uppercase fw-medium"><svg width="10" height="10" viewBox="0 0 25 25"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -210,7 +212,7 @@
                                 viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
                                 <use href="#icon_next_md" />
                             </svg></a>
-                    </div><!-- /.shop-acs -->
+                    </div>/.shop-acs -->
                 </div>
                 <h1 class="product-single__name">{{$product->name}}</h1>
                 <div class="product-single__rating">
@@ -394,6 +396,12 @@
                     </a>
 
                 </li>
+
+                {{-- Ưu đãi --}}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link nav-link_underscore" id="tab-promotion-tab" data-bs-toggle="tab"
+                        href="#tab-promotion" role="tab" aria-controls="tab-promotion" aria-selected="false">Ưu đãi</a>
+                </li>
             </ul>
             <!--  -->
 
@@ -536,7 +544,54 @@
 
                     <!--  -->
                 </div>
+                <!--  -->
+                <div class="tab-pane fade" id="tab-promotion" role="tabpanel" aria-labelledby="tab-promotion-tab">
+                    <div class="product-single__description">
+                        @if ($product->brand && $product->brand->promotion_details)
+                        <div class="promotion-box bg-white p-4 border rounded shadow-sm">
+                            <h5 class="text-center fw-bolder text-uppercase mb-4" style="color: #c30000;">
+                                🎁 Ưu đãi khủng khi mua {{ strtoupper($product->brand->name ?? 'Xe') }} trong tháng!
+                            </h5>
 
+                            <ul class="promotion-list mb-4">
+                                {!! $product->brand->promotion_details !!}
+                            </ul>
+                            <div class="promotion-note text-primary fw-semibold mt-3">
+                                &raquo;&nbsp;Cam kết nội dung trên là sự thật để không làm mất thời gian của quý khách!
+                            </div>
+                        </div>
+                        @else
+                        <div id="custom-alert"
+                            class="alert d-flex align-items-center gap-3 p-3 rounded-3 shadow-sm mt-4" role="alert"
+                            style="background-color: #fff; border: 1px solid #dee2e6; border-left: 4px solid #5E83AE; max-height: 100px; overflow: hidden; transition: max-height 0.4s ease;">
+
+                            <!-- Icon tròn xanh viền xanh -->
+                            <div
+                                style="width: 36px; height: 36px; min-width: 36px; border: 2px solid #0d6efd; border-radius: 50%; display: flex; align-items: center; justify-content: center; background-color: #fff;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#5E83AE"
+                                    viewBox="0 0 16 16" role="img" aria-label="Thông báo:">
+                                    <path
+                                        d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zM8.93 4.58a.905.905 0 1 1-1.86 0 .905.905 0 0 1 1.86 0zM8 6.75a.75.75 0 0 1 .75.75v3.25a.75.75 0 0 1-1.5 0V7.5A.75.75 0 0 1 8 6.75z" />
+                                </svg>
+                            </div>
+
+                            <!-- Nội dung thông báo -->
+                            <div id="alert-message" style="color: #000; font-size: 15px; font-weight: 500;">
+                                Hiện tại chưa có ưu đãi cho sản phẩm này. Vui lòng quay lại sau để nhận thông tin mới
+                                nhất!
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+                        @endif
+                    </div>
+                </div>
+                <!--  -->
 
             </div>
 
@@ -659,10 +714,6 @@
                                     <use href="#icon_heart" />
                                 </svg>
                             </button>
-
-
-
-
 
                         </div>
                     </div>
