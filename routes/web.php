@@ -153,11 +153,23 @@ Route::middleware('auth')->group(function () {
 });
  
  // Xem chi tiết sản phẩm yêu thích theo id
-Route::get('/wishlistshow/{id}', [ShopController::class, 'wishlistShow'])->name('wishlist.show');
-Route::post('/cart', [CartController::class, 'add'])->name('cart.add');
+// Route::get('/wishlistshow/{id}', [ShopController::class, 'wishlistShow'])->name('wishlist.show');
+// Route::post('/cart', [CartController::class, 'add'])->name('cart.add');
+Route::middleware('auth')->group(function () {
+    // Xem chi tiết sản phẩm yêu thích
+    Route::get('/wishlistshow/{id}', [ShopController::class, 'wishlistShow'])->name('wishlist.show');
 
-// Không cần đổi gì nếu đã dùng fetch trong JS
+    // Thêm vào giỏ hàng
+    Route::post('/cart', [CartController::class, 'add'])->name('cart.add');
+});
+
 // Route::middleware('auth')->get('/api/cart-count', [CartController::class, 'countItems'])->name('cart.count');
 Route::get('/api/cart-count', [CartController::class, 'countItems'])->name('cart.count');
 
 Route::get('/api/cart-items', [CartController::class, 'getItems'])->name('cart.items');
+
+
+ Route::middleware(['auth'])->group(function () {
+    Route::get('/account', [UserController::class, 'show'])->name('account.show');
+    Route::post('/account/update/{id}', [UserController::class, 'update'])->name('admin.account.update');
+});
