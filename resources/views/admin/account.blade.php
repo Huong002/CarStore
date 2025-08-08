@@ -1,53 +1,13 @@
-<!-- <div class="modal fade" id="accountModal" tabindex="-1" aria-labelledby="accountModalLabel" aria-hidden="true">
-   <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content" style="background-color: #fff; border-radius: 10px; padding: 20px;">
-         <div class="modal-header">
-            <div class="user-info">
-               <img src="{{ Auth::user()->image ? asset('images/avatar/' . Auth::user()->image) : asset('images/avatar/user-1.png') }}"
-                  alt="Avatar" class="avatar" width="50">
-               <div>
-                  <h5 class="modal-title" id="accountModalLabel">{{ Auth::user()->name }}</h5>
-                  <span class="email">{{ Auth::user()->email }}</span>
-               </div>
-            </div>
-            <button type="button" class="btn-edit" id="editButton"><i class="bi bi-pencil"></i></button>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng">&times;</button>
-         </div>
-         <div class="modal-body">
-            <form action="{{ route('admin.account.update', Auth::user()->id) }}" method="POST" id="editForm">
-               @csrf
-               <div class="info-item">
-                  <label>Name</label>
-                  <span class="info-value" id="displayName">{{ Auth::user()->name }}</span>
-                  <input type="text" class="form-control edit-field" id="name" name="name" value="{{ Auth::user()->name }}" style="display: none;">
-               </div>
-               <div class="info-item">
-                  <label>Email account</label>
-                  <span class="info-value" id="displayEmail">{{ Auth::user()->email }}</span>
-                  <input type="email" class="form-control edit-field" id="email" name="email" value="{{ Auth::user()->email }}" style="display: none;">
-               </div>
-               <div class="info-item">
-                  <label>Quyền</label>
-                  <span class="info-value" id="displayRole">{{ Auth::user()->utype }}</span>
-                  <input type="text" class="form-control edit-field" value="{{ Auth::user()->utype }}" disabled style="display: none;">
-               </div>
-         </div>
-         <div class="modal-footer" id="modalFooter" style="display: none;">
-
-            <button type="submit" class="btn-save">Cập nhập</button>
-            </form>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-         </div>
-      </div>
-   </div>
-</div> -->
 <div class="modal fade" id="accountModal" tabindex="-1" aria-labelledby="accountModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content" style="background-color: #fff; border-radius: 10px; padding: 20px;">
          <div class="modal-header">
             <div class="user-info">
-               <img src="{{ Auth::user()->image ? asset('images/avatar/' . Auth::user()->image) : asset('images/avatar/user-1.png') }}"
-                  alt="Avatar" class="avatar" width="50">
+               <div class="avatar-container">
+                  <img src="{{ Auth::user()->image ? asset('images/avatar/' . Auth::user()->image) : asset('images/avatar/user-1.png') }}"
+                     alt="Avatar" class="avatar" width="50" id="avatarImage">
+                  <div class="avatar-overlay" id="avatarOverlay">Click để đổi ảnh</div>
+               </div>
                <div>
                   <h5 class="modal-title" id="accountModalLabel">{{ Auth::user()->name }}</h5>
                   <span class="email">{{ Auth::user()->email }}</span>
@@ -63,8 +23,9 @@
             @if (session('message'))
             <div class="alert alert-success">{{ session('message') }}</div>
             @endif
-            <form action="{{ route('admin.account.update', Auth::user()->id) }}" method="POST" id="editForm">
+            <form action="{{ route('admin.account.update', Auth::user()->id) }}" method="POST" id="editForm" enctype="multipart/form-data">
                @csrf
+               <input type="file" id="avatarInput" name="image" accept="image/*" style="display: none;">
                <div class="info-item">
                   <label>Name</label>
                   <span class="info-value" id="displayName">{{ Auth::user()->name }}</span>
@@ -80,17 +41,17 @@
                   <span class="info-value" id="displayRole">{{ Auth::user()->utype }}</span>
                   <input type="text" class="form-control edit-field" value="{{ Auth::user()->utype }}" disabled style="display: none;">
                </div>
+            </form>
          </div>
          <div class="modal-footer" id="modalFooter" style="display: none;">
-            <button type="submit" class="btn-save">Cập nhập</button>
+            <button type="submit" class="btn-save" form="editForm" onclick="console.log('Submit button clicked'); console.log('Form data:', new FormData(document.getElementById('editForm'))); console.log('Avatar file:', document.getElementById('avatarInput').files);">Cập nhật</button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-            </form>
          </div>
       </div>
    </div>
 </div>
+
 <style>
-   /* Nền đen trong suốt cho modal */
    .modal-backdrop.show {
       background-color: rgba(0, 0, 0, 0.7) !important;
    }
@@ -116,9 +77,39 @@
       align-items: center;
    }
 
+   .avatar-container {
+      position: relative;
+      margin-right: 10px;
+   }
+
    .avatar {
       border-radius: 50%;
-      margin-right: 10px;
+      cursor: pointer;
+      transition: opacity 0.3s;
+   }
+
+   .avatar:hover {
+      opacity: 0.7;
+   }
+
+   .avatar-overlay {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50px;
+      height: 50px;
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      font-size: 12px;
+      text-align: center;
+      line-height: 50px;
+      border-radius: 50%;
+      pointer-events: none;
+   }
+
+   .avatar-container:hover .avatar-overlay {
+      display: block;
    }
 
    .modal-title {
@@ -226,7 +217,7 @@
    }
 </style>
 
-<!-- <script>
+<script>
    document.getElementById('editButton').addEventListener('click', function() {
       const editFields = document.querySelectorAll('.edit-field');
       const displayValues = document.querySelectorAll('.info-value');
@@ -239,18 +230,68 @@
       form.style.display = 'block';
       this.style.display = 'none';
    });
-</script> -->
-<script>
-   document.getElementById('editButton').addEventListener('click', function() {
-      const editFields = document.querySelectorAll('.edit-field');
-      const displayValues = document.querySelectorAll('.info-value');
-      const footer = document.getElementById('modalFooter');
-      const form = document.getElementById('editForm');
 
-      editFields.forEach(field => field.style.display = 'block');
-      displayValues.forEach(value => value.style.display = 'none');
-      footer.style.display = 'flex';
-      form.style.display = 'block'; // Đảm bảo form hiển thị
-      this.style.display = 'none';
+   // Xử lý click vào ảnh để chọn file mới
+   document.getElementById('avatarImage').addEventListener('click', function() {
+      document.getElementById('avatarInput').click();
    });
+
+   // Xử lý preview ảnh khi chọn file
+   document.getElementById('avatarInput').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+         const reader = new FileReader();
+         reader.onload = function(e) {
+            document.getElementById('avatarImage').src = e.target.result;
+         };
+         reader.readAsDataURL(file);
+
+         // Hiển thị footer và form để cho phép lưu ảnh
+         const editFields = document.querySelectorAll('.edit-field');
+         const displayValues = document.querySelectorAll('.info-value');
+
+         editFields.forEach(field => field.style.display = 'block');
+         displayValues.forEach(value => value.style.display = 'none');
+
+         document.getElementById('modalFooter').style.display = 'flex';
+         document.getElementById('editForm').style.display = 'block';
+         document.getElementById('editButton').style.display = 'none';
+      }
+   });
+
+   // Cập nhật avatar trong header sau khi form submit thành công
+   document.getElementById('editForm').addEventListener('submit', function(e) {
+      // Kiểm tra nếu có file avatar được chọn
+      const avatarInput = document.getElementById('avatarInput');
+      if (avatarInput.files.length > 0) {
+         // Sau khi form submit thành công, cập nhật avatar trong header
+         setTimeout(function() {
+            const newAvatarSrc = document.getElementById('avatarImage').src;
+            const headerAvatar = document.querySelector('.user-avatar');
+            if (headerAvatar) {
+               headerAvatar.src = newAvatarSrc;
+            }
+         }, 1000);
+      }
+   });
+
+   // Nếu có thông báo thành công, tự động cập nhật avatar trong header
+   @if(session('message'))
+   document.addEventListener('DOMContentLoaded', function() {
+      // Force reload avatar với timestamp để tránh cache
+      const timestamp = new Date().getTime();
+      const headerAvatar = document.querySelector('.user-avatar');
+      const modalAvatar = document.getElementById('avatarImage');
+
+      if (headerAvatar && modalAvatar) {
+         const currentSrc = modalAvatar.src;
+         // Nếu src chứa timestamp thì loại bỏ để tránh duplicate
+         const cleanSrc = currentSrc.split('?')[0];
+         const newSrc = cleanSrc + '?v=' + timestamp;
+
+         headerAvatar.src = newSrc;
+         modalAvatar.src = newSrc;
+      }
+   });
+   @endif
 </script>

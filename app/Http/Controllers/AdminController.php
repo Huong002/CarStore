@@ -15,6 +15,7 @@ use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+
 use Soap\Sdl;
 use App\Models\Notification;
 use App\Http\Controllers\StatisticsController;
@@ -798,26 +799,66 @@ class AdminController extends Controller
     public function user_update(Request $request)
     {
         try {
+            // Debug: Kiểm tra request
+            Log::info('Update user request:', [
+                'user_id' => $request->id,
+                'has_file' => $request->hasFile('image'),
+                'all_files' => $request->allFiles(),
+                'all_data' => $request->all()
+            ]);
+
             $request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|email|unique:users,email,' . $request->id,
+                'name' => 'nullable|string|max:255',
+                'email' => 'nullable|email|unique:users,email,' . $request->id,
                 // 'password' => 'nullable|string|min:6',
                 // 'utype' => 'required|in:CTM,EMP,ADM',
                 // 'customer_id' => 'nullable|exists:customers,id',
                 // 'employee_id' => 'nullable|exists:employees,id',
+                'image' => 'nullable|mimes:png,jpg,jpeg|max:2048',
             ]);
             $user = User::findOrFail($request->id);
+
+            Log::info('User before update:', [
+                'current_image' => $user->image
+            ]);
+
             $user->name = $request->name;
             $user->email = $request->email;
 
+            if ($request->hasFile('image')) {
+                Log::info('Processing image upload');
+                $image = $request->file('image');
+                $file_extenstion = $image->extension();
+                $file_name = Carbon::now()->timestamp . '.' . $file_extenstion;
+                $destinationPath = public_path('images/avatar');
 
+                Log::info('Image details:', [
+                    'original_name' => $image->getClientOriginalName(),
+                    'extension' => $file_extenstion,
+                    'new_filename' => $file_name,
+                    'destination' => $destinationPath
+                ]);
+
+                $image->move($destinationPath, $file_name);
+                $user->image = $file_name;
+
+                Log::info('Image uploaded successfully:', [
+                    'filename' => $file_name,
+                    'user_image_field' => $user->image
+                ]);
+            }
             if ($request->password) {
                 $user->password = Hash::make($request->password);
             }
 
-
             $user->save();
-            return redirect()->route('admin.users')->with('message', 'Đã cập nhập thông tin tài khoản thành công');
+
+            Log::info('User after save:', [
+                'user_id' => $user->id,
+                'image' => $user->image
+            ]);
+
+            return redirect()->back()->with('message', 'Đã cập nhập thông tin tài khoản thành công');
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return redirect()->back()->with('error', 'Không tìm thấy người dùng.');
         } catch (\Illuminate\Database\QueryException $e) {
