@@ -16,6 +16,7 @@
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.gstatic.com/">
     <link rel="stylesheet" href="{{ asset('css/account.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -275,6 +276,18 @@
                 d="M14.7692 11.0769V12.72C14.7693 13.2579 14.8869 13.7893 15.1138 14.2769L15.1384 14.3262L9.66767 8.85541L8.86151 9.66156L14.3323 15.1323H14.283C13.7949 14.8982 13.2613 14.7742 12.72 14.7693H11.0769V16H16V11.0769H14.7692Z"
                 fill="currentColor" />
         </symbol>
+
+        <!-- icon_bell -->
+
+        <symbol id="icon_bell" viewBox="0 0 24 24">
+            <path
+                d="M12 2C10.343 2 9 3.343 9 5V6C6.239 7.172 4.5 9.79 4.5 13V17L3 19V20H21V19L19.5 17V13C19.5 9.79 17.761 7.172 15 6V5C15 3.343 13.657 2 12 2Z"
+                fill="none" stroke="black" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M13.5 21C13.3 21.6 12.8 22 12 22C11.2 22 10.7 21.6 10.5 21" fill="none" stroke="black"
+                stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+        </symbol>
+    </svg>
+
     </svg>
     <style>
     #userDropdown::after {
@@ -769,6 +782,8 @@
                         </svg>
                         <span class="cart-amount d-block position-absolute js-cart-items-count">3</span>
                     </a> -->
+
+
                     <div class="header-tools d-flex align-items-center ">
                         <div class="header-tools__item header-tools__cart position-relative" id="cart-icon">
                             <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
@@ -780,7 +795,9 @@
 
 
                             <!-- Dropdown cart -->
-                            <div id="cart-dropdown" class="cart-dropdown">
+                            <div id="cart-dropdown" class="cart-dropdown" style="margin-top: 2em; margin-left: 6em;">
+
+
                                 <div class="cart-header">
                                     <div class="cart-header-left">
                                         <svg width="18" height="18" viewBox="0 0 20 20" fill="none"
@@ -794,13 +811,32 @@
                                     <!-- Render bằng JS -->
                                 </ul>
                                 <div class="cart-footer">
-                                    <a href="{{ route('cart.index') }}" class="btn btn-primary w-100">Xem giỏ hàng</a>
+                                    <a href="{{ route('cart.index') }}" class="btn btn-primary w-100">Xem giỏ
+                                        hàng</a>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!--  -->
+                    <!-- Icon bell -->
+                    <div class="header-tools__item hover-container position-relative ms-4">
+                        <a href="#" class="position-relative d-inline-block">
+                            <svg class="d-block" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <use href="#icon_bell" />
+                            </svg>
+
+                            <!-- 🔴 Chấm đỏ nằm trên icon -->
+                            <span class="notification-dot"></span>
+                        </a>
+                    </div>
+
+
+                    <!--  -->
+
+
                     @guest
-                    <div class="header-tools__item hover-container ms-3">
+                    <div class="header-tools__item hover-container ">
 
                         <a href="{{ route('login') }}" class="header-tools__item">
                             <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
@@ -810,11 +846,11 @@
                         </a>
                     </div>
                     @else
-                    <div class="header-tools__item hover-container ms-3">
+                    <div class="header-tools__item hover-container ms-1">
                         @if(Auth::user()->utype === 'ADM')
                         <a href="{{ route('admin.index') }}" class="header-tools__item d-flex align-items-center gap-2">
                             <span class="pr-6px fw-bold">{{ Auth::user()->name }}</span>
-                            <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                            <svg class="d-block" width="30" height="30" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <use href="#icon_user" />
                             </svg>
@@ -1193,12 +1229,138 @@
     });
     </script>
 
+    <script>
+    let timeout;
+
+    function showPhoneNumber() {
+        const button = document.getElementById('phone-button');
+        button.classList.add('show-number');
+
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            button.classList.remove('show-number');
+        }, 2000);
+    }
+    </script>
+
+    <!-- Nút gọi điện thoại cố định góc trái dưới -->
+    <div id="phone-button-wrapper">
+        <div id="phone-button">
+            <div class="phone-icon shake">
+                <i class="fa fa-phone"></i>
+            </div>
+            <span id="phone-number">0909.123.456</span>
+        </div>
+    </div>
+
+    <style>
+    .notification-dot {
+        position: absolute;
+        top: -2px;
+        right: -2px;
+        width: 10px;
+        height: 10px;
+        background-color: red;
+        border-radius: 50%;
+        border: 2px solid white;
+        z-index: 10;
+    }
 
 
 
+    #phone-button-wrapper {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        z-index: 9999;
+    }
 
-    <!-- Base image path for product images -->
-    <!-- <span id="baseImageUrl" data-url="{{ asset('uploads/products') }}" style="display: none;"></span> -->
+    #phone-button {
+        background-color: #e53935;
+        color: white;
+        border-radius: 50%;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 0 0 0 rgba(229, 57, 53, 0.7);
+        animation: pulse 2s infinite;
+        transition: width 0.3s ease-in-out, border-radius 0.3s;
+        overflow: hidden;
+        padding: 0 20px;
+        width: 60px;
+    }
+
+    .phone-icon {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+    }
+
+    #phone-number {
+        font-weight: bold;
+        white-space: nowrap;
+        opacity: 0;
+        transition: opacity 0.3s;
+        margin-left: 10px;
+    }
+
+    #phone-button:hover {
+        width: 200px;
+        border-radius: 30px;
+    }
+
+    #phone-button:hover #phone-number {
+        opacity: 1;
+    }
+
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(229, 57, 53, 0.4);
+        }
+
+        70% {
+            box-shadow: 0 0 0 20px rgba(229, 57, 53, 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(229, 57, 53, 0);
+        }
+    }
+
+    @keyframes shake {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        20% {
+            transform: rotate(15deg);
+        }
+
+        40% {
+            transform: rotate(-10deg);
+        }
+
+        60% {
+            transform: rotate(10deg);
+        }
+
+        80% {
+            transform: rotate(-5deg);
+        }
+
+        100% {
+            transform: rotate(0deg);
+        }
+    }
+
+    .shake {
+        animation: shake 1s ease-in-out infinite;
+    }
+    </style>
 
 </body>
 
