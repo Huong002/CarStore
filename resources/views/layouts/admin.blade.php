@@ -37,6 +37,39 @@
 </head>
 
 <style>
+  /* Logo styles */
+  #logo_header {
+    max-width: 150px !important;
+    max-height: 50px !important;
+    width: auto !important;
+    height: auto !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  .box-logo {
+    display: flex !important;
+    align-items: center !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  #site-logo-inner {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  /* Đảm bảo menu không ẩn logo */
+  .layout-wrap.full-width .section-menu-left {
+    display: block !important;
+  }
+
+  .layout-wrap.full-width .box-logo {
+    display: flex !important;
+  }
+
   .modal-content {
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -357,9 +390,9 @@
                     class=""
                     id="logo_header_mobile"
                     alt=""
-                    src="{{ asset('images/logo/logo.png') }}"
-                    data-light="{{ asset('images/logo/logo.png') }}"
-                    data-dark="{{ asset('images/logo/logo.png') }}"
+                    src="{{asset('images/logo/logo.png')}}"
+                    data-light="{{asset('images/logo/logo.png')}}"
+                    data-dark="{{asset('images/logo/logo.png')}}"
                     data-width="154px"
                     data-height="52px"
                     data-retina="{{asset('images/logo/logo.png')}}" />
@@ -508,6 +541,27 @@
   <script src="{{asset('js/sweetalert.min.js')}}"></script>
   <script src="{{asset('js/apexcharts/apexcharts.js')}}"></script>
   <script src="{{asset('js/main.js')}}"></script>
+
+  <script>
+    // Fix logo path và vô hiệu hóa retinaLogos function
+    $(document).ready(function() {
+      // Đảm bảo logo path đúng
+      $('#logo_header').attr('src', '{{ asset("images/logo/logo.png") }}');
+
+      // Vô hiệu hóa retinaLogos function
+      window.retinaLogos = function() {
+        // Do nothing - prevent logo path change
+      };
+
+      // Đảm bảo logo luôn hiển thị
+      $('#logo_header, .box-logo, #site-logo-inner').css({
+        'display': 'block !important',
+        'visibility': 'visible !important',
+        'opacity': '1 !important'
+      });
+    });
+  </script>
+
   @stack("scripts")
 
   @include('admin.account')
