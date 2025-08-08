@@ -1,6 +1,41 @@
 @extends('layouts.admin')
 @section('content')
 
+<style>
+  .badge {
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+  }
+
+  .badge-warning {
+    background-color: #ffc107;
+    color: #212529;
+  }
+
+  .badge-success {
+    background-color: #28a745;
+    color: #fff;
+  }
+
+  .badge-primary {
+    background-color: #007bff;
+    color: #fff;
+  }
+
+  .badge-danger {
+    background-color: #dc3545;
+    color: #fff;
+  }
+</style>
+
+
 <div class="main-content-inner">
   <div class="main-content-wrap">
     <div class="tf-section-2 mb-30">
@@ -204,9 +239,9 @@
             <table class="table table-striped table-bordered">
               <thead>
                 <tr>
-                  <th style="width: 80px">STT</th>
-                  <th>Tên</th>
-                  <th class="text-center">Phone</th>
+                  <th style="width: 80px" class="text-center">STT</th>
+                  <th class="text-center">Tên</th>
+                  <th class="text-center">Sđt</th>
                   <th class="text-center">Tạm tính</th>
                   <th class="text-center">Tax</th>
                   <th class="text-center">Tổng</th>
@@ -227,7 +262,16 @@
                   <td class="text-center">{{ number_format($currentOrder->total - $currentOrder->tax) }} VNĐ</td>
                   <td class="text-center">{{ number_format($currentOrder->tax) }} VNĐ</td>
                   <td class="text-center">{{ number_format($currentOrder->total) }} VNĐ</td>
-                  <td class="text-center">{{ $currentOrder->status }}</td>
+                  <td class="text-center">
+                    <span class="badge 
+                      {{ $currentOrder->status == 'pending' ? 'badge-warning' : 
+                        ($currentOrder->status == 'approved' ? 'badge-success' : 
+                        ($currentOrder->status == 'completed' ? 'badge-primary' : 'badge-danger')) }}">
+                      {{ $currentOrder->status == 'pending' ? 'Chờ xử lí' : 
+                        ($currentOrder->status == 'approved' ? 'Đã duyệt' : 
+                        ($currentOrder->status == 'completed' ? 'Hoàn thành' : 'Đã hủy')) }}
+                    </span>
+                  </td>
                   <td class="text-center">{{ $currentOrder->order_date }}</td>
                   <td class="text-center">{{ $currentOrder->total_item }}</td>
                   <!-- <td class="text-center">{{ $currentOrder->delivered_on ?? '' }}</td> -->

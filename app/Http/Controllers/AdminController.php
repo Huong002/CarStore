@@ -19,10 +19,12 @@ use Soap\Sdl;
 use App\Models\Notification;
 use App\Http\Controllers\StatisticsController;
 use App\Models\UserNotification;
+use Exception;
 use Illuminate\Cache\Events\RetrievingKey;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Mockery\Matcher\Not;
+use Illuminate\Support\Facades\Log;
 
 
 // use Intervention\Image\Laravel\Facades\Image;1
@@ -71,7 +73,7 @@ class AdminController extends Controller
         if ($search) {
             $query->where('name', 'like', "%$search%");
         }
-        $brands = $query->withCount('products')->orderBy('id', 'DESC')->whereNull('deleted_at')->paginate(10);
+        $brands = $query->withCount('products')->orderBy('id', 'DESC')->whereNull('deleted_at')->paginate(6);
         return view('admin.brands', compact('brands'));
     }
     public function add_brand()
@@ -172,7 +174,7 @@ class AdminController extends Controller
     }
     public function brand_his()
     {
-        $brands = Brand::onlyTrashed()->orderBy('name')->paginate(10);
+        $brands = Brand::onlyTrashed()->orderBy('name')->paginate(6);
 
         return view('admin.brand-history', compact('brands'));
     }
@@ -196,7 +198,7 @@ class AdminController extends Controller
     // danh muc
     public function categories()
     {
-        $categories = Category::orderBy('id', 'DESC')->paginate(10);
+        $categories = Category::orderBy('id', 'DESC')->paginate(6);
         return view('admin.categories', compact('categories'));
     }
     public function category_add()
@@ -286,15 +288,6 @@ class AdminController extends Controller
 
 
     #region SanPham
-    // product
-    // public function products()
-    // {
-    //     $products = Product::with(['category', 'brand', 'images'])
-    //         ->orderBy('created_at', 'DESC')
-    //         ->paginate(10);
-    //     return view('admin.products', compact('products'));
-    // }
-
     public function products(Request $request)
     {
         $search = $request->get('name');
@@ -313,7 +306,7 @@ class AdminController extends Controller
             });
         }
 
-        $products = $query->paginate(10);
+        $products = $query->paginate(6);
 
         return view('admin.products', compact('products'));
     }
@@ -416,20 +409,6 @@ class AdminController extends Controller
     public function product_update(Request $request)
     {
         $request->validate([
-            // 'name' => 'required|string|max:255',
-            // 'slug' => 'required|string|unique:products,slug|max:255',
-            // 'short_description' => 'nullable|string',
-            // 'description' => 'required|string',
-            // 'regular_price' => 'required|numeric|min:0',
-            // 'sale_price' => 'nullable|numeric|min:0',
-            // 'SKU' => 'required|string|max:255',
-            // 'stock_status' => 'required|in:instock,outofstock',
-            // 'featured' => 'nullable|boolean',
-            // 'quantity' => 'required|integer|min:0',
-            // 'category_id' => 'nullable|exists:categories,id',
-            // 'brand_id' => 'nullable|exists:brands,id',
-            // 'image' => 'required|mimes:png,jpg,jpeg|max:2048',
-            // 'images.*' => 'nullable|mimes:png,jpg,jpeg|max:2048'
             'name' => 'required|string|max:255',
             'slug' => 'required|string|unique:products,slug,' . $request->id . '|max:255',
             'short_description' => 'nullable|string',
@@ -543,7 +522,7 @@ class AdminController extends Controller
     {
         $products = Product::onlyTrashed()->with(['category', 'brand', 'images'])
             ->orderBy('updated_at', 'DESC')
-            ->paginate(10);
+            ->paginate(6);
 
         return view('admin.product-history', compact('products'));
     }
@@ -565,35 +544,6 @@ class AdminController extends Controller
 
         return redirect()->route('admin.product.history')->with('status', 'Khôi phục sản phẩm thành công!');
     }
-    // // xóa vĩnh viễn sản phẩm (không thể khôi phục)
-    // public function product_force_delete(Request $request, $id)
-    // {
-    //     try {
-    //         $product = Product::findOrFail($id);
-
-    //         // Xóa tất cả hình ảnh liên quan
-    //         foreach ($product->images as $image) {
-    //             // Xóa file vật lý
-    //             $imagePath = public_path('uploads/' . $image->path);
-    //             if (file_exists($imagePath)) {
-    //                 unlink($imagePath);
-    //             }
-    //             // Xóa record trong database
-    //             $image->delete();
-    //         }
-
-    //         // Xóa vĩnh viễn sản phẩm
-    //         $product->forceDelete();
-
-    //         return redirect()
-    //             ->route('admin.products.history')
-    //             ->with('success', 'Sản phẩm đã được xóa vĩnh viễn thành công!');
-    //     } catch (\Exception $e) {
-    //         return redirect()
-    //             ->route('admin.products.history')
-    //             ->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
-    //     d
-    // }
     #endregion
 
 
@@ -608,7 +558,7 @@ class AdminController extends Controller
     //     $cancelledCount = Order::where('status', 'cancelled')->count();
     //     $orders = Order::with(['orderDetails.product', 'customer', 'employee'])
     //         ->orderBy('created_at', 'DESC')
-    //         ->paginate(10);
+    //         ->paginate(6);
     //     return view('admin.orders', compact('orders', 'pendingCount', 'approvedCount', 'cancelledCount'));
     // }
     public function orders(Request $request)
@@ -632,7 +582,7 @@ class AdminController extends Controller
 
 
 
-        $orders = $query->orderBy('created_at', 'DESC')->paginate(10);
+        $orders = $query->orderBy('created_at', 'DESC')->paginate(6);
 
         // Đếm số lượng theo từng trạng thái
         $statusCounts = [
@@ -645,14 +595,6 @@ class AdminController extends Controller
 
         return view('admin.orders', compact('orders', 'statusCounts'));
     }
-
-    // public function order_add()
-    // {
-    //     // $orderdetails = OrderDetail::orderBy('name', 'ASC')->get();
-    //     $customers = Customer::orderBy('customerName', 'ASC')->get();
-    //     $employees = Employee::orderBy('name', 'ASC')->get();
-    //     return view('admin.order-add', compact('customers', 'employees'));
-    // }
 
     public function check_order(Request $request, $id)
     {
@@ -750,7 +692,7 @@ class AdminController extends Controller
         if ($status !== 'all') {
             $query->where('status', $status);
         }
-        $orders = $query->orderBy('created_at', 'DESC')->paginate(10);
+        $orders = $query->orderBy('created_at', 'DESC')->paginate(6);
 
 
         return  view('admin.orders', compact('orders', 'status'));
@@ -761,7 +703,7 @@ class AdminController extends Controller
         $orders = Order::with(['orderDetails.product', 'customer', 'employee'])
             ->where('status', 'pending')
             ->orderBy('created_at', 'DESC')
-            ->paginate(10);
+            ->paginate(6);
 
         return view('admin.orders-pending', compact('orders'));
     }
@@ -769,7 +711,7 @@ class AdminController extends Controller
     // lay don hang da duyet
     public function order_approved()
     {
-        $orders  = Order::with(['orderDetails.product', 'customer', 'employee'])->where('status', 'approved')->orderBy('created_at', "DESC")->paginate(10);
+        $orders  = Order::with(['orderDetails.product', 'customer', 'employee'])->where('status', 'approved')->orderBy('created_at', "DESC")->paginate(6);
         if ($orders == null) {
             return redirect('admin.orders')->back()->with('error', "Không có sản phẩm nào đã duyệt");
         }
@@ -781,7 +723,7 @@ class AdminController extends Controller
         $orders = Order::with(['orderDetails.product', 'customer', 'employee'])
             ->where('status', 'cancelled')
             ->orderBy('created_at', 'DESC')
-            ->paginate(10);
+            ->paginate(6);
 
         return view('admin.orders-cancelled', compact('orders'));
     }
@@ -840,7 +782,7 @@ class AdminController extends Controller
             });
         }
 
-        $users = $query->paginate(10);
+        $users = $query->paginate(6);
 
         return view('admin.users', compact('users'));
     }
@@ -855,27 +797,34 @@ class AdminController extends Controller
 
     public function user_update(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $request->id,
-            'password' => 'nullable|string|min:6',
-            'utype' => 'required|in:USR,ADM',
-            'customer_id' => 'nullable|exists:customers,id',
-            'employee_id' => 'nullable|exists:employees,id',
-        ]);
-        $user = User::findOrFail($request->id);
-        $user->name = $request->name;
-        $user->email = $request->email;
-        // $user ->phone = $request ->phone;
-        $user->utype = $request->utype;
-        $user->customer_id = $request->customer_id;
-        $user->employee_id = $request->employee_id;
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email,' . $request->id,
+                // 'password' => 'nullable|string|min:6',
+                // 'utype' => 'required|in:CTM,EMP,ADM',
+                // 'customer_id' => 'nullable|exists:customers,id',
+                // 'employee_id' => 'nullable|exists:employees,id',
+            ]);
+            $user = User::findOrFail($request->id);
+            $user->name = $request->name;
+            $user->email = $request->email;
 
-        if ($request->password) {
-            $user->password = Hash::make($request->password);
+
+            if ($request->password) {
+                $user->password = Hash::make($request->password);
+            }
+
+
+            $user->save();
+            return redirect()->route('admin.users')->with('message', 'Đã cập nhập thông tin tài khoản thành công');
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return redirect()->back()->with('error', 'Không tìm thấy người dùng.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return redirect()->back()->with('error', 'Lỗi cơ sở dữ liệu: ' . $e->getMessage());
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Đã xảy ra lỗi: ' . $e->getMessage());
         }
-        $user->save();
-        return redirect()->route('admin.users')->with('message', 'Đã cập nhập thông tin tài khoản thành công');
     }
 
     public function user_lock($id)
@@ -901,7 +850,7 @@ class AdminController extends Controller
     #region Thong bao
     public function notifications()
     {
-        $notifications = Notification::orderBy('created_at', 'desc')->paginate(10);
+        $notifications = Notification::orderBy('created_at', 'desc')->paginate(6);
         return view('admin.notifications', compact('notifications'));
     }
     public function notification_add()
@@ -956,7 +905,7 @@ class AdminController extends Controller
     // danh sach 
     public function notification_history()
     {
-        $notifications = Notification::onlyTrashed()->orderBy('created_at', 'desc')->paginate(10);
+        $notifications = Notification::onlyTrashed()->orderBy('created_at', 'desc')->paginate(6);
         return view('admin.notification-history', compact('notifications'));
     }
 
@@ -1005,11 +954,25 @@ class AdminController extends Controller
             })
             ->with('notification')
             ->orderBy('created_at', 'desc')->take(5)
-            ->paginate(10);
+            ->paginate(6);
 
         return view('admin.notifications', ['notifications' => $user_notifications]);
     }
+    public function list_user_notifi()
+    {
+        $currentUser = Auth::user();
+        if (!$currentUser) {
+            return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để xem thông báo của mình');
+        }
 
+        $userNotifications = Notification::join('user_notifications', 'notifications.id', '=', 'user_notifications.notification_id')
+            ->where('user_notifications.user_id', $currentUser->id)
+            ->orderBy('notifications.created_at', 'desc')
+            ->select('notifications.*')
+            ->paginate(10);
+
+        return view('admin.user-notification', compact('userNotifications'));
+    }
 
     public function inbox()
     {

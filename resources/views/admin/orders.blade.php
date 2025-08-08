@@ -85,14 +85,14 @@
                               @if($order->customer)
                               {{$order->customer->customerName}}
                               @else
-                              <span class="text-muted">Không có</span>
+                              <span class="text-muted">Chờ xử lí...</span>
                               @endif
                            </td>
                            <td class="text-center">
                               @if($order->employee)
                               {{$order->employee->name}}
                               @else
-                              <span class="text-muted">Không có</span>
+                              <span class="text-muted">Chờ xử lí...</span>
                               @endif
                            </td>
                            <td class="text-center">{{number_format($order->tax, 0, ',', '.')}} VNĐ</td>

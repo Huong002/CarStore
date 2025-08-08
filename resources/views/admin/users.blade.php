@@ -47,7 +47,7 @@
                         <th class="text-center">Số điện thoại</th>
                         <th class="text-center">Email</th>
                         <th class="text-center">Trạng thái</th>
-                        <th class="text-center">Tổng số hóa đơn</th>
+                    
                         <th class="text-center"></th>
                      </tr>
                   </thead>
@@ -57,7 +57,7 @@
                         <td class="text-center">{{$loop->iteration}}</td>
                         <td class="pname text-center">
                            <div class="image" style="display: inline-block;">
-                              
+
                               <img src="{{ asset('images/avatar/' . $user->image) }}" alt="" class="image"
                                  style="width:50px; height:50px; object-fit:cover; border-radius:50%;">
                            </div>
@@ -81,7 +81,7 @@
                            <span class="badge bg-success">Hoạt động</span>
                            @endif
                         </td>
-                        <td class="text-center"><a href="#" target="_blank">0</a></td>
+                      
                         <td class="text-center">
                            <div class="list-icon-function" style="justify-content: center;">
                               <!-- <a href="#">

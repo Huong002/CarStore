@@ -19,7 +19,7 @@ class EmployeeSeeder extends Seeder
                 'name' => 'Trần Phước Hưỡng',
                 'adress' => 'TP. HCM',
                 'phone' => '0372587759',
-                'email' => 'employee1@example.com',
+                'email' => 'psymint002@gmail.com',
                 'birthDay' => '2000-05-05',
                 'hire_date' => '2020-01-01'
             ],

@@ -29,7 +29,7 @@ class UserNotificationSeeder extends Seeder
                         $shouldReceive = $user->utype === 'USR';
                         break;
                     case 'employee':
-                        $shouldReceive = $user->employee_id !== null;
+                        $shouldReceive = $user-> utype === 'EMP';
                         break;
                     case 'admin':
                         $shouldReceive = $user->utype === 'ADM';

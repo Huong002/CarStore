@@ -45,7 +45,7 @@
                <table class="table table-striped table-bordered">
                   <thead>
                      <tr>
-                        <th class="text-center" style="white-space: norwap;">STT</th>
+                        <th class="text-center" style="white-space:nowrap;">STT</th>
                         <th class="text-center" style="white-space: norwap;">Tên</th>
                         <th class="text-center" style="white-space: norwap;">Slug</th>
                         <th class="text-center" style="white-space: norwap;">Sản phẩm</th>
@@ -54,36 +54,36 @@
                   </thead>
                   <tbody>
                      @foreach($categories as $category)
-
-
                      <tr>
-                        <td>{{$category->id}}</td>
-                        <td class="pname">
-                           <div class="image">
-                              <img src="{{asset('uploads/categories')}}/{{$category->image}}" alt="{{$category->name}}" class="image">
-                           </div>
-                           <div class="name">
-                              <a href="#" class="body-title-2">{{$category->name}}</a>
-                           </div> 
-                        </td>
-                        <td>{{$category->slug}}</td>
-                        <td class="d-flex justify-content-center"><a href="#" target="_blank">1</a></td>
-                        <td>
-                           <div class="list-icon-function d-flex justify-content-center">
-                              <a href="{{route('admin.category.edit', ['id'=>$category->id])}}">
-                                 <div class="item edit">
-                                    <i class="icon-edit-3"></i>
-                                 </div>
-                              </a>
-                              <form action="{{ route('admin.category.delete', ['id'=>$category->id]) }}" method="POST">
-                                 @csrf
-                                 @method('DELETE')
-                                 <div class="item text-danger delete">
-                                    <i class="icon-trash-2"></i>
-                                 </div>
-                              </form>
-                           </div>
-                        </td>
+                         <td class="text-center" style="white-space:nowrap;">
+                           {{$loop->iteration}}
+                           </td>
+                           <td class="pname">
+                              <div class="image">
+                                 <img src="{{asset('uploads/categories')}}/{{$category->image}}" alt="{{$category->name}}" class="image" style="width: 50px; height: 50px; object-fit: cover;">
+                              </div>
+                              <div class=" name">
+                                 <a href="#" class="body-title-2">{{$category->name}}</a>
+                              </div>
+                           </td>
+                           <td>{{$category->slug}}</td>
+                           <td class="name"><a href="#" target="_blank">1</a></td>
+                           <td>
+                              <div class="list-icon-function d-flex justify-content-center">
+                                 <a href="{{route('admin.category.edit', ['id'=>$category->id])}}">
+                                    <div class="item edit">
+                                       <i class="icon-edit-3"></i>
+                                    </div>
+                                 </a>
+                                 <form action="{{ route('admin.category.delete', ['id'=>$category->id]) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <div class="item text-danger delete">
+                                       <i class="icon-trash-2"></i>
+                                    </div>
+                                 </form>
+                              </div>
+                           </td>
                      </tr>
                      @endforeach
                   </tbody>

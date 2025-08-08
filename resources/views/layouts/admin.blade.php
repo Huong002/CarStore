@@ -278,11 +278,6 @@
                         <div class="text">Danh sách</div>
                       </a>
                     </li>
-                    <li class="sub-menu-item">
-                      <a href="order-tracking.html" class="">
-                        <div class="text">Theo dõi hóa đơn</div>
-                      </a>
-                    </li>
                   </ul>
                 </li>
                 <li class="menu-item has-children">
@@ -420,7 +415,10 @@
                       </li>
                       @endforelse
                       <li>
-                        <a href="{{ route('admin.inbox') }}" class="tf-button w-full">Xem toàn bộ</a>
+                        <a href="{{ route('admin.notification.user') }}" class="tf-button w-full">
+                          Xem toàn bộ
+                        </a>
+
                       </li>
                     </ul>
                   </div>
