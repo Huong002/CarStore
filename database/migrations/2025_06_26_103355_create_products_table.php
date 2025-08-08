@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->string('slug')->unique()->nullable();
             $table->string('short_description')->nullable();
             $table->text('description', 15, 2)->nullable();
             $table->decimal('regular_price', 15, 2)->nullable();
             $table->decimal('sale_price', 15, 2)->nullable();
-            $table->string('SKU');
-            $table->enum('stock_status', ['instock', 'outofstock']);
+            $table->string('SKU')->nullable();
+            $table->enum('stock_status', ['instock', 'outofstock'])->nullable();
             $table->unsignedBigInteger('color_id')->nullable();
-            $table->boolean('featured')->default(false);
+            $table->boolean('featured')->default(false)->nullable();
             $table->unsignedInteger('quantity')->default(10);
             $table->bigInteger('category_id')->unsigned()->nullable();
             $table->bigInteger('brand_id')->unsigned()->nullable();

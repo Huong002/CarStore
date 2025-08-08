@@ -42,7 +42,7 @@
                @if(Session::has('status'))
                <p class="alert alert-success">{{Session::get('status')}}</p>
                @endif
-               <table class="table table-striped table-bordered">
+               <table class="table table-striped table-bordered ">
                   <thead>
                      <tr>
                         <th class="text-center" style="width: 50px;">STT</th>
@@ -56,18 +56,17 @@
                      @foreach($notifications as $noti)
                      <tr>
 
-                        <td>{{$loop->iteration}}</td>
-                        <!-- <td class="pname">
-                           <div class="image">
-                              <img src="{{asset('uploads/brands')}}/{{$noti->image}}" alt="{{$noti->name}}" class="image">
-                           </div> 
-                           <div class="name">
-                              <a href="#" class="body-title-2">{{$noti->name}}</a>
-                           </div>
-                        </td> -->
+                        <td class="text-center">{{$loop->iteration}}</td>
+                      
                         <td>{{$noti->name}}</td>
                         <td>{{$noti->content}}</td>
-                        <td><a href="#" target="_blank">{{$noti->type}}</a></td>
+                        <td><a href="#" target="_blank">{{$noti->type == 'all' 
+                              ? 'Toàn hệ thống' 
+                              : ($noti->type == 'admin' 
+                                    ? 'Quản trị viên' 
+                                    : ($noti->type == 'employee' 
+                                       ? 'Nhân viên' 
+                                       : 'Khách hàng'))}} </a></td>
                         <td class="text-center align-middle">
                            <div class="list-icon-function d-flex justify-content-center align-items-center gap-4">
                               <a href="{{ route('admin.notification.edit', ['id' => $noti->id]) }}">

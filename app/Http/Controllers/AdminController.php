@@ -428,8 +428,10 @@ class AdminController extends Controller
 
         $product = Product::find($request->id);
         if (!$product) {
-            return redirect()->back()->with('error', 'Không tìm thấy sản phẩm bạn cần');
+            return redirect()->back()->with('error', 'Không tìm thấy sản phẩm');
         }
+
+        // Cập nhật thông tin sản phẩm
         $product->name = $request->name;
         $product->slug = Str::slug($request->slug);
         $product->short_description = $request->short_description;
@@ -445,7 +447,7 @@ class AdminController extends Controller
 
         $product->save();
 
-
+        // Xử lý ảnh chính
         if ($request->hasFile('image')) {
             // Xóa ảnh chính cũ
             $oldPrimaryImage = $product->images()->where('is_primary', true)->first();
@@ -475,7 +477,7 @@ class AdminController extends Controller
             ]);
         }
 
-        // Xử lý bộ sưu tập ản
+        // Xử lý bộ sưu tập ảnh
         if ($request->hasFile('images')) {
             $images = $request->file('images');
             $destinationPath = public_path('uploads/products');

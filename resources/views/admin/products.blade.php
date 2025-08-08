@@ -57,7 +57,7 @@
                <tbody>
                   @foreach($products as $product)
                   <tr>
-                     <td class="text-center" style="white-space:nowrap;">{{$product->id}}</td>
+                     <td class="text-center" style="white-space:nowrap;">{{$loop->iteration}}</td>
                      <td class="pname" style="white-space:nowrap; text-align:left;">
                         <div class="image" style="display:inline-block;vertical-align:middle;">
                            @if($product->images && $product->images->count() > 0)
@@ -79,8 +79,8 @@
                            </div>
                         </div>
                      </td>
-                     <td class="text-center">{{number_format($product->regular_price)}} VNĐ</td>
-                     <td class="text-center">{{number_format($product->sale_price)}} VNĐ</td>
+                     <td class="text-center">{{number_format($product->regular_price)}} đ</td>
+                     <td class="text-center">{{number_format($product->sale_price)}} đ</td>
                      <td class="text-center" style="white-space:nowrap;">{{$product->SKU}}</td>
                      <!-- <td class="text-center" style="white-space:nowrap;">{{$product->category ? $product->category->name : 'N/A'}}</td> -->
                      <td class="text-center" style="white-space:nowrap;">{{$product->brand ? $product->brand->name : 'N/A'}}</td>

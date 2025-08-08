@@ -7,7 +7,7 @@
    <!-- main-content-wrap -->
    <div class="main-content-wrap">
       <div class="flex items-center flex-wrap justify-between gap20 mb-27">
-         <h3>Thêm sản phẩm</h3>
+         <h3>Sửa sản phẩm</h3>
          <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
             <li>
                <a href="{{route('admin.index')}}">
@@ -26,7 +26,7 @@
                <i class="icon-chevron-right"></i>
             </li>
             <li>
-               <div class="text-tiny">Thêm sản phẩm</div>
+               <div class="text-tiny">Sửa sản phẩm</div>
             </li>
          </ul>
       </div>
@@ -35,6 +35,7 @@
          action="{{route('admin.product.update')}}">
          @csrf
          @method('PUT')
+         <input type="hidden" name="id" value="{{$product->id}}">
          <div class="wg-box">
 
             <fieldset class="name">
@@ -163,7 +164,7 @@
                <fieldset class="name">
                   <div class="body-title mb-10">Giá <span
                         class="tf-color-1">*</span></div>
-                  <input class="mb-10" type="text" placeholder="Hãy nhập giá" value="{{number_format($product->regular_price, 0, ',', '.')}}"
+                  <input class="mb-10" type="text" placeholder="Hãy nhập giá" value="{{($product->regular_price)}}"
                      name="regular_price" tabindex="0" value="{{old('regular_price')}}" aria-required="true"
                      required="">
                </fieldset>
@@ -174,7 +175,7 @@
                   <div class="body-title mb-10">Giá khuyến mãi <span
                         class="tf-color-1">*</span></div>
                   <input class="mb-10" type="text" placeholder="Hãy nhập giá khuyến mãi"
-                     name="sale_price" tabindex="0" value="{{number_format($product->sale_price, 0, ',', '.')}}" aria-required="true"
+                     name="sale_price" tabindex="0" value="{{$product->sale_price}}" aria-required="true"
                      required="">
                </fieldset>
                @error('sale_price')
@@ -229,7 +230,7 @@
                @enderror
             </div>
             <div class="cols gap10">
-               <button class="tf-button w-full" type="submit">Thêm sản phẩm</button>
+               <button class="tf-button w-full" type="submit">Sửa sản phẩm</button>
             </div>
          </div>
       </form>
