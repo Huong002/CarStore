@@ -345,15 +345,20 @@ public function clear()
     }
 
     public function checkoutFromDeposit($depositId)
-    {
-        $deposit = \App\Models\Deposit::with('cartItem.product')->findOrFail($depositId);
+{
+    $deposit = \App\Models\Deposit::with('cartItem.product')->findOrFail($depositId);
 
-        // Lấy item từ deposit để truyền sang view checkout
-        $items = collect([$deposit->cartItem]);
-        $total = ($deposit->cartItem->price * $deposit->cartItem->quantity) - $deposit->deposit_amount;
+    $product = $deposit->cartItem->product;
 
-        return view('checkout', compact('items', 'total', 'deposit'));
-    }
+    $basePrice = $product->getEffectivePrice();
+
+    $items = collect([$deposit->cartItem]);
+    
+    // Số tiền còn lại phải thanh toán = tổng giá - số tiền đặt cọc
+    $total = ($basePrice * $deposit->cartItem->quantity) - $deposit->deposit_amount;
+
+    return view('checkout', compact('items', 'total', 'deposit', 'basePrice'));
+}
       public function getItems()
     {
         // Nếu chưa đăng nhập, gán user_id tạm để test
