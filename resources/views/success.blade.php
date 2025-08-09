@@ -29,7 +29,7 @@
                 </div>
                 <div class="order-info__item">
                     <label>Tổng tiền</label>
-                    <span>{{ number_format($order->total,0,',','.') }}₫</span>
+                    <span>{{ number_format($total,0,',','.') }}₫</span>
                 </div>
                 <div class="order-info__item">
                     <label>Trạng thái</label>
@@ -52,45 +52,38 @@
                         </thead>
                         <tbody>
                             @foreach($order->orderDetails as $detail)
+                            @php
+                            $product = $detail->product;
+                            // dùng giá đã lưu ở order_detail nếu tồn tại (detail->price)
+                            $unitPrice = $detail->price ?? (
+                            ($product && $product->sale_price && $product->sale_price > 0)
+                            ? $product->sale_price
+                            : ($product->regular_price ?? 0)
+                            );
+                            $lineTotal = $detail->total ?? ($unitPrice * $detail->quantity);
+                            @endphp
                             <tr>
-                                <td>{{ $detail->product->name ?? '' }}</td>
+                                <td>{{ $product->name ?? 'Sản phẩm' }}</td>
                                 <td>{{ $detail->quantity }}</td>
-
-                                {{-- Đơn giá: nếu có sale_price thì dùng, không thì dùng price --}}
-                                <!-- <td>
-                                    {{ number_format($detail->product->sale_price ?? $detail->price, 0, ',', '.') }}₫
-                                </td> -->
                                 <td>
-                                    @if (!is_null($detail->product->sale_price) && $detail->product->sale_price <
-                                        $detail->product->regular_price)
-                                        <span style="text-decoration: line-through; color: #999;">
-                                            {{ number_format($detail->product->regular_price, 0, ',', '.') }}₫
+                                    @if(!empty($product)
+                                    && $product->sale_price > 0
+                                    && $product->sale_price < $product->regular_price)
+
+                                        <span style="text-decoration: line-through; color:#999;">
+                                            {{ number_format($product->regular_price, 0, ',', '.') }}₫
                                         </span><br>
-                                        <span style="color: red;">
-                                            {{ number_format($detail->product->sale_price, 0, ',', '.') }}₫
+                                        <span style="color:red;">
+                                            {{ number_format($product->sale_price, 0, ',', '.') }}₫
                                         </span>
+
                                         @else
-                                        {{ number_format($detail->product->regular_price, 0, ',', '.') }}₫
+                                        {{ number_format($product->regular_price ?? 0, 0, ',', '.') }}₫
                                         @endif
                                 </td>
 
-
-                                {{-- Tổng tiền --}}
-                                <!-- <td>{{ number_format($detail->total, 0, ',', '.') }}₫</td> -->
-                                <td>
-                                    @php
-                                    $unitPrice = (!is_null($detail->product->sale_price) && $detail->product->sale_price
-                                    < $detail->product->regular_price)
-                                        ? $detail->product->sale_price
-                                        : $detail->product->regular_price;
-
-                                        $lineTotal = $unitPrice * $detail->quantity;
-                                        @endphp
-                                        {{ number_format($lineTotal, 0, ',', '.') }}₫
-                                </td>
-
+                                <td>{{ number_format($lineTotal,0,',','.') }}₫</td>
                             </tr>
-
                             @endforeach
                         </tbody>
                     </table>
@@ -99,23 +92,22 @@
                         <tbody>
                             <tr>
                                 <th>Tạm tính</th>
-                                <td>{{ number_format($order->orderDetails->sum('total') - $order->tax,0,',','.') }}₫
-                                </td>
+                                <td>{{ number_format($subtotal,0,',','.') }}₫</td>
                             </tr>
                             <tr>
                                 <th>Thuế (VAT)</th>
-                                <td>{{ number_format($order->tax,0,',','.') }}₫</td>
+                                <td>{{ number_format($tax,0,',','.') }}₫</td>
                             </tr>
                             <tr>
                                 <th>Tổng cộng</th>
-                                <td>{{ number_format($order->total,0,',','.') }}₫</td>
+                                <td>{{ number_format($total,0,',','.') }}₫</td>
                             </tr>
                         </tbody>
                     </table>
+
                 </div>
             </div>
         </div>
-
     </section>
 </main>
 
