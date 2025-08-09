@@ -63,7 +63,7 @@
                 </div>
                 <div>
                   <div class="body-text mb-2">Tổng doanh thu</div>
-                  <h4>{{number_format($totalStatis) }}VNĐ</h4>
+                  <h4>{{number_format($totalStatis) }}đ</h4>
                 </div>
               </div>
             </div>
@@ -93,7 +93,7 @@
                   <div class="body-text mb-2">
                     Doanh thu đơn chờ duyệt
                   </div>
-                  <h4>{{number_format($totalStatisPending)}} VNĐ</h4>
+                  <h4>{{number_format($totalStatisPending)}} đ</h4>
                 </div>
               </div>
             </div>
@@ -127,7 +127,7 @@
                   <div class="body-text mb-2">
                     Doanh thu đơn đã giao
                   </div>
-                  <h4>{{number_format($totalStatis)}} VNĐ</h4>
+                  <h4>{{number_format($totalStatis)}} đ</h4>
                 </div>
               </div>
             </div>
@@ -259,9 +259,9 @@
                   <td class="text-center">{{$loop->iteration}}</td>
                   <td class="text-center">{{ $currentOrder->customer->customerName ?? 'N/A' }}</td>
                   <td class="text-center">{{ $currentOrder->customer->phone ?? 'N/A' }}</td>
-                  <td class="text-center">{{ number_format($currentOrder->total - $currentOrder->tax) }} VNĐ</td>
-                  <td class="text-center">{{ number_format($currentOrder->tax) }} VNĐ</td>
-                  <td class="text-center">{{ number_format($currentOrder->total) }} VNĐ</td>
+                  <td class="text-center">{{ number_format($currentOrder->total - $currentOrder->tax) }} đ</td>
+                  <td class="text-center">{{ number_format($currentOrder->tax) }} đ</td>
+                  <td class="text-center">{{ number_format($currentOrder->total) }} đ</td>
                   <td class="text-center">
                     <span class="badge 
                       {{ $currentOrder->status == 'pending' ? 'badge-warning' : 
