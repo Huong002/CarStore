@@ -1362,7 +1362,7 @@
     }
     </style>
 
-
+    @include('components.chatbot-floating');
 
 </body>
 
