@@ -22,12 +22,34 @@ public function fromDeposit($id)
 {
     $deposit = Deposit::with('cartItem.product')->findOrFail($id);
     $item = $deposit->cartItem;
+    $product = $item->product;
 
-    $subtotal = $item->price * $item->quantity;
-    $tax = round($subtotal * 0.1); // ✅ Tính thuế đúng cách
-    $remaining = $subtotal - $deposit->deposit_amount;
+    // Lấy quantity, phòng trường hợp null
+    $quantity = $item->quantity ?? 1;
+
+    // Lấy giá: ưu tiên sale_price nếu có > 0, ngược lại lấy regular_price
+    if ($product) {
+        $price = ($product->sale_price && $product->sale_price > 0)
+            ? $product->sale_price
+            : ($product->regular_price ?? 0);
+    } else {
+        $price = 0;
+    }
+
+    // Tính subtotal
+    $subtotal = $price * $quantity;
+
+    // Tính remaining (cố gắng không âm)
+    $remaining = max(0, $subtotal - $deposit->deposit_amount);
+
+    // Tính thuế VAT 10%
+    $tax = round($subtotal * 0.1);
+
+    // Phí vận chuyển cố định ví dụ
     $shippingFee = 80000000;
-    $total = $remaining + $shippingFee + $tax; // ✅ Tổng cộng đúng
+
+    // Tổng cộng
+    $total = $remaining + $shippingFee + $tax;
 
     return view('checkout', [
         'deposit' => $deposit,
@@ -38,9 +60,10 @@ public function fromDeposit($id)
         'total' => $total,
         'shippingMethodName' => 'Giao hàng tiêu chuẩn',
         'isFromDeposit' => true,
-        'remaining' => $remaining, //  Truyền đúng remaining
+        'remaining' => $remaining,
     ]);
 }
+
 
 
 // public function checkout(Request $request)
