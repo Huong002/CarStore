@@ -29,6 +29,7 @@
   <link rel="stylesheet" type="text/css" href="{{ asset('css/custom.css')}}" />
   <!-- Thêm vào phần <head> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" type="text/css" href="{{ asset('css/avatar.css')}}" />
 
   @yield('styles')
@@ -566,7 +567,7 @@
 
   @include('admin.account')
 
-  // tao the link css buoc tirnh duyet tai lai css moi nhat ma khong dung cache
+  <!-- Force CSS reload to avoid cache -->
   <script>
     // Force CSS reload to avoid cache
     var link = document.createElement("link");
@@ -575,8 +576,14 @@
     link.rel = "stylesheet";
     document.getElementsByTagName("head")[0].appendChild(link);
   </script>
+
   <!-- Chatbot Component -->
   @include('components.chatbot-floating')
+
+  <!-- Toast Component -->
+  @include('components.toast-new')
+
 </body>
+
 
 </html>
