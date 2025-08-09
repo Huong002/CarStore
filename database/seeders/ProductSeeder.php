@@ -109,7 +109,7 @@ class ProductSeeder extends Seeder
                 'short_description' => 'Sedan sang trọng với hiệu suất thể thao.',
                 'description' => 'Porsche Panamera Sedan 2012 là mẫu sedan 4 cửa kết hợp phong cách thể thao với sự sang trọng. Xe có nhiều tùy chọn động cơ, nổi bật là phiên bản Panamera Turbo với động cơ V8 4.8L tăng áp, sản sinh 500 mã lực và mô-men xoắn 700 Nm, tăng tốc từ 0-100 km/h trong 4,2 giây. Hệ dẫn động bốn bánh và hộp số PDK 7 cấp mang lại trải nghiệm lái mượt mà và mạnh mẽ. Nội thất bọc da cao cấp, hệ thống giải trí PCM với màn hình 7 inch và ghế thể thao điều chỉnh 14 hướng. Thiết kế ngoại thất đậm chất Porsche với đèn LED và mâm hợp kim 19 inch.',
                 'regular_price' => 2500000000,
-                'sale_price' => 2400000000,
+                'sale_price' => 0,
                 'SKU' => 'POR-PAN-2012',
                 'stock_status' => 'instock',
                 'featured' => false,

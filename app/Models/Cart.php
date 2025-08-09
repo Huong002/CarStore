@@ -8,7 +8,7 @@ class Cart extends Model
 {
       protected $fillable = ['user_id']; // thêm fillable để firstOrCreate hoạt động
     public function user(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id');
     }
     
     // public function cartItem(){
@@ -25,4 +25,9 @@ class Cart extends Model
     {
         return $this->hasMany(CartItem::class, 'cart_id');
     }
+//     public function cartItems()
+// {
+//     return $this->hasMany(CartItem::class);
+// }
+
 }

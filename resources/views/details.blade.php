@@ -2,6 +2,19 @@
 @section('content')
 
 <style>
+    .pc__atc {
+        background-color: white;
+        padding: 10px 16px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        opacity: 0;
+        transition: transform 0.3s ease, opacity 0.6s ease-out;
+    }
+
+    .pc__atc:hover {
+        transform: scale(1.05);
+    }
+
     /* Mặc định trái tim xám */
     .js-add-wishlist svg {
         color: #666;
@@ -35,6 +48,59 @@
 </style>
 
 
+{{-- CSS trực tiếp --}}
+<style>
+    .pc__atc {
+        border-radius: 8px !important;
+    }
+
+
+    .btn.btn-primary {
+        background-color: #5E83AE !important;
+        border: none !important;
+        border-radius: 8px !important;
+    }
+
+    .btn.btn-primary:hover {
+        background-color: #4a6b8c !important;
+    }
+
+    .star-rating {
+        direction: rtl;
+        display: inline-flex;
+        font-size: 2rem;
+    }
+
+    .star-rating input[type=radio] {
+        display: none;
+    }
+
+    .star-rating label {
+        color: #ccc;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+    .star-rating label:hover,
+    .star-rating label:hover~label {
+        color: gold;
+    }
+
+    .star-rating input[type=radio]:checked~label {
+        color: gold;
+    }
+
+    .alert-toast {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        padding: 15px 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+</style>
 <main class="pt-90">
     <div class="mb-md-1 pb-md-3"></div>
     <section class="product-single container">
@@ -128,12 +194,14 @@
             <div class="col-lg-5">
                 <div class="d-flex justify-content-between mb-4 pb-md-2">
                     <div class="breadcrumb mb-0 d-none d-md-block flex-grow-1">
-                        <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">Trang chủ</a>
+                        <a href="{{ route('home.index') }}"
+                            class="menu-link menu-link_us-s text-uppercase fw-medium">Trang chủ</a>
                         <span class="breadcrumb-separator menu-link fw-medium ps-1 pe-1">/</span>
-                        <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">Cửa hàng</a>
+                        <a href="{{ route('shop.index') }}"
+                            class="menu-link menu-link_us-s text-uppercase fw-medium">Cửa hàng</a>
                     </div><!-- /.breadcrumb -->
 
-                    <div
+                    <!-- <div
                         class="product-single__prev-next d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
                         <a href="#" class="text-uppercase fw-medium"><svg width="10" height="10" viewBox="0 0 25 25"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -144,7 +212,7 @@
                                 viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
                                 <use href="#icon_next_md" />
                             </svg></a>
-                    </div><!-- /.shop-acs -->
+                    </div>/.shop-acs -->
                 </div>
                 <h1 class="product-single__name">{{$product->name}}</h1>
                 <div class="product-single__rating">
@@ -169,13 +237,18 @@
                 </div>
                 <div class="product-single__price">
                     <span class="current-price">
-                        @if($product->sale_price)
+                        <!-- @if($product->sale_price)
                         <s>{{number_format($product->regular_price, 0, ',', '.')}}</s>
                         {{number_format($product->sale_price, 0, ',' , '.')}}
                         @else
-                        {{ number_format($product->regular_price, 0, ',', '.') }} VND
+                        {{ number_format($product->regular_price, 0, ',', '.') }} VND</span>
+                    @endif -->
+                        @if($product->sale_price > 0)
+                        <s>{{ number_format($product->regular_price, 0, ",", ".") }} VNĐ</s>
+                        {{ number_format($product->sale_price, 0, ",", ".") }} VNĐ
+                        @else
+                        {{ number_format($product->regular_price, 0, ",", ".") }} VNĐ
                         @endif
-                    </span>
                 </div>
                 <div class="product-single__short-desc">
                     <p>{{$product->short_description}}</p>
@@ -199,8 +272,7 @@
                 <div class="product-single__addtolinks">
                     <button type="button"
                         class="menu-link menu-link_us-s pc__btn-wl js-add-wishlist main-product-wishlist bg-transparent border-0"
-                        data-product-id="{{ $product->id }}"
-                        data-product-name="{{ $product->name }}"
+                        data-product-id="{{ $product->id }}" data-product-name="{{ $product->name }}"
                         data-product-image="{{ $product->primaryImage ? asset('uploads/products/' . $product->primaryImage->imageName) : asset('assets/images/no-image.png') }}"
                         style="display:flex; align-items:center; gap:6px; cursor:pointer;">
                         <svg width="16" height="16" viewBox="0 0 20 20">
@@ -324,6 +396,12 @@
                     </a>
 
                 </li>
+
+                {{-- Ưu đãi --}}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link nav-link_underscore" id="tab-promotion-tab" data-bs-toggle="tab"
+                        href="#tab-promotion" role="tab" aria-controls="tab-promotion" aria-selected="false">Ưu đãi</a>
+                </li>
             </ul>
             <!--  -->
 
@@ -352,8 +430,9 @@
                         <div class="product-single__reviews-item">
                             <div class="customer-avatar">
                                 <img loading="lazy"
-                                    src="{{ $review->user && $review->user->avatar ? asset('storage/'.$review->user->avatar) : asset('assets/images/avatar.jpg') }}"
+                                    src="{{ $review->user && $review->user->image ? asset('images/avatar/' . $review->user->image) : asset('assets/images/avatar.jpg') }}"
                                     alt="{{ $review->name }}" />
+
                             </div>
                             <div class="customer-review">
                                 <div class="customer-name">
@@ -368,8 +447,16 @@
                                     </div>
                                 </div>
                                 <div class="review-date">{{ $review->created_at->format('d/m/Y') }}</div>
+                                <!-- <div class="review-text">
+                                    <p>{{ $review->content }}</p>
+                                </div> -->
                                 <div class="review-text">
                                     <p>{{ $review->content }}</p>
+                                    @if($review->image)
+                                    <img src="{{ asset($review->image) }}" alt="Hình ảnh đánh giá" width="200">
+                                    @endif
+
+
                                 </div>
                             </div>
                         </div>
@@ -380,65 +467,48 @@
                     <!--  -->
                     <div class="product-single__review-form mt-5">
                         @auth
-                        <form action="{{ route('reviews.store') }}" method="POST">
+
+                        <form action="{{ route('reviews.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
 
                             <h5>Gửi đánh giá của bạn</h5>
 
-                            {{-- CSS trực tiếp --}}
-                            <style>
-                                .pc__atc {
-                                    border-radius: 8px !important;
-                                }
 
 
-                                .btn.btn-primary {
-                                    background-color: #5E83AE !important;
-                                    border: none !important;
-                                    border-radius: 8px !important;
-                                }
 
-                                .btn.btn-primary:hover {
-                                    background-color: #4a6b8c !important;
-                                }
 
-                                .star-rating {
-                                    direction: rtl;
-                                    display: inline-flex;
-                                    font-size: 2rem;
-                                }
-
-                                .star-rating input[type=radio] {
-                                    display: none;
-                                }
-
-                                .star-rating label {
-                                    color: #ccc;
-                                    cursor: pointer;
-                                    transition: color 0.2s;
-                                }
-
-                                .star-rating label:hover,
-                                .star-rating label:hover~label {
-                                    color: gold;
-                                }
-
-                                .star-rating input[type=radio]:checked~label {
-                                    color: gold;
-                                }
-                            </style>
-
-                            {{-- Đánh giá sao --}}
                             <div class="select-star-rating mb-3">
                                 <label for="rating">Đánh giá sản phẩm của bạn *</label>
                                 <div class="star-rating">
                                     @for ($i = 5; $i >= 1; $i--)
-                                    <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}">
+                                    <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}"
+                                        {{ old('rating') == $i ? 'checked' : '' }}>
                                     <label for="star{{ $i }}">★</label>
                                     @endfor
+
                                 </div>
+                                @error('rating')
+                                <div class="text-danger mt-1">{{ $message }}</div>
+                                @enderror
+
                             </div>
+                            {{-- Hiển thị thông báo lỗi --}}
+                            @if ($errors->any())
+                            <div id="alert-message" class="alert alert-danger alert-toast">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            @endif
+
+                            @if (session('success'))
+                            <div id="alert-message" class="alert alert-success alert-toast">
+                                {{ session('success') }}
+                            </div>
+                            @endif
 
                             {{-- Nội dung review --}}
                             <div class="mb-3">
@@ -446,6 +516,25 @@
                                     required></textarea>
                             </div>
 
+                            {{-- Upload ảnh bằng icon --}}
+                            <div class="mb-3">
+                                <label for="imageUpload" class="d-block">Hình ảnh minh họa (tùy chọn):</label>
+                                <label for="imageUpload" style="cursor: pointer; display: inline-block;">
+                                    <!-- Icon "Photo" từ Heroicons -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="#5E83AE" width="30" height="30">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M3 5.25C3 4.007 4.007 3 5.25 3h13.5C19.993 3 21 4.007 21 5.25v13.5c0 1.243-1.007 2.25-2.25 2.25H5.25A2.25 2.25 0 013 18.75V5.25zM7.5 12.75l2.25 2.25 3.75-3.75L18 16.5M6.75 8.25h.008v.008H6.75V8.25z" />
+                                    </svg>
+                                </label>
+                                <input type="file" id="imageUpload" name="image" accept="image/*"
+                                    style="display: none;">
+                                <span id="file-name" class="ms-2 text-muted"></span>
+                            </div>
+
+
+
+                            {{-- Nút gửi --}}
                             <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
                         </form>
                         @else
@@ -455,7 +544,54 @@
 
                     <!--  -->
                 </div>
+                <!--  -->
+                <div class="tab-pane fade" id="tab-promotion" role="tabpanel" aria-labelledby="tab-promotion-tab">
+                    <div class="product-single__description">
+                        @if ($product->brand && $product->brand->promotion_details)
+                        <div class="promotion-box bg-white p-4 border rounded shadow-sm">
+                            <h5 class="text-center fw-bolder text-uppercase mb-4" style="color: #c30000;">
+                                🎁 Ưu đãi khủng khi mua {{ strtoupper($product->brand->name ?? 'Xe') }} trong tháng!
+                            </h5>
 
+                            <ul class="promotion-list mb-4">
+                                {!! $product->brand->promotion_details !!}
+                            </ul>
+                            <div class="promotion-note text-primary fw-semibold mt-3">
+                                &raquo;&nbsp;Cam kết nội dung trên là sự thật để không làm mất thời gian của quý khách!
+                            </div>
+                        </div>
+                        @else
+                        <div id="custom-alert"
+                            class="alert d-flex align-items-center gap-3 p-3 rounded-3 shadow-sm mt-4" role="alert"
+                            style="background-color: #fff; border: 1px solid #dee2e6; border-left: 4px solid #5E83AE; max-height: 100px; overflow: hidden; transition: max-height 0.4s ease;">
+
+                            <!-- Icon tròn xanh viền xanh -->
+                            <div
+                                style="width: 36px; height: 36px; min-width: 36px; border: 2px solid #0d6efd; border-radius: 50%; display: flex; align-items: center; justify-content: center; background-color: #fff;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#5E83AE"
+                                    viewBox="0 0 16 16" role="img" aria-label="Thông báo:">
+                                    <path
+                                        d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zM8.93 4.58a.905.905 0 1 1-1.86 0 .905.905 0 0 1 1.86 0zM8 6.75a.75.75 0 0 1 .75.75v3.25a.75.75 0 0 1-1.5 0V7.5A.75.75 0 0 1 8 6.75z" />
+                                </svg>
+                            </div>
+
+                            <!-- Nội dung thông báo -->
+                            <div id="alert-message" style="color: #000; font-size: 15px; font-weight: 500;">
+                                Hiện tại chưa có ưu đãi cho sản phẩm này. Vui lòng quay lại sau để nhận thông tin mới
+                                nhất!
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+                        @endif
+                    </div>
+                </div>
+                <!--  -->
 
             </div>
 
@@ -559,7 +695,7 @@
                             </h6>
                             <div class="product-card__price d-flex">
                                 <span class="money price">
-                                    @if($rproduct->sale_price)
+                                    @if($rproduct->sale_price > 0)
                                     <s>{{number_format($rproduct->regular_price, 0, ',', '.') }} VND</s>
                                     {{number_format($rproduct->sale_price, 0, ',', '.') }} VND
                                     @else
@@ -578,10 +714,6 @@
                                     <use href="#icon_heart" />
                                 </svg>
                             </button>
-
-
-
-
 
                         </div>
                     </div>
@@ -693,7 +825,43 @@
     });
 </script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Ẩn tất cả alert sau 3s
+        const alerts = document.querySelectorAll('.alert-toast'); // <-- CHỖ SỬA
+        alerts.forEach(alert => {
+            setTimeout(() => {
+                alert.style.transition = "opacity 0.5s ease";
+                alert.style.opacity = '0';
+                setTimeout(() => {
+                    alert.style.display = 'none';
+                }, 500);
+            }, 5000); // đổi thành 3000ms (3s)
+        });
 
+        // Hiển thị tên file
+        const imageUpload = document.getElementById('imageUpload');
+        const fileNameDisplay = document.getElementById('file-name');
+        if (imageUpload && fileNameDisplay) {
+            imageUpload.addEventListener('change', function(e) {
+                const fileName = e.target.files[0] ? e.target.files[0].name : 'Chưa chọn ảnh';
+                fileNameDisplay.textContent = fileName;
+            });
+        }
+
+        // Cảnh báo nếu chưa chọn sao
+        const form = document.querySelector('.product-single__review-form form');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                const ratingChecked = form.querySelector('input[name="rating"]:checked');
+                if (!ratingChecked) {
+                    e.preventDefault();
+                    alert("Vui lòng chọn số sao để đánh giá sản phẩm!");
+                }
+            });
+        }
+    });
+</script>
 
 
 @endsection

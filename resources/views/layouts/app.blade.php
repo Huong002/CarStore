@@ -15,9 +15,18 @@
     <meta name="author" content="surfside media" />
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="stylesheet" href="{{ asset('css/account.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link
         href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
         rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+
     <link href="https://fonts.googleapis.com/css2?family=Allura&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/css/plugins/swiper.min.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" type="text/css" />
@@ -26,7 +35,12 @@
         integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
         crossorigin="anonymous" referrerpolicy="no-referrer">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Bundle (gồm cả Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     @stack("styles")
 </head>
@@ -193,7 +207,8 @@
         </symbol>
         <symbol id="icon_close" viewBox="0 0 12 12">
             <path d="M0.311322 10.6261L10.9374 0L12 1.06261L1.37393 11.6887L0.311322 10.6261Z" fill="currentColor" />
-            <path d="M1.06261 0.106781L11.6887 10.7329L10.6261 11.7955L0 1.16939L1.06261 0.106781Z" fill="currentColor" />
+            <path d="M1.06261 0.106781L11.6887 10.7329L10.6261 11.7955L0 1.16939L1.06261 0.106781Z"
+                fill="currentColor" />
         </symbol>
         <symbol id="icon_view" viewBox="0 0 18 18">
             <path
@@ -217,7 +232,9 @@
         </symbol>
         <symbol id="icon_degree" viewBox="0 0 40 30">
             <path
-                d="M25.1785 26.2222C24.5971 26.2222 24.0926 25.7901 24.0173 25.1984C23.9358 24.5563 24.3899 23.9697 25.0317 23.811.7471C35.2096 11.214 35.9393 11.0791 36.4724 11.4459C38.7802 13.0334 40 14.9447 40 16.9739C40 19.2767 38.461 21.3907 35.549 23.0871C32.9278 24.6142 29.3936 25.6952 25.328 26.2131C25.2776 26.2192 25.2276 26.2222 25.1785 26.2222Z" 879C28.7347 23.4161 32.0507 22.4127 34.3688 21.062C36.4889 19.8269 37.6562 18.3749 37.6562 16.9736C37.6562 15.4291 36.2902 14.1653 35.144 13.3767C34.6109 13.0099 34.476 12.2806 34.8428
+                d="M25.1785 26.2222C24.5971 26.2222 24.0926 25.7901 24.0173 25.1984C23.9358 24.5563 24.3899 23.9697 25.0317 23.811.7471C35.2096 11.214 35.9393 11.0791 36.4724 11.4459C38.7802 13.0334 40 14.9447 40 16.9739C40 19.2767 38.461 21.3907 35.549 23.0871C32.9278 24.6142 29.3936 25.6952 25.328 26.2131C25.2776 26.2192 25.2276 26.2222 25.1785 26.2222Z"
+                879C28.7347 23.4161 32.0507 22.4127 34.3688 21.062C36.4889 19.8269 37.6562 18.3749 37.6562
+                16.9736C37.6562 15.4291 36.2902 14.1653 35.144 13.3767C34.6109 13.0099 34.476 12.2806 34.8428
                 fill="currentColor" />
             <path
                 d="M19.7144 24.5435L16.5894 21.4185C16.1316 20.9607 15.3897 20.9607 14.932 21.4185C14.4745 21.8759 14.4745 22.6181 14.932 23.0756L15.8451 23.9887C12.3441 23.627 9.16353 22.8119 6.70076 21.6275C3.93189 20.296 2.34375 18.5996 2.34375 16.9736C2.34375 15.5945 3.48084 14.1611 5.54536 12.9373C6.1023 12.6074 6.28602 11.8884 5.95613 11.3318C5.62592 10.7749 4.90693 10.5911 4.35029 10.921C0.754701 13.0524 0 15.3888 0 16.9736C0 19.5737 2.01905 21.9767 5.68513 23.74C8.53059 25.1081 12.2113 26.0245 16.2213 26.3791L14.932 27.6685C14.4745 28.126 14.4745 28.8681 14.932 29.3259C15.1609 29.5545 15.4608 29.6689 15.7608 29.6689C16.0605 29.6689 16.3605 29.5545 16.5894 29.3259L19.7144 26.2009C20.1718 25.7431 20.1718 25.0009 19.7144 24.5435Z"
@@ -259,16 +276,34 @@
                 d="M14.7692 11.0769V12.72C14.7693 13.2579 14.8869 13.7893 15.1138 14.2769L15.1384 14.3262L9.66767 8.85541L8.86151 9.66156L14.3323 15.1323H14.283C13.7949 14.8982 13.2613 14.7742 12.72 14.7693H11.0769V16H16V11.0769H14.7692Z"
                 fill="currentColor" />
         </symbol>
+
+        <!-- icon_bell -->
+
+        <symbol id="icon_bell" viewBox="0 0 24 24">
+            <path
+                d="M12 2C10.343 2 9 3.343 9 5V6C6.239 7.172 4.5 9.79 4.5 13V17L3 19V20H21V19L19.5 17V13C19.5 9.79 17.761 7.172 15 6V5C15 3.343 13.657 2 12 2Z"
+                fill="none" stroke="black" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M13.5 21C13.3 21.6 12.8 22 12 22C11.2 22 10.7 21.6 10.5 21" fill="none" stroke="black"
+                stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+        </symbol>
+    </svg>
+
     </svg>
     <style>
-        #header {
-            padding-top: 8px;
-            padding-bottom: 8px;
-        }
+    #userDropdown::after {
+        display: none !important;
+    }
+    </style>
 
-        .logo__image {
-            max-width: 220px;
-        }
+    <style>
+    #header {
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+
+    .logo__image {
+        max-width: 220px;
+    }
     </style>
     <div class="header-mobile header_sticky">
         <div class="container d-flex align-items-center h-100">
@@ -285,12 +320,13 @@
                 </a>
             </div>
 
-            <a href="#" class="header-tools__item header-tools__cart js-open-aside" data-aside="cartDrawer">
-                <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- <a href="#" class="header-tools__item header-tools__cart js-open-aside" data-aside="cartDrawer">
+                <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
                     <use href="#icon_cart" />
                 </svg>
-                <span class="cart-amount d-block position-absolute js-cart-items-count">3</span>
-            </a>
+                <span class="cart-amount d-block position-absolute js-cart-items-count">0</span>
+            </a> -->
         </div>
 
         <nav
@@ -454,13 +490,18 @@
                                     <div class="sub-menu search-suggestion">
                                         <h6 class="sub-menu__title fs-base">Quicklinks</h6>
                                         <ul class="sub-menu__list list-unstyled">
-                                            <li class="sub-menu__item"><a href="shop2.html" class="menu-link menu-link_us-s">New Arrivals</a>
+                                            <li class="sub-menu__item"><a href="shop2.html"
+                                                    class="menu-link menu-link_us-s">New Arrivals</a>
                                             </li>
-                                            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Dresses</a></li>
-                                            <li class="sub-menu__item"><a href="shop3.html" class="menu-link menu-link_us-s">Accessories</a>
+                                            <li class="sub-menu__item"><a href="#"
+                                                    class="menu-link menu-link_us-s">Dresses</a></li>
+                                            <li class="sub-menu__item"><a href="shop3.html"
+                                                    class="menu-link menu-link_us-s">Accessories</a>
                                             </li>
-                                            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Footwear</a></li>
-                                            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Sweatshirt</a></li>
+                                            <li class="sub-menu__item"><a href="#"
+                                                    class="menu-link menu-link_us-s">Footwear</a></li>
+                                            <li class="sub-menu__item"><a href="#"
+                                                    class="menu-link menu-link_us-s">Sweatshirt</a></li>
                                         </ul>
                                     </div>
 
@@ -470,8 +511,8 @@
                         </div>
                     </div>
 
-                    @guest
-                    <div class="header-tools__item hover-container">
+                    <!-- @guest
+                    <div class="header-tools__item hover-container ms-3">
                         <a href="{{ route('login') }}" class="header-tools__item">
                             <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -480,34 +521,25 @@
                         </a>
                     </div>
                     @else
-                    <div class="header-tools__item hover-container">
+                    <div class="header-tools__item hover-container ms-3">
+                        @if(Auth::user()->utype === 'ADM')
+                        <a href="{{ route('admin.index') }}" class="header-tools__item">
+                            <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <use href="#icon_user" />
+                            </svg>
+                        </a>
+                        @else
                         <div class="dropdown">
-                            <button class="btn dropdown-toggle p-0 d-flex align-items-center gap-3 border-0 bg-transparent"
+                            <button class="btn dropdown-toggle p-0 d-flex align-items-center border-0 bg-transparent"
                                 type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ Auth::user()->image ? asset('images/avatar/' . Auth::user()->image) : asset('images/avatar/user-1.png') }}"
-                                    alt="Avatar" width="40" height="40"
+                                <img src="{{ asset('images/avatar/user-1.png') }}" alt="Avatar" width="40" height="40"
                                     style="border-radius: 50%; object-fit: cover;">
-                                <div class="d-flex flex-column text-start">
-                                    <span class="fw-bold">{{ Auth::user()->name }}</span>
-                                    <span class="text-muted small">{{ Auth::user()->utype }}</span>
-                                </div>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3 px-1 py-2"
-                                aria-labelledby="userDropdown" style="min-width: 220px;">
-                                <li><a class="dropdown-item" href="#">Tài khoản của tôi</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li>
-                                    <form method="POST" action="{{ route('logout') }}">
-                                        @csrf
-                                        <button type="submit" class="dropdown-item">Đăng xuất</button>
-                                    </form>
-                                </li>
-                            </ul>
                         </div>
+                        @endif
                     </div>
-                    @endguest
+                    @endguest -->
 
                     <!-- 🔍 Icon Vị trí -->
                     <a href="{{ route('location.index') }}" class="header-tools__item">
@@ -555,191 +587,191 @@
 
 
                     <style>
-                        .wishlist-modal {
-                            position: absolute;
-                            top: 100px;
-                            right: 80px;
-                            background: #fff;
-                            border-radius: 12px;
-                            width: 280px;
-                            padding: 12px;
-                            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-                            display: none;
-                            z-index: 9999;
-                            font-family: Arial, sans-serif;
-                            animation: fadeIn 0.25s ease-in-out;
+                    .wishlist-modal {
+                        position: absolute;
+                        top: 100px;
+                        right: 80px;
+                        background: #fff;
+                        border-radius: 12px;
+                        width: 280px;
+                        padding: 12px;
+                        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+                        display: none;
+                        z-index: 9999;
+                        font-family: Arial, sans-serif;
+                        animation: fadeIn 0.25s ease-in-out;
+                    }
+
+                    @keyframes fadeIn {
+                        from {
+                            opacity: 0;
+                            transform: translateY(-5px);
                         }
 
-                        @keyframes fadeIn {
-                            from {
-                                opacity: 0;
-                                transform: translateY(-5px);
-                            }
-
-                            to {
-                                opacity: 1;
-                                transform: translateY(0);
-                            }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
                         }
+                    }
 
-                        .wishlist-header {
-                            display: flex;
-                            align-items: center;
-                            justify-content: space-between;
-                            font-weight: bold;
-                            margin-bottom: 10px;
-                        }
+                    .wishlist-header {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        font-weight: bold;
+                        margin-bottom: 10px;
+                    }
 
-                        .wishlist-header-left {
-                            display: flex;
-                            flex-direction: row;
-                            align-items: center;
-                            gap: 6px;
-                            white-space: nowrap;
-                        }
+                    .wishlist-header-left {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 6px;
+                        white-space: nowrap;
+                    }
 
-                        .wishlist-header-left svg {
-                            display: inline-block;
-                            vertical-align: middle;
-                        }
+                    .wishlist-header-left svg {
+                        display: inline-block;
+                        vertical-align: middle;
+                    }
 
-                        .wishlist-items {
-                            display: block;
-                            list-style: none;
-                            padding: 0;
-                            margin: 0;
-                            max-height: 220px;
-                            overflow-y: auto;
-                        }
+                    .wishlist-items {
+                        display: block;
+                        list-style: none;
+                        padding: 0;
+                        margin: 0;
+                        max-height: 220px;
+                        overflow-y: auto;
+                    }
 
-                        .wishlist-items li {
-                            display: block;
-                            padding: 6px 0;
-                            border-bottom: 1px solid #eee;
-                            font-size: 14px;
-                            word-break: break-word;
-                        }
+                    .wishlist-items li {
+                        display: block;
+                        padding: 6px 0;
+                        border-bottom: 1px solid #eee;
+                        font-size: 14px;
+                        word-break: break-word;
+                    }
 
-                        .wishlist-items li.empty-message {
-                            text-align: center;
-                            color: #666;
-                            border-bottom: none;
-                            padding: 10px 0;
-                            font-style: italic;
-                            white-space: normal;
-                        }
+                    .wishlist-items li.empty-message {
+                        text-align: center;
+                        color: #666;
+                        border-bottom: none;
+                        padding: 10px 0;
+                        font-style: italic;
+                        white-space: normal;
+                    }
 
-                        .close-btn {
-                            background: transparent;
-                            border: none;
-                            font-size: 20px;
-                            cursor: pointer;
-                            color: #666;
-                            transition: color 0.2s ease;
-                        }
+                    .close-btn {
+                        background: transparent;
+                        border: none;
+                        font-size: 20px;
+                        cursor: pointer;
+                        color: #666;
+                        transition: color 0.2s ease;
+                    }
 
-                        .close-btn:hover {
-                            color: red;
-                        }
+                    .close-btn:hover {
+                        color: red;
+                    }
 
-                        /* Cart Dropdown CSS */
-                        .cart-dropdown {
-                            position: absolute;
-                            top: 100%;
-                            right: 0;
-                            background: #fff;
-                            border-radius: 12px;
-                            width: 320px;
-                            padding: 0;
-                            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-                            display: none;
-                            z-index: 9999;
-                            border: 1px solid #e5e5e5;
-                            animation: fadeIn 0.25s ease-in-out;
-                            font-family: Arial, sans-serif;
-                        }
+                    /* Cart Dropdown CSS */
+                    .cart-dropdown {
+                        position: absolute;
+                        top: 100%;
+                        right: 0;
+                        background: #fff;
+                        border-radius: 12px;
+                        width: 320px;
+                        padding: 0;
+                        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+                        display: none;
+                        z-index: 9999;
+                        border: 1px solid #e5e5e5;
+                        animation: fadeIn 0.25s ease-in-out;
+                        font-family: Arial, sans-serif;
+                    }
 
-                        .cart-header {
-                            display: flex;
-                            align-items: center;
-                            justify-content: space-between;
-                            font-weight: bold;
-                            padding: 12px 16px;
-                            border-bottom: 1px solid #f0f0f0;
-                        }
+                    .cart-header {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        font-weight: bold;
+                        padding: 12px 16px;
+                        border-bottom: 1px solid #f0f0f0;
+                    }
 
-                        .cart-header-left {
-                            display: flex;
-                            flex-direction: row;
-                            align-items: center;
-                            gap: 8px;
-                            white-space: nowrap;
-                        }
+                    .cart-header-left {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 8px;
+                        white-space: nowrap;
+                    }
 
-                        .cart-header-left svg {
-                            display: inline-block;
-                            vertical-align: middle;
-                            fill: #333;
-                        }
+                    .cart-header-left svg {
+                        display: inline-block;
+                        vertical-align: middle;
+                        fill: #333;
+                    }
 
-                        .cart-dropdown ul {
-                            list-style: none;
-                            padding: 0;
-                            margin: 0;
-                            max-height: 300px;
-                            overflow-y: auto;
-                            padding: 8px 16px;
-                        }
+                    .cart-dropdown ul {
+                        list-style: none;
+                        padding: 0;
+                        margin: 0;
+                        max-height: 300px;
+                        overflow-y: auto;
+                        padding: 8px 16px;
+                    }
 
-                        .cart-dropdown li {
-                            padding: 12px 0;
-                            border-bottom: 1px solid #f0f0f0;
-                            font-size: 14px;
-                            display: flex;
-                            align-items: center;
-                            gap: 8px;
-                        }
+                    .cart-dropdown li {
+                        padding: 12px 0;
+                        border-bottom: 1px solid #f0f0f0;
+                        font-size: 14px;
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                    }
 
-                        .cart-dropdown li:last-child {
-                            border-bottom: none;
-                        }
+                    .cart-dropdown li:last-child {
+                        border-bottom: none;
+                    }
 
-                        .cart-dropdown li.empty-message {
-                            text-align: center;
-                            color: #666;
-                            font-style: italic;
-                            padding: 20px 0;
-                            justify-content: center;
-                        }
+                    .cart-dropdown li.empty-message {
+                        text-align: center;
+                        color: #666;
+                        font-style: italic;
+                        padding: 20px 0;
+                        justify-content: center;
+                    }
 
-                        .cart-footer {
-                            padding: 12px 16px;
-                            border-top: 1px solid #f0f0f0;
-                        }
+                    .cart-footer {
+                        padding: 12px 16px;
+                        border-top: 1px solid #f0f0f0;
+                    }
 
-                        .cart-footer .btn {
-                            padding: 8px 16px;
-                            font-size: 14px;
-                            border-radius: 6px;
-                        }
+                    .cart-footer .btn {
+                        padding: 8px 16px;
+                        font-size: 14px;
+                        border-radius: 6px;
+                    }
 
-                        .header-tools__cart {
-                            cursor: pointer;
-                        }
+                    .header-tools__cart {
+                        cursor: pointer;
+                    }
 
-                        .cart-amount {
-                            top: -8px;
-                            right: -8px;
-                            background: #dc3545;
-                            color: white;
-                            border-radius: 50%;
-                            width: 18px;
-                            height: 18px;
-                            font-size: 10px;
-                            text-align: center;
-                            line-height: 18px;
-                            font-weight: bold;
-                        }
+                    .cart-amount {
+                        top: -8px;
+                        right: -8px;
+                        background: #dc3545;
+                        color: white;
+                        border-radius: 50%;
+                        width: 18px;
+                        height: 18px;
+                        font-size: 10px;
+                        text-align: center;
+                        line-height: 18px;
+                        font-weight: bold;
+                    }
                     </style>
 
                     <!-- 🛒 Cart -->
@@ -750,7 +782,9 @@
                         </svg>
                         <span class="cart-amount d-block position-absolute js-cart-items-count">3</span>
                     </a> -->
-                    <div class="header-tools d-flex align-items-center">
+
+
+                    <div class="header-tools d-flex align-items-center ">
                         <div class="header-tools__item header-tools__cart position-relative" id="cart-icon">
                             <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -759,11 +793,15 @@
                             <!-- Badge số lượng -->
                             <span class="cart-amount d-block position-absolute js-cart-items-count">0</span>
 
+
                             <!-- Dropdown cart -->
-                            <div id="cart-dropdown" class="cart-dropdown">
+                            <div id="cart-dropdown" class="cart-dropdown" style="margin-top: 2em; margin-left: 6em;">
+
+
                                 <div class="cart-header">
                                     <div class="cart-header-left">
-                                        <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <svg width="18" height="18" viewBox="0 0 20 20" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
                                             <use href="#icon_cart" />
                                         </svg>
                                         <span>Giỏ hàng</span>
@@ -773,11 +811,85 @@
                                     <!-- Render bằng JS -->
                                 </ul>
                                 <div class="cart-footer">
-                                    <a href="{{ route('cart.index') }}" class="btn btn-primary w-100">Xem giỏ hàng</a>
+                                    <a href="{{ route('cart.index') }}" class="btn btn-primary w-100">Xem giỏ
+                                        hàng</a>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!--  -->
+                    <!-- Icon bell -->
+                    <div class="header-tools__item hover-container position-relative ms-4">
+                        <a href="#" class="position-relative d-inline-block">
+                            <svg class="d-block" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <use href="#icon_bell" />
+                            </svg>
+
+                            <!-- 🔴 Chấm đỏ nằm trên icon -->
+                            <span class="notification-dot"></span>
+                        </a>
+                    </div>
+
+
+                    <!--  -->
+
+
+                    @guest
+                    <div class="header-tools__item hover-container ">
+
+                        <a href="{{ route('login') }}" class="header-tools__item">
+                            <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <use href="#icon_user" />
+                            </svg>
+                        </a>
+                    </div>
+                    @else
+                    <div class="header-tools__item hover-container ms-1">
+                        @if(Auth::user()->utype === 'ADM')
+                        <a href="{{ route('admin.index') }}" class="header-tools__item d-flex align-items-center gap-2">
+                            <span class="pr-6px fw-bold">{{ Auth::user()->name }}</span>
+                            <svg class="d-block" width="30" height="30" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <use href="#icon_user" />
+                            </svg>
+                        </a>
+                        @else
+                        <div class="dropdown">
+                            <!-- Đặt đúng ID khớp với aria-labelledby -->
+                            <button id="userDropdown"
+                                class="btn dropdown-toggle p-0 d-flex align-items-center border-0 bg-transparent"
+                                type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="{{ Auth::user()->image ? asset('images/avatar/' . Auth::user()->image) : asset('images/avatar/user-1.png') }}"
+                                    alt="Avatar" width="40" height="40" style="border-radius: 50%; object-fit: cover;">
+                            </button>
+
+                            <!-- aria-labelledby phải trùng với ID ở trên -->
+                            <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3 px-1 py-2"
+                                aria-labelledby="userDropdown" style="min-width: 220px;">
+                                <li>
+                                    <a href="#" class="dropdown-item d-flex align-items-center gap-2 py-2 px-3"
+                                        data-bs-toggle="modal" data-bs-target="#accountModal">
+                                        <i class="bi bi-person fs-5"></i> Tài khoản
+                                    </a>
+                                </li>
+                                <li>
+                                    <form action="{{ route('logout') }}" method="POST" class="m-0">
+                                        @csrf
+                                        <button type="submit"
+                                            class="dropdown-item d-flex align-items-center gap-2 py-2 px-3 w-100 border-0 bg-transparent">
+                                            <i class="bi bi-box-arrow-right fs-5"></i> Đăng xuất
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                        @endif
+                    </div>
+                    @endguest
+
+
                 </div>
             </div>
         </div>
@@ -838,252 +950,255 @@
     @auth
     @include('user.account')
     @endauth
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script> -->
     <script src="{{ asset('js/account.js') }}"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            // ================== THAM CHIẾU CÁC PHẦN TỬ ==================
-            const cartIcon = document.getElementById('cart-icon');
-            const cartDropdown = document.getElementById('cart-dropdown');
-            const cartItemsList = document.getElementById('cart-items-list');
-            const cartCountBadge = document.querySelector('.js-cart-items-count');
+    document.addEventListener("DOMContentLoaded", () => {
+        // ================== THAM CHIẾU CÁC PHẦN TỬ ==================
+        const cartIcon = document.getElementById('cart-icon');
+        const cartDropdown = document.getElementById('cart-dropdown');
+        const cartItemsList = document.getElementById('cart-items-list');
+        const cartCountBadge = document.querySelector('.js-cart-items-count');
 
-            const wishlistModal = document.getElementById('wishlistModal');
-            const wishlistClose = document.getElementById('wishlistClose');
+        const wishlistModal = document.getElementById('wishlistModal');
+        const wishlistClose = document.getElementById('wishlistClose');
+        const baseImageUrl = "{{ asset('uploads/products') }}";
+        let wishlistTimer = null;
+        let cartTimer = null;
 
-            const userIcon = document.getElementById('user-icon');
-            const userDropdown = document.getElementById('user-dropdown');
+        // ================== GIỎ HÀNG DROPDOWN ==================
+        function renderCartItems(data) {
+            cartItemsList.innerHTML = "";
 
-            let wishlistTimer = null;
-            let cartTimer = null;
+            if (data.length === 0) {
+                cartItemsList.innerHTML = '<li class="empty-message">Giỏ hàng trống</li>';
+                return;
+            }
 
-            // ================== GIỎ HÀNG DROPDOWN ==================
-            function renderCartItems(data) {
-                cartItemsList.innerHTML = "";
-                if (data.length === 0) {
-                    cartItemsList.innerHTML = '<li class="empty-message">Giỏ hàng trống</li>';
-                    return;
-                }
+            data.forEach(item => {
+                const name = item.product?.name || 'Không có tên';
+                const price = item.product?.regular_price || 0;
+                const quantity = item.quantity || 1;
+                const imageName = item.product?.primary_image?.imageName || 'default.jpg';
+                const imageUrl =
+                    `http://127.0.0.1:8000/uploads/products/${encodeURIComponent(imageName)}`;
 
-                data.forEach(item => {
-                    const li = document.createElement("li");
-                    li.innerHTML = `
-                        <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; width:100%;">
-                            <div style="display:flex; align-items:center; gap:8px;">
-                                <img src="${item.product?.image || '/default.jpg'}" alt="${item.product?.name || 'Sản phẩm'}"
-                                    style="width:40px; height:40px; object-fit:cover; border-radius:4px;">
-                                <div>
-                                    <div style="font-weight:500;">${item.product?.name || 'Sản phẩm'}</div>
-                                    <div style="color:#666; font-size:12px;">Số lượng: ${item.quantity || 1}</div>
-                                </div>
-                            </div>
-                            <div style="font-weight:bold; color:#dc3545;">
-                                ${item.product?.regular_price ? new Intl.NumberFormat('vi-VN').format(item.product.regular_price) + 'đ' : ''}
+                const li = document.createElement("li");
+                li.innerHTML = `
+                    <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; width:100%;">
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <img src="${imageUrl}" alt="${name}"
+                                style="width:40px; height:40px; object-fit:cover; border-radius:4px;">
+                            <div>
+                                <div style="font-weight:500;">${name}</div>
+                                <div style="color:#666; font-size:12px;">Số lượng: ${quantity}</div>
                             </div>
                         </div>
-                    `;
-                    cartItemsList.appendChild(li);
-                });
-            }
+                        <div style="font-weight:bold; color:#dc3545;">
+                            ${new Intl.NumberFormat('vi-VN').format(price)}₫
+                        </div>
+                    </div>
+                `;
+                cartItemsList.appendChild(li);
+            });
+        }
 
-            function updateCartCount() {
-                fetch('/api/cart-count?t=' + Date.now())
+        // ================== ĐẾM SỐ LƯỢNG GIỎ HÀNG ==================
+        // Gọi khi DOM ready
+        //updateCartCount();
+
+        function updateCartCount() {
+            const cartCountBadge = document.querySelector('.js-cart-items-count');
+
+            fetch('/api/cart-count', {
+                    credentials: 'include'
+                })
+                .then(response => {
+                    if (!response.ok || response.redirected) {
+                        // Có thể bị redirect do chưa đăng nhập
+                        console.warn("Chưa đăng nhập hoặc lỗi truy cập.");
+                        return {
+                            count: 0
+                        }; // fallback
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (cartCountBadge) {
+                        cartCountBadge.textContent = data.count;
+                        cartCountBadge.style.display = data.count > 0 ? 'inline-block' : 'none';
+                    }
+                })
+                .catch(error => {
+                    console.error("Lỗi khi lấy số lượng giỏ hàng:", error);
+                });
+        }
+
+
+        updateCartCount(); // Gọi ngay khi DOM load
+
+        function autoCloseCart() {
+            clearTimeout(cartTimer);
+            cartTimer = setTimeout(() => {
+                cartDropdown.style.display = "none";
+            }, 3000);
+        }
+
+        if (cartIcon) {
+            cartIcon.addEventListener('click', (e) => {
+                if (e.target.tagName.toLowerCase() === 'a') return;
+                e.preventDefault();
+                fetch('/api/cart-items?t=' + Date.now())
                     .then(res => res.json())
                     .then(data => {
-                        if (cartCountBadge) {
-                            cartCountBadge.textContent = data.count;
+                        renderCartItems(data);
+                        // updateCartCount();
+
+                        if (wishlistModal) wishlistModal.style.display = 'none';
+
+                        cartDropdown.style.display =
+                            cartDropdown.style.display === "block" ? "none" : "block";
+
+                        if (cartDropdown.style.display === "block") {
+                            autoCloseCart();
                         }
-                    })
-                    .catch(err => console.error('Lỗi lấy số lượng giỏ hàng:', err));
-            }
-            updateCartCount();
-
-            function autoCloseCart() {
-                clearTimeout(cartTimer);
-                cartTimer = setTimeout(() => {
-                    cartDropdown.style.display = "none";
-                }, 3000);
-            }
-
-            if (cartIcon) {
-                cartIcon.addEventListener('click', (e) => {
-                    if (e.target.tagName.toLowerCase() === 'a') return;
-                    e.preventDefault();
-                    fetch('/api/cart-items?t=' + Date.now())
-                        .then(res => res.json())
-                        .then(data => {
-                            renderCartItems(data);
-
-                            // --- Đóng wishlist khi mở giỏ hàng ---
-                            if (wishlistModal) wishlistModal.style.display = 'none';
-
-                            cartDropdown.style.display =
-                                cartDropdown.style.display === "block" ? "none" : "block";
-
-                            if (cartDropdown.style.display === "block") {
-                                autoCloseCart();
-                            }
-                        });
-                });
-
-                document.addEventListener("click", (e) => {
-                    if (!cartIcon.contains(e.target)) {
-                        cartDropdown.style.display = "none";
-                    }
-                });
-            }
-
-            // ================== WISHLIST ==================
-            function addToWishlist(product) {
-                let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-                if (!wishlist.some(item => item.id === product.id)) {
-                    wishlist.push(product);
-                    localStorage.setItem('wishlist', JSON.stringify(wishlist));
-                }
-            }
-
-            function removeFromWishlist(productId) {
-                let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-                wishlist = wishlist.filter(item => item.id !== productId);
-                localStorage.setItem('wishlist', JSON.stringify(wishlist));
-            }
-
-            function renderWishlist() {
-                const listEl = document.getElementById('wishlistItems');
-                listEl.innerHTML = '';
-
-                let wishlist;
-                try {
-                    wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-                } catch (e) {
-                    wishlist = [];
-                }
-
-                // Lọc những item hợp lệ (có id và name)
-                wishlist = wishlist.filter(item => item && item.id && item.name);
-
-                if (wishlist.length === 0) {
-                    listEl.innerHTML = '<li class="empty-message">Chưa có sản phẩm yêu thích</li>';
-                    return;
-                }
-
-                wishlist.forEach(item => {
-                    const li = document.createElement('li');
-                    li.innerHTML = `
-            <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
-                <div style="display:flex; align-items:center; gap:8px;">
-                    <img src="${item.image || '/default.jpg'}" alt="${item.name}"
-                        style="width:40px; height:40px; object-fit:cover; border-radius:4px;">
-                    <a href="/wishlistshow/${item.id}" style="color:#333; text-decoration:none;">
-                        ${item.name}
-                    </a>
-                </div>
-                <button class="wishlist-remove-btn" data-product-id="${item.id}"
-                        style="background:none; border:none; cursor:pointer; color:#888;">
-                    🗑
-                </button>
-            </div>
-        `;
-                    listEl.appendChild(li);
-                });
-            }
-
-            function autoCloseWishlist() {
-                clearTimeout(wishlistTimer);
-                wishlistTimer = setTimeout(() => {
-                    wishlistModal.style.display = "none";
-                }, 3000);
-            }
-
-            // Click icon heart
-            document.addEventListener('click', function(e) {
-                // 1. Nút thêm/xóa yêu thích
-                let btn = e.target.closest('button.main-product-wishlist');
-                if (!btn) {
-                    btn = e.target.closest('button.js-add-wishlist');
-                }
-
-                if (btn) {
-                    e.preventDefault();
-                    btn.classList.toggle('active');
-
-                    const svg = btn.querySelector('svg');
-                    const productName = btn.dataset.productName;
-                    const productId = btn.dataset.productId;
-
-                    if (!productName || !productId) return;
-
-                    const product = {
-                        id: productId,
-                        name: productName,
-                        image: btn.dataset.productImage || ''
-                    };
-
-                    if (btn.classList.contains('active')) {
-                        addToWishlist(product);
-                        svg.style.fill = 'red';
-                        renderWishlist();
-
-                        if (cartDropdown) cartDropdown.style.display = 'none';
-                        if (userDropdown) userDropdown.style.display = 'none';
-
-                        wishlistModal.style.display = 'block';
-                        autoCloseWishlist();
-                    } else {
-                        removeFromWishlist(product.id);
-                        svg.style.fill = '#666';
-                    }
-                    return;
-                }
-
-                // 2. Nút mở modal wishlist
-                const openLink = e.target.closest('.open-wishlist-modal');
-                if (openLink) {
-                    e.preventDefault();
-                    renderWishlist();
-
-                    if (cartDropdown) cartDropdown.style.display = 'none';
-                    if (userDropdown) userDropdown.style.display = 'none';
-
-                    wishlistModal.style.display = 'block';
-                    autoCloseWishlist();
-                }
-
-                // 3. Nút mở modal wishlist từ menu
-                const menuBtn = e.target.closest('.add-to-wishlist');
-                if (menuBtn) {
-                    e.preventDefault();
-                    renderWishlist();
-
-                    if (cartDropdown) cartDropdown.style.display = 'none';
-                    if (userDropdown) userDropdown.style.display = 'none';
-
-                    wishlistModal.style.display = 'block';
-                    autoCloseWishlist();
-                }
-
-                // 4. Nút mở modal wishlist từ icon ở header
-                const headerWishlist = e.target.closest('.header-wishlist');
-                if (headerWishlist) {
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    renderWishlist();
-
-                    if (cartDropdown) cartDropdown.style.display = 'none';
-                    if (userDropdown) userDropdown.style.display = 'none';
-
-                    if (wishlistModal.style.display === 'block') {
-                        wishlistModal.style.display = 'none';
-                    } else {
-                        wishlistModal.style.display = 'block';
-                        autoCloseWishlist();
-                    }
-                }
+                    });
             });
 
-            // Xóa trong wishlist modal
-            document.getElementById('wishlistItems').addEventListener('click', function(e) {
+            document.addEventListener("click", (e) => {
+                if (!cartIcon.contains(e.target)) {
+                    cartDropdown.style.display = "none";
+                }
+            });
+        }
+
+        // ================== WISHLIST ==================
+        function addToWishlist(product) {
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            if (!wishlist.some(item => item.id === product.id)) {
+                wishlist.push(product);
+                localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            }
+        }
+
+        function removeFromWishlist(productId) {
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            wishlist = wishlist.filter(item => item.id !== productId);
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        }
+
+        function renderWishlist() {
+            const listEl = document.getElementById('wishlistItems');
+            listEl.innerHTML = '';
+
+            let wishlist;
+            try {
+                wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            } catch (e) {
+                wishlist = [];
+            }
+
+            wishlist = wishlist.filter(item => item && item.id && item.name);
+
+            if (wishlist.length === 0) {
+                listEl.innerHTML = '<li class="empty-message">Chưa có sản phẩm yêu thích</li>';
+                return;
+            }
+
+            wishlist.forEach(item => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <img src="${item.image || '/default.jpg'}" alt="${item.name}"
+                                style="width:40px; height:40px; object-fit:cover; border-radius:4px;">
+                            <a href="/wishlistshow/${item.id}" style="color:#333; text-decoration:none;">
+                                ${item.name}
+                            </a>
+                        </div>
+                        <button class="wishlist-remove-btn" data-product-id="${item.id}"
+                                style="background:none; border:none; cursor:pointer; color:#888;">
+                            🗑
+                        </button>
+                    </div>
+                `;
+                listEl.appendChild(li);
+            });
+        }
+
+        function autoCloseWishlist() {
+            clearTimeout(wishlistTimer);
+            wishlistTimer = setTimeout(() => {
+                wishlistModal.style.display = "none";
+            }, 3000);
+        }
+
+        document.addEventListener('click', function(e) {
+            let btn = e.target.closest('button.main-product-wishlist') || e.target.closest(
+                'button.js-add-wishlist');
+            if (btn) {
+                e.preventDefault();
+                btn.classList.toggle('active');
+
+                const svg = btn.querySelector('svg');
+                const productName = btn.dataset.productName;
+                const productId = btn.dataset.productId;
+
+                if (!productName || !productId) return;
+
+                const product = {
+                    id: productId,
+                    name: productName,
+                    image: btn.dataset.productImage || ''
+                };
+
+                if (btn.classList.contains('active')) {
+                    addToWishlist(product);
+                    if (svg) svg.style.fill = 'red';
+                    renderWishlist();
+                    if (cartDropdown) cartDropdown.style.display = 'none';
+                    wishlistModal.style.display = 'block';
+                    autoCloseWishlist();
+                } else {
+                    removeFromWishlist(product.id);
+                    if (svg) svg.style.fill = '#666';
+                }
+                return;
+            }
+
+            const openLink = e.target.closest('.open-wishlist-modal');
+            if (openLink) {
+                e.preventDefault();
+                renderWishlist();
+                if (cartDropdown) cartDropdown.style.display = 'none';
+                wishlistModal.style.display = 'block';
+                autoCloseWishlist();
+            }
+
+            const menuBtn = e.target.closest('.add-to-wishlist');
+            if (menuBtn) {
+                e.preventDefault();
+                renderWishlist();
+                if (cartDropdown) cartDropdown.style.display = 'none';
+                wishlistModal.style.display = 'block';
+                autoCloseWishlist();
+            }
+
+            const headerWishlist = e.target.closest('.header-wishlist');
+            if (headerWishlist) {
+                e.preventDefault();
+                e.stopPropagation();
+                renderWishlist();
+                if (cartDropdown) cartDropdown.style.display = 'none';
+                wishlistModal.style.display = wishlistModal.style.display === 'block' ? 'none' :
+                    'block';
+                autoCloseWishlist();
+            }
+        });
+
+        const wishlistItems = document.getElementById('wishlistItems');
+        if (wishlistItems) {
+            wishlistItems.addEventListener('click', function(e) {
                 const removeBtn = e.target.closest('.wishlist-remove-btn');
                 if (removeBtn) {
                     const productId = removeBtn.dataset.productId;
@@ -1100,40 +1215,152 @@
                     renderWishlist();
                 }
             });
+        }
 
-            // Đóng modal wishlist khi click ngoài
-            if (wishlistClose) {
-                wishlistClose.addEventListener('click', () => wishlistModal.style.display = 'none');
-            }
-            window.addEventListener('click', function(e) {
-                if (e.target === wishlistModal) {
-                    wishlistModal.style.display = 'none';
-                }
-            });
+        if (wishlistClose) {
+            wishlistClose.addEventListener('click', () => wishlistModal.style.display = 'none');
+        }
 
-            // ================== USER DROPDOWN ==================
-            if (userIcon && userDropdown) {
-                userIcon.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    if (cartDropdown) cartDropdown.style.display = 'none';
-                    if (wishlistModal) wishlistModal.style.display = 'none';
-
-                    userDropdown.style.display =
-                        userDropdown.style.display === "block" ? "none" : "block";
-                });
-
-                document.addEventListener("click", (e) => {
-                    if (!userIcon.contains(e.target) && !userDropdown.contains(e.target)) {
-                        userDropdown.style.display = "none";
-                    }
-                });
+        window.addEventListener('click', function(e) {
+            if (e.target === wishlistModal) {
+                wishlistModal.style.display = 'none';
             }
         });
+    });
     </script>
 
-    @stack("scripts")
+    <script>
+    let timeout;
+
+    function showPhoneNumber() {
+        const button = document.getElementById('phone-button');
+        button.classList.add('show-number');
+
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            button.classList.remove('show-number');
+        }, 2000);
+    }
+    </script>
+
+    <!-- Nút gọi điện thoại cố định góc trái dưới -->
+    <div id="phone-button-wrapper">
+        <div id="phone-button">
+            <div class="phone-icon shake">
+                <i class="fa fa-phone"></i>
+            </div>
+            <span id="phone-number">0909.123.456</span>
+        </div>
+    </div>
+
+    <style>
+    .notification-dot {
+        position: absolute;
+        top: -2px;
+        right: -2px;
+        width: 10px;
+        height: 10px;
+        background-color: red;
+        border-radius: 50%;
+        border: 2px solid white;
+        z-index: 10;
+    }
+
+
+
+    #phone-button-wrapper {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        z-index: 9999;
+    }
+
+    #phone-button {
+        background-color: #e53935;
+        color: white;
+        border-radius: 50%;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 0 0 0 rgba(229, 57, 53, 0.7);
+        animation: pulse 2s infinite;
+        transition: width 0.3s ease-in-out, border-radius 0.3s;
+        overflow: hidden;
+        padding: 0 20px;
+        width: 60px;
+    }
+
+    .phone-icon {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+    }
+
+    #phone-number {
+        font-weight: bold;
+        white-space: nowrap;
+        opacity: 0;
+        transition: opacity 0.3s;
+        margin-left: 10px;
+    }
+
+    #phone-button:hover {
+        width: 200px;
+        border-radius: 30px;
+    }
+
+    #phone-button:hover #phone-number {
+        opacity: 1;
+    }
+
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(229, 57, 53, 0.4);
+        }
+
+        70% {
+            box-shadow: 0 0 0 20px rgba(229, 57, 53, 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(229, 57, 53, 0);
+        }
+    }
+
+    @keyframes shake {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        20% {
+            transform: rotate(15deg);
+        }
+
+        40% {
+            transform: rotate(-10deg);
+        }
+
+        60% {
+            transform: rotate(10deg);
+        }
+
+        80% {
+            transform: rotate(-5deg);
+        }
+
+        100% {
+            transform: rotate(0deg);
+        }
+    }
+
+    .shake {
+        animation: shake 1s ease-in-out infinite;
+    }
+    </style>
 
 
 

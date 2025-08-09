@@ -18,10 +18,14 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $fillable = [
+     protected $fillable = [
         'name',
         'email',
         'password',
+        'image',
+        'utype',
+        'customer_id',
+        'employee_id',
     ];
 
     /**
@@ -67,5 +71,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserNotification::class);
     }   
+
 
 }

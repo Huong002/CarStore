@@ -60,7 +60,8 @@
                 <div class="col-md-6">
                     <div class="form-floating my-3">
                         <input type="text" class="form-control" id="customerName" name="customerName" placeholder=" "
-                            value="{{ $deposit->customer_name ?? '' }}" required>
+                            value="{{ $deposit->customer_name ?? '' }}" required @if(!empty($isFromDeposit)) readonly
+                            @endif>
                         <label for="customerName">Họ và tên *</label>
                     </div>
                 </div>
@@ -68,30 +69,42 @@
                 <!-- email -->
                 <div class="col-md-6">
                     <div class="form-floating my-3">
-                        <input type="email" class="form-control" id="email" name="email" placeholder=" "
-                            value="{{ $deposit->email ?? '' }}" required>
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
+                            name="email" placeholder=" " value="{{ old('email', $deposit->email ?? '') }}" required
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Vui lòng nhập email hợp lệ">
                         <label for="email">Email *</label>
+                        @error('email')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
+
+
+
+
 
                 <!-- address -->
                 <div class="col-md-6">
                     <div class="form-floating my-3">
                         <input type="text" class="form-control" id="address" name="address" placeholder=" "
-                            value="{{ $deposit->address ?? '' }}" required>
+                            value="{{ $deposit->address ?? '' }}" required @if(!empty($isFromDeposit)) readonly @endif>
                         <label for="address">Địa chỉ *</label>
                     </div>
                 </div>
 
-                <!-- phone -->
+                <!-- Phone -->
                 <div class="col-md-6">
                     <div class="form-floating my-3">
-                        <input type="text" class="form-control" id="phone" name="phone" placeholder=" "
-                            value="{{ $deposit->phone ?? '' }}" required>
+                        <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone"
+                            name="phone" placeholder=" " value="{{ old('phone', $deposit->phone ?? '') }}" required
+                            pattern="[0-9]{10}" title="Số điện thoại phải gồm 10 chữ số" @if(!empty($isFromDeposit))
+                            readonly @endif>
                         <label for="phone">Số điện thoại *</label>
+                        @error('phone')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
-
                 <!-- gender -->
                 <div class="col-md-6">
                     <div class="form-floating my-3">
@@ -140,38 +153,68 @@
                         </thead>
                         <tbody>
                             @foreach($items as $item)
-                            <tr>
-                                <td>
-                                    {{ $item->product->name ?? 'Sản phẩm' }} x {{ $item->quantity }}
-                                </td>
-                                <td align="right">
-                                    {{ number_format($item->price * $item->quantity, 0, ',', '.') }}₫
-                                </td>
-                            </tr>
-                            <input type="hidden" name="selected_items[]" value="{{ $item->id }}">
-                            @endforeach
+                            @php
+                            $product = $item->product;
+                            $hasSale = $product->sale_price !== null
+                            && $product->sale_price > 0
+                            && $product->sale_price < $product->regular_price;
+
+                                $displayPrice = $hasSale ? $product->sale_price : $product->regular_price;
+                                @endphp
+                                <tr>
+                                    <td>
+                                        {{ $product->name ?? 'Sản phẩm' }} x {{ $item->quantity }}
+                                        <br>
+                                        @if($hasSale)
+                                        <span style="text-decoration: line-through; color: gray;">
+                                            {{ number_format($product->regular_price ?? 0, 0, ',', '.') }}₫
+                                        </span>
+                                        <br>
+                                        <span style="color: red;">
+                                            {{ number_format($product->sale_price ?? 0, 0, ',', '.') }}₫
+                                        </span>
+                                        @else
+                                        <span>
+                                            {{ number_format($product->regular_price ?? 0, 0, ',', '.') }}₫
+                                        </span>
+                                        @endif
+                                    </td>
+                                    <td align="right">
+                                        {{ number_format($displayPrice * $item->quantity, 0, ',', '.') }}₫
+                                    </td>
+                                </tr>
+                                <input type="hidden" name="selected_items[]" value="{{ $item->id }}">
+                                @endforeach
                         </tbody>
                     </table>
+
                     <table class="checkout-totals">
                         <tbody>
                             <tr>
-                                <th>TẠM TÍNH</th>
-                                <td align="right">{{ number_format($total, 0, ',', '.') }}₫</td>
-                            </tr>
-                            <tr>
                                 <th>PHÍ VẬN CHUYỂN</th>
-                                <td align="right">Miễn phí</td>
+                                <td align="right">{{ $shippingMethodName ?? 'Không rõ' }}
+                                    ({{ number_format($shippingFee, 0, ',', '.') }}₫)
+                                </td>
                             </tr>
                             <tr>
                                 <th>THUẾ VAT</th>
-                                <td align="right">{{ number_format($total * 0.1, 0, ',', '.') }}₫</td>
+                                <td align="right">{{ number_format($tax, 0, ',', '.') }}₫</td>
                             </tr>
+                            @isset($remaining)
+                            <tr>
+                                <th>SỐ TIỀN CÒN LẠI</th>
+                                <td align="right">{{ number_format($remaining, 0, ',', '.') }}₫</td>
+                            </tr>
+                            @endisset
                             <tr>
                                 <th>TỔNG CỘNG</th>
-                                <td align="right">{{ number_format($total * 1.1, 0, ',', '.') }}₫</td>
+                                <td align="right" class="text-danger">{{ number_format($total, 0, ',', '.') }}₫</td>
                             </tr>
                         </tbody>
                     </table>
+
+
+
                 </div>
 
                 <!-- PHƯƠNG THỨC THANH TOÁN -->
@@ -180,7 +223,7 @@
                         <input class="form-check-input form-check-input_fill" type="radio"
                             name="checkout_payment_method" id="checkout_payment_method_3" value="cod">
                         <label class="form-check-label" for="checkout_payment_method_3">
-                            Thanh toán khi nhận hàng
+                            Thanh toán tiền mặt
                             <p class="option-detail">Bạn sẽ thanh toán trực tiếp bằng tiền mặt khi nhận hàng.</p>
                         </label>
                     </div>
@@ -191,6 +234,12 @@
                             Paypal
                             <p class="option-detail">Thanh toán trực tuyến thông qua tài khoản Paypal của bạn.</p>
                         </label>
+                    </div>
+                    <!-- Nút thanh toán -->
+                    <div class="checkout__submit mt-4" id="checkout_submit_btn">
+                        <button type="submit" class="btn btn-primary w-100">
+                            Thanh toán
+                        </button>
                     </div>
 
                     <!-- Nút PayPal -->
@@ -209,7 +258,7 @@
 
 <script src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_CLIENT_ID') }}&currency=USD"></script>
 <script>
-// Kiểm tra thông tin trước khi hiển thị Paypal
+// Kiểm tra thông tin trước khi hiển thị PayPal
 function validateCustomerInfo() {
     const requiredFields = ['customerName', 'email', 'address', 'phone', 'gender', 'birthDay'];
     for (let id of requiredFields) {
@@ -221,27 +270,49 @@ function validateCustomerInfo() {
     return true;
 }
 
-document.querySelectorAll('input[name="checkout_payment_method"]').forEach(radio => {
-    radio.addEventListener('change', function() {
-        if (this.value === 'paypal') {
-            if (validateCustomerInfo()) {
-                document.getElementById('paypal-button-container').style.display = 'block';
-                renderPayPalButton();
+document.addEventListener('DOMContentLoaded', function() {
+    const paypalContainer = document.getElementById('paypal-button-container');
+    const submitBtn = document.getElementById('checkout_submit_btn');
+
+    // Ẩn PayPal và nút thanh toán mặc định
+    if (paypalContainer) paypalContainer.style.display = 'none';
+    if (submitBtn) submitBtn.style.display = 'none';
+
+    document.querySelectorAll('input[name="checkout_payment_method"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            const isPaypal = this.value === 'paypal';
+
+            if (isPaypal) {
+                if (validateCustomerInfo()) {
+                    // Hiện nút PayPal, ẩn nút thanh toán thường
+                    if (paypalContainer) {
+                        paypalContainer.style.display = 'block';
+                        renderPayPalButton();
+                    }
+                    if (submitBtn) submitBtn.style.display = 'none';
+                } else {
+                    alert('Vui lòng điền đầy đủ thông tin trước khi thanh toán qua PayPal!');
+                    this.checked = false;
+
+                    if (paypalContainer) paypalContainer.style.display = 'none';
+                    if (submitBtn) submitBtn.style.display = 'none';
+                }
             } else {
-                alert('Vui lòng điền đầy đủ thông tin trước khi thanh toán qua PayPal!');
-                this.checked = false;
-                document.getElementById('paypal-button-container').style.display = 'none';
+                // Nếu chọn COD hoặc phương thức khác
+                if (paypalContainer) paypalContainer.style.display = 'none';
+                if (submitBtn) submitBtn.style.display = 'block';
             }
-        } else {
-            document.getElementById('paypal-button-container').style.display = 'none';
-        }
+        });
     });
 });
 
 function renderPayPalButton() {
-    document.getElementById('paypal-button-container').innerHTML = '';
+    const container = document.getElementById('paypal-button-container');
+    if (!container) return;
 
-    let depositAmount = document.getElementById('depositAmount').value || 0;
+    container.innerHTML = '';
+
+    let depositAmount = document.getElementById('depositAmount')?.value || 0;
     const rate = 24000;
     let usdAmount = (depositAmount / rate).toFixed(2);
 
@@ -259,7 +330,6 @@ function renderPayPalButton() {
             return actions.order.capture().then(function(details) {
                 alert('Thanh toán PayPal thành công: ' + details.id);
 
-                // Gửi dữ liệu form về Laravel bằng fetch
                 const form = document.getElementById('checkoutForm');
                 const formData = new FormData(form);
 
@@ -284,5 +354,22 @@ function renderPayPalButton() {
     }).render('#paypal-button-container');
 }
 </script>
+
+
+
+
+@if(!empty($isFromDeposit) && $isFromDeposit)
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    ['customerName', 'address', 'phone'].forEach(function(id) {
+        const el = document.getElementById(id);
+        el.readOnly = true; // khóa nhập
+        el.style.pointerEvents = 'none'; // chặn click & paste
+        el.style.backgroundColor = '#f8f9fa'; // màu xám nhẹ cho biết bị khóa
+    });
+});
+</script>
+@endif
+
 
 @endsection

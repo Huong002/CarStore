@@ -20,11 +20,14 @@ class CartItem extends Model
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 
-   public function cart()
-{
-    return $this->belongsTo(\App\Models\Cart::class, 'cart_id');
-}
-
+//    public function cart()
+// {
+//     return $this->belongsTo(\App\Models\Cart::class, 'cart_id');
+// }
+public function cart()
+    {
+        return $this->belongsTo(Cart::class, 'cart_id');
+    }
     public function deposit()
 {
     return $this->hasOne(\App\Models\Deposit::class, 'cart_item_id');

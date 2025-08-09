@@ -16,11 +16,10 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
- public function index()
+public function index()
 {
-    $userId = Auth::id() ; // Nếu chưa login thì tạm fix 1 để test
+    $userId = Auth::id();
 
-    // Lấy các item trong giỏ
     $items = CartItem::with(['product.primaryImage'])
         ->whereHas('cart', function ($q) use ($userId) {
             $q->where('user_id', $userId);
@@ -28,21 +27,42 @@ class CartController extends Controller
         ->whereDoesntHave('deposit')
         ->get();
 
-    // Tính tổng tiền
-    $total = $items->sum(function ($item) {
-        $price = $item->product->sale_price ?? $item->product->regular_price;
-        return $price * $item->quantity;
-    });
+    // $subtotal = $items->sum(function ($item) {
+    //     $price = $item->product->sale_price ?? $item->product->regular_price;
+    //     return $price * $item->quantity;
+    // });
+$subtotal = $items->sum(function ($item) {
+    $product = $item->product;
 
-    return view('cart-bag', compact('items', 'total'));
+    // Nếu có sale_price và sale_price < regular_price thì dùng sale_price
+    if (!is_null($product->sale_price) && $product->sale_price < $product->regular_price) {
+        $price = $product->sale_price;
+    } else {
+        $price = $product->regular_price;
+    }
+
+    return $price * $item->quantity;
+});
+
+
+    $shippingFee = 0;
+    $shippingMethodName = 'Miễn phí (Nội thành tỉnh Đồng Tháp)';
+
+    $tax = $subtotal * 0.1;
+    $total = $subtotal + $shippingFee + $tax;
+
+    return view('cart-bag', compact('items', 'subtotal', 'shippingFee', 'shippingMethodName', 'tax', 'total'));
 }
+
 
     public function bag()
     {
         return $this->index();
     }
 
-   public function checkout(Request $request)
+
+
+public function checkout(Request $request)
 {
     $userId = Auth::id();
 
@@ -72,12 +92,37 @@ class CartController extends Controller
             ->with('error', 'Không có sản phẩm hợp lệ để thanh toán.');
     }
 
-    $total = $items->sum(function ($item) {
-        return $item->price * $item->quantity;
+    // Lấy phí vận chuyển và tên phương thức vận chuyển từ request
+    $shippingFee = (float) $request->input('shipping_fee', 0);
+    $shippingMethodName = $request->input('shipping_method_name', 'Không rõ');
+
+    // Tính subtotal dựa trên giá sale hoặc giá thường
+   $subtotal = $items->sum(function ($item) {
+    if (!is_null($item->product->sale_price) && $item->product->sale_price > 0) {
+        $price = $item->product->sale_price;
+    } else {
+        $price = $item->product->regular_price;
+    }
+    return $price * $item->quantity;
     });
 
-    return view('checkout', compact('items', 'total'));
+    // Tính thuế (10%)
+    $tax = $subtotal * 0.1;
+
+    // Tổng cộng = subtotal + thuế + phí vận chuyển
+    $total = $subtotal + $tax + $shippingFee;
+
+    // Trả về view checkout với đầy đủ biến
+    return view('checkout', compact(
+        'items',
+        'subtotal',
+        'tax',
+        'total',
+        'shippingFee',
+        'shippingMethodName'
+    ));
 }
+
 
     public function confirm()
     {
@@ -110,7 +155,7 @@ public function add(Request $request)
         if ($cartItem) {
             // Không cộng dồn, thông báo
             return redirect()->route('cart.index')
-                ->with('error', 'Sản phẩm này đã có trong giỏ hàng');
+                ->with('success', 'Sản phẩm thêm trong giỏ hàng');
         }
 
         // Tính giá: nếu có sale_price thì lấy sale_price, không thì lấy regular_price
@@ -160,7 +205,7 @@ public function add(Request $request)
 }
 
 
-   public function updateAjax(Request $request, $productId)
+public function updateAjax(Request $request, $productId)
 {
     $userId = Auth::id();
 
@@ -172,33 +217,53 @@ public function add(Request $request)
 
     $quantity = max(1, (int)$request->input('quantity'));
 
-    $cartItem = CartItem::where('cart_id', $cart->id)
+    $cartItem = CartItem::with('product')->where('cart_id', $cart->id)
         ->where('product_id', $productId)
         ->first();
 
-    if (!$cartItem) {
+    if (!$cartItem || !$cartItem->product) {
         return response()->json(['success' => false], 404);
     }
 
-    // Cập nhật số lượng
-    $cartItem->quantity = $quantity;
-    $cartItem->save();
-
-    // Tính lại subtotal và tổng
-    $itemSubtotalRaw = $cartItem->price * $cartItem->quantity;
-    $cartTotalRaw = CartItem::where('cart_id', $cart->id)
-        ->whereDoesntHave('deposit')
-        ->get()
-        ->sum(fn($item) => $item->price * $item->quantity);
-
-    return response()->json([
-        'success' => true,
-        'item_subtotal_raw' => $itemSubtotalRaw,
-        'item_subtotal'     => number_format($itemSubtotalRaw, 0, ',', '.'),
-        'cart_total_raw'    => $cartTotalRaw,
-        'cart_total'        => number_format($cartTotalRaw, 0, ',', '.'),
-    ]);
+   // Xác định giá (ưu tiên sale_price nếu > 0, ngược lại dùng regular_price)
+if (!empty($cartItem->product->sale_price) && $cartItem->product->sale_price > 0) {
+    $price = $cartItem->product->sale_price;
+} else {
+    $price = $cartItem->product->regular_price;
 }
+
+// Cập nhật số lượng và giá
+$cartItem->quantity = $quantity;
+$cartItem->price = $price;
+$cartItem->save();
+
+// Tính lại subtotal của item
+$itemSubtotalRaw = $price * $quantity;
+
+// Tính lại tổng giỏ hàng
+$cartItems = CartItem::with('product')
+    ->where('cart_id', $cart->id)
+    ->whereDoesntHave('deposit')
+    ->get();
+
+$cartTotalRaw = $cartItems->sum(function ($item) {
+    $itemPrice = (!empty($item->product->sale_price) && $item->product->sale_price > 0)
+        ? $item->product->sale_price
+        : $item->product->regular_price;
+
+    return $itemPrice * $item->quantity;
+});
+
+return response()->json([
+    'success' => true,
+    'item_subtotal_raw' => $itemSubtotalRaw,
+    'item_subtotal'     => number_format($itemSubtotalRaw, 0, ',', '.'),
+    'cart_total_raw'    => $cartTotalRaw,
+    'cart_total'        => number_format($cartTotalRaw, 0, ',', '.'),
+]);
+
+}
+
 
   public function remove($productId)
 {
@@ -223,6 +288,19 @@ public function add(Request $request)
         ->with('success', 'Đã xóa sản phẩm khỏi giỏ hàng.');
 }
 
+// public function clear()
+// {
+//     $userId = Auth::id();
+
+//     $cart = \App\Models\Cart::where('user_id', $userId)->first();
+
+//     if ($cart) {
+//         CartItem::where('cart_id', $cart->id)->delete();
+//     }
+
+//     return redirect()->route('cart.index')
+//         ->with('success', 'Đã xóa toàn bộ giỏ hàng.');
+// }
 public function clear()
 {
     $userId = Auth::id();
@@ -230,11 +308,17 @@ public function clear()
     $cart = \App\Models\Cart::where('user_id', $userId)->first();
 
     if ($cart) {
-        CartItem::where('cart_id', $cart->id)->delete();
+        // Lấy danh sách ID các cart_item đã được đặt cọc
+        $depositedItemIds = Deposit::pluck('cart_item_id')->toArray();
+
+        // Xóa các cart_item KHÔNG nằm trong danh sách đã đặt cọc
+        CartItem::where('cart_id', $cart->id)
+            ->whereNotIn('id', $depositedItemIds)
+            ->delete();
     }
 
     return redirect()->route('cart.index')
-        ->with('success', 'Đã xóa toàn bộ giỏ hàng.');
+        ->with('success', 'Đã xóa toàn bộ sản phẩm chưa đặt cọc trong giỏ hàng.');
 }
 
 
@@ -270,12 +354,14 @@ public function clear()
 
         return view('checkout', compact('items', 'total', 'deposit'));
     }
-     public function getItems()
+      public function getItems()
     {
-        $userId = Auth::id() ; // test cố định 1 nếu chưa có login
+        // Nếu chưa đăng nhập, gán user_id tạm để test
+        $userId = Auth::id();
 
-        $items = CartItem::with('product')
-            ->whereHas('cart', function($q) use ($userId) {
+        // Lấy item giỏ hàng kèm theo sản phẩm và ảnh chính
+        $items = CartItem::with(['product.primaryImage'])
+            ->whereHas('cart', function ($q) use ($userId) {
                 $q->where('user_id', $userId);
             })
             ->get();
@@ -283,47 +369,24 @@ public function clear()
         return response()->json($items);
     }
 
-    // API trả tổng số lượng sản phẩm
-public function getCartCount()
-{
-    // Lấy user đăng nhập
-    $userId = Auth::id();
 
-    if (!$userId) {
-        return response()->json(['count' => 0]);
-    }
-
-    // Lấy cart của user
-    $cart = \App\Models\Cart::where('user_id', $userId)->first();
-
-    $count = 0;
-    if ($cart) {
-        // Đếm tổng quantity (hoặc số dòng tuỳ yêu cầu)
-        $count = \App\Models\CartItem::where('cart_id', $cart->id)->sum('quantity');
-    }
-
-    return response()->json(['count' => $count]);
-
-
-}
 public function countItems()
 {
-    // Lấy user đang đăng nhập
     $userId = Auth::id();
 
     if (!$userId) {
-        // Nếu chưa đăng nhập thì giỏ hàng = 0
         return response()->json(['count' => 0]);
     }
 
-   $count = CartItem::whereHas('cart', function ($q) use ($userId) {
+    // $count = CartItem::whereHas('cart', function ($query) use ($userId) {
+    //     $query->where('user_id', $userId);
+    // })->sum('quantity');
+     $count = CartItem::whereHas('cart', function ($q) use ($userId) {
         $q->where('user_id', $userId);
     })
     ->count();
 
-
     return response()->json(['count' => $count]);
 }
-
 
 }
