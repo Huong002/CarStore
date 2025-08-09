@@ -56,42 +56,7 @@ public function index()
         return $this->index();
     }
 
-//    public function checkout(Request $request)
-// {
-//     $userId = Auth::id();
 
-//     // Lấy cart của user hiện tại
-//     $cart = Cart::where('user_id', $userId)->first();
-
-//     if (!$cart) {
-//         return redirect()->route('cart.index')
-//             ->with('error', 'Không tìm thấy giỏ hàng.');
-//     }
-
-//     $selectedIds = $request->input('selected_items', []);
-
-//     if (empty($selectedIds)) {
-//         return redirect()->route('cart.index')
-//             ->with('error', 'Vui lòng chọn sản phẩm để thanh toán.');
-//     }
-
-//     // Lấy các cart_item thuộc cart_id của user và nằm trong selectedIds
-//     $items = CartItem::with(['product.primaryImage'])
-//         ->where('cart_id', $cart->id)
-//         ->whereIn('id', $selectedIds)
-//         ->get();
-
-//     if ($items->isEmpty()) {
-//         return redirect()->route('cart.index')
-//             ->with('error', 'Không có sản phẩm hợp lệ để thanh toán.');
-//     }
-
-//     $total = $items->sum(function ($item) {
-//         return $item->price * $item->quantity;
-//     });
-
-//     return view('checkout', compact('items', 'total'));
-// }
 
 public function checkout(Request $request)
 {
@@ -252,35 +217,43 @@ public function updateAjax(Request $request, $productId)
         return response()->json(['success' => false], 404);
     }
 
-    // Xác định giá (ưu tiên sale_price nếu có)
-    $price = $cartItem->product->sale_price ?? $cartItem->product->regular_price;
+   // Xác định giá (ưu tiên sale_price nếu > 0, ngược lại dùng regular_price)
+if (!empty($cartItem->product->sale_price) && $cartItem->product->sale_price > 0) {
+    $price = $cartItem->product->sale_price;
+} else {
+    $price = $cartItem->product->regular_price;
+}
 
-    // Cập nhật số lượng
-    $cartItem->quantity = $quantity;
-    $cartItem->price = $price; // Cập nhật giá đúng luôn (nếu bạn lưu giá tại thời điểm mua)
-    $cartItem->save();
+// Cập nhật số lượng và giá
+$cartItem->quantity = $quantity;
+$cartItem->price = $price;
+$cartItem->save();
 
-    // Tính lại subtotal của item
-    $itemSubtotalRaw = $price * $quantity;
+// Tính lại subtotal của item
+$itemSubtotalRaw = $price * $quantity;
 
-    // Tính lại tổng giỏ hàng
-    $cartItems = CartItem::with('product')
-        ->where('cart_id', $cart->id)
-        ->whereDoesntHave('deposit')
-        ->get();
+// Tính lại tổng giỏ hàng
+$cartItems = CartItem::with('product')
+    ->where('cart_id', $cart->id)
+    ->whereDoesntHave('deposit')
+    ->get();
 
-    $cartTotalRaw = $cartItems->sum(function ($item) {
-        $itemPrice = $item->product->sale_price ?? $item->product->regular_price;
-        return $itemPrice * $item->quantity;
-    });
+$cartTotalRaw = $cartItems->sum(function ($item) {
+    $itemPrice = (!empty($item->product->sale_price) && $item->product->sale_price > 0)
+        ? $item->product->sale_price
+        : $item->product->regular_price;
 
-    return response()->json([
-        'success' => true,
-        'item_subtotal_raw' => $itemSubtotalRaw,
-        'item_subtotal'     => number_format($itemSubtotalRaw, 0, ',', '.'),
-        'cart_total_raw'    => $cartTotalRaw,
-        'cart_total'        => number_format($cartTotalRaw, 0, ',', '.'),
-    ]);
+    return $itemPrice * $item->quantity;
+});
+
+return response()->json([
+    'success' => true,
+    'item_subtotal_raw' => $itemSubtotalRaw,
+    'item_subtotal'     => number_format($itemSubtotalRaw, 0, ',', '.'),
+    'cart_total_raw'    => $cartTotalRaw,
+    'cart_total'        => number_format($cartTotalRaw, 0, ',', '.'),
+]);
+
 }
 
 
@@ -307,6 +280,19 @@ public function updateAjax(Request $request, $productId)
         ->with('success', 'Đã xóa sản phẩm khỏi giỏ hàng.');
 }
 
+// public function clear()
+// {
+//     $userId = Auth::id();
+
+//     $cart = \App\Models\Cart::where('user_id', $userId)->first();
+
+//     if ($cart) {
+//         CartItem::where('cart_id', $cart->id)->delete();
+//     }
+
+//     return redirect()->route('cart.index')
+//         ->with('success', 'Đã xóa toàn bộ giỏ hàng.');
+// }
 public function clear()
 {
     $userId = Auth::id();
@@ -314,11 +300,17 @@ public function clear()
     $cart = \App\Models\Cart::where('user_id', $userId)->first();
 
     if ($cart) {
-        CartItem::where('cart_id', $cart->id)->delete();
+        // Lấy danh sách ID các cart_item đã được đặt cọc
+        $depositedItemIds = Deposit::pluck('cart_item_id')->toArray();
+
+        // Xóa các cart_item KHÔNG nằm trong danh sách đã đặt cọc
+        CartItem::where('cart_id', $cart->id)
+            ->whereNotIn('id', $depositedItemIds)
+            ->delete();
     }
 
     return redirect()->route('cart.index')
-        ->with('success', 'Đã xóa toàn bộ giỏ hàng.');
+        ->with('success', 'Đã xóa toàn bộ sản phẩm chưa đặt cọc trong giỏ hàng.');
 }
 
 
@@ -369,79 +361,7 @@ public function clear()
         return response()->json($items);
     }
 
-    // API trả tổng số lượng sản phẩm
-// public function getCartCount()
-// {
-//     // Lấy user đăng nhập
-//     $userId = Auth::id();
 
-//     if (!$userId) {
-//         return response()->json(['count' => 0]);
-//     }
-
-//     // Lấy cart của user
-//     $cart = \App\Models\Cart::where('user_id', $userId)->first();
-
-//     $count = 0;
-//     if ($cart) {
-//         // Đếm tổng quantity (hoặc số dòng tuỳ yêu cầu)
-//         $count = \App\Models\CartItem::where('cart_id', $cart->id)->sum('quantity');
-//     }
-
-//     return response()->json(['count' => $count]);
-
-
-// }
-
-
-// public function countItems()
-// {
-//     // Lấy user đang đăng nhập
-//     $userId = Auth::id();
-
-//     if (!$userId) {
-//         // Nếu chưa đăng nhập thì giỏ hàng = 0
-//         return response()->json(['count' => 0]);
-//     }
-
-//    $count = CartItem::whereHas('cart', function ($q) use ($userId) {
-//         $q->where('user_id', $userId);
-//     })
-//     ->count();
-
-
-//     return response()->json(['count' => $count]);
-// }
-// public function countItems()
-// {
-//     $userId = Auth::id();
-
-//     if (!$userId) {
-//         return response()->json(['count' => 0]);
-//     }
-
-//     $count = CartItem::whereHas('cart', function ($q) use ($userId) {
-//         $q->where('user_id', $userId);
-//     })
-//     ->sum('quantity');
-
-//     return response()->json(['count' => $count]);
-// }
-
-// public function countItems()
-// {
-//     $userId = Auth::id();
-
-//     if (!$userId) {
-//         return response()->json(['count' => 0]);
-//     }
-
-//     $count = CartItem::whereHas('cart', function ($query) use ($userId) {
-//         $query->where('user_id', $userId);
-//     })->sum('quantity');
-
-//     return response()->json(['count' => $count]);
-// }
 public function countItems()
 {
     $userId = Auth::id();
