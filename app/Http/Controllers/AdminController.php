@@ -21,6 +21,7 @@ use App\Models\Notification;
 use App\Http\Controllers\StatisticsController;
 use App\Models\UserNotification;
 use Exception;
+use GuzzleHttp\Psr7\Query;
 use Illuminate\Cache\Events\RetrievingKey;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
@@ -107,7 +108,6 @@ class AdminController extends Controller
 
         $brand->image = $file_name;
         $brand->save();
-
         return redirect()->route('admin.brands')->with('status', 'Thêm hãng thành công');
     }
 
@@ -891,7 +891,7 @@ class AdminController extends Controller
     #endregion
 
     #region Thong bao
-    public function notifications()
+    public function notifications(Request $request)
     {
         $notifications = Notification::orderBy('created_at', 'desc')->paginate(6);
         return view('admin.notifications', compact('notifications'));
@@ -1001,22 +1001,33 @@ class AdminController extends Controller
 
         return view('admin.notifications', ['notifications' => $user_notifications]);
     }
-    public function list_user_notifi()
+    public function list_user_notifi(Request $request)
     {
         $currentUser = Auth::user();
         if (!$currentUser) {
             return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để xem thông báo của mình');
         }
 
-        $userNotifications = Notification::join('user_notifications', 'notifications.id', '=', 'user_notifications.notification_id')
-            ->where('user_notifications.user_id', $currentUser->id)
-            ->orderBy('notifications.created_at', 'desc')
-            ->select('notifications.*')
-            ->paginate(10);
+        $tab = $request->get('tab', 'all');
 
-        return view('admin.user-notification', compact('userNotifications'));
+        // Sử dụng UserNotification model với relationship
+        $query = UserNotification::with('notification')
+            ->where('user_id', $currentUser->id)
+            ->orderBy('created_at', 'desc');
+
+        // Phân loại theo tab
+        if ($tab === 'archived') {
+            $query->where('isArchived', true);
+        } elseif ($tab === 'unread') {
+            $query->where('isRead', false);
+        } elseif ($tab === 'read') {
+            $query->where('isRead', true);
+        }
+
+        $userNotifications = $query->paginate(10);
+
+        return view('admin.user-notification', compact('userNotifications', 'tab'));
     }
-
     public function inbox()
     {
         return view('admin.inbox');

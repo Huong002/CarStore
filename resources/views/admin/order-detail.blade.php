@@ -73,7 +73,7 @@
                            @endif
                         </div>
                      </td>
-                     <td class="text-center">{{number_format($detail->price, 0, ',', '.')}} VNĐ</td>
+                     <td class="text-center">{{number_format($detail->price, 0, ',', '.')}} đ</td>
                      <td class="text-center">{{$detail->quantity}}</td>
                      <td class="text-center">
                         @if($detail->product)
@@ -96,7 +96,7 @@
                         <span class="text-muted">Không có</span>
                         @endif
                      </td>
-                     <td class="text-center"><strong>{{number_format($detail->total, 0, ',', '.')}} VNĐ</strong></td>
+                     <td class="text-center"><strong>{{number_format($detail->total, 0, ',', '.')}} đ</strong></td>
                      <!-- <td class="text-center">
                         @if($detail->product)
                            <a href="{{route('admin.product.edit', $detail->product->id)}}" target="_blank">
@@ -157,15 +157,15 @@
             <tbody>
                <tr>
                   <th>Tạm tính</th>
-                  <td>{{number_format($order->total - $order->tax, 0, ',', '.')}} VNĐ</td>
+                  <td>{{number_format($order->total - $order->tax, 0, ',', '.')}} đ</td>
                   <th>Thuế</th>
-                  <td>{{number_format($order->tax, 0, ',', '.')}} VNĐ</td>
+                  <td>{{number_format($order->tax, 0, ',', '.')}} đ</td>
                   <th>Tổng số sản phẩm</th>
                   <td>{{$order->total_item}}</td>
                </tr>
                <tr>
                   <th>Tổng cộng</th>
-                  <td><strong>{{number_format($order->total, 0, ',', '.')}} VNĐ</strong></td>
+                  <td><strong>{{number_format($order->total, 0, ',', '.')}} đ</strong></td>
                   <th>Trạng thái</th>
                   <td>
                      <span class="badge 
