@@ -56,10 +56,20 @@
                 $cartItem = $item->cartItem;
                 $product = $cartItem?->product;
                 $quantity = $cartItem?->quantity ?? 1;
-                $price = $cartItem?->price ?? 0;
+
+                // Nếu có sale_price > 0 thì lấy sale_price, ngược lại lấy regular_price
+                $price = ($product && $product->sale_price && $product->sale_price > 0)
+                ? $product->sale_price
+                : ($product->regular_price ?? 0);
+
+                // Tổng giá trị = giá × số lượng
                 $subtotal = $price * $quantity;
+
+                // Số tiền còn lại = tổng giá trị - tiền đặt cọc
                 $remaining = $subtotal - $item->deposit_amount;
                 @endphp
+
+
                 <tr>
                     <td>{{ $item->id }}</td>
                     <td>{{ $product->name ?? 'Sản phẩm' }}</td>
