@@ -180,18 +180,22 @@
                                     ({{ number_format($shippingFee, 0, ',', '.') }}₫)
                                 </td>
                             </tr>
-                            <!-- <tr>
-                                <th>TẠM TÍNH</th>
-                                <td align="right">{{ number_format($subtotal, 0, ',', '.') }}₫</td>
-                            </tr> -->
                             <tr>
                                 <th>THUẾ VAT</th>
-                                <td align="right">{{ number_format($tax, 0, ',', '.') }}₫</td> <!-- ✅ Fix -->
+                                <td align="right">{{ number_format($tax, 0, ',', '.') }}₫</td>
                             </tr>
+                            @isset($remaining)
+                            <tr>
+                                <th>SỐ TIỀN CÒN LẠI</th>
+                                <td align="right">{{ number_format($remaining, 0, ',', '.') }}₫</td>
+                            </tr>
+                            @endisset
                             <tr>
                                 <th>TỔNG CỘNG</th>
                                 <td align="right" class="text-danger">{{ number_format($total, 0, ',', '.') }}₫</td>
                             </tr>
+
+
                         </tbody>
                     </table>
 
