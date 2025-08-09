@@ -183,6 +183,11 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::delete('admin/notification/delete/{id}', [AdminController::class, 'notification_delete'])->name('admin.notification.delete');
     Route::delete('admin/notification/softs_delete', [AdminController::class, 'notification_soft_delete'])->name('admin.notification.soft_delete');
     Route::get('admin/notifications/user', [AdminController::class, 'list_user_notifi'])->name('admin.notification.user');
+
+    // User notification actions
+    Route::patch('admin/notifications/{id}/mark-read', [AdminController::class, 'markAsRead'])->name('admin.notifications.mark-read');
+    Route::patch('admin/notifications/{id}/archive', [AdminController::class, 'archiveNotification'])->name('admin.notifications.archive');
+
     // inbox
     Route::get('admin/inbox', [AdminController::class, 'inbox'])->name('admin.inbox');
 
