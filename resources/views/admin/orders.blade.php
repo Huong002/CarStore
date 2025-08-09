@@ -95,8 +95,8 @@
                               <span class="text-muted">Chờ xử lí...</span>
                               @endif
                            </td>
-                           <td class="text-center">{{number_format($order->tax, 0, ',', '.')}} đ</td>
-                           <td class="text-center">{{number_format($order->total, 0, ',', '.')}} đ</td>
+                           <td class="text-center">{{number_format($order->tax, 0, ',', '.')}} VNĐ</td>
+                           <td class="text-center">{{number_format($order->total, 0, ',', '.')}} VNĐ</td>
                            <td class="text-center">
                               @switch($order->status)
                               @case('pending')

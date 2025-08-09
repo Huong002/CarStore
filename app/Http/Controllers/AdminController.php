@@ -1028,6 +1028,31 @@ class AdminController extends Controller
 
         return view('admin.user-notification', compact('userNotifications', 'tab'));
     }
+
+    public function markAsRead($id)
+    {
+        $userNotification = UserNotification::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        $userNotification->isRead = true;
+        $userNotification->save();
+
+        return redirect()->back()->with('status', 'Đã đánh dấu thông báo là đã đọc!');
+    }
+
+    public function archiveNotification($id)
+    {
+        $userNotification = UserNotification::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        $userNotification->isArchived = true;
+        $userNotification->save();
+
+        return redirect()->back()->with('status', 'Đã lưu trữ thông báo!');
+    }
+
     public function inbox()
     {
         return view('admin.inbox');
