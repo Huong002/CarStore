@@ -67,15 +67,14 @@ document.addEventListener('DOMContentLoaded', function() {
             <tbody>
                 @forelse ($items as $item)
                 @php
-                $price = $item->product->sale_price ?? $item->product->regular_price;
+                $hasSale = $item->product->sale_price && $item->product->sale_price > 0;
+                $price = $hasSale ? $item->product->sale_price : $item->product->regular_price;
                 $subtotal = $price * $item->quantity;
                 @endphp
-                <!-- <tr class="cart-item" data-product-id="{{ $item->product_id }}" data-price="{{ $price }}"
-                    data-subtotal="{{ $subtotal }}"> -->
                 <tr class="cart-item" data-product-id="{{ $item->product->id }}"
                     data-regular-price="{{ $item->product->regular_price }}"
-                    data-sale-price="{{ $item->product->sale_price }}"
-                    data-subtotal="{{ $item->product->sale_price > 0 ? $item->product->sale_price * $item->quantity : $item->product->regular_price * $item->quantity }}">
+                    data-sale-price="{{ $hasSale ? $item->product->sale_price : 0 }}"
+                    data-subtotal="{{ $item->quantity * ($item->product->sale_price ?: $item->product->regular_price) }}">
 
                     <td class="text-center align-middle" style="width: 40px;">
                         <input type="checkbox" class="form-check-input select-item" name="selected_products[]"
@@ -98,35 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <li>Thương hiệu: {{ $item->product->brand->name ?? 'Không có' }}</li>
                                 <li>Danh mục: {{ $item->product->category->name ?? 'Không có' }}</li>
                             </ul>
-                            <!--  -->
-
-                            <!-- @php
-                            $price = $item->product->sale_price ?? $item->product->regular_price;
-                            $subtotal = $price * $item->quantity;
-                            @endphp
-
-                            <a href="#" class="deposit-link text-primary" style="text-decoration: underline;"
-                                data-product="{{ $item->product->name ?? 'Sản phẩm' }}" data-qty="{{ $item->quantity }}"
-                                data-total="{{ $subtotal }}" data-item-id="{{ $item->id }}" data-bs-toggle="modal"
-                                data-bs-target="#depositModal">
-                                Nhận đặt cọc
-                            </a> -->
-
-
-                            <!--  -->
                             <li>
-                                <!-- <a href="#" class="deposit-link text-primary" style="text-decoration: underline;"
-                                    data-product="{{ $item->product->name ?? 'Sản phẩm' }}"
-                                    data-qty="{{ $item->quantity }}" data-total="{{ $item->price * $item->quantity }}"
-                                    data-item-id="{{ $item->id }}" data-bs-toggle="modal"
-                                    data-bs-target="#depositModal">
-                                    Nhận đặt cọc
-                                </a> -->
-                                @php
-                                $price = $item->product->sale_price ?? $item->product->regular_price;
-                                $subtotal = $price * $item->quantity;
-                                @endphp
-
                                 <a href="#" class="deposit-link text-primary" style="text-decoration: underline;"
                                     data-product="{{ $item->product->name ?? 'Sản phẩm' }}"
                                     data-qty="{{ $item->quantity }}" data-total="{{ $subtotal }}"
@@ -139,26 +110,27 @@ document.addEventListener('DOMContentLoaded', function() {
                     </td>
                     <td>
                         <span class="shopping-cart__product-price">
-                            @if ($item->product->sale_price)
-                            <del
-                                class="text-muted">{{ number_format($item->product->regular_price, 0, ',', '.') }}₫</del><br>
-                            <span
-                                class="text-danger fw-bold">{{ number_format($item->product->sale_price, 0, ',', '.') }}₫</span>
+                            @if ($hasSale)
+                            <del class="text-muted">
+                                {{ number_format($item->product->regular_price, 0, ',', '.') }}₫
+                            </del><br>
+                            <span class="text-danger fw-bold">
+                                {{ number_format($item->product->sale_price, 0, ',', '.') }}₫
+                            </span>
                             @else
-                            {{ number_format($item->product->regular_price, 0, ',', '.') }}₫
+                            <span class="fw-bold">
+                                {{ number_format($item->product->regular_price, 0, ',', '.') }}₫
+                            </span>
                             @endif
                         </span>
                     </td>
-
-
                     <td>
                         <input type="number" class="form-control form-control-sm text-center qty-input"
                             style="width:70px" min="1" value="{{ $item->quantity }}">
                     </td>
                     <td>
                         <span class="shopping-cart__subtotal item-subtotal">
-                            {{ number_format(($item->product->sale_price ?? $item->product->regular_price) * $item->quantity, 0, ',', '.') }}₫
-
+                            {{ number_format($subtotal, 0, ',', '.') }}₫
                         </span>
                     </td>
                     <td>
@@ -183,6 +155,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </tr>
                 @endforelse
             </tbody>
+
         </table>
 
         <div class="cart-table-footer">
@@ -498,7 +471,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     <div class="mb-3">
                         <label>Số điện thoại</label>
-                        <input type="text" name="phone" class="form-control" required>
+                        <input type="text" name="phone" class="form-control" required pattern="^[0-9]{10}$"
+                            title="Số điện thoại phải đúng 10 chữ số và không chứa ký tự đặc biệt">
                     </div>
                     <div class="mb-3">
                         <label>Địa chỉ</label>
@@ -534,6 +508,10 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         </form>
     </div>
+
+
+
+
 </div>
 <!-- 
 <style>
@@ -679,11 +657,24 @@ document.querySelectorAll('.qty-input').forEach(input => {
             const productId = row.dataset.productId;
             const quantity = parseInt(this.value);
 
-            const salePrice = parseFloat(row.dataset.salePrice);
-            const regularPrice = parseFloat(row.dataset.regularPrice);
-            const unitPrice = (!isNaN(salePrice) && salePrice > 0) ? salePrice : regularPrice;
+            // const salePrice = parseFloat(row.dataset.salePrice);
+            // const regularPrice = parseFloat(row.dataset.regularPrice);
+
+            const salePrice = parseFloat(row.dataset.salePrice || 0);
+            const regularPrice = parseFloat(row.dataset.regularPrice || 0);
+            // const unitPrice = (!isNaN(salePrice) && salePrice > 0) ? salePrice : regularPrice;
+
+            // Ưu tiên salePrice nếu có, nếu không thì dùng regularPrice
+            let unitPrice = 0;
+            if (!isNaN(salePrice) && salePrice > 0) {
+                unitPrice = salePrice;
+            } else if (!isNaN(regularPrice) && regularPrice > 0) {
+                unitPrice = regularPrice;
+            }
 
             const newSubtotal = unitPrice * quantity;
+
+            // const newSubtotal = unitPrice * quantity;
             row.dataset.subtotal = newSubtotal;
 
             row.querySelector('.shopping-cart__subtotal').innerText = formatCurrency(
@@ -696,7 +687,7 @@ document.querySelectorAll('.qty-input').forEach(input => {
                 depositLink.dataset.total = newSubtotal;
             }
 
-            updateTotals(); // ✅ Gọi ngay với subtotal mới
+            updateTotals(); // Gọi ngay với subtotal mới
 
             // Gửi AJAX cập nhật
             fetch(`/cart/update-ajax/${productId}`, {
@@ -980,6 +971,48 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script> -->
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('depositForm');
+
+    form.addEventListener('submit', function(e) {
+        const phone = form.querySelector('input[name="phone"]').value;
+        const email = form.querySelector('input[name="email"]')?.value;
+
+        const phoneRegex = /^\d{10}$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!phoneRegex.test(phone)) {
+            e.preventDefault();
+            showToast(
+                'Số điện thoại không hợp lệ. Phải gồm đúng 10 chữ số và không chứa ký tự đặc biệt.',
+                'danger');
+            return;
+        }
+
+        // if (email && !emailRegex.test(email)) {
+        //     e.preventDefault();
+        //     showToast('Email không đúng định dạng.', 'danger');
+        //     return;
+        // }
+    });
+
+    // Hiển thị nút tương ứng khi chọn phương thức thanh toán
+    const method = document.getElementById('paymentMethod');
+    const cashBtn = document.getElementById('cash-payment-button');
+    const paypalBtn = document.getElementById('paypal-button-container');
+
+    method.addEventListener('change', function() {
+        if (method.value === 'cod') {
+            cashBtn.style.display = 'block';
+            paypalBtn.style.display = 'none';
+        } else {
+            cashBtn.style.display = 'none';
+            paypalBtn.style.display = 'block';
+        }
+    });
+});
+</script>
 
 
 @endsection
