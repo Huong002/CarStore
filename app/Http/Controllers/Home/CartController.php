@@ -31,12 +31,16 @@ public function index()
     //     $price = $item->product->sale_price ?? $item->product->regular_price;
     //     return $price * $item->quantity;
     // });
-    $subtotal = $items->sum(function ($item) {
-    if (!is_null($item->product->sale_price)) {
-        $price = $item->product->sale_price;
+$subtotal = $items->sum(function ($item) {
+    $product = $item->product;
+
+    // Nếu có sale_price và sale_price < regular_price thì dùng sale_price
+    if (!is_null($product->sale_price) && $product->sale_price < $product->regular_price) {
+        $price = $product->sale_price;
     } else {
-        $price = $item->product->regular_price;
+        $price = $product->regular_price;
     }
+
     return $price * $item->quantity;
 });
 
@@ -93,9 +97,13 @@ public function checkout(Request $request)
     $shippingMethodName = $request->input('shipping_method_name', 'Không rõ');
 
     // Tính subtotal dựa trên giá sale hoặc giá thường
-    $subtotal = $items->sum(function ($item) {
-        $price = $item->product->sale_price ?? $item->product->regular_price;
-        return $price * $item->quantity;
+   $subtotal = $items->sum(function ($item) {
+    if (!is_null($item->product->sale_price) && $item->product->sale_price > 0) {
+        $price = $item->product->sale_price;
+    } else {
+        $price = $item->product->regular_price;
+    }
+    return $price * $item->quantity;
     });
 
     // Tính thuế (10%)
