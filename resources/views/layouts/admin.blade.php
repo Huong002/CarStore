@@ -373,14 +373,19 @@
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="settings.html" class="">
-                    <div class="icon"><i class="icon-log-out"></i></div>
-                    <div class="text">Đăng xuất</div>
-                  </a>
+                  <form action="{{ route('logout') }}" method="POST" style="display: contents;">
+                    @csrf
+                    <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="menu-item-button">
+                      <div class="icon"><i class="icon-log-out"></i></div>
+                      <div class="text">Đăng xuất</div>
+                    </a>
+                  </form>
                 </li>
+
               </ul>
             </div>
           </div>
+
         </div>
         <div class="section-content-right">
           <div class="header-dashboard">

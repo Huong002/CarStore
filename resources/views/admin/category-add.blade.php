@@ -40,7 +40,7 @@
          <form class="form-new-product form-style-1" action="{{route('admin.category.store')}}" method="POST"
             enctype="multipart/form-data">
             @csrf
-            <fieldset class="name">
+            <!-- <fieldset class="name">
                <div class="body-title">Danh mục cha<span class="tf-color-1">*</span></div>
                <select class="form-select flex-grow" name="parent_id">
                   <option value="">-- Không có danh mục cha --</option>
@@ -48,10 +48,8 @@
                   <option value="{{ $parent->id }}">{{ $parent->name }}</option>
                   @endforeach
                </select>
-            </fieldset>
-            @error('name')
-            <span class="alert alert-danger text-center">{{$message}}</span>
-            @enderror
+            </fieldset> -->
+        
             <fieldset class="name">
                <div class="body-title">Tên danh mục <span class="tf-color-1">*</span></div>
                <input class="flex-grow" type="text" placeholder="Tên danh mục" name="name"
