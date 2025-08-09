@@ -72,9 +72,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 $subtotal = $price * $item->quantity;
                 @endphp
                 <tr class="cart-item" data-product-id="{{ $item->product->id }}"
-                    data-regular-price="{{ $item->product->regular_price }}"
-                    data-sale-price="{{ $hasSale ? $item->product->sale_price : 0 }}"
-                    data-subtotal="{{ $item->quantity * ($item->product->sale_price ?: $item->product->regular_price) }}">
+                    data-sale-price="{{ $item->product->sale_price ?? 0 }}"
+                    data-regular-price="{{ $item->product->regular_price ?? 0 }}"
+                    data-subtotal="{{ ($item->product->sale_price && $item->product->sale_price > 0 ? $item->product->sale_price : $item->product->regular_price) * $item->quantity }}">
 
                     <td class="text-center align-middle" style="width: 40px;">
                         <input type="checkbox" class="form-check-input select-item" name="selected_products[]"
@@ -621,7 +621,19 @@ function updateTotals() {
     let subtotal = 0;
     document.querySelectorAll('.select-item:checked').forEach(cb => {
         const tr = cb.closest('tr');
-        subtotal += parseFloat(tr.dataset.subtotal || 0);
+        const qty = parseInt(tr.querySelector('.qty-input').value) || 0;
+
+        const salePrice = parseFloat(tr.dataset.salePrice || 0);
+        const regularPrice = parseFloat(tr.dataset.regularPrice || 0);
+
+        let unitPrice = 0;
+        if (!isNaN(salePrice) && salePrice > 0) {
+            unitPrice = salePrice;
+        } else if (!isNaN(regularPrice) && regularPrice > 0) {
+            unitPrice = regularPrice;
+        }
+
+        subtotal += unitPrice * qty;
     });
 
     const taxRate = 0.1;
