@@ -256,3 +256,10 @@ Route::get('/api/cart-items', [CartController::class, 'getItems'])->name('cart.i
     Route::get('/account', [UserController::class, 'show'])->name('account.show');
     Route::post('/account/update/{id}', [UserController::class, 'update'])->name('admin.account.update');
 });
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/orders/history', [OrderController::class, 'history'])->name('orders.history');
+});
+
+Route::get('/orders/{orderId}/detail', [OrderController::class, 'orderDetail'])->name('orders.detail');
