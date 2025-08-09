@@ -95,7 +95,7 @@ class AdminController extends Controller
         $brand = new Brand();
         $brand->name = $request->name;
         $brand->slug = Str::slug($request->name);
-     
+
 
         $image = $request->file('image');
         $file_extension = $image->extension();
@@ -228,7 +228,7 @@ class AdminController extends Controller
             $image->move($destinationPath, $file_name);
             $category->image = $file_name;
         }
-       
+
         $category->save();
 
         return redirect()->route('admin.categories')->with('status', 'Thêm danh mục thành công');
@@ -1006,9 +1006,15 @@ class AdminController extends Controller
             return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để xem thông báo của mình');
         }
 
+        // Tự động xóa thông báo đã lưu trữ quá 15 ngày
+        $fifteenDaysAgo = Carbon::now()->subDays(15);
+        UserNotification::where('user_id', $currentUser->id)
+            ->where('isArchived', true)
+            ->where('updated_at', '<', $fifteenDaysAgo)
+            ->delete();
+
         $tab = $request->get('tab', 'all');
 
-        // Sử dụng UserNotification model với relationship
         $query = UserNotification::with('notification')
             ->where('user_id', $currentUser->id)
             ->orderBy('created_at', 'desc');
@@ -1022,11 +1028,11 @@ class AdminController extends Controller
             $query->where('isRead', true);
         }
 
+
         $userNotifications = $query->paginate(10);
 
         return view('admin.user-notification', compact('userNotifications', 'tab'));
     }
-
     public function markAsRead($id)
     {
         $userNotification = UserNotification::where('id', $id)
@@ -1048,7 +1054,14 @@ class AdminController extends Controller
         $userNotification->isArchived = true;
         $userNotification->save();
 
-        return redirect()->back()->with('status', 'Đã lưu trữ thông báo!');
+        // Tự động xóa thông báo đã lưu trữ quá 15 ngày của user hiện tại
+        $fifteenDaysAgo = Carbon::now()->subDays(15);
+        UserNotification::where('user_id', Auth::id())
+            ->where('isArchived', true)
+            ->where('updated_at', '<', $fifteenDaysAgo)
+            ->delete();
+
+        return redirect()->back()->with('status', 'Lưu trữ thành công. Hệ thống tự động xóa sau 15 ngày!');
     }
 
     public function inbox()
@@ -1104,6 +1117,7 @@ class AdminController extends Controller
 
         return redirect()->route('admin.setting')->with('status', 'Cập nhật thông tin thành công!');
     }
+
 
     #endregion
 }

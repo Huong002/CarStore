@@ -197,6 +197,28 @@
   .btn-secondary:hover {
     background-color: #e5e5e5;
   }
+
+  .modal-content {
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+  }
+
+  .text-cool-gray {
+    color: #64748b;
+  }
+
+  .bg-cool {
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  }
+
+  .logout-confirm-text {
+    font-size: 22px !important;
+    font-weight: 500;
+  }
+
+  .w-120px {
+    min-width: 120px;
+  }
 </style>
 
 
@@ -352,13 +374,14 @@
                     <div class="text">Hộp thư</div>
                   </a>
                 </li> -->
-
+                @if(Auth::user()->utype == 'ADM')
                 <li class="menu-item">
                   <a href="{{route('admin.users')}}" class="">
                     <div class="icon"><i class="icon-user"></i></div>
                     <div class="text">Tài khoản</div>
                   </a>
                 </li>
+                @endif
                 <!-- <li class="menu-item"> -->
                 <!-- <a href="{{route('admin.notifications')}}" class="">
                     <div class="icon"><i class="icon-user"></i></div>
@@ -373,9 +396,9 @@
                   </a>
                 </li>
                 <li class="menu-item">
-                  <form action="{{ route('logout') }}" method="POST" style="display: contents;">
+                  <form action="{{ route('logout') }}" method="POST" style="display: contents;" class="logout-form">
                     @csrf
-                    <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="menu-item-button">
+                    <a href="#" class="menu-item-button show-logout-modal">
                       <div class="icon"><i class="icon-log-out"></i></div>
                       <div class="text">Đăng xuất</div>
                     </a>
@@ -513,9 +536,9 @@
                         </a>
                       </li> -->
                       <li>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: inline;">
+                        <form action="{{ route('logout') }}" method="POST" style="display: inline;" class="logout-form">
                           @csrf
-                          <button type="submit" class="user-item" style="background: none; border: none; padding: 0;">
+                          <button type="button" class="user-item show-logout-modal" style="background: none; border: none; padding: 0;">
                             <div class="icon">
                               <i class="icon-log-out"></i>
                             </div>
@@ -565,6 +588,22 @@
         'visibility': 'visible !important',
         'opacity': '1 !important'
       });
+
+      // Xử lý đăng xuất với modal
+      $('.show-logout-modal').on('click', function(e) {
+        e.preventDefault();
+        $('#logoutModal').modal('show');
+        // Lưu form để submit sau
+        window.currentLogoutForm = $(this).closest('form.logout-form');
+      });
+
+      // Xử lý nút xác nhận trong modal
+      $('#confirmLogout').on('click', function() {
+        if (window.currentLogoutForm) {
+          window.currentLogoutForm.submit();
+        }
+        $('#logoutModal').modal('hide');
+      });
     });
   </script>
 
@@ -588,7 +627,40 @@
   <!-- Toast Component -->
   @include('components.toast-new')
 
+  <!-- Modal xác nhận đăng xuất -->
+  <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        <!-- Header tối giản -->
+        <div class="modal-header border-0 pb-2 bg-cool">
+          <h6 class="modal-title fw-medium text-dark mb-0" id="logoutModalLabel">
+            Xác nhận đăng xuất
+          </h6>
+          <button type="button" class="btn-close opacity-50" data-bs-dismiss="modal" aria-label="Đóng"></button>
+        </div>
+
+        <!-- Body clean -->
+        <div class="modal-body text-center py-4 bg-white">
+          <p class="text-cool-gray mb-0 fs-4 fw-normal logout-confirm-text">
+            Bạn có chắc chắn muốn đăng xuất?
+          </p>
+        </div>
+
+        <!-- Footer minimal -->
+        <div class="modal-footer border-0 pt-0 pb-4 bg-white justify-content-center">
+          <button type="button" class="btn btn-light text-cool-gray px-4 fw-semibold py-2 w-120px me-2" data-bs-dismiss="modal">
+            Hủy
+          </button>
+          <button type="button" class="btn btn-primary px-4 fw-semibold py-2 w-120px" id="confirmLogout">
+            Đăng xuất
+          </button>
+       
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
+
 
 
 </html>
