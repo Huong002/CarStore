@@ -3,12 +3,35 @@
 @section('content')
 <div class="container">
     <h3 class="mb-4 text-primary">Danh sách sản phẩm đã đặt cọc</h3>
+    @if(session('success') || session('error'))
+    <div id="toast-message" style="
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    min-width: 280px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 500;
+    z-index: 9999;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    background-color: #5E83AE;
+">
 
-    @if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
+        {{-- Icon đẹp --}}
+        @if(session('success'))
+        <span style="font-size:22px;">&#10003;</span> {{-- checkmark --}}
+        @else
+        <span style="font-size:22px;">&#9888;</span> {{-- warning icon --}}
+        @endif
+
+        <span>{{ session('success') ?? session('error') }}</span>
     </div>
     @endif
+
 
     <div class="table-responsive">
         <table class="table table-bordered table-striped table-hover align-middle" style="white-space: normal;">
@@ -64,6 +87,13 @@
 
     </div>
 </div>
+@if(session('success') === 'Đặt cọc thành công')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    showToast("{{ session('success') }}", 'success');
+});
+</script>
+@endif
 
 <style>
 /* Màu tiêu đề bảng */
@@ -92,4 +122,15 @@
     color: #fff !important;
 }
 </style>
+
+<script>
+// Ẩn toast sau 5 giây
+setTimeout(() => {
+    const toast = document.getElementById('toast-message');
+    if (toast) {
+        toast.remove();
+    }
+}, 3000);
+</script>
+
 @endsection
