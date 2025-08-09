@@ -138,16 +138,41 @@ document.getElementById('editButton').addEventListener('click', function() {
 </script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Xử lý toast
+    // Nếu có toast (Blade đã render #successToast khi có session('account_updated')), mở modal và ẩn toast sau 3s
     const toast = document.getElementById('successToast');
-    if (toast) {
+    const accountModalEl = document.getElementById('accountModal');
+
+    if (toast && accountModalEl) {
+        // mở modal để người dùng xem thông tin mới
+        const accountModal = new bootstrap.Modal(accountModalEl);
+        accountModal.show();
+
+        // Khi modal đã show, đảm bảo nó ở chế độ "view", không phải chế độ edit
+        accountModalEl.addEventListener('shown.bs.modal', function handler() {
+            const inputs = document.querySelectorAll('.edit-field');
+            const values = document.querySelectorAll('.info-value');
+            const footer = document.getElementById('modalFooter');
+            const imageEditIcon = document.querySelector('.image-edit-icon');
+
+            values.forEach(v => v.style.display = 'block');
+            inputs.forEach(i => i.style.display = 'none');
+            if (footer) footer.style.display = 'none';
+            if (imageEditIcon) imageEditIcon.style.display = 'none';
+
+            // chỉ chạy 1 lần
+            accountModalEl.removeEventListener('shown.bs.modal', handler);
+        });
+
+        // Ẩn toast sau 3s
         setTimeout(() => {
-            toast.remove();
+            const t = document.getElementById('successToast');
+            if (t) t.remove();
         }, 3000);
+
+        return; // đã xử lý trường hợp có session
     }
 
-    // Khi modal "accountModal" mở, reset về chế độ xem thông tin
-    const accountModalEl = document.getElementById('accountModal');
+    // Nếu không có toast (người mở modal bằng tay), vẫn giữ xử lý reset khi modal show
     if (accountModalEl) {
         accountModalEl.addEventListener('show.bs.modal', function() {
             const inputs = document.querySelectorAll('.edit-field');
