@@ -902,14 +902,47 @@ class AdminController extends Controller
 
     public function notification_store(Request $request)
     {
+        // Validate input
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'content' => 'required|string',
+            'type' => 'required|in:customer,employee,admin,all'
+        ]);
 
-        // tao doi tuong de gan du lie
+        // Tạo thông báo mới
         $notification = new Notification();
         $notification->name = $request->name;
         $notification->content = $request->content;
         $notification->type = $request->type;
-        // savwe vao csdl 
         $notification->save();
+
+        // Tự động tạo UserNotification cho các users phù hợp
+        $userIds = [];
+
+        if ($request->type === 'all') {
+            // Lấy tất cả users
+            $userIds = User::pluck('id')->toArray();
+        } elseif ($request->type === 'admin') {
+            // Lấy users có utype = 'ADM'
+            $userIds = User::where('utype', 'ADM')->pluck('id')->toArray();
+        } elseif ($request->type === 'employee') {
+            // Lấy users có utype = 'EMP'
+            $userIds = User::where('utype', 'EMP')->pluck('id')->toArray();
+        } elseif ($request->type === 'customer') {
+            // Lấy users có utype = 'CTM'
+            $userIds = User::where('utype', 'CTM')->pluck('id')->toArray();
+        }
+
+        // Tạo UserNotification cho mỗi user
+        foreach ($userIds as $userId) {
+            UserNotification::create([
+                'user_id' => $userId,
+                'notification_id' => $notification->id,
+                'isRead' => false,
+                'isArchived' => false
+            ]);
+        }
+
         return redirect()->route('admin.notifications')->with('status', 'Bạn đã thêm thông báo thành công');
     }
 
@@ -929,11 +962,46 @@ class AdminController extends Controller
         if (!$notification) {
             return redirect()->back()->with('error', 'Không tìm thấy id bạn cần');
         }
+
+        // Lưu type cũ để so sánh
+        $oldType = $notification->type;
+
         $notification->name = $request->name;
         $notification->content = $request->content;
         $notification->type = $request->type;
-
         $notification->save();
+
+        // Nếu type thay đổi, cần đồng bộ lại user_notifications
+        if ($oldType !== $request->type) {
+            // Xóa tất cả user_notifications cũ cho thông báo này
+            UserNotification::where('notification_id', $notification->id)->delete();
+
+            // Tạo lại user_notifications theo type mới
+            $users = User::all();
+            foreach ($users as $user) {
+                $shouldReceive = false;
+
+                if ($notification->type === 'all') {
+                    $shouldReceive = true;
+                } elseif ($notification->type === 'admin' && $user->utype === 'ADM') {
+                    $shouldReceive = true;
+                } elseif ($notification->type === 'employee' && $user->utype === 'EMP') {
+                    $shouldReceive = true;
+                } elseif ($notification->type === 'customer' && $user->utype === 'CTM') {
+                    $shouldReceive = true;
+                }
+
+                if ($shouldReceive) {
+                    UserNotification::create([
+                        'user_id' => $user->id,
+                        'notification_id' => $notification->id,
+                        'isRead' => false,
+                        'isArchived' => false
+                    ]);
+                }
+            }
+        }
+
         return redirect()->route('admin.notifications')->with('status', 'Cập nhật thành công');
     }
     // xoa thong bao
@@ -943,6 +1011,10 @@ class AdminController extends Controller
         if (!$notification) {
             return redirect()->back()->with('error', 'Không tìm thấy id bạn cần');
         }
+
+        // Xóa tất cả user_notifications liên quan
+        UserNotification::where('notification_id', $notification->id)->delete();
+
         $notification->delete();
         return redirect()->route('admin.notifications')->with('status', 'Chúc mừng bạn xóa thành công');
     }
@@ -960,7 +1032,34 @@ class AdminController extends Controller
         if (!$notification) {
             return redirect()->back()->with('error', 'Không tìm thấy thông báo bạn cần');
         }
+
         $notification->restore();
+
+        // Tái tạo user_notifications cho thông báo đã khôi phục
+        $users = User::all();
+        foreach ($users as $user) {
+            $shouldReceive = false;
+
+            if ($notification->type === 'all') {
+                $shouldReceive = true;
+            } elseif ($notification->type === 'admin' && $user->utype === 'ADM') {
+                $shouldReceive = true;
+            } elseif ($notification->type === 'employee' && $user->utype === 'EMP') {
+                $shouldReceive = true;
+            } elseif ($notification->type === 'customer' && $user->utype === 'CTM') {
+                $shouldReceive = true;
+            }
+
+            if ($shouldReceive) {
+                UserNotification::create([
+                    'user_id' => $user->id,
+                    'notification_id' => $notification->id,
+                    'isRead' => false,
+                    'isArchived' => false
+                ]);
+            }
+        }
+
         return redirect()->route('admin.notification.history')->with('status', 'Chúc mừng đã khôi phục thông báo thành công');
     }
     public function notificaion_list_user($id)
@@ -1002,7 +1101,6 @@ class AdminController extends Controller
 
         return view('admin.notifications', ['notifications' => $user_notifications]);
     }
-    
     public function list_user_notifi(Request $request)
     {
         $currentUser = Auth::user();
@@ -1019,8 +1117,12 @@ class AdminController extends Controller
 
         $tab = $request->get('tab', 'all');
 
+        // Lọc theo user và notification chưa bị xóa
         $query = UserNotification::with('notification')
             ->where('user_id', $currentUser->id)
+            ->whereHas('notification', function ($q) {
+                $q->whereNull('deleted_at');
+            })
             ->orderBy('created_at', 'desc');
 
         // Phân loại theo tab
@@ -1031,7 +1133,6 @@ class AdminController extends Controller
         } elseif ($tab === 'read') {
             $query->where('isRead', true);
         }
-
 
         $userNotifications = $query->paginate(10);
 

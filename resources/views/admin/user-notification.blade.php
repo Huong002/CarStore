@@ -96,7 +96,7 @@
                   @else
                   <tbody>
                      <tr>
-                        <td colspan="5" class="text-center">Bạn không có thông báo lưu trữ</td>
+                        <td colspan="5" class="text-center">Bạn không có thông báo thuộc mục này</td>
                      </tr>
                   </tbody>
                   @endif
