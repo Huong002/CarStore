@@ -47,34 +47,10 @@
     <!-- Bootstrap Bundle (gồm cả Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- cho blog -->
-    <link rel="apple-touch-icon" href="{{ asset('assets_v2/images/favicon.ico') }}">
-    <link rel="icon" href="{{ asset('assets_v2/images/favicon.ico') }}" type="image/x-icon">
-    <link rel="icon" href="{{ asset('assets_v2/images/favicon.ico') }}" type="image/x-icon">
-    <meta name="theme-color" content="#e87316">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Surfside Media">
-    <meta name="msapplication-TileImage" content="{{ asset('assets_v2/images/favicon.ico') }}">
-    <meta name="msapplication-TileColor" content="#FFFFFF">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="Surfside Media">
-    <meta name="keywords" content="Surfside Media">
-    <meta name="author" content="Surfside Media">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
 
-    <title>SurfsideMedia</title>
-
-    <link id="rtl-link" rel="stylesheet" type="text/css" href="assets/css/vendors/bootstrap.css">
-    <link rel="stylesheet" href="assets/css/vendors/ion.rangeSlider.min.css">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets_v2/css/vendors/font-awesome.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets_v2/css/vendors/feather-icon.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets_v2/css/vendors/animate.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets_v2/css/vendors/slick/slick.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets_v2/css/vendors/slick/slick-theme.css') }}">
-    <link id="color-link" rel="stylesheet" type="text/css" href="{{ asset('assets_v2/css/demo4.css') }}">
     @stack("styles")
+    <!-- style cho blog: bo cmt nếu cần trỡ lại kế thừa trong app -->
+    <!-- @yield('styles') -->
 </head>
 
 <body class="gradient-bg">

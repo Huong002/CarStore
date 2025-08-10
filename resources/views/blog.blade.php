@@ -1,4 +1,6 @@
-@extends('layouts.app')
+
+
+@extends('layouts.blog')
 @section('content')
 
 <!-- Blog Section Start -->
