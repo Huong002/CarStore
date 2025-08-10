@@ -3,8 +3,7 @@
 <main class="pt-90">
     <section class="shop-checkout container">
         <h2 class="page-title d-flex align-items-center gap-2">
-            <i class="bi bi-cart4" style="color:#5E83AE; font-size:1.8rem;"></i>
-            Giỏ hàng
+         
         </h2>
 
         <div class="checkout-steps">

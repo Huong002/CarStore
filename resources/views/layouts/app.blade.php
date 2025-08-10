@@ -22,11 +22,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Font phù hợp với tiếng Việt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito+Sans:wght@300;400;500;600;700&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Backup fonts -->
     <link
         href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
         rel="stylesheet">
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-
     <link href="https://fonts.googleapis.com/css2?family=Allura&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/css/plugins/swiper.min.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" type="text/css" />
@@ -292,6 +297,67 @@
     <style>
         #userDropdown::after {
             display: none !important;
+        }
+
+        /* Fix cho font tiếng Việt và chữ xanh có gạch chân */
+        body,
+        html {
+            font-family: 'Be Vietnam Pro', 'Inter', 'Nunito Sans', 'Jost', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+        }
+
+        /* Khắc phục chữ xanh có gạch chân */
+        a {
+            color: inherit !important;
+            text-decoration: none !important;
+        }
+
+        a:hover {
+            color: #222222 !important;
+            text-decoration: none !important;
+        }
+
+        a:visited {
+            color: inherit !important;
+            text-decoration: none !important;
+        }
+
+        a:active,
+        a:focus {
+            color: inherit !important;
+            text-decoration: none !important;
+            outline: none !important;
+        }
+
+        /* Đặc biệt cho navigation links */
+        .navigation__link {
+            color: #222222 !important;
+            text-decoration: none !important;
+        }
+
+        .navigation__link:hover {
+            color: #555555 !important;
+            text-decoration: none !important;
+        }
+
+        /* Font cho các element khác */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Be Vietnam Pro', 'Inter', 'Nunito Sans', sans-serif !important;
+        }
+
+        .btn,
+        button {
+            font-family: 'Be Vietnam Pro', 'Inter', 'Nunito Sans', sans-serif !important;
+        }
+
+        input,
+        textarea,
+        select {
+            font-family: 'Be Vietnam Pro', 'Inter', 'Nunito Sans', sans-serif !important;
         }
     </style>
 
@@ -812,7 +878,7 @@
                     </div>
                     <!--  -->
                     <!-- Icon bell -->
-                    @auth
+            
                     <div class="header-tools__item hover-container position-relative ms-4">
                         <div class="dropdown">
                             <button class="btn p-0 border-0 bg-transparent position-relative"
@@ -909,8 +975,6 @@
                             </div>
                         </div>
                     </div>
-                    @endauth
-
 
                     @guest
                     <div class="header-tools__item hover-container ">
