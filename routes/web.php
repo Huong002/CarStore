@@ -17,6 +17,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ReviewController;
 
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ChatController;
 
 Auth::routes();
@@ -33,54 +34,6 @@ Route::get('/test-config', function () {
     ]);
 });
 
-// Route test kết nối Gemini API
-Route::get('/test-gemini', function () {
-    $apiKey = config('services.gemini.api_key');
-
-    if (!$apiKey) {
-        return response()->json(['error' => 'API key not found']);
-    }
-
-    try {
-        $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
-
-        $data = [
-            'contents' => [
-                [
-                    'parts' => [
-                        ['text' => 'Hello, just testing connection']
-                    ]
-                ]
-            ]
-        ];
-
-        $response = \Illuminate\Support\Facades\Http::withOptions([
-            'verify' => false,
-            'timeout' => 30,
-            'curl' => [
-                CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_SSL_VERIFYHOST => false,
-            ]
-        ])
-            ->withHeaders([
-                'Content-Type' => 'application/json',
-                'X-goog-api-key' => $apiKey
-            ])
-            ->post($url, $data);
-
-        return response()->json([
-            'success' => $response->successful(),
-            'status_code' => $response->status(),
-            'response' => $response->json(),
-            'message' => $response->successful() ? 'Connection successful' : 'Connection failed'
-        ]);
-    } catch (\Exception $e) {
-        return response()->json([
-            'error' => $e->getMessage(),
-            'success' => false
-        ]);
-    }
-});
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
@@ -91,7 +44,7 @@ Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.ch
 Route::get('/cart/confirm', [CartController::class, 'confirm'])->name('cart.confirm');
 
 Route::get('/about', [AboutController::class, 'index'])->name('about.index');
-
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 // dat chatbot ra ngoai 
 Route::post('/chatbot/send', [ChatController::class, 'sendMessage'])->name('chatbot.send');
 
