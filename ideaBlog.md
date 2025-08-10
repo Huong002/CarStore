@@ -1,0 +1,137 @@
+CREATE TABLE blogs (
+id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+title VARCHAR(255) NOT NULL,
+slug VARCHAR(255) UNIQUE NOT NULL,
+excerpt TEXT,
+content LONGTEXT NOT NULL,
+featured_image VARCHAR(255),
+author_id BIGINT UNSIGNED,
+category_id BIGINT UNSIGNED,
+status ENUM('draft', 'published', 'archived') DEFAULT 'draft',
+is_featured BOOLEAN DEFAULT FALSE,
+views_count INT DEFAULT 0,
+published_at TIMESTAMP NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+deleted_at TIMESTAMP NULL,
+
+    FOREIGN KEY (author_id) REFERENCES users(id),
+    FOREIGN KEY (category_id) REFERENCES blog_categories(id)
+
+);
+
+CREATE TABLE blog_categories (
+id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(255) NOT NULL,
+slug VARCHAR(255) UNIQUE NOT NULL,
+description TEXT,
+image VARCHAR(255),
+parent_id BIGINT UNSIGNED NULL,
+sort_order INT DEFAULT 0,
+is_active BOOLEAN DEFAULT TRUE,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+deleted_at TIMESTAMP NULL,
+
+    FOREIGN KEY (parent_id) REFERENCES blog_categories(id)
+
+);
+
+CREATE TABLE blog_tags (
+id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(100) NOT NULL UNIQUE,
+slug VARCHAR(100) UNIQUE NOT NULL,
+description TEXT,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE blog_tag_pivot (
+id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+blog_id BIGINT UNSIGNED NOT NULL,
+tag_id BIGINT UNSIGNED NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (blog_id) REFERENCES blogs(id) ON DELETE CASCADE,
+    FOREIGN KEY (tag_id) REFERENCES blog_tags(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_blog_tag (blog_id, tag_id)
+
+);
+
+CREATE TABLE blog_comments (
+id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+blog_id BIGINT UNSIGNED NOT NULL,
+parent_id BIGINT UNSIGNED NULL,
+user_id BIGINT UNSIGNED NULL,
+author_name VARCHAR(255),
+author_email VARCHAR(255),
+content TEXT NOT NULL,
+status ENUM('pending', 'approved', 'rejected', 'spam') DEFAULT 'pending',
+ip_address VARCHAR(45),
+user_agent TEXT,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+deleted_at TIMESTAMP NULL,
+
+    FOREIGN KEY (blog_id) REFERENCES blogs(id) ON DELETE CASCADE,
+    FOREIGN KEY (parent_id) REFERENCES blog_comments(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+
+);
+
+ALTER TABLE images
+ADD COLUMN imageable_type VARCHAR(255) AFTER product_id,
+ADD COLUMN imageable_id BIGINT UNSIGNED AFTER imageable_type,
+ADD INDEX idx_imageable (imageable_type, imageable_id);
+
+-- Cập nhật dữ liệu hiện có
+UPDATE images SET
+imageable_type = 'App\\Models\\Product',
+imageable_id = product_id
+WHERE product_id IS NOT NULL;
+
+tối giản chức năng
+
+CREATE TABLE blogs (
+id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+title VARCHAR(255) NOT NULL,
+slug VARCHAR(255) UNIQUE NOT NULL,
+content LONGTEXT NOT NULL,
+featured_image VARCHAR(255),
+featured_image VARCHAR(255),
+author_id BIGINT UNSIGNED,
+category_id BIGINT UNSIGNED,
+status ENUM('draft', 'published') DEFAULT 'draft',
+views_count INT DEFAULT 0,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+deleted_at TIMESTAMP NULL,
+
+    FOREIGN KEY (author_id) REFERENCES users(id),
+    FOREIGN KEY (category_id) REFERENCES blog_categories(id)
+
+);
+
+CREATE TABLE blog_categories (
+id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(255) NOT NULL,
+slug VARCHAR(255) UNIQUE NOT NULL,
+description TEXT,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+deleted_at TIMESTAMP NULL
+);
+
+CREATE TABLE blog_comments (
+id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+blog_id BIGINT UNSIGNED NOT NULL,
+author_name VARCHAR(255) NOT NULL,
+author_email VARCHAR(255) NOT NULL,
+content TEXT NOT NULL,
+status ENUM('pending', 'approved') DEFAULT 'pending',
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (blog_id) REFERENCES blogs(id) ON DELETE CASCADE
+
+);

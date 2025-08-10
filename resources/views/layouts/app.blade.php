@@ -47,10 +47,8 @@
     <!-- Bootstrap Bundle (gồm cả Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-
+   
     @stack("styles")
-    <!-- style cho blog: bo cmt nếu cần trỡ lại kế thừa trong app -->
-    <!-- @yield('styles') -->
 </head>
 
 <body class="gradient-bg">
