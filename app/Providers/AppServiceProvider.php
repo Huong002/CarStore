@@ -35,9 +35,9 @@ class AppServiceProvider extends ServiceProvider
 
                 if ($currentUser->utype === 'ADM') {
                     $notificationTypes[] = 'admin';
-                } elseif ($currentUser->employee_id) {
+                } elseif ($currentUser->utype === 'EMP') {
                     $notificationTypes[] = 'employee';
-                } elseif ($currentUser->customer_id) {
+                } elseif ($currentUser->utype === 'CTM') {
                     $notificationTypes[] = 'customer';
                 }
 

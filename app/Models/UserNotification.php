@@ -9,10 +9,18 @@ class UserNotification extends Model
 {
     use SoftDeletes;
 
+    protected $fillable = [
+        'user_id',
+        'notification_id',
+        'isRead',
+        'isArchived'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
     public function notification()
     {
         return $this->belongsTo(Notification::class, 'notification_id');
