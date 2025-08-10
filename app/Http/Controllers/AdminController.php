@@ -907,6 +907,7 @@ class AdminController extends Controller
         $notification = new Notification();
         $notification->name = $request->name;
         $notification->content = $request->content;
+        $notification->type = $request->type;
         // savwe vao csdl 
         $notification->save();
         return redirect()->route('admin.notifications')->with('status', 'Bạn đã thêm thông báo thành công');
@@ -922,6 +923,7 @@ class AdminController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'content' => 'required|string',
+
         ]);
         $notification = Notification::find($request->id);
         if (!$notification) {
@@ -929,9 +931,10 @@ class AdminController extends Controller
         }
         $notification->name = $request->name;
         $notification->content = $request->content;
+        $notification->type = $request->type;
 
         $notification->save();
-        return redirect()->route('admin.notification.update')->with('status', 'Cập nhập thành công');
+        return redirect()->route('admin.notifications')->with('status', 'Cập nhật thành công');
     }
     // xoa thong bao
     public function notification_delete($id)
@@ -978,7 +981,7 @@ class AdminController extends Controller
         }
 
         // Xác định loại thông báo dựa vào quyền của người dùng
-        $notificationTypes = ['all']; // Loại thông báo chung cho tất cả
+        $notificationTypes = ['all']; // Loại thông báo chungp cho tất cả
 
         if ($currentUser->utype === 'ADM') {
             $notificationTypes[] = 'admin';
@@ -999,6 +1002,7 @@ class AdminController extends Controller
 
         return view('admin.notifications', ['notifications' => $user_notifications]);
     }
+    
     public function list_user_notifi(Request $request)
     {
         $currentUser = Auth::user();
