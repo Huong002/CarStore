@@ -83,7 +83,7 @@ class ShopController extends Controller
 
         // Phân trang kết quả
         $products = $query->orderBy('created_at', 'desc')->paginate(12)->withQueryString();
-
+        
         foreach ($products as $product) {
             $product->reviews_count = $product->reviews()->count();
             $product->average_rating = $product->reviews()->avg('rating') ? round($product->reviews()->avg('rating'), 1) : 0;
@@ -212,88 +212,7 @@ class ShopController extends Controller
             // Log kết quả để debug
             Log::info('Image Recognition Result:', $result);
 
-            // Kiểm tra kết quả từ API Python
-            // Nếu Flask trả về car_name thì coi như nhận diện thành công (bỏ qua error từ Flask)
-            if (!isset($result['car_name']) || empty($result['car_name'])) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Không thể nhận diện sản phẩm từ ảnh.',
-                    'detected_product' => 'Không xác định'
-                ], 404);
-            }
-
-            // Tìm sản phẩm trong database Laravel
-            $detectedCarName = $result['car_name'];
-            Log::info('Tìm sản phẩm:', ['detected_name' => $detectedCarName]);
-
-            // Tìm sản phẩm bằng cách so sánh tên (flexible matching)
-            $product = Product::where(function ($query) use ($detectedCarName) {
-                $query->where('name', 'LIKE', '%' . $detectedCarName . '%')
-                    ->orWhere('name', 'LIKE', '%BMW 3 Series Wagon%')
-                    ->orWhere('name', 'LIKE', '%BMW%')
-                    ->orWhere('name', 'LIKE', '%3 Series%')
-                    ->orWhere('name', 'LIKE', '%Wagon%');
-            })->first();
-
-            if (!$product) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Sản phẩm nhận diện được nhưng không có trong cửa hàng.',
-                    'detected_product' => $detectedCarName
-                ], 404);
-            }
-
-            return response()->json([
-                'success' => true,
-                'data' => [
-                    'car_name' => $detectedCarName,
-                    'product' => $product,
-                    'message' => 'Tìm thấy sản phẩm trong cửa hàng!'
-                ]
-            ]);
-        } catch (\GuzzleHttp\Exception\ClientException $e) {
-            // Xử lý lỗi 404 từ Flask - nhưng vẫn có thể có car_name
-            if ($e->getResponse()->getStatusCode() == 404) {
-                $responseBody = json_decode($e->getResponse()->getBody(), true);
-                Log::info('Flask trả về 404 nhưng có car_name: ', $responseBody);
-
-                // Nếu Flask trả về car_name mặc dù có lỗi, vẫn tìm trong database Laravel
-                if (isset($responseBody['car_name']) && !empty($responseBody['car_name'])) {
-                    $detectedCarName = $responseBody['car_name'];
-
-                    // Tìm sản phẩm trong database Laravel
-                    $product = Product::where(function ($query) use ($detectedCarName) {
-                        $query->where('name', 'LIKE', '%' . $detectedCarName . '%')
-                            ->orWhere('name', 'LIKE', '%BMW 3 Series Wagon%')
-                            ->orWhere('name', 'LIKE', '%BMW%')
-                            ->orWhere('name', 'LIKE', '%3 Series%')
-                            ->orWhere('name', 'LIKE', '%Wagon%');
-                    })->first();
-
-                    if ($product) {
-                        return response()->json([
-                            'success' => true,
-                            'data' => [
-                                'car_name' => $detectedCarName,
-                                'product' => $product,
-                                'message' => 'Tìm thấy sản phẩm trong cửa hàng!'
-                            ]
-                        ]);
-                    }
-                }
-
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Sản phẩm nhận diện được nhưng không có trong cửa hàng.',
-                    'detected_product' => $responseBody['car_name'] ?? 'Không xác định'
-                ], 404);
-            }
-
-            Log::error('Lỗi API client: ' . $e->getMessage());
-            return response()->json([
-                'success' => false,
-                'message' => 'Lỗi từ máy chủ nhận diện: ' . $e->getMessage()
-            ], 400);
+            return response()->json($result);
         } catch (\GuzzleHttp\Exception\ConnectException $e) {
             Log::error('API không phản hồi: ' . $e->getMessage());
             return response()->json([

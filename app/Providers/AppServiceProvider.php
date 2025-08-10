@@ -20,18 +20,16 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap any application services.
-     */
+     * Bootstrap any application services.     */
     public function boot(): void
     {
         // Share notifications with admin layout
-        View::composer('layouts.admin', function ($view) {
+        View::composer(['layouts.admin', 'layouts.app'], function ($view) {
             if (Auth::check()) {
                 $currentUser = Auth::user();
                 $userId = $currentUser->id;
 
-                // Xác định loại thông báo dựa vào quyền của người dùng
-                $notificationTypes = ['all']; // Loại thông báo chung cho tất cả
+                $notificationTypes = ['all'];
 
                 if ($currentUser->utype === 'ADM') {
                     $notificationTypes[] = 'admin';
@@ -41,11 +39,10 @@ class AppServiceProvider extends ServiceProvider
                     $notificationTypes[] = 'customer';
                 }
 
-                // Debug: Log user info
+                // Debug: Log user 
                 \Illuminate\Support\Facades\Log::info('Current User ID: ' . $userId . ', Type: ' . $currentUser->utype);
                 \Illuminate\Support\Facades\Log::info('Notification Types: ' . implode(', ', $notificationTypes));
 
-                // Lấy tất cả thông báo của user này
                 $notifications = Notification::whereIn('type', $notificationTypes)
                     ->whereNull('deleted_at')
                     ->orderBy('created_at', 'desc')
@@ -59,6 +56,9 @@ class AppServiceProvider extends ServiceProvider
                 }
 
                 $view->with('notifications', $notifications);
+            } else {
+                // Fallback cho user chưa login
+                $view->with('notifications', collect([]));
             }
         });
     }

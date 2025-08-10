@@ -1,90 +1,90 @@
 @extends('layouts.app')
 @section('content')
 <style>
-    .pc__atc {
-        background-color: white;
-        padding: 10px 16px;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+.pc__atc {
+    background-color: white;
+    padding: 10px 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.6s ease-out;
+}
+
+.pc__atc:hover {
+    transform: scale(1.05);
+}
+
+@keyframes fadeInUp {
+    from {
         opacity: 0;
-        transition: transform 0.3s ease, opacity 0.6s ease-out;
+        transform: translateY(20px);
     }
 
-    .pc__atc:hover {
-        transform: scale(1.05);
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
+}
 
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
+.anim_appear-bottom {
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+}
 
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
+.btn-wrapper {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 10px 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+}
 
-    .anim_appear-bottom {
-        animation: fadeInUp 0.6s ease-out forwards;
-        opacity: 0;
-    }
+.btn-wrapper .btn:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
 
-    .btn-wrapper {
-        background-color: #fff;
-        border-radius: 12px;
-        padding: 10px 16px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        display: inline-block;
-    }
+.color-swatches {
+    gap: 8px;
+}
 
-    .btn-wrapper .btn:hover {
-        transform: scale(1.05);
-        transition: transform 0.3s ease;
-    }
+.swatch-color-label {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+}
 
-    .color-swatches {
-        gap: 8px;
-    }
+.swatch-box {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    display: inline-block;
+    transition: border-color 0.3s, transform 0.2s;
+}
 
-    .swatch-color-label {
-        display: inline-flex;
-        align-items: center;
-        cursor: pointer;
-        position: relative;
-    }
+.swatch-checkbox:checked+.swatch-box {
+    border-color: #007bff;
+    transform: scale(1.1);
+}
 
-    .swatch-box {
-        width: 20px;
-        height: 20px;
-        border: 2px solid #ccc;
-        border-radius: 50%;
-        display: inline-block;
-        transition: border-color 0.3s, transform 0.2s;
-    }
-
-    .swatch-checkbox:checked+.swatch-box {
-        border-color: #007bff;
-        transform: scale(1.1);
-    }
-
-    .swatch-checkbox:focus+.swatch-box {
-        outline: none;
-        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
-    }
+.swatch-checkbox:focus+.swatch-box {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
+}
 </style>
 
 <style>
-    .js-add-wishlist svg {
-        color: #666;
-        cursor: pointer;
-        transition: color 0.2s ease;
-    }
+.js-add-wishlist svg {
+    color: #666;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
 
-    .js-add-wishlist.icon-heart-active svg {
-        color: red !important;
-    }
+.js-add-wishlist.icon-heart-active svg {
+    color: red !important;
+}
 </style>
 <main class="pt-90">
     <section class="shop-main container d-flex pt-4 pt-xl-5">
@@ -615,253 +615,216 @@
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.addEventListener('click', function(e) {
-            const btn = e.target.closest('.js-add-wishlist');
-            if (btn) {
-                e.preventDefault();
-                btn.classList.toggle('icon-heart-active');
-            }
-        });
+document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('click', function(e) {
+        const btn = e.target.closest('.js-add-wishlist');
+        if (btn) {
+            e.preventDefault();
+            btn.classList.toggle('icon-heart-active');
+        }
     });
+});
 </script>
 <script>
-    $(document).ready(function() {
-        const searchInput = $('input[name="search_product"]');
-        const scanButton = $(".scan-button");
-        const myFileInput = $("#myFile");
-        const submitImageBtn = $("#submitImage");
-        const applyFiltersBtn = $("#applyFilters");
+$(document).ready(function() {
+    const searchInput = $('input[name="search_product"]');
+    const scanButton = $(".scan-button");
+    const myFileInput = $("#myFile");
+    const submitImageBtn = $("#submitImage");
+    const applyFiltersBtn = $("#applyFilters");
 
-        // Log kiểm tra
-        console.log("scanButton:", scanButton.length);
-        console.log("myFileInput:", myFileInput.length);
-        console.log("submitImageBtn:", submitImageBtn.length);
-        console.log("filterSearch:", applyFiltersBtn.length);
+    // Log kiểm tra
+    console.log("scanButton:", scanButton.length);
+    console.log("myFileInput:", myFileInput.length);
+    console.log("submitImageBtn:", submitImageBtn.length);
+    console.log("filterSearch:", applyFiltersBtn.length);
 
-        //  hien thi modal cho scan 
-        scanButton.on("click", function(e) {
-            e.preventDefault();
-            var modal = new bootstrap.Modal(document.getElementById("scanModal"));
-            modal.show();
-        });
-        // ham tim kiem. nhant u khoa tu tim kiem, sa do chuyen huong den trinh duye url moi
-        // function performSearch(searchTerm) {
-        //     if (searchTerm) {
-        //         const url = new URL(window.location.href);
-        //         url.searchParams.set("search", searchTerm);
-        //         window.location.href = url.toString();
-        //     }
-        // }
-        // Thay đổi hàm performSearch để xử lý tất cả các tham số lọc
-        function performSearch(searchTerm, categories = [], colors = [], brands = []) {
-            const url = new URL(window.location.href);
+    //  hien thi modal cho scan 
+    scanButton.on("click", function(e) {
+        e.preventDefault();
+        var modal = new bootstrap.Modal(document.getElementById("scanModal"));
+        modal.show();
+    });
+    // ham tim kiem. nhant u khoa tu tim kiem, sa do chuyen huong den trinh duye url moi
+    // function performSearch(searchTerm) {
+    //     if (searchTerm) {
+    //         const url = new URL(window.location.href);
+    //         url.searchParams.set("search", searchTerm);
+    //         window.location.href = url.toString();
+    //     }
+    // }
+    // Thay đổi hàm performSearch để xử lý tất cả các tham số lọc
+    function performSearch(searchTerm, categories = [], colors = [], brands = []) {
+        const url = new URL(window.location.href);
 
-            // Reset các tham số tìm kiếm trước đó
-            url.searchParams.delete("search");
-            url.searchParams.delete("categories");
-            url.searchParams.delete("colors");
-            url.searchParams.delete("brands");
+        // Reset các tham số tìm kiếm trước đó
+        url.searchParams.delete("search");
+        url.searchParams.delete("categories");
+        url.searchParams.delete("colors");
+        url.searchParams.delete("brands");
 
-            // Thêm các tham số mới nếu có
-            if (searchTerm) url.searchParams.set("search", searchTerm);
+        // Thêm các tham số mới nếu có
+        if (searchTerm) url.searchParams.set("search", searchTerm);
 
-            if (categories && categories.length) {
-                url.searchParams.set("categories", categories.join(','));
-            }
-
-            if (colors && colors.length) {
-                url.searchParams.set("colors", colors.join(','));
-            }
-
-            if (brands && brands.length) {
-                url.searchParams.set("brands", brands.join(','));
-            }
-
-            // Chuyển hướng đến URL mới
-            window.location.href = url.toString();
+        if (categories && categories.length) {
+            url.searchParams.set("categories", categories.join(','));
         }
 
-        // Preview ảnh khi chọn file
-        myFileInput.on("change", function() {
-            const [file] = this.files;
-            if (file) {
-                $("#imgpreview img").attr("src", URL.createObjectURL(file));
-                $("#imgpreview").show();
-                $("#upload-file").hide();
-                console.log("Đã chọn file, preview ảnh.");
-            } else {
-                $("#imgpreview").hide();
-                $("#upload-file").show();
-                console.log("Không có file, ẩn preview.");
-            }
-        });
+        if (colors && colors.length) {
+            url.searchParams.set("colors", colors.join(','));
+        }
 
-        // Xử lý khi nhấn nút xác nhận
-        submitImageBtn.on("click", function() {
-            const file = myFileInput[0].files[0];
-            if (file) {
-                const formData = new FormData();
-                formData.append("image", file);
+        if (brands && brands.length) {
+            url.searchParams.set("brands", brands.join(','));
+        }
 
-                // Sử dụng route của Laravel để xử lý ảnh thay vì gọi trực tiếp API Python
-                fetch("{{ route('shop.scan.image') }}", {
-                        method: "POST",
-                        body: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        },
-                    })
-                    .then((response) => response.json())
-                    .then((data) => {
-                        console.log("Kết quả trả về từ server:", data);
-                        if (data.success && data.data && data.data.car_name) {
-                            // Trường hợp thành công - tìm thấy sản phẩm
-                            const carName = data.data.car_name;
-                            searchInput.val(carName);
-                            performSearch(carName);
+        // Chuyển hướng đến URL mới
+        window.location.href = url.toString();
+    }
 
-                            // Đóng modal
-                            var modal = bootstrap.Modal.getInstance(document.getElementById("scanModal"));
-                            if (modal) modal.hide();
+    // Preview ảnh khi chọn file
+    myFileInput.on("change", function() {
+        const [file] = this.files;
+        if (file) {
+            $("#imgpreview img").attr("src", URL.createObjectURL(file));
+            $("#imgpreview").show();
+            $("#upload-file").hide();
+            console.log("Đã chọn file, preview ảnh.");
+        } else {
+            $("#imgpreview").hide();
+            $("#upload-file").show();
+            console.log("Không có file, ẩn preview.");
+        }
+    });
 
-                            // Hiển thị thông báo thành công
-                            Swal.fire({
-                                title: 'Thành công!',
-                                text: `Đã nhận diện: ${carName}`,
-                                icon: 'success',
-                                timer: 2000,
-                                showConfirmButton: false
-                            });
-                        } else if (!data.success && data.detected_product) {
-                            // Trường hợp nhận diện được nhưng không tìm thấy trong cửa hàng
-                            const detectedName = data.detected_product;
-                            searchInput.val(detectedName);
-                            performSearch(detectedName);
+    // Xử lý khi nhấn nút xác nhận
+    submitImageBtn.on("click", function() {
+        const file = myFileInput[0].files[0];
+        if (file) {
+            const formData = new FormData();
+            formData.append("image", file);
 
-                            // Đóng modal
-                            var modal = bootstrap.Modal.getInstance(document.getElementById("scanModal"));
-                            if (modal) modal.hide();
-
-                            // Hiển thị thông báo
-                            Swal.fire({
-                                title: 'Nhận diện thành công!',
-                                text: `Đã nhận diện: ${detectedName}\nNhưng không tìm thấy sản phẩm trong cửa hàng.`,
-                                icon: 'warning',
-                                confirmButtonText: 'OK'
-                            });
-                        } else {
-                            // Trường hợp lỗi hoặc không nhận diện được
-                            Swal.fire({
-                                title: 'Lỗi!',
-                                text: data.message || 'Không thể nhận diện sản phẩm từ ảnh',
-                                icon: 'error',
-                                confirmButtonText: 'OK'
-                            });
-                        }
-                    })
-                    .catch((error) => console.error("Error:", error));
-            }
-        });
-
-        // xu li cho bo loc 
-        applyFiltersBtn.on("click", function(e) {
-            e.preventDefault(); // Ngăn hành vi mặc định của button
-            const searchTerm = searchInput.val() || '';
-            const categories = $('input[name="categories[]"]:checked').map(function() {
-                return this.value;
-            }).get();
-            const colors = $('input[name="colors[]"]:checked').map(function() {
-                return this.value;
-            }).get();
-            const brands = $('input[name="brands[]"]:checked').map(function() {
-                return this.value;
-            }).get();
-
-            console.log("Filters:", {
-                searchTerm,
-                categories,
-                colors,
-                brands
-            }); // Debug
-            performSearch(searchTerm, categories, colors, brands);
-        });
-        $(document).on('click', '.js-add-wishlist', function(e) {
-            e.preventDefault();
-
-            $(this).toggleClass('active'); // Toggle class active để đổi màu icon
-        });
-
-        // Xử lý thêm sản phẩm vào giỏ hàng
-        $(document).on('click', '.add-to-cart-btn', function(e) {
-            e.preventDefault();
-
-            const productId = $(this).data('product-id');
-            const productName = $(this).data('product-name');
-            const productPrice = $(this).data('product-price');
-            const quantity = 1; // Mặc định thêm 1 sản phẩm
-
-            // Hiển thị hiệu ứng đang xử lý
-            $(this).html('<i class="fas fa-spinner fa-spin"></i> Đang thêm...');
-            const $btn = $(this);
-
-            // Gửi yêu cầu AJAX để thêm sản phẩm vào giỏ hàng
-            $.ajax({
-                url: '{{ route("cart.add") }}',
-                method: 'POST',
-                data: {
-                    product_id: productId,
-                    quantity: quantity,
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    // Hiển thị thông báo thành công
-                    $btn.html('<i class="fas fa-check me-1"></i> Đã thêm');
-
-                    // Cập nhật số lượng sản phẩm trong giỏ hàng trên header (nếu có)
-                    if (typeof updateCartCount === 'function') {
-                        updateCartCount();
+            // Sử dụng route của Laravel để xử lý ảnh thay vì gọi trực tiếp API Python
+            fetch("{{ route('shop.scan.image') }}", {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    },
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log("Kết quả trả về từ server:", data);
+                    if (data.car_name) {
+                        searchInput.val(data.car_name);
+                        performSearch(data.car_name);
+                        var modal = bootstrap.Modal.getInstance(document.getElementById(
+                            "scanModal"));
+                        if (modal) modal.hide();
                     }
+                })
+                .catch((error) => console.error("Error:", error));
+        }
+    });
 
-                    // Hiển thị thông báo
-                    Swal.fire({
-                        title: 'Thành công!',
-                        text: 'Đã thêm ' + productName + ' vào giỏ hàng',
-                        icon: 'success',
-                        timer: 2000,
-                        showConfirmButton: false
-                    });
+    // xu li cho bo loc 
+    applyFiltersBtn.on("click", function(e) {
+        e.preventDefault(); // Ngăn hành vi mặc định của button
+        const searchTerm = searchInput.val() || '';
+        const categories = $('input[name="categories[]"]:checked').map(function() {
+            return this.value;
+        }).get();
+        const colors = $('input[name="colors[]"]:checked').map(function() {
+            return this.value;
+        }).get();
+        const brands = $('input[name="brands[]"]:checked').map(function() {
+            return this.value;
+        }).get();
 
-                    // Khôi phục trạng thái ban đầu của nút sau 2 giây
-                    setTimeout(function() {
-                        $btn.html(
-                            '<i class="fas fa-shopping-cart me-1"></i> Thêm vào giỏ'
-                        );
-                    }, 2000);
-                },
-                error: function(error) {
-                    // Hiển thị thông báo lỗi
-                    $btn.html('<i class="fas fa-exclamation-triangle me-1"></i> Lỗi');
+        console.log("Filters:", {
+            searchTerm,
+            categories,
+            colors,
+            brands
+        }); // Debug
+        performSearch(searchTerm, categories, colors, brands);
+    });
+    $(document).on('click', '.js-add-wishlist', function(e) {
+        e.preventDefault();
 
-                    Swal.fire({
-                        title: 'Lỗi!',
-                        text: 'Không thể thêm sản phẩm vào giỏ hàng',
-                        icon: 'error',
-                        confirmButtonText: 'Đóng'
-                    });
+        $(this).toggleClass('active'); // Toggle class active để đổi màu icon
+    });
 
-                    // Khôi phục trạng thái ban đầu của nút sau 2 giây
-                    setTimeout(function() {
-                        $btn.html(
-                            '<i class="fas fa-shopping-cart me-1"></i> Thêm vào giỏ'
-                        );
-                    }, 2000);
+    // Xử lý thêm sản phẩm vào giỏ hàng
+    $(document).on('click', '.add-to-cart-btn', function(e) {
+        e.preventDefault();
 
-                    console.error('Lỗi khi thêm vào giỏ hàng:', error);
+        const productId = $(this).data('product-id');
+        const productName = $(this).data('product-name');
+        const productPrice = $(this).data('product-price');
+        const quantity = 1; // Mặc định thêm 1 sản phẩm
+
+        // Hiển thị hiệu ứng đang xử lý
+        $(this).html('<i class="fas fa-spinner fa-spin"></i> Đang thêm...');
+        const $btn = $(this);
+
+        // Gửi yêu cầu AJAX để thêm sản phẩm vào giỏ hàng
+        $.ajax({
+            url: '{{ route("cart.add") }}',
+            method: 'POST',
+            data: {
+                product_id: productId,
+                quantity: quantity,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                // Hiển thị thông báo thành công
+                $btn.html('<i class="fas fa-check me-1"></i> Đã thêm');
+
+                // Cập nhật số lượng sản phẩm trong giỏ hàng trên header (nếu có)
+                if (typeof updateCartCount === 'function') {
+                    updateCartCount();
                 }
-            });
+
+                // Hiển thị thông báo
+                Swal.fire({
+                    title: 'Thành công!',
+                    text: 'Đã thêm ' + productName + ' vào giỏ hàng',
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+
+                // Khôi phục trạng thái ban đầu của nút sau 2 giây
+                setTimeout(function() {
+                    $btn.html(
+                        '<i class="fas fa-shopping-cart me-1"></i> Thêm vào giỏ'
+                    );
+                }, 2000);
+            },
+            error: function(error) {
+                // Hiển thị thông báo lỗi
+                $btn.html('<i class="fas fa-exclamation-triangle me-1"></i> Lỗi');
+
+                Swal.fire({
+                    title: 'Lỗi!',
+                    text: 'Không thể thêm sản phẩm vào giỏ hàng',
+                    icon: 'error',
+                    confirmButtonText: 'Đóng'
+                });
+
+                // Khôi phục trạng thái ban đầu của nút sau 2 giây
+                setTimeout(function() {
+                    $btn.html(
+                        '<i class="fas fa-shopping-cart me-1"></i> Thêm vào giỏ'
+                    );
+                }, 2000);
+
+                console.error('Lỗi khi thêm vào giỏ hàng:', error);
+            }
         });
     });
+});
 </script>
 
 
