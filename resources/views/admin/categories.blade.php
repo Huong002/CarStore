@@ -39,16 +39,14 @@
          </div>
          <div class="wg-table table-all-user">
             <div class="table-responsive">
-               @if(Session::has('status'))
-               <p class="alert alert-success">{{Session::get('status')}}</p>
-               @endif
+              
                <table class="table table-striped table-bordered">
                   <thead>
                      <tr>
-                        <th class="text-center" style="white-space:nowrap;">STT</th>
+                        <th class="text-center" style="white-space:nowrap; width: 250px;">STT</th>
                         <th class="text-center" style="white-space: norwap;">Tên</th>
                         <th class="text-center" style="white-space: norwap;">Slug</th>
-                        <th class="text-center" style="white-space: norwap;">Sản phẩm</th>
+                      
                         <th></th>
                      </tr>
                   </thead>
@@ -67,7 +65,7 @@
                               </div>
                            </td>
                            <td>{{$category->slug}}</td>
-                           <td class="name"><a href="#" target="_blank">1</a></td>
+                           
                            <td>
                               <div class="list-icon-function d-flex justify-content-center">
                                  <a href="{{route('admin.category.edit', ['id'=>$category->id])}}">

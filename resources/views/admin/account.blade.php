@@ -6,7 +6,7 @@
                <div class="avatar-container">
                   <img src="{{ Auth::user()->image ? asset('images/avatar/' . Auth::user()->image) : asset('images/avatar/user-1.png') }}"
                      alt="Avatar" class="avatar" width="50" id="avatarImage">
-                  <div class="avatar-overlay" id="avatarOverlay">Click để đổi ảnh</div>
+                  <div class="avatar-overlay" id="avatarOverlay"></div>
                </div>
                <div>
                   <h5 class="modal-title" id="accountModalLabel">{{ Auth::user()->name }}</h5>
@@ -27,12 +27,12 @@
                @csrf
                <input type="file" id="avatarInput" name="image" accept="image/*" style="display: none;">
                <div class="info-item">
-                  <label>Name</label>
+                  <label>Họ và tên: </label>
                   <span class="info-value" id="displayName">{{ Auth::user()->name }}</span>
                   <input type="text" class="form-control edit-field" id="name" name="name" value="{{ Auth::user()->name }}" style="display: none;">
                </div>
                <div class="info-item">
-                  <label>Email account</label>
+                  <label>Địa chỉ mail</label>
                   <span class="info-value" id="displayEmail">{{ Auth::user()->email }}</span>
                   <input type="email" class="form-control edit-field" id="email" name="email" value="{{ Auth::user()->email }}" style="display: none;">
                </div>

@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Mockery\Matcher\Not;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Validation\Rules\Email;
 
 // use Intervention\Image\Laravel\Facades\Image;1
 
@@ -87,21 +87,19 @@ class AdminController extends Controller
     public function brand_store(Request $request)
     {
         $request->validate([
-            'name'  => 'required',
-            'slug'  => 'required|unique:brands,slug',
-            'image' => 'required|mimes:png,jpg,jpeg|max:2048'
+            'name'  => 'nullable',
+            'slug'  => 'nullable|unique:brands,slug',
+            'image' => 'nullable|mimes:png,jpg,jpeg|max:2048'
         ]);
 
         $brand = new Brand();
         $brand->name = $request->name;
         $brand->slug = Str::slug($request->name);
+
+
         $image = $request->file('image');
         $file_extension = $image->extension();
         $file_name = Carbon::now()->timestamp . '.' . $file_extension;
-
-
-
-
 
         $destinationPath = public_path('uploads/brands');
         $image->move($destinationPath, $file_name);
@@ -120,9 +118,9 @@ class AdminController extends Controller
     public function brand_update(Request $request)
     {
         $request->validate([
-            'name'  => 'required',
-            'slug'  => 'required|unique:brands,slug,' . $request->id,
-            'image' => 'required|mimes:png,jpg,jpeg|max:2048'
+            'name'  => 'nullable',
+            'slug'  => 'nullable|unique:brands,slug,' . $request->id,
+            'image' => 'nullable|mimes:png,jpg,jpeg|max:2048'
         ]);
 
         $brand = Brand::find($request->id);
@@ -211,23 +209,26 @@ class AdminController extends Controller
     public function category_store(Request $request)
     {
         $request->validate([
-            'name'  => 'required',
-            'slug'  => 'required|unique:categories,slug',
-            'image' => 'required|mimes:png,jpg,jpeg|max:2048'
+            'name'  => 'nullable',
+            'slug'  => 'nullable|unique:categories,slug',
+            'image' => 'nullable|mimes:png,jpg,jpeg|max:2048'
         ]);
 
         $category = new Category();
         $category->name = $request->name;
         $category->slug = Str::slug($request->name);
-        $image = $request->file('image');
-        $file_extension = $image->extension();
-        $file_name = Carbon::now()->timestamp . '.' . $file_extension;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $file_extension = $image->extension();
+            $file_name = Carbon::now()->timestamp . '.' . $file_extension;
+            $destinationPath = public_path('uploads/categories');
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            $image->move($destinationPath, $file_name);
+            $category->image = $file_name;
+        }
 
-        // Di chuyển file vào thư mục uploads/brands
-        $destinationPath = public_path('uploads/categories');
-        $image->move($destinationPath, $file_name);
-
-        $category->image = $file_name;
         $category->save();
 
         return redirect()->route('admin.categories')->with('status', 'Thêm danh mục thành công');
@@ -242,9 +243,6 @@ class AdminController extends Controller
     public function category_update(Request $request)
     {
         $request->validate([
-            // 'name'  => 'required',
-            // 'slug'  => 'required|unique:brands,slug',
-            // 'image' => 'required|mimes:png,jpg,jpeg|max:2048'
             'name'  => 'required',
             'slug'  => 'required|unique:categories,slug,' . $request->id,
             'image' => 'nullable|mimes:png,jpg,jpeg|max:2048'
@@ -909,6 +907,7 @@ class AdminController extends Controller
         $notification = new Notification();
         $notification->name = $request->name;
         $notification->content = $request->content;
+        $notification->type = $request->type;
         // savwe vao csdl 
         $notification->save();
         return redirect()->route('admin.notifications')->with('status', 'Bạn đã thêm thông báo thành công');
@@ -924,6 +923,7 @@ class AdminController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'content' => 'required|string',
+
         ]);
         $notification = Notification::find($request->id);
         if (!$notification) {
@@ -931,9 +931,10 @@ class AdminController extends Controller
         }
         $notification->name = $request->name;
         $notification->content = $request->content;
+        $notification->type = $request->type;
 
         $notification->save();
-        return redirect()->route('admin.notification.update')->with('status', 'Cập nhập thành công');
+        return redirect()->route('admin.notifications')->with('status', 'Cập nhật thành công');
     }
     // xoa thong bao
     public function notification_delete($id)
@@ -980,7 +981,7 @@ class AdminController extends Controller
         }
 
         // Xác định loại thông báo dựa vào quyền của người dùng
-        $notificationTypes = ['all']; // Loại thông báo chung cho tất cả
+        $notificationTypes = ['all']; // Loại thông báo chungp cho tất cả
 
         if ($currentUser->utype === 'ADM') {
             $notificationTypes[] = 'admin';
@@ -1001,6 +1002,7 @@ class AdminController extends Controller
 
         return view('admin.notifications', ['notifications' => $user_notifications]);
     }
+    
     public function list_user_notifi(Request $request)
     {
         $currentUser = Auth::user();
@@ -1008,9 +1010,15 @@ class AdminController extends Controller
             return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để xem thông báo của mình');
         }
 
+        // Tự động xóa thông báo đã lưu trữ quá 15 ngày
+        $fifteenDaysAgo = Carbon::now()->subDays(15);
+        UserNotification::where('user_id', $currentUser->id)
+            ->where('isArchived', true)
+            ->where('updated_at', '<', $fifteenDaysAgo)
+            ->delete();
+
         $tab = $request->get('tab', 'all');
 
-        // Sử dụng UserNotification model với relationship
         $query = UserNotification::with('notification')
             ->where('user_id', $currentUser->id)
             ->orderBy('created_at', 'desc');
@@ -1024,11 +1032,11 @@ class AdminController extends Controller
             $query->where('isRead', true);
         }
 
+
         $userNotifications = $query->paginate(10);
 
         return view('admin.user-notification', compact('userNotifications', 'tab'));
     }
-
     public function markAsRead($id)
     {
         $userNotification = UserNotification::where('id', $id)
@@ -1050,7 +1058,14 @@ class AdminController extends Controller
         $userNotification->isArchived = true;
         $userNotification->save();
 
-        return redirect()->back()->with('status', 'Đã lưu trữ thông báo!');
+        // Tự động xóa thông báo đã lưu trữ quá 15 ngày của user hiện tại
+        $fifteenDaysAgo = Carbon::now()->subDays(15);
+        UserNotification::where('user_id', Auth::id())
+            ->where('isArchived', true)
+            ->where('updated_at', '<', $fifteenDaysAgo)
+            ->delete();
+
+        return redirect()->back()->with('status', 'Lưu trữ thành công. Hệ thống tự động xóa sau 15 ngày!');
     }
 
     public function inbox()
@@ -1059,7 +1074,54 @@ class AdminController extends Controller
     }
     public function settings()
     {
-        return view('admin.setting');
+        $user = Auth::user();
+        // Load relationship employee nếu có
+        $user->load('employee');
+        return view('admin.setting', compact('user'));
     }
+
+    public function settings_update(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'mobile' => 'required|string|max:15',
+            'email' => 'required|email|unique:users,email,' . Auth::id(),
+            'old_password' => 'nullable|string',
+            'new_password' => 'nullable|string|min:8|confirmed',
+        ]);
+
+        $user = Auth::user();
+
+        // Cập nhật thông tin cơ bản của user
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->save();
+
+        // Cập nhật thông tin phone trong bảng employees nếu user có employee_id
+        if ($user->employee_id && $user->employee) {
+            $user->employee->name = $request->name;
+            $user->employee->phone = $request->mobile;
+            $user->employee->email = $request->email;
+            $user->employee->save();
+        }
+
+        // Kiểm tra và cập nhật mật khẩu nếu có
+        if ($request->filled('old_password') && $request->filled('new_password')) {
+            // Kiểm tra mật khẩu cũ
+            if (!Hash::check($request->old_password, $user->password)) {
+                return redirect()->back()
+                    ->withErrors(['old_password' => 'Mật khẩu cũ không đúng!'])
+                    ->withInput();
+            }
+
+            // Cập nhật mật khẩu mới
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+        }
+
+        return redirect()->route('admin.setting')->with('status', 'Cập nhật thông tin thành công!');
+    }
+
+
     #endregion
 }

@@ -8,7 +8,7 @@
       </div>
 
       <!-- Tab Navigation -->
-      <div class="wg-box mb-4">
+      <div class="wg-box mb-10">
          <div class="notification-tabs">
             <a href="{{ route('admin.notification.user', ['tab' => 'all']) }}"
                class="tab-link {{ $tab === 'all' ? 'active' : '' }}">
@@ -34,14 +34,14 @@
          <div class="wg-table table-all-user">
             <div class="table-responsive">
                <table class="table table-striped table-bordered">
+                  @if($userNotifications->count())
                   <thead>
                      <tr>
-                        <th>STT</th>
-                        <th>Tiêu đề</th>
-                        <th>Nội dung</th>
-                        <th>Trạng thái</th>
-
-                        <th>Hành động</th>
+                        <th class="text-center" style="width: 50px;">STT</th>
+                        <th class="text-center" style="width: 120px;">Tiêu đề</th>
+                        <th class="text-center" style="width: 200px;">Nội dung</th>
+                        <th class="text-center" style="width: 90px;">Trạng thái</th>
+                        <th class="text-center" style="width: 50px;">Hành động</th>
                      </tr>
                   </thead>
                   <tbody>
@@ -49,7 +49,9 @@
                      <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $notification->notification->name ?? 'Không có tiêu đề' }}
-                           <div>{{ $notification->created_at->diffForHumans() }}</div>
+                           <div style="font-size: 12px; color: #888;"> Được tạo
+                              {{ $notification->created_at->locale('vi')->diffForHumans(null, true) }} trước
+                           </div>
                         </td>
                         <td>{{ $notification->notification->content ?? 'Không có nội dung' }}</td>
                         <td>
@@ -58,7 +60,6 @@
                            @else
                            <span class="badge bg-warning">Chưa đọc</span>
                            @endif
-
                            @if($notification->isArchived)
                            <span class="badge bg-secondary">Đã lưu trữ</span>
                            @endif
@@ -89,8 +90,16 @@
                      <tr>
                         <td colspan="6" class="text-center">Không có thông báo nào</td>
                      </tr>
+
                      @endforelse
                   </tbody>
+                  @else
+                  <tbody>
+                     <tr>
+                        <td colspan="5" class="text-center">Bạn không có thông báo lưu trữ</td>
+                     </tr>
+                  </tbody>
+                  @endif
                </table>
             </div>
 
