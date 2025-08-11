@@ -19,6 +19,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\WishlistController;
 
 Auth::routes();
 
@@ -42,15 +43,21 @@ Route::post('/shop/scan-image', [ShopController::class, 'scanImage'])->name('sho
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 Route::get('/cart/confirm', [CartController::class, 'confirm'])->name('cart.confirm');
-
 Route::get('/about', [AboutController::class, 'index'])->name('about.index');
-Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 // dat chatbot ra ngoai 
 Route::post('/chatbot/send', [ChatController::class, 'sendMessage'])->name('chatbot.send');
+// wishlist
+Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+Route::get('/order/details/{id}', [OrderController::class, 'orderDetails'])->name('order.details');
+Route::get('/account-order', [OrderController::class, 'index'])->name('accountOrder.index');
+Route::get('/account-detail', [UserController::class, 'index'])->name('accountDetail.index');
+
+
 
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index');
+    Route::put('/account-detail', [UserController::class, 'user_update'])->name('user.update');
     // Chatbot cho cả user và admin
 
 });
@@ -192,6 +199,7 @@ Route::middleware('auth')->group(function () {
 // Xem chi tiết sản phẩm yêu thích theo id
 // Route::get('/wishlistshow/{id}', [ShopController::class, 'wishlistShow'])->name('wishlist.show');
 // Route::post('/cart', [CartController::class, 'add'])->name('cart.add');
+
 Route::middleware('auth')->group(function () {
     // Xem chi tiết sản phẩm yêu thích
     Route::get('/wishlistshow/{id}', [ShopController::class, 'wishlistShow'])->name('wishlist.show');

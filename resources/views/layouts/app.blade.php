@@ -649,6 +649,9 @@
                         <ul class="wishlist-items" id="wishlistItems">
                             <!-- Nội dung sẽ được render bằng JS -->
                         </ul>
+                        <div class="cart-footer">
+                            <a href="{{ route('wishlist.index') }}" class="btn btn-primary w-100">Xem tất cả</a>
+                        </div>
                     </div>
 
 
@@ -1022,17 +1025,17 @@
                                         <i class="bi bi-person fs-5"></i> Tài khoản
                                     </a>
                                 </li>
-                                <!--  -->
+
 
                                 <li>
-                                    <a href="#" class="dropdown-item d-flex align-items-center gap-2 py-2 px-3"
-                                        data-bs-toggle="modal" data-bs-target="#historyModal">
+                                    <a href="{{route('accountOrder.index')}}" class="dropdown-item d-flex align-items-center gap-2 py-2 px-3"
+                                    >
                                         <i class="bi bi-clock-history fs-5"></i> Xem lịch sử mua hàng
                                     </a>
                                 </li>
 
 
-                                <!--  -->
+                        
                                 <li>
                                     <form action="{{ route('logout') }}" method="POST" class="m-0">
                                         @csrf
@@ -1040,7 +1043,7 @@
                                             class="dropdown-item d-flex align-items-center gap-2 py-2 px-3 w-100 border-0 bg-transparent">
                                             <i class="bi bi-box-arrow-right fs-5"></i> Đăng xuất
                                         </button>
-                                    </form>
+                                        </form>
                                 </li>
                             </ul>
                         </div>
@@ -1308,7 +1311,8 @@
                     const product = {
                         id: productId,
                         name: productName,
-                        image: btn.dataset.productImage || ''
+                        image: btn.dataset.productImage || '',
+                        slug: btn.dataset.productSlug || null
                     };
 
                     if (btn.classList.contains('active')) {
