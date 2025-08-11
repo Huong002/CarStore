@@ -44,7 +44,13 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 Route::get('/cart/confirm', [CartController::class, 'confirm'])->name('cart.confirm');
 Route::get('/about', [AboutController::class, 'index'])->name('about.index');
+
+// Blog routes
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
+Route::get('/blog/category/{slug}', [BlogController::class, 'category'])->name('blog.category');
+Route::post('/blog/{id}/comment', [BlogController::class, 'addComment'])->name('blog.comment');
+
 // dat chatbot ra ngoai 
 Route::post('/chatbot/send', [ChatController::class, 'sendMessage'])->name('chatbot.send');
 // wishlist

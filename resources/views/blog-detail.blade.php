@@ -10,7 +10,8 @@
                <div class="col-12">
                   <div class="blog-details">
                      <div class="blog-image-box">
-                        <img src="../assets/images/inner-page/product/10.jpg" alt="" class="card-img-top">
+                        <img src="{{ $blog->featured_image ? asset('uploads/blogs/' . $blog->featured_image) : asset('assets/images/inner-page/product/10.jpg') }}"
+                           alt="{{ $blog->title }}" class="card-img-top">
                         <div class="blog-title">
                            <div>
                               <div class="social-media media-center">
@@ -35,86 +36,75 @@
                      </div>
 
                      <div class="blog-detail-contain">
-                        <span class="font-light">August 15 2023</span>
-                        <h2 class="card-title">Just a Standard Format Post.</h2>
-                        <p class="font-light firt-latter">Lorem Ipsum is simply dummy text of the printing
-                           and typesetting industry. Lorem Ipsum has been the industry's standard dummy
-                           text ever since the 1500s, Lorem Ipsum has been the industry's standard dummy
-                           text ever since the 1500s.looked up one of the more obscure Latin words,
-                           consectetur, from a Lorem Ipsum passage.</p>
-
-                        <p class="font-light">Contrary to popular belief, Lorem Ipsum is not simply random
-                           text. It has roots in a piece of classical Latin literature from 45 BC, making
-                           it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney
-                           College in Virginia, looked up one of the more obscure Latin words, consectetur,
-                           from a Lorem Ipsum passage, and going through the cites of the word in classical
-                           literature, discovered the undoubtable source. Lorem Ipsum comes from sections
-                           1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and
-                           Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of
-                           ethics, very popular during the Renaissance. The first line of Lorem Ipsum,
-                           "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32. The
-                           standard chunk of Lorem Ipsum used since the 1500s is reproduced below for
-                           those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et
-                           Malorum" by Cicero are also reproduced in their exact original form, accompanied
-                           by English versions from the 1914 translation by H. Rackham.</p>
-
-                        <p class="font-light">It is a long established fact that a reader will be distracted
-                           by the readable content of a page when looking at its layout. The point of using
-                           Lorem Ipsum is that it has a more-or-less normal distribution of letters, as
-                           opposed to using 'Content here, content here', making it look like readable
-                           English. Many desktop publishing packages and web page editors now use Lorem
-                           Ipsum as their default model text, and a search for 'lorem ipsum' will uncover
-                           many web sites still in their infancy. Various versions have evolved over the
-                           years, sometimes by accident, sometimes on purpose injected humour and the
-                           like.</p>
+                        <span class="font-light">{{ $blog->created_at->format('F d Y') }}</span>
+                        <h2 class="card-title">{{ $blog->title }}</h2>
+                        <div class="font-light firt-latter">
+                           {!! nl2br(e($blog->content)) !!}
+                        </div>
                      </div>
                   </div>
 
                   <div class="blog-profile box-center mb-lg-5 mb-4">
                      <div class="image-profile">
-                        <img src="../assets/images/inner-page/review-image/2.jpg"
+                        <img src="{{ asset('assets/images/inner-page/review-image/2.jpg') }}"
                            class="img-fluid blur-up lazyload" alt="">
                      </div>
 
                      <div class="image-name text-weight">
-                        <h3>John wike</h3>
-                        <h6>15 Aug 2023</h6>
+                        <h3>{{ $blog->author->name }}</h3>
+                        <h6>{{ $blog->created_at->format('d M Y') }}</h6>
                      </div>
                   </div>
 
-                  <div class="row g-2">
+                  <!-- Comments Section -->
+                  @if($blog->comments->count() > 0)
+                  <div class="row g-2 mb-4">
                      <div class="col-12">
-                        <div class="minus-spacing mb-2">
-                           <h3>Leave Comments</h3>
+                        <h3>Bình luận ({{ $blog->comments->count() }})</h3>
+                        @foreach($blog->comments as $comment)
+                        <div class="comment-item border-bottom pb-3 mb-3">
+                           <div class="d-flex justify-content-between">
+                              <h6 class="mb-1">{{ $comment->author_name }}</h6>
+                              <small class="text-muted">{{ $comment->created_at->format('d/m/Y H:i') }}</small>
+                           </div>
+                           <p class="mb-0">{{ $comment->content }}</p>
+                        </div>
+                        @endforeach
+                     </div>
+                  </div>
+                  @endif
+
+                  <!-- Comment Form -->
+                  <form method="POST" action="{{ route('blog.comment', $blog->id) }}">
+                     @csrf
+                     <div class="row g-2">
+                        <div class="col-12">
+                           <div class="minus-spacing mb-2">
+                              <h3>Leave Comments</h3>
+                           </div>
+                        </div>
+                        <div class="col-lg-6">
+                           <label for="author_name" class="form-label">Tên của bạn</label>
+                           <input type="text" name="author_name" class="form-control" id="author_name"
+                              placeholder="Nhập tên của bạn" required="" value="{{ old('author_name') }}">
+                        </div>
+                        <div class="col-lg-6">
+                           <label for="author_email" class="form-label">Email</label>
+                           <input type="email" name="author_email" class="form-control" id="author_email"
+                              placeholder="example@example.com" required="" value="{{ old('author_email') }}">
+                        </div>
+
+                        <div class="col-12">
+                           <label for="content" class="form-label">Bình luận</label>
+                           <textarea rows="3" name="content" class="form-control" id="content"
+                              placeholder="Để lại bình luận của bạn..." required="">{{ old('content') }}</textarea>
+                        </div>
+
+                        <div class="col-12">
+                           <button type="submit" class="btn btn-solid-default btn-spacing mt-2">Gửi bình luận</button>
                         </div>
                      </div>
-                     <div class="col-lg-4">
-                        <label for="fname" class="form-label">First Name</label>
-                        <input type="text" class="form-control" id="fname" placeholder="Enter First Name"
-                           required="">
-                     </div>
-                     <div class="col-lg-4">
-                        <label for="lname" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" id="lname" placeholder="Enter Last Name"
-                           required="">
-                     </div>
-
-                     <div class="col-lg-4">
-                        <label for="email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="email"
-                           placeholder="example@example.com" required="">
-                     </div>
-
-                     <div class="col-12">
-                        <label for="textarea" class="form-label">Comments</label>
-                        <textarea rows="3" class="form-control" id="textarea"
-                           placeholder="Leave a comment here" required=""></textarea>
-                     </div>
-
-                     <div class="col-12">
-                        <button type="submit" class="btn btn-solid-default btn-spacing mt-2">Submit</button>
-                     </div>
-                  </div>
+                  </form>
                </div>
             </div>
          </div>
@@ -138,65 +128,21 @@
                      <h3>Popular Posts</h3>
                   </div>
 
+                  @foreach($popularBlogs as $index => $popular)
                   <div class="popular-image">
                      <div class="popular-number">
-                        <h4 class="theme-color">01</h4>
+                        <h4 class="theme-color">{{ sprintf('%02d', $index + 1) }}</h4>
                      </div>
                      <div class="popular-contain">
-                        <h3>Lorem Ipsum is simply dummy text of the printing.</h3>
-                        <p class="font-light mb-1"><span>King Monster</span> in <span>News</span></p>
+                        <h3>{{ Str::limit($popular->title, 60) }}</h3>
+                        <p class="font-light mb-1"><span>{{ $popular->author->name }}</span> in <span>{{ $popular->category->name }}</span></p>
                         <div class="review-box">
-                           <span class="font-light clock-time"><i data-feather="clock"></i>15m
-                              ago</span>
-                           <span class="font-light eye-icon"><i data-feather="eye"></i>8641</span>
+                           <span class="font-light clock-time"><i data-feather="clock"></i>{{ $popular->created_at->diffForHumans() }}</span>
+                           <span class="font-light eye-icon"><i data-feather="eye"></i>{{ $popular->views_count }}</span>
                         </div>
                      </div>
                   </div>
-
-                  <div class="popular-image">
-                     <div class="popular-number">
-                        <h4 class="theme-color">02</h4>
-                     </div>
-                     <div class="popular-contain">
-                        <h3>Lorem Ipsum is simply dummy text of the printing.</h3>
-                        <p class="font-light mb-1"><span>King Monster</span> in <span>News</span></p>
-                        <div class="review-box">
-                           <span class="font-light clock-time"><i data-feather="clock"></i>15m
-                              ago</span>
-                           <span class="font-light eye-icon"><i data-feather="eye"></i>8641</span>
-                        </div>
-                     </div>
-                  </div>
-
-                  <div class="popular-image">
-                     <div class="popular-number">
-                        <h4 class="theme-color">03</h4>
-                     </div>
-                     <div class="popular-contain">
-                        <h3>Lorem Ipsum is simply dummy text of the printing.</h3>
-                        <p class="font-light mb-1"><span>King Monster</span> in <span>News</span></p>
-                        <div class="review-box">
-                           <span class="font-light clock-time"><i data-feather="clock"></i>15m
-                              ago</span>
-                           <span class="font-light eye-icon"><i data-feather="eye"></i>8641</span>
-                        </div>
-                     </div>
-                  </div>
-
-                  <div class="popular-image">
-                     <div class="popular-number">
-                        <h4 class="theme-color">04</h4>
-                     </div>
-                     <div class="popular-contain">
-                        <h3>Lorem Ipsum is simply dummy text of the printing.</h3>
-                        <p class="font-light mb-1"><span>King Monster</span> in <span>News</span></p>
-                        <div class="review-box">
-                           <span class="font-light clock-time"><i data-feather="clock"></i>15m
-                              ago</span>
-                           <span class="font-light eye-icon"><i data-feather="eye"></i>8641</span>
-                        </div>
-                     </div>
-                  </div>
+                  @endforeach
                </div>
                <!-- Popular Post End -->
 
@@ -206,74 +152,21 @@
                      <h3>Category</h3>
                   </div>
                   <ul>
+                     @foreach($categories as $category)
                      <li class="category-box">
-                        <a href="blog-left-sidebar.html">
+                        <a href="{{ route('blog.category', $category->slug) }}">
                            <div class="category-product">
                               <div class="cate-shape">
-                                 <i class="fas fa-globe text-color"></i>
+                                 <i class="fas fa-car text-color"></i>
                               </div>
 
                               <div class="cate-contain">
-                                 <h5 class="text-color">Global</h5>
+                                 <h5 class="text-color">{{ $category->name }}</h5>
                               </div>
                            </div>
                         </a>
                      </li>
-                     <li class="category-box">
-                        <a href="blog-left-sidebar.html">
-                           <div class="category-product">
-                              <div class="cate-shape">
-                                 <i class="fas fa-building text-color"></i>
-                              </div>
-
-                              <div class="cate-contain">
-                                 <h5 class="text-color">Business</h5>
-                              </div>
-                           </div>
-                        </a>
-                     </li>
-
-                     <li class="category-box">
-                        <a href="blog-left-sidebar.html">
-                           <div class="category-product">
-                              <div class="cate-shape">
-                                 <i class="fas fa-play text-color"></i>
-                              </div>
-
-                              <div class="cate-contain">
-                                 <h5 class="text-color">Entertainmant</h5>
-                              </div>
-                           </div>
-                        </a>
-                     </li>
-
-                     <li class="category-box">
-                        <a href="blog-left-sidebar.html">
-                           <div class="category-product">
-                              <div class="cate-shape">
-                                 <i class="fas fa-tshirt text-color"></i>
-                              </div>
-
-                              <div class="cate-contain">
-                                 <h5 class="text-color">Sports</h5>
-                              </div>
-                           </div>
-                        </a>
-                     </li>
-
-                     <li class="category-box">
-                        <a href="blog-left-sidebar.html">
-                           <div class="category-product">
-                              <div class="cate-shape">
-                                 <i class="fas fa-dumbbell text-color"></i>
-                              </div>
-
-                              <div class="cate-contain">
-                                 <h5 class="text-color">Health</h5>
-                              </div>
-                           </div>
-                        </a>
-                     </li>
+                     @endforeach
                   </ul>
                </div>
                <!-- Category section End -->
