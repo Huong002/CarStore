@@ -46,8 +46,8 @@
 
                   <div class="blog-profile box-center mb-lg-5 mb-4">
                      <div class="image-profile">
-                        <img src="{{ asset('assets/images/inner-page/review-image/2.jpg') }}"
-                           class="img-fluid blur-up lazyload" alt="">
+                        <img src="{{ $blog->author->image ? asset('/images/avatar/'. $blog->author->image) : asset('images/inner-page/user/1.jpg') }}"
+                           class="img-fluid blur-up lazyload" alt="{{ $blog->author->name }}">
                      </div>
 
                      <div class="image-name text-weight">
