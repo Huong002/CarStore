@@ -62,7 +62,7 @@
                      <div class="col-12">
                         <h3>Bình luận ({{ $blog->comments->count() }})</h3>
                         @foreach($blog->comments as $comment)
-                        <div class="comment-item border-bottom pb-3 mb-3">
+                        <div class="comment-item border-bottom pb-3 mb-3 pt-3">
                            <div class="d-flex justify-content-between">
                               <h6 class="mb-1">{{ $comment->author_name }}</h6>
                               <small class="text-muted">{{ $comment->created_at->format('d/m/Y H:i') }}</small>
@@ -75,6 +75,7 @@
                   @endif
 
                   <!-- Comment Form -->
+                  @auth
                   <form method="POST" action="{{ route('blog.comment', $blog->id) }}">
                      @csrf
                      <div class="row g-2">
@@ -83,15 +84,9 @@
                               <h3>Leave Comments</h3>
                            </div>
                         </div>
-                        <div class="col-lg-6">
-                           <label for="author_name" class="form-label">Tên của bạn</label>
-                           <input type="text" name="author_name" class="form-control" id="author_name"
-                              placeholder="Nhập tên của bạn" required="" value="{{ old('author_name') }}">
-                        </div>
-                        <div class="col-lg-6">
-                           <label for="author_email" class="form-label">Email</label>
-                           <input type="email" name="author_email" class="form-control" id="author_email"
-                              placeholder="example@example.com" required="" value="{{ old('author_email') }}">
+
+                        <div class="col-12">
+                           <p class="text-muted">Commenting as: <strong>{{ Auth::user()->name }}</strong></p>
                         </div>
 
                         <div class="col-12">
@@ -105,6 +100,11 @@
                         </div>
                      </div>
                   </form>
+                  @else
+                  <div class="alert alert-info">
+                     <p class="mb-0">Vui lòng <a href="{{ route('login') }}">đăng nhập</a> để bình luận.</p>
+                  </div>
+                  @endauth
                </div>
             </div>
          </div>

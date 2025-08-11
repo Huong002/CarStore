@@ -114,20 +114,24 @@ class BlogController extends Controller
     */
    public function addComment(Request $request, $blogId)
    {
+      // Kiểm tra user đã đăng nhập chưa
+      if (!Auth::check()) {
+         return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để bình luận');
+      }
+
       $request->validate([
-         'author_name' => 'required|string|max:255',
-         'author_email' => 'required|email|max:255',
          'content' => 'required|string'
       ]);
 
       $blog = Blog::findOrFail($blogId);
+      $user = Auth::user();
 
       BlogComment::create([
          'blog_id' => $blog->id,
-         'author_name' => $request->author_name,
-         'author_email' => $request->author_email,
+         'author_name' => $user->name,
+         'author_email' => $user->email,
          'content' => $request->content,
-         'user_id' => Auth::check() ? Auth::user()->id : null
+         'user_id' => $user->id
       ]);
 
       return redirect()->back()->with('success', 'Bình luận của bạn đã được thêm thành công!');
