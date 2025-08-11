@@ -134,12 +134,14 @@
                         <h4 class="theme-color">{{ sprintf('%02d', $index + 1) }}</h4>
                      </div>
                      <div class="popular-contain">
-                        <h3>{{ Str::limit($popular->title, 60) }}</h3>
-                        <p class="font-light mb-1"><span>{{ $popular->author->name }}</span> in <span>{{ $popular->category->name }}</span></p>
-                        <div class="review-box">
-                           <span class="font-light clock-time"><i data-feather="clock"></i>{{ $popular->created_at->diffForHumans() }}</span>
-                           <span class="font-light eye-icon"><i data-feather="eye"></i>{{ $popular->views_count }}</span>
-                        </div>
+                        <a href="{{ route('blog.show', $popular->slug) }}" class="text-decoration-none text-dark">
+                           <h3>{{ Str::limit($popular->title, 60) }}</h3>
+                           <p class="font-light mb-1"><span>{{ $popular->author->name }}</span> in <span>{{ $popular->category->name }}</span></p>
+                           <div class="review-box">
+                              <span class="font-light clock-time"><i data-feather="clock"></i>{{ $popular->created_at->diffForHumans() }}</span>
+                              <span class="font-light eye-icon"><i data-feather="eye"></i>{{ $popular->views_count }}</span>
+                           </div>
+                        </a>
                      </div>
                   </div>
                   @endforeach
