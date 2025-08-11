@@ -2,7 +2,7 @@
     padding-top: 2.25rem;
     padding-bottom: 2.25rem;
 }
-.text-right{
+.text-right {
     text-align: right;
 }
 .pt-90 {
@@ -13,7 +13,43 @@
     gap: 1.625rem;
 }
 
-.form-floating>.form-control,
-.form-floating>.form-select {
+.form-floating > .form-control,
+.form-floating > .form-select {
     height: 48px;
+}
+
+/* Font tiếng Việt */
+* {
+    font-family: "Be Vietnam Pro", "Inter", "Nunito Sans", "Jost", -apple-system,
+        BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+        sans-serif !important;
+}
+
+/* Khắc phục vấn đề link xanh có gạch chân */
+a,
+a:link,
+a:visited,
+a:hover,
+a:active {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+/* Đảm bảo navigation hoạt động bình thường */
+.navigation__link {
+    color: #222222 !important;
+    transition: color 0.3s ease;
+}
+
+.navigation__link:hover {
+    color: #555555 !important;
+}
+
+/* Button styles */
+.btn {
+    text-decoration: none !important;
+}
+
+.btn:hover {
+    text-decoration: none !important;
 }
