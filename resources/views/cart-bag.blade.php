@@ -451,7 +451,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <p><strong>Giá trị đơn:</strong> <span id="depositProductTotal"></span> VND</p>
 
                     <div class="mb-3">
-                        <label>Tỷ lệ đặt cọc</label>
+                        <label for="depositPercentage">Tỷ lệ đặt cọc</label>
                         <select class="form-select" id="depositPercentage" required>
                             <option value="">-- Chọn tỷ lệ --</option>
                             <option value="10">10%</option>
@@ -463,6 +463,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="mb-3">
                         <label>Số tiền đặt cọc</label>
                         <input type="text" id="depositAmountDisplay" class="form-control" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Số tiền còn lại</label>
+                        <input type="text" id="remainingAmountDisplay" class="form-control" readonly>
                     </div>
 
                     <div class="mb-3">
@@ -484,19 +489,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
 
                     <div class="mb-3">
-                        <label>Phương thức thanh toán</label>
+                        <label for="paymentMethod">Phương thức thanh toán</label>
                         <select name="payment_method" id="paymentMethod" class="form-select" required>
                             <option value="cod">Thanh toán tiền mặt</option>
                             <option value="paypal">PayPal</option>
                         </select>
                     </div>
 
-
-                    <!-- Nút Thanh toán -->
-                    <button id="cash-payment-button" class="btn btn-primary mt-3" style="display: none;">
+                    <!-- Nút Thanh toán tiền mặt -->
+                    <button type="submit" id="cash-payment-button" class="btn btn-primary mt-3" style="display: none;">
                         Thanh toán
                     </button>
 
+                    <!-- Nút Thanh toán PayPal -->
                     <div id="paypal-button-container" style="display:none; margin-top:15px;"></div>
                 </div>
                 <div class="modal-footer">
@@ -728,6 +733,7 @@ document.querySelectorAll('.qty-input').forEach(input => {
 
 // Đặt cọc
 let currentOrderTotal = 0;
+
 document.querySelectorAll('.deposit-link').forEach(link => {
     link.addEventListener('click', function(e) {
         e.preventDefault();
@@ -735,10 +741,13 @@ document.querySelectorAll('.deposit-link').forEach(link => {
         document.getElementById('depositProductQty').innerText = this.dataset.qty;
         document.getElementById('depositProductTotal').innerText = formatCurrency(this.dataset.total);
         document.getElementById('depositItemId').value = this.dataset.itemId;
-        currentOrderTotal = parseFloat(this.dataset.total);
+
+        currentOrderTotal = parseFloat(this.dataset.total) || 0;
+
         document.getElementById('depositPercentage').value = "";
         document.getElementById('depositAmountDisplay').value = "";
         document.getElementById('depositAmount').value = "";
+        document.getElementById('remainingAmountDisplay').value = formatCurrency(currentOrderTotal);
 
         const today = new Date();
         document.querySelector('input[name="deposit_date"]').value = today.toISOString().split('T')[0];
@@ -747,10 +756,13 @@ document.querySelectorAll('.deposit-link').forEach(link => {
 
 document.getElementById('depositPercentage')?.addEventListener('change', function() {
     const percent = parseFloat(this.value);
-    if (!isNaN(percent) && currentOrderTotal > 0) {
-        const amount = Math.round(currentOrderTotal * percent / 100);
-        document.getElementById('depositAmountDisplay').value = formatCurrency(amount);
-        document.getElementById('depositAmount').value = amount;
+    if (!isNaN(percent) && percent > 0 && currentOrderTotal > 0) {
+        const depositAmount = Math.round(currentOrderTotal * percent / 100);
+        const remainingAmount = currentOrderTotal - depositAmount;
+
+        document.getElementById('depositAmountDisplay').value = formatCurrency(depositAmount);
+        document.getElementById('depositAmount').value = depositAmount;
+        document.getElementById('remainingAmountDisplay').value = formatCurrency(remainingAmount);
 
         if (document.getElementById('paymentMethod').value === 'paypal') {
             document.getElementById('paypal-button-container').innerHTML = '';
@@ -759,6 +771,7 @@ document.getElementById('depositPercentage')?.addEventListener('change', functio
     } else {
         document.getElementById('depositAmountDisplay').value = "";
         document.getElementById('depositAmount').value = "";
+        document.getElementById('remainingAmountDisplay').value = formatCurrency(currentOrderTotal);
     }
 });
 
@@ -777,7 +790,7 @@ document.getElementById('paymentMethod')?.addEventListener('change', function() 
 });
 
 function renderPayPalButton() {
-    let depositAmount = document.getElementById('depositAmount').value;
+    let depositAmount = parseFloat(document.getElementById('depositAmount').value);
     if (!depositAmount || depositAmount <= 0) {
         alert('Bạn cần chọn tỷ lệ đặt cọc trước.');
         return;

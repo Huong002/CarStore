@@ -78,4 +78,9 @@ class Product extends Model
     {
         return $this->hasMany(Review::class);
     }
+
+    public function getEffectivePrice()
+{
+    return ($this->sale_price && $this->sale_price > 0) ? $this->sale_price : $this->regular_price;
+}
 }

@@ -45,8 +45,101 @@
         position: relative;
         cursor: pointer;
     }
+
+    .qty-control {
+        position: relative;
+        display: inline-block;
+        margin-right: 15px;
+    }
+
+    .qty-control__number {
+        width: 60px;
+        height: 40px;
+        border: 1px solid #ddd;
+        text-align: center;
+        font-size: 14px;
+        border-radius: 4px;
+        outline: none;
+    }
+
+    .qty-control__reduce,
+    .qty-control__increase {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-weight: bold;
+        color: #666;
+        user-select: none;
+        transition: color 0.2s;
+    }
+
+    .qty-control__reduce {
+        left: 5px;
+    }
+
+    .qty-control__increase {
+        right: 5px;
+    }
+
+    .qty-control__reduce:hover,
+    .qty-control__increase:hover {
+        color: #5E83AE;
+    }
 </style>
 
+{{-- Hiển thị thông báo flash message --}}
+@if(session('success') || session('error'))
+<div id="toast-message" class="{{ session('success') ? 'toast-success' : 'toast-error' }}" style="
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    min-width: 280px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 500;
+    z-index: 9999;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+">
+    @if(session('success'))
+    <span style="font-size:22px;">&#10003;</span>
+    @else
+    <span style="font-size:22px;">&#9888;</span>
+    @endif
+    <span>{{ session('success') ?? session('error') }}</span>
+</div>
+
+<style>
+    .toast-success {
+        background-color: #28a745 !important;
+    }
+
+    .toast-error {
+        background-color: #dc3545 !important;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const toast = document.getElementById('toast-message');
+        if (toast) {
+            setTimeout(function() {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 500);
+            }, 3000);
+        }
+    });
+</script>
+@endif
 
 {{-- CSS trực tiếp --}}
 <style>
@@ -821,6 +914,17 @@
                 }
             }
         });
+
+        // ---- Validation cho input số lượng ----
+        const qtyInput = document.querySelector('.qty-control__number');
+        if (qtyInput) {
+            qtyInput.addEventListener('change', function() {
+                let value = parseInt(this.value);
+                if (isNaN(value) || value < 1) {
+                    this.value = 1;
+                }
+            });
+        }
 
     });
 </script>

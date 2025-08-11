@@ -1022,6 +1022,17 @@
                                         <i class="bi bi-person fs-5"></i> Tài khoản
                                     </a>
                                 </li>
+                                <!--  -->
+
+                                <li>
+                                    <a href="#" class="dropdown-item d-flex align-items-center gap-2 py-2 px-3"
+                                        data-bs-toggle="modal" data-bs-target="#historyModal">
+                                        <i class="bi bi-clock-history fs-5"></i> Xem lịch sử mua hàng
+                                    </a>
+                                </li>
+
+
+                                <!--  -->
                                 <li>
                                     <form action="{{ route('logout') }}" method="POST" class="m-0">
                                         @csrf
@@ -1511,6 +1522,8 @@
     </style>
 
     @include('components.chatbot-floating');
+
+    @include('user.historyModal')
 
 </body>
 
