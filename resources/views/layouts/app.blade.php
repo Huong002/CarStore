@@ -1018,17 +1018,17 @@
                                         <i class="bi bi-person fs-5"></i> Tài khoản
                                     </a>
                                 </li>
-                                <!--  -->
+
 
                                 <li>
-                                    <a href="{{route" class="dropdown-item d-flex align-items-center gap-2 py-2 px-3"
-                                        data-bs-toggle="modal" data-bs-target="#historyModal">
+                                    <a href="{{route('accountOrder.index')}}" class="dropdown-item d-flex align-items-center gap-2 py-2 px-3"
+                                    >
                                         <i class="bi bi-clock-history fs-5"></i> Xem lịch sử mua hàng
                                     </a>
                                 </li>
 
 
-                                <!--  -->
+                        
                                 <li>
                                     <form action="{{ route('logout') }}" method="POST" class="m-0">
                                         @csrf
@@ -1036,7 +1036,7 @@
                                             class="dropdown-item d-flex align-items-center gap-2 py-2 px-3 w-100 border-0 bg-transparent">
                                             <i class="bi bi-box-arrow-right fs-5"></i> Đăng xuất
                                         </button>
-                                    </form>
+                                        </form>
                                 </li>
                             </ul>
                         </div>
