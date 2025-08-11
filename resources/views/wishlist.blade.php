@@ -4,14 +4,14 @@
 <main class="pt-90">
    <div class="mb-4 pb-4"></div>
    <section class="my-account container">
-      <h2 class="page-title">Wishlist</h2>
+      <h2 class="page-title">Yêu thích</h2>
       <div class="row">
          <div class="col-lg-3">
             <ul class="account-nav">
-               <li><a href="account-orders.html" class="menu-link menu-link_us-s">Orders</a></li>
-               <li><a href="{{route('accountOrder.index')}}" class="menu-link menu-link_us-s">Account Details</a></li>
-               <li><a href="{{route('wishlist.index')}}" class="menu-link menu-link_us-s">Wishlist</a></li>
-               <li><a href="login.html" class="menu-link menu-link_us-s">Logout</a></li>
+               <li><a href="{{route('accountOrder.index')}}" class="menu-link menu-link_us-s">Lịch sử</a></li>
+               <li><a href="#" class="menu-link menu-link_us-s">Tài khoản</a></li>
+               <li><a href="{{route('wishlist.index')}}" class="menu-link menu-link_us-s">Yêu thích</a></li>
+               <li><a href="login.html" class="menu-link menu-link_us-s">Đăng xuất</a></li>
             </ul>
          </div>
          <div class="col-lg-9">

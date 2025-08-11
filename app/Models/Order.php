@@ -19,6 +19,14 @@ class Order extends Model
         'remaining_amount',
     ];
 
+    protected $casts = [
+        'order_date' => 'datetime',
+        'tax' => 'decimal:2',
+        'total' => 'decimal:2',
+        'deposit_amount' => 'decimal:2',
+        'remaining_amount' => 'decimal:2',
+    ];
+
     public function customer()
     {
         return $this->belongsTo(Customer::class, 'customer_id');

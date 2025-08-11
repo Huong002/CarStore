@@ -229,6 +229,7 @@ Route::middleware('auth')->group(function () {
 
     // THÊM ROUTE NÀY:
     Route::get('/order/success/{id}', [OrderController::class, 'success'])->name('order.success');
+    Route::get('/order/details/{id}', [OrderController::class, 'orderDetails'])->name('order.details');
     // Danh sách đơn đặt cọc (có thể cho xem mà không đăng nhập, tùy bạn)
     Route::get('/deposit', [DepositController::class, 'list'])->name('deposit.list');
 

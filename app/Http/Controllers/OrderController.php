@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderDetail;
@@ -12,8 +13,46 @@ use App\Models\Deposit;
 
 class OrderController extends Controller
 {
-    public function index(){
-        return view('account-order');
+    public function index()
+    {
+        // Lấy user hiện tại
+        $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để xem đơn hàng.');
+        }
+
+        // Lấy tất cả orders của user hiện tại thông qua email
+        $orders = Order::with([
+            'customer',
+            'orderDetails.product.primaryImage',
+            'deposit',
+            'employee'
+        ])
+            ->whereHas('customer', function ($query) use ($user) {
+                $query->where('email', $user->email);
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Tính toán thông tin cho mỗi order
+        $orders->each(function ($order) {
+            // Tính subtotal từ order details
+            $order->subtotal = $order->orderDetails->sum(function ($detail) {
+                return $detail->price * $detail->quantity;
+            });
+
+            // Tính tax (10% của subtotal)
+            $order->calculated_tax = round($order->subtotal * 0.1, 2);
+
+            // Tính total
+            $order->calculated_total = $order->subtotal + $order->calculated_tax;
+
+            // Format status
+            $order->status_badge = $this->getStatusBadge($order->status);
+        });
+
+        return view('account-order', compact('orders'));
     }
     public function placeOrder(Request $request)
     {
@@ -155,5 +194,89 @@ class OrderController extends Controller
         $total = $subtotal + $tax;
 
         return view('success', compact('order', 'subtotal', 'tax', 'total'));
+    }
+    public function orderByUser($id)
+    {
+        // Lấy tất cả orders của user hiện tại với các relationship cần thiết
+        $orders = Order::with([
+            'customer',
+            'orderDetails.product.primaryImage',
+            'deposit',
+            'employee'
+        ])
+            ->whereHas('customer', function ($query) use ($id) {
+                $query->where('id', $id);
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Tính toán thông tin cho mỗi order
+        $orders->each(function ($order) {
+            // Tính subtotal từ order details
+            $order->subtotal = $order->orderDetails->sum(function ($detail) {
+                return $detail->price * $detail->quantity;
+            });
+
+            // Tính tax (10% của subtotal)
+            $order->calculated_tax = round($order->subtotal * 0.1, 2);
+
+            // Tính total
+            $order->calculated_total = $order->subtotal + $order->calculated_tax;
+
+            // Format status
+            $order->status_badge = $this->getStatusBadge($order->status);
+        });
+
+        return view('account-order', compact('orders'));
+    }
+
+    private function getStatusBadge($status)
+    {
+        switch (strtolower($status)) {
+            case 'pending':
+                return '<span class="badge bg-warning">Pending</span>';
+            case 'approved':
+            case 'ordered':
+                return '<span class="badge bg-warning">Ordered</span>';
+            case 'delivered':
+                return '<span class="badge bg-success">Delivered</span>';
+            case 'canceled':
+            case 'cancelled':
+                return '<span class="badge bg-danger">Canceled</span>';
+            default:
+                return '<span class="badge bg-secondary">' . ucfirst($status) . '</span>';
+        }
+    }
+
+    public function orderDetails($id)
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để xem chi tiết đơn hàng.');
+        }
+
+        // Lấy order với tất cả thông tin chi tiết
+        $order = Order::with([
+            'customer',
+            'orderDetails.product.primaryImage',
+            'orderDetails.product.galleryImages',
+            'deposit',
+            'employee'
+        ])
+            ->whereHas('customer', function ($query) use ($user) {
+                $query->where('email', $user->email);
+            })
+            ->findOrFail($id);
+
+        // Tính toán các thông tin tài chính
+        $subtotal = $order->orderDetails->sum(function ($detail) {
+            return $detail->price * $detail->quantity;
+        });
+
+        $tax = round($subtotal * 0.1, 2);
+        $total = $subtotal + $tax;
+
+        return view('order-details', compact('order', 'subtotal', 'tax', 'total'));
     }
 }
