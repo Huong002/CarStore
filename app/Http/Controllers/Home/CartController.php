@@ -353,27 +353,22 @@ class CartController extends Controller
     }
 
     public function checkoutFromDeposit($depositId)
-{
-    $deposit = \App\Models\Deposit::with('cartItem.product')->findOrFail($depositId);
+    {
+        $deposit = \App\Models\Deposit::with('cartItem.product')->findOrFail($depositId);
 
-    $product = $deposit->cartItem->product;
+        $product = $deposit->cartItem->product;
 
-<<<<<<< HEAD
-    $basePrice = $product->getEffectivePrice();
+        $basePrice = $product->getEffectivePrice();
 
-    $items = collect([$deposit->cartItem]);
-    
-    // Số tiền còn lại phải thanh toán = tổng giá - số tiền đặt cọc
-    $total = ($basePrice * $deposit->cartItem->quantity) - $deposit->deposit_amount;
+        $items = collect([$deposit->cartItem]);
 
-    return view('checkout', compact('items', 'total', 'deposit', 'basePrice'));
-}
-      public function getItems()
-=======
-        return view('checkout', compact('items', 'total', 'deposit'));
+        // Số tiền còn lại phải thanh toán = tổng giá - số tiền đặt cọc
+        $total = ($basePrice * $deposit->cartItem->quantity) - $deposit->deposit_amount;
+
+        return view('checkout', compact('items', 'total', 'deposit', 'basePrice'));
     }
     public function getItems()
->>>>>>> dev/huong-v2
+
     {
         // Nếu chưa đăng nhập, gán user_id tạm để test
         $userId = Auth::id();
