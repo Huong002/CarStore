@@ -96,6 +96,8 @@ Route::post('/chatbot/send', [ChatController::class, 'sendMessage'])->name('chat
 // wishlist
 Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
 
+Route::get('/account-order', [OrderController::class, 'index'])->name('accountOrder.index');
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index');
