@@ -38,6 +38,11 @@ class DatabaseSeeder extends Seeder
             ReviewsTableSeeder::class,
             NotificationSeeder::class,
             UserNotificationSeeder::class,
+
+            // Blog-related seeders
+            BlogCategorySeeder::class,
+            BlogSeeder::class,
+            BlogCommentSeeder::class,
         ]);
     }
 }
