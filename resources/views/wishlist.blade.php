@@ -9,7 +9,7 @@
          <div class="col-lg-3">
             <ul class="account-nav">
                <li><a href="{{route('accountOrder.index')}}" class="menu-link menu-link_us-s">Lịch sử</a></li>
-               <li><a href="#" class="menu-link menu-link_us-s">Tài khoản</a></li>
+               <li><a href="{{route('accountDetail.index')}}" class="menu-link menu-link_us-s">Tài khoản</a></li>
                <li><a href="{{route('wishlist.index')}}" class="menu-link menu-link_us-s">Yêu thích</a></li>
                <li><a href="login.html" class="menu-link menu-link_us-s">Đăng xuất</a></li>
             </ul>

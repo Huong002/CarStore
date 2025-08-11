@@ -95,12 +95,16 @@ Route::get('/about', [AboutController::class, 'index'])->name('about.index');
 Route::post('/chatbot/send', [ChatController::class, 'sendMessage'])->name('chatbot.send');
 // wishlist
 Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
-
+Route::get('/order/details/{id}', [OrderController::class, 'orderDetails'])->name('order.details');
 Route::get('/account-order', [OrderController::class, 'index'])->name('accountOrder.index');
+Route::get('/account-detail', [UserController::class, 'index'])->name('accountDetail.index');
+
+
 
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index');
+    Route::put('/account-detail', [UserController::class, 'user_update'])->name('user.update');
     // Chatbot cho cả user và admin
 
 });
@@ -229,7 +233,6 @@ Route::middleware('auth')->group(function () {
 
     // THÊM ROUTE NÀY:
     Route::get('/order/success/{id}', [OrderController::class, 'success'])->name('order.success');
-    Route::get('/order/details/{id}', [OrderController::class, 'orderDetails'])->name('order.details');
     // Danh sách đơn đặt cọc (có thể cho xem mà không đăng nhập, tùy bạn)
     Route::get('/deposit', [DepositController::class, 'list'])->name('deposit.list');
 
