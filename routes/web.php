@@ -44,6 +44,7 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 Route::get('/cart/confirm', [CartController::class, 'confirm'])->name('cart.confirm');
 Route::get('/about', [AboutController::class, 'index'])->name('about.index');
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 // dat chatbot ra ngoai 
 Route::post('/chatbot/send', [ChatController::class, 'sendMessage'])->name('chatbot.send');
 // wishlist
