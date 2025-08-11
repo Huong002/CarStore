@@ -358,7 +358,7 @@ class CartController extends Controller
 
     $product = $deposit->cartItem->product;
 
-<<<<<<< HEAD
+
     $basePrice = $product->getEffectivePrice();
 
     $items = collect([$deposit->cartItem]);
@@ -369,11 +369,7 @@ class CartController extends Controller
     return view('checkout', compact('items', 'total', 'deposit', 'basePrice'));
 }
       public function getItems()
-=======
-        return view('checkout', compact('items', 'total', 'deposit'));
-    }
-    public function getItems()
->>>>>>> dev/huong-v2
+
     {
         // Nếu chưa đăng nhập, gán user_id tạm để test
         $userId = Auth::id();
