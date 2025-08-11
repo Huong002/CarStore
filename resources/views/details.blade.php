@@ -366,6 +366,7 @@
                     <button type="button"
                         class="menu-link menu-link_us-s pc__btn-wl js-add-wishlist main-product-wishlist bg-transparent border-0"
                         data-product-id="{{ $product->id }}" data-product-name="{{ $product->name }}"
+                       data-product-slug="{{ $product->slug }}"
                         data-product-image="{{ $product->primaryImage ? asset('uploads/products/' . $product->primaryImage->imageName) : asset('assets/images/no-image.png') }}"
                         style="display:flex; align-items:center; gap:6px; cursor:pointer;">
                         <svg width="16" height="16" viewBox="0 0 20 20">
