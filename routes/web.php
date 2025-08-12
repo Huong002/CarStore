@@ -16,6 +16,7 @@ use App\Http\Controllers\DepositController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ReviewController;
 
+
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\ChatController;
 
@@ -232,7 +233,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 
-    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    // Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 });
  
  // Xem chi tiết sản phẩm yêu thích theo id
@@ -263,3 +264,9 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/orders/{orderId}/detail', [OrderController::class, 'orderDetail'])->name('orders.detail');
+Route::middleware('auth')->group(function () {
+    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    Route::put('/reviews/{id}', [ReviewController::class, 'update'])->name('reviews.update');
+    Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+});
+Route::get('/orders/{id}/print', [OrderController::class, 'printInvoice'])->name('orders.print');
