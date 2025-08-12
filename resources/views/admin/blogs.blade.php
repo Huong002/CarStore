@@ -64,7 +64,14 @@
                            @endif
                         </div>
                         <div class="name" style="display:inline-block;vertical-align:middle;">
-                           <a href="#" class="body-title-2" style="text-align:left; display:block; max-width:220px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="{{$blog->title}}">
+                           <a href="javascript:void(0)"
+                              class="body-title-2 view-content"
+                              data-bs-toggle="offcanvas"
+                              data-bs-target="#blogContent"
+                              data-content="{{ $blog->content }}"
+                              data-title="{{ $blog->title }}"
+                              style="text-align:left; display:block; max-width:220px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"
+                              title="{{$blog->title}}">
                               {{ \Illuminate\Support\Str::limit($blog->title, 20) }}
                            </a>
                            <div class="text-tiny mt-3" style="text-align:left; max-width:220px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="{{$blog->slug}}">
@@ -121,7 +128,14 @@
       </div>
    </div>
 </div>
-
+<div class="offcanvas offcanvas-end" tabindex="-1" id="blogContent" aria-labelledby="blogContentLabel">
+   <div class="offcanvas-header">
+      <h5 id="blogContentLabel">Nội dung bài viết</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+   </div>
+   <div class="offcanvas-body" id="blogContentBody">
+   </div>
+</div>
 
 @endsection
 
@@ -153,5 +167,17 @@
       });
    });
 </script>
+<script>
+   $(function() {
+      // Existing delete handler code...
 
+      $('.view-content').on('click', function() {
+         const content = $(this).data('content');
+         const title = $(this).data('title');
+
+         $('#blogContentLabel').text(title);
+         $('#blogContentBody').html(content); // Using html() to render HTML content
+      });
+   });
+</script>
 @endpush
