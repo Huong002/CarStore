@@ -47,7 +47,7 @@
     <!-- Bootstrap Bundle (gồm cả Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-   
+
     @stack("styles")
 </head>
 
@@ -519,9 +519,7 @@
                         <li class="navigation__item">
                             <a href="{{route('blog.index')}}" class="navigation__link">Blog</a>
                         </li>
-                        <!-- <li class="navigation__item">
-              <a href="contact.html" class="navigation__link">Contact</a>
-            </li> -->
+                    
                     </ul>
                 </nav>
 
@@ -1028,14 +1026,13 @@
 
 
                                 <li>
-                                    <a href="{{route('accountOrder.index')}}" class="dropdown-item d-flex align-items-center gap-2 py-2 px-3"
-                                    >
+                                    <a href="{{route('accountOrder.index')}}" class="dropdown-item d-flex align-items-center gap-2 py-2 px-3">
                                         <i class="bi bi-clock-history fs-5"></i> Xem lịch sử mua hàng
                                     </a>
                                 </li>
 
 
-                        
+
                                 <li>
                                     <form action="{{ route('logout') }}" method="POST" class="m-0">
                                         @csrf
@@ -1043,7 +1040,7 @@
                                             class="dropdown-item d-flex align-items-center gap-2 py-2 px-3 w-100 border-0 bg-transparent">
                                             <i class="bi bi-box-arrow-right fs-5"></i> Đăng xuất
                                         </button>
-                                        </form>
+                                    </form>
                                 </li>
                             </ul>
                         </div>

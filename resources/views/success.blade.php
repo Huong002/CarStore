@@ -32,10 +32,10 @@
                     <span>{{ number_format($total,0,',','.') }}₫</span>
                 </div>
                 <div class="order-info__item">
-                    <label>Trạng thái</label>
-                    <span>{{ ucfirst($order->status) }}</span>
+                    <div><label>Trạng thái:</label><span> {{ str_replace('approved', 'Đã thanh toán', $order->status)}} </span></div>
                 </div>
             </div>
+
 
             {{-- Chi tiết sản phẩm --}}
             <div class="checkout__totals-wrapper">
@@ -106,6 +106,12 @@
                     </table>
 
                 </div>
+            </div>
+            <div style="margin-top: 20px; text-align: right;">
+                <a href="{{ route('orders.print', ['id' => $order->id]) }}" target="_blank" class="btn btn-primary"
+                    style="padding: 10px 20px; font-size: 16px;">
+                    <i class="fa fa-print"></i> In hóa đơn
+                </a>
             </div>
         </div>
     </section>

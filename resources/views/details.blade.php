@@ -45,101 +45,8 @@
         position: relative;
         cursor: pointer;
     }
-
-    .qty-control {
-        position: relative;
-        display: inline-block;
-        margin-right: 15px;
-    }
-
-    .qty-control__number {
-        width: 60px;
-        height: 40px;
-        border: 1px solid #ddd;
-        text-align: center;
-        font-size: 14px;
-        border-radius: 4px;
-        outline: none;
-    }
-
-    .qty-control__reduce,
-    .qty-control__increase {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 20px;
-        height: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        font-weight: bold;
-        color: #666;
-        user-select: none;
-        transition: color 0.2s;
-    }
-
-    .qty-control__reduce {
-        left: 5px;
-    }
-
-    .qty-control__increase {
-        right: 5px;
-    }
-
-    .qty-control__reduce:hover,
-    .qty-control__increase:hover {
-        color: #5E83AE;
-    }
 </style>
 
-{{-- Hiển thị thông báo flash message --}}
-@if(session('success') || session('error'))
-<div id="toast-message" class="{{ session('success') ? 'toast-success' : 'toast-error' }}" style="
-    position: fixed;
-    top: 80px;
-    right: 20px;
-    min-width: 280px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 15px 20px;
-    border-radius: 8px;
-    color: #fff;
-    font-weight: 500;
-    z-index: 9999;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-">
-    @if(session('success'))
-    <span style="font-size:22px;">&#10003;</span>
-    @else
-    <span style="font-size:22px;">&#9888;</span>
-    @endif
-    <span>{{ session('success') ?? session('error') }}</span>
-</div>
-
-<style>
-    .toast-success {
-        background-color: #28a745 !important;
-    }
-
-    .toast-error {
-        background-color: #dc3545 !important;
-    }
-</style>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const toast = document.getElementById('toast-message');
-        if (toast) {
-            setTimeout(function() {
-                toast.style.opacity = '0';
-                setTimeout(() => toast.remove(), 500);
-            }, 3000);
-        }
-    });
-</script>
-@endif
 
 {{-- CSS trực tiếp --}}
 <style>
@@ -366,7 +273,6 @@
                     <button type="button"
                         class="menu-link menu-link_us-s pc__btn-wl js-add-wishlist main-product-wishlist bg-transparent border-0"
                         data-product-id="{{ $product->id }}" data-product-name="{{ $product->name }}"
-                       data-product-slug="{{ $product->slug }}"
                         data-product-image="{{ $product->primaryImage ? asset('uploads/products/' . $product->primaryImage->imageName) : asset('assets/images/no-image.png') }}"
                         style="display:flex; align-items:center; gap:6px; cursor:pointer;">
                         <svg width="16" height="16" viewBox="0 0 20 20">
@@ -521,39 +427,147 @@
 
                     <div class="product-single__reviews-list">
                         @forelse ($product->reviews as $review)
+                        <!--  -->
+                        @if(auth()->check() && auth()->id() === $review->user_id)
+                        <!-- Modal Edit Review -->
+                        <div class="modal fade" id="editReviewModal{{ $review->id }}" tabindex="-1"
+                            aria-labelledby="editReviewLabel{{ $review->id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form action="{{ route('reviews.update', $review->id) }}" method="POST"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        @method('PUT')
+
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editReviewLabel{{ $review->id }}">Sửa đánh giá
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <!-- Rating -->
+                                            <div class="mb-3">
+                                                <label>Đánh giá sản phẩm *</label>
+                                                <div class="star-rating">
+                                                    @for ($i = 5; $i >= 1; $i--)
+                                                    <input type="radio" id="editStar{{ $i }}-{{ $review->id }}"
+                                                        name="rating" value="{{ $i }}"
+                                                        {{ $review->rating == $i ? 'checked' : '' }}>
+                                                    <label for="editStar{{ $i }}-{{ $review->id }}">★</label>
+                                                    @endfor
+                                                </div>
+                                            </div>
+
+                                            <!-- Content -->
+                                            <div class="mb-3">
+                                                <textarea name="content" class="form-control" rows="4"
+                                                    required>{{ $review->content }}</textarea>
+                                            </div>
+
+                                            <!-- Image -->
+                                            <div class="mb-3">
+                                                <label>Hình ảnh (tùy chọn):</label>
+                                                @if($review->image)
+                                                <div class="mb-2">
+                                                    <img src="{{ asset($review->image) }}" alt="Hình ảnh" width="150">
+                                                </div>
+                                                @endif
+                                                <input type="file" name="image" accept="image/*">
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Hủy</button>
+                                            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+
+
+                        <!--  -->
                         <div class="product-single__reviews-item">
                             <div class="customer-avatar">
                                 <img loading="lazy"
                                     src="{{ $review->user && $review->user->image ? asset('images/avatar/' . $review->user->image) : asset('assets/images/avatar.jpg') }}"
                                     alt="{{ $review->name }}" />
-
                             </div>
+
                             <div class="customer-review">
-                                <div class="customer-name">
-                                    <h6>{{ $review->name }}</h6>
-                                    <div class="reviews-group d-flex">
-                                        @for ($i = 1; $i <= 5; $i++) <svg class="review-star" viewBox="0 0 9 9"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            style="fill: {{ $i <= $review->rating ? '#FFD700' : '#ccc' }}">
-                                            <use href="#icon_star" />
-                                            </svg>
-                                            @endfor
+                                <div class="customer-name d-flex justify-content-between">
+                                    <div>
+                                        <h6>{{ $review->name }}</h6>
+                                        <div class="reviews-group d-flex">
+                                            @for ($i = 1; $i <= 5; $i++) <svg class="review-star" viewBox="0 0 9 9"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                style="fill: {{ $i <= $review->rating ? '#FFD700' : '#ccc' }}">
+                                                <use href="#icon_star" />
+                                                </svg>
+                                                @endfor
+                                        </div>
                                     </div>
+
+
                                 </div>
-                                <div class="review-date">{{ $review->created_at->format('d/m/Y') }}</div>
-                                <!-- <div class="review-text">
-                                    <p>{{ $review->content }}</p>
-                                </div> -->
-                                <div class="review-text">
-                                    <p>{{ $review->content }}</p>
-                                    @if($review->image)
-                                    <img src="{{ asset($review->image) }}" alt="Hình ảnh đánh giá" width="200">
+
+                                <div class="review-date">
+                                    {{ $review->created_at->format('d/m/Y') }}
+                                </div>
+
+                                @if($review->updated_at && $review->updated_at->gt($review->created_at))
+                                <div>
+                                    <small style="color: #b8c480; font-style: italic;">(Nội dung đã được chỉnh
+                                        sửa)</small>
+                                </div>
+
+                                @endif
+
+                                <div class="review-text d-flex align-items-start">
+                                    <div class="flex-grow-1">
+                                        <p class="mb-0">{{ $review->content }}</p>
+
+                                        @if($review->image)
+                                        <img src="{{ asset($review->image) }}" alt="Hình ảnh đánh giá" width="200"
+                                            class="mt-2">
+                                        @endif
+                                    </div>
+
+                                    @if(auth()->check() && auth()->id() === $review->user_id)
+                                    <div class="dropdown" style="margin-left: 100px;">
+                                        <a href="#" class="text-dark" id="reviewMenu{{ $review->id }}"
+                                            style="font-size: 22px; text-decoration: none;" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                            &#x22EE;
+                                        </a>
+                                        <ul class="dropdown-menu" aria-labelledby="reviewMenu{{ $review->id }}">
+                                            <li>
+                                                <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                                    data-bs-target="#editReviewModal{{ $review->id }}">
+                                                    Sửa đánh giá
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <form action="{{ route('reviews.destroy', $review->id) }}" method="POST"
+                                                    onsubmit="return confirm('Bạn chắc chắn muốn xóa đánh giá này?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="dropdown-item text-danger">Xóa đánh
+                                                        giá</button>
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </div>
                                     @endif
-
-
                                 </div>
+
+
                             </div>
                         </div>
+
                         @empty
                         <p>Chưa có đánh giá nào cho sản phẩm này.</p>
                         @endforelse
@@ -915,17 +929,6 @@
                 }
             }
         });
-
-        // ---- Validation cho input số lượng ----
-        const qtyInput = document.querySelector('.qty-control__number');
-        if (qtyInput) {
-            qtyInput.addEventListener('change', function() {
-                let value = parseInt(this.value);
-                if (isNaN(value) || value < 1) {
-                    this.value = 1;
-                }
-            });
-        }
 
     });
 </script>
