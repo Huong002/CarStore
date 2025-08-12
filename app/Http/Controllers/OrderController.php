@@ -10,6 +10,7 @@ use App\Models\OrderDetail;
 use App\Models\CartItem;
 use App\Models\Deposit;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf; 
 
 class OrderController extends Controller
 {
@@ -264,4 +265,23 @@ public function orderDetail($orderId)
         'details' => $details
     ]);
 }
+
+public function printInvoice($id)
+{
+    $order = Order::with('orderDetails.product')->findOrFail($id);
+
+    $subtotal = $order->orderDetails->sum(function($detail) {
+        return $detail->total ?? ($detail->price * $detail->quantity);
+    });
+
+    $tax = $subtotal * 0.1;
+    $total = $subtotal + $tax;
+
+    $pdf = PDF::loadView('invoice', compact('order', 'subtotal', 'tax', 'total'));
+
+    return $pdf->stream("hoadon_{$order->id}.pdf");
+}
+
+
+
 }
