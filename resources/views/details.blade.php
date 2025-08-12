@@ -2,104 +2,104 @@
 @section('content')
 
 <style>
-    .pc__atc {
-        background-color: white;
-        padding: 10px 16px;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        opacity: 0;
-        transition: transform 0.3s ease, opacity 0.6s ease-out;
-    }
+.pc__atc {
+    background-color: white;
+    padding: 10px 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.6s ease-out;
+}
 
-    .pc__atc:hover {
-        transform: scale(1.05);
-    }
+.pc__atc:hover {
+    transform: scale(1.05);
+}
 
-    /* Mặc định trái tim xám */
-    .js-add-wishlist svg {
-        color: #666;
-        cursor: pointer;
-        transition: color 0.2s ease;
-    }
+/* Mặc định trái tim xám */
+.js-add-wishlist svg {
+    color: #666;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
 
-    /* Khi được click */
-    .js-add-wishlist.icon-heart-active svg {
-        color: red !important;
-    }
+/* Khi được click */
+.js-add-wishlist.icon-heart-active svg {
+    color: red !important;
+}
 
-    .add-to-wishlist svg {
-        fill: #666;
-        /* màu xám mặc định */
-        cursor: pointer;
-        transition: fill 0.3s ease;
-    }
+.add-to-wishlist svg {
+    fill: #666;
+    /* màu xám mặc định */
+    cursor: pointer;
+    transition: fill 0.3s ease;
+}
 
-    .add-to-wishlist.active svg {
-        fill: red;
-        /* màu đỏ khi được click */
-    }
+.add-to-wishlist.active svg {
+    fill: red;
+    /* màu đỏ khi được click */
+}
 
-    /* Đảm bảo nút không bị che */
-    .pc__btn-wl {
-        z-index: 100;
-        position: relative;
-        cursor: pointer;
-    }
+/* Đảm bảo nút không bị che */
+.pc__btn-wl {
+    z-index: 100;
+    position: relative;
+    cursor: pointer;
+}
 </style>
 
 
 {{-- CSS trực tiếp --}}
 <style>
-    .pc__atc {
-        border-radius: 8px !important;
-    }
+.pc__atc {
+    border-radius: 8px !important;
+}
 
 
-    .btn.btn-primary {
-        background-color: #5E83AE !important;
-        border: none !important;
-        border-radius: 8px !important;
-    }
+.btn.btn-primary {
+    background-color: #5E83AE !important;
+    border: none !important;
+    border-radius: 8px !important;
+}
 
-    .btn.btn-primary:hover {
-        background-color: #4a6b8c !important;
-    }
+.btn.btn-primary:hover {
+    background-color: #4a6b8c !important;
+}
 
-    .star-rating {
-        direction: rtl;
-        display: inline-flex;
-        font-size: 2rem;
-    }
+.star-rating {
+    direction: rtl;
+    display: inline-flex;
+    font-size: 2rem;
+}
 
-    .star-rating input[type=radio] {
-        display: none;
-    }
+.star-rating input[type=radio] {
+    display: none;
+}
 
-    .star-rating label {
-        color: #ccc;
-        cursor: pointer;
-        transition: color 0.2s;
-    }
+.star-rating label {
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s;
+}
 
-    .star-rating label:hover,
-    .star-rating label:hover~label {
-        color: gold;
-    }
+.star-rating label:hover,
+.star-rating label:hover~label {
+    color: gold;
+}
 
-    .star-rating input[type=radio]:checked~label {
-        color: gold;
-    }
+.star-rating input[type=radio]:checked~label {
+    color: gold;
+}
 
-    .alert-toast {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 9999;
-        padding: 15px 20px;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        transition: opacity 0.5s ease, transform 0.5s ease;
-    }
+.alert-toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    padding: 15px 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
 </style>
 <main class="pt-90">
     <div class="mb-md-1 pb-md-3"></div>
@@ -427,39 +427,147 @@
 
                     <div class="product-single__reviews-list">
                         @forelse ($product->reviews as $review)
+                        <!--  -->
+                        @if(auth()->check() && auth()->id() === $review->user_id)
+                        <!-- Modal Edit Review -->
+                        <div class="modal fade" id="editReviewModal{{ $review->id }}" tabindex="-1"
+                            aria-labelledby="editReviewLabel{{ $review->id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form action="{{ route('reviews.update', $review->id) }}" method="POST"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        @method('PUT')
+
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editReviewLabel{{ $review->id }}">Sửa đánh giá
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <!-- Rating -->
+                                            <div class="mb-3">
+                                                <label>Đánh giá sản phẩm *</label>
+                                                <div class="star-rating">
+                                                    @for ($i = 5; $i >= 1; $i--)
+                                                    <input type="radio" id="editStar{{ $i }}-{{ $review->id }}"
+                                                        name="rating" value="{{ $i }}"
+                                                        {{ $review->rating == $i ? 'checked' : '' }}>
+                                                    <label for="editStar{{ $i }}-{{ $review->id }}">★</label>
+                                                    @endfor
+                                                </div>
+                                            </div>
+
+                                            <!-- Content -->
+                                            <div class="mb-3">
+                                                <textarea name="content" class="form-control" rows="4"
+                                                    required>{{ $review->content }}</textarea>
+                                            </div>
+
+                                            <!-- Image -->
+                                            <div class="mb-3">
+                                                <label>Hình ảnh (tùy chọn):</label>
+                                                @if($review->image)
+                                                <div class="mb-2">
+                                                    <img src="{{ asset($review->image) }}" alt="Hình ảnh" width="150">
+                                                </div>
+                                                @endif
+                                                <input type="file" name="image" accept="image/*">
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Hủy</button>
+                                            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+
+
+                        <!--  -->
                         <div class="product-single__reviews-item">
                             <div class="customer-avatar">
                                 <img loading="lazy"
                                     src="{{ $review->user && $review->user->image ? asset('images/avatar/' . $review->user->image) : asset('assets/images/avatar.jpg') }}"
                                     alt="{{ $review->name }}" />
-
                             </div>
+
                             <div class="customer-review">
-                                <div class="customer-name">
-                                    <h6>{{ $review->name }}</h6>
-                                    <div class="reviews-group d-flex">
-                                        @for ($i = 1; $i <= 5; $i++) <svg class="review-star" viewBox="0 0 9 9"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            style="fill: {{ $i <= $review->rating ? '#FFD700' : '#ccc' }}">
-                                            <use href="#icon_star" />
-                                            </svg>
-                                            @endfor
+                                <div class="customer-name d-flex justify-content-between">
+                                    <div>
+                                        <h6>{{ $review->name }}</h6>
+                                        <div class="reviews-group d-flex">
+                                            @for ($i = 1; $i <= 5; $i++) <svg class="review-star" viewBox="0 0 9 9"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                style="fill: {{ $i <= $review->rating ? '#FFD700' : '#ccc' }}">
+                                                <use href="#icon_star" />
+                                                </svg>
+                                                @endfor
+                                        </div>
                                     </div>
+
+
                                 </div>
-                                <div class="review-date">{{ $review->created_at->format('d/m/Y') }}</div>
-                                <!-- <div class="review-text">
-                                    <p>{{ $review->content }}</p>
-                                </div> -->
-                                <div class="review-text">
-                                    <p>{{ $review->content }}</p>
-                                    @if($review->image)
-                                    <img src="{{ asset($review->image) }}" alt="Hình ảnh đánh giá" width="200">
+
+                                <div class="review-date">
+                                    {{ $review->created_at->format('d/m/Y') }}
+                                </div>
+
+                                @if($review->updated_at && $review->updated_at->gt($review->created_at))
+                                <div>
+                                    <small style="color: #b8c480; font-style: italic;">(Nội dung đã được chỉnh
+                                        sửa)</small>
+                                </div>
+
+                                @endif
+
+                                <div class="review-text d-flex align-items-start">
+                                    <div class="flex-grow-1">
+                                        <p class="mb-0">{{ $review->content }}</p>
+
+                                        @if($review->image)
+                                        <img src="{{ asset($review->image) }}" alt="Hình ảnh đánh giá" width="200"
+                                            class="mt-2">
+                                        @endif
+                                    </div>
+
+                                    @if(auth()->check() && auth()->id() === $review->user_id)
+                                    <div class="dropdown" style="margin-left: 100px;">
+                                        <a href="#" class="text-dark" id="reviewMenu{{ $review->id }}"
+                                            style="font-size: 22px; text-decoration: none;" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                            &#x22EE;
+                                        </a>
+                                        <ul class="dropdown-menu" aria-labelledby="reviewMenu{{ $review->id }}">
+                                            <li>
+                                                <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                                    data-bs-target="#editReviewModal{{ $review->id }}">
+                                                    Sửa đánh giá
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <form action="{{ route('reviews.destroy', $review->id) }}" method="POST"
+                                                    onsubmit="return confirm('Bạn chắc chắn muốn xóa đánh giá này?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="dropdown-item text-danger">Xóa đánh
+                                                        giá</button>
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </div>
                                     @endif
-
-
                                 </div>
+
+
                             </div>
                         </div>
+
                         @empty
                         <p>Chưa có đánh giá nào cho sản phẩm này.</p>
                         @endforelse
@@ -749,118 +857,118 @@
 </main>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function() {
 
-        // ---- Xử lý Share Modal ----
-        const shareBtn = document.querySelector('.to-share');
-        const modal = document.getElementById('shareModal');
-        const overlay = document.getElementById('modalOverlay');
-        const shareLinkInput = document.getElementById('shareLink');
-        const copyBtn = document.getElementById('copyBtn');
-        const closeBtn = document.getElementById('closeBtn');
+    // ---- Xử lý Share Modal ----
+    const shareBtn = document.querySelector('.to-share');
+    const modal = document.getElementById('shareModal');
+    const overlay = document.getElementById('modalOverlay');
+    const shareLinkInput = document.getElementById('shareLink');
+    const copyBtn = document.getElementById('copyBtn');
+    const closeBtn = document.getElementById('closeBtn');
 
-        function openModal() {
-            const currentUrl = window.location.href.split('#')[0];
-            shareLinkInput.value = currentUrl;
-            modal.style.display = 'block';
-            overlay.style.display = 'block';
-        }
+    function openModal() {
+        const currentUrl = window.location.href.split('#')[0];
+        shareLinkInput.value = currentUrl;
+        modal.style.display = 'block';
+        overlay.style.display = 'block';
+    }
 
-        function closeModal() {
-            modal.style.display = 'none';
-            overlay.style.display = 'none';
-        }
+    function closeModal() {
+        modal.style.display = 'none';
+        overlay.style.display = 'none';
+    }
 
-        if (shareBtn) shareBtn.addEventListener('click', openModal);
+    if (shareBtn) shareBtn.addEventListener('click', openModal);
 
-        if (copyBtn) {
-            copyBtn.addEventListener('click', () => {
-                shareLinkInput.select();
-                shareLinkInput.setSelectionRange(0, 99999);
-                navigator.clipboard.writeText(shareLinkInput.value).then(() => {
-                    alert('Đã sao chép link!');
-                    closeModal();
-                });
+    if (copyBtn) {
+        copyBtn.addEventListener('click', () => {
+            shareLinkInput.select();
+            shareLinkInput.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(shareLinkInput.value).then(() => {
+                alert('Đã sao chép link!');
+                closeModal();
             });
+        });
+    }
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (overlay) overlay.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') closeModal();
+    });
+
+    // ---- Reset sao đánh giá khi load trang ----
+    document.querySelectorAll('.star-rating input[type=radio]').forEach(input => {
+        input.checked = false;
+    });
+
+    // ---- Xử lý click trái tim ----
+    document.addEventListener('click', function(e) {
+        // Loại 1: .js-add-wishlist
+        const btn1 = e.target.closest('.js-add-wishlist');
+        if (btn1) {
+            e.preventDefault();
+            btn1.classList.toggle('icon-heart-active');
+            return;
         }
 
-        if (closeBtn) closeBtn.addEventListener('click', closeModal);
-        if (overlay) overlay.addEventListener('click', closeModal);
+        // Loại 2: .add-to-wishlist
+        const btn2 = e.target.closest('.add-to-wishlist');
+        if (btn2) {
+            e.preventDefault();
+            btn2.classList.toggle('active');
 
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Escape') closeModal();
-        });
-
-        // ---- Reset sao đánh giá khi load trang ----
-        document.querySelectorAll('.star-rating input[type=radio]').forEach(input => {
-            input.checked = false;
-        });
-
-        // ---- Xử lý click trái tim ----
-        document.addEventListener('click', function(e) {
-            // Loại 1: .js-add-wishlist
-            const btn1 = e.target.closest('.js-add-wishlist');
-            if (btn1) {
-                e.preventDefault();
-                btn1.classList.toggle('icon-heart-active');
-                return;
+            // Đổi màu cho SVG bằng color (dành cho <use>)
+            const svg = btn2.querySelector('svg');
+            if (btn2.classList.contains('active')) {
+                svg.style.color = 'red';
+            } else {
+                svg.style.color = '#666';
             }
-
-            // Loại 2: .add-to-wishlist
-            const btn2 = e.target.closest('.add-to-wishlist');
-            if (btn2) {
-                e.preventDefault();
-                btn2.classList.toggle('active');
-
-                // Đổi màu cho SVG bằng color (dành cho <use>)
-                const svg = btn2.querySelector('svg');
-                if (btn2.classList.contains('active')) {
-                    svg.style.color = 'red';
-                } else {
-                    svg.style.color = '#666';
-                }
-            }
-        });
-
+        }
     });
+
+});
 </script>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Ẩn tất cả alert sau 3s
-        const alerts = document.querySelectorAll('.alert-toast'); // <-- CHỖ SỬA
-        alerts.forEach(alert => {
+document.addEventListener("DOMContentLoaded", function() {
+    // Ẩn tất cả alert sau 3s
+    const alerts = document.querySelectorAll('.alert-toast'); // <-- CHỖ SỬA
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.style.transition = "opacity 0.5s ease";
+            alert.style.opacity = '0';
             setTimeout(() => {
-                alert.style.transition = "opacity 0.5s ease";
-                alert.style.opacity = '0';
-                setTimeout(() => {
-                    alert.style.display = 'none';
-                }, 500);
-            }, 5000); // đổi thành 3000ms (3s)
-        });
-
-        // Hiển thị tên file
-        const imageUpload = document.getElementById('imageUpload');
-        const fileNameDisplay = document.getElementById('file-name');
-        if (imageUpload && fileNameDisplay) {
-            imageUpload.addEventListener('change', function(e) {
-                const fileName = e.target.files[0] ? e.target.files[0].name : 'Chưa chọn ảnh';
-                fileNameDisplay.textContent = fileName;
-            });
-        }
-
-        // Cảnh báo nếu chưa chọn sao
-        const form = document.querySelector('.product-single__review-form form');
-        if (form) {
-            form.addEventListener('submit', function(e) {
-                const ratingChecked = form.querySelector('input[name="rating"]:checked');
-                if (!ratingChecked) {
-                    e.preventDefault();
-                    alert("Vui lòng chọn số sao để đánh giá sản phẩm!");
-                }
-            });
-        }
+                alert.style.display = 'none';
+            }, 500);
+        }, 5000); // đổi thành 3000ms (3s)
     });
+
+    // Hiển thị tên file
+    const imageUpload = document.getElementById('imageUpload');
+    const fileNameDisplay = document.getElementById('file-name');
+    if (imageUpload && fileNameDisplay) {
+        imageUpload.addEventListener('change', function(e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : 'Chưa chọn ảnh';
+            fileNameDisplay.textContent = fileName;
+        });
+    }
+
+    // Cảnh báo nếu chưa chọn sao
+    const form = document.querySelector('.product-single__review-form form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            const ratingChecked = form.querySelector('input[name="rating"]:checked');
+            if (!ratingChecked) {
+                e.preventDefault();
+                alert("Vui lòng chọn số sao để đánh giá sản phẩm!");
+            }
+        });
+    }
+});
 </script>
 
 
