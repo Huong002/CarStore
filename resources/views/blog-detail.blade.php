@@ -39,7 +39,7 @@
                         <span class="font-light">{{ $blog->created_at->format('F d Y') }}</span>
                         <h2 class="card-title">{{ $blog->title }}</h2>
                         <div class="font-light firt-latter">
-                           {!! nl2br(e($blog->content)) !!}
+                           {!! $blog->content !!}
                         </div>
                      </div>
                   </div>

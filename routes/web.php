@@ -124,7 +124,7 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::get('/admin/orders/approved', [AdminController::class, 'orders_approved'])->name('orders.approved');
     Route::get('/admin/orders/cancelled', [AdminController::class, 'orders_cancelled'])->name('orders.cancelled');
 
-    // Thao tác đơn hàng
+    // Thao tác đơn hàn
     Route::post('/admin/order/approve/{id}', [AdminController::class, 'order_approve'])->name('order.approve');
     Route::post('/admin/order/cancel/{id}', [AdminController::class, 'order_cancel'])->name('order.cancel');
     Route::get('/admin/invoice/print/{id}', [InvoiceController::class, 'printInvoice'])->name('order.invoice.print');
@@ -161,6 +161,15 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     // setting
     Route::get('admin/setting', [AdminController::class, 'settings'])->name('admin.setting');
     Route::post('admin/setting', [AdminController::class, 'settings_update'])->name('admin.settings.update');
+    // blog
+    Route::get('admin/blog', [BlogController::class, 'blogs'])->name('admin.blogs');
+    Route::get('admin/blog/add', [BlogController::class, 'blogs_add'])->name('admin.blogs.add');
+    Route::post('admin/blog/store', [BlogController::class, 'blogs_store'])->name('admin.blogs.store');
+    Route::get('admin/blog/edit/{id}', [BlogController::class, 'blogs_edit'])->name('admin.blogs.edit');
+    Route::put('admin/blog/update', [BlogController::class, 'blogs_update'])->name('admin.blogs.update');
+    Route::delete('admin/blog/delete/{id}', [BlogController::class, 'blogs_delete'])->name('admin.blogs.delete');
+
+    
 });
 Route::get('/location', function () {
     return view('location');

@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use App\Models\BlogCategory;
 use App\Models\BlogComment;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
@@ -135,5 +137,91 @@ class BlogController extends Controller
       ]);
 
       return redirect()->back()->with('success', 'Bình luận của bạn đã được thêm thành công!');
+   }
+
+
+   // for admin
+   public function blogs(Request $request)
+   {
+      // Lấy tham số tìm kiếm và category từ request
+      $search = $request->get('search');
+      $categoryId = $request->get('category');
+
+      // Query blogs với các điều kiện
+      $blogsQuery = Blog::with(['author', 'category', 'comments'])
+         ->where('status', 'published')
+         ->orderBy('created_at', 'desc');
+
+      // Tìm kiếm theo title hoặc content
+      if ($search) {
+         $blogsQuery->where(function ($query) use ($search) {
+            $query->where('title', 'like', '%' . $search . '%')
+               ->orWhere('content', 'like', '%' . $search . '%');
+         });
+      }
+
+      // Lấy tất cả blogs (có thể phân trang sau)
+      $blogs = $blogsQuery->get();
+
+      // Lấy các category để hiển thị
+      $categories = BlogCategory::withCount('blogs')->orderBy('name')->get();
+
+      // Lấy các blog phổ biến (popular posts)
+      $popularBlogs = Blog::with(['author', 'category'])
+         ->where('status', 'published')
+         ->orderBy('views_count', 'desc')
+         ->limit(4)
+         ->get();
+
+      return view('admin.blogs', compact('blogs', 'categories', 'popularBlogs', 'search', 'categoryId'));
+   }
+   public function blogs_add()
+   {
+      $categories = BlogCategory::orderBy('name')->get();
+      return view('admin.blog-add', compact('categories'));
+   }
+   public function blogs_store(Request $request)
+   {
+      $request->validate([
+         'title' => 'required|string|max:255',
+         'slug' => 'required|string|unique:blogs,slug|max:255',
+         'content' => 'required|string',
+         'category_id' => 'required|exists:blog_categories,id',
+         'status' => 'required|in:draft,published',
+         'featured_image' => 'nullable|mimes:png,jpg,jpeg|max:2048',
+      ]);
+
+      $blog = new Blog();
+      $blog->title = $request->title;
+      $blog->slug = Str::slug($request->slug);
+      $blog->content = $request->content;
+      $blog->category_id = $request->category_id;
+      $blog->status = $request->status;
+      $blog->author_id = Auth::user()->id; // Lấy ID của user hiện tại
+      $blog->views_count = 0;
+
+      // Xử lý upload ảnh đại diện
+      if ($request->hasFile('featured_image')) {
+         $image = $request->file('featured_image');
+         $file_extension = $image->extension();
+         $file_name = Carbon::now()->timestamp . '_blog.' . $file_extension;
+         $destinationPath = public_path('uploads/blogs');
+
+         if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
+         }
+
+         $image->move($destinationPath, $file_name);
+         $blog->featured_image = $file_name;
+      }
+
+      $blog->save();
+
+      return redirect()->route('admin.blogs')->with('status', 'Thêm bài viết thành công!');
+   }
+
+   public function blogs_edit($id)
+   {
+      return view('admin.rblog-edit');
    }
 }

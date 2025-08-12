@@ -355,6 +355,24 @@
                   </ul>
                 </li>
 
+                <li class="menu-item has-children">
+                  <a href="javascript:void(0);" class="menu-item-button">
+                    <div class="icon"><i class="icon-bell"></i></div>
+                    <div class="text">Blog</div>
+                  </a>
+                  <ul class="sub-menu">
+                    <li class="sub-menu-item">
+                      <a href="{{route('admin.blogs.add')}}" class="">
+                        <div class="text">Thêm mới</div>
+                      </a>
+                    </li>
+                    <li class="sub-menu-item">
+                      <a href="{{route('admin.blogs')}}" class="">
+                        <div class="text">Danh sách</div>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
 
                 <!-- <li class="menu-item">
                   <a href="slider.html" class="">

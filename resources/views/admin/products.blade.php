@@ -46,9 +46,7 @@
                      <th class="text-center" style="min-width: 160px;">Giá</th>
                      <th class="text-center" style="min-width: 160px;">Giá khuyến mãi</th>
                      <th class="text-center" style="white-space:nowrap;">SKU</th>
-                     <!-- <th class="text-center" style="white-space:nowrap;">Danh mục</th> -->
                      <th class="text-center" style="white-space:nowrap;">Thương hiệu</th>
-                     <!-- <th class="text-center" style="white-space:nowrap;">Nổi bật</th> -->
                      <th class="text-center" style="white-space:nowrap;">Kho</th>
                      <th class="text-center" style="white-space:nowrap;">Số lượng</th>
                      <th class="text-center" style="white-space:nowrap;"></th>
