@@ -166,10 +166,8 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::get('admin/blog/add', [BlogController::class, 'blogs_add'])->name('admin.blogs.add');
     Route::post('admin/blog/store', [BlogController::class, 'blogs_store'])->name('admin.blogs.store');
     Route::get('admin/blog/edit/{id}', [BlogController::class, 'blogs_edit'])->name('admin.blogs.edit');
-    Route::put('admin/blog/update', [BlogController::class, 'blogs_update'])->name('admin.blogs.update');
+    Route::put('admin/blog/update/{id}', [BlogController::class, 'blogs_update'])->name('admin.blogs.update');
     Route::delete('admin/blog/delete/{id}', [BlogController::class, 'blogs_delete'])->name('admin.blogs.delete');
-
-    
 });
 Route::get('/location', function () {
     return view('location');

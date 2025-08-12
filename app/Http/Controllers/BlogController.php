@@ -222,6 +222,71 @@ class BlogController extends Controller
 
    public function blogs_edit($id)
    {
-      return view('admin.rblog-edit');
+      $blog = Blog::with(['category'])->findOrFail($id);
+      $categories = BlogCategory::orderBy('name')->get();
+      return view('admin.blog-edit', compact('blog', 'categories'));
+   }
+
+   public function blogs_update(Request $request, $id)
+   {
+      $request->validate([
+         'title' => 'required|string|max:255',
+         'slug' => 'required|string|unique:blogs,slug,' . $id . '|max:255',
+         'content' => 'required|string',
+         'category_id' => 'required|exists:blog_categories,id',
+         'status' => 'required|in:draft,published',
+         'featured_image' => 'nullable|mimes:png,jpg,jpeg|max:2048',
+      ]);
+
+      $blog = Blog::findOrFail($id);
+      $blog->title = $request->title;
+      $blog->slug = Str::slug($request->slug);
+      $blog->content = $request->content;
+      $blog->category_id = $request->category_id;
+      $blog->status = $request->status;
+
+      // Xử lý upload ảnh đại diện
+      if ($request->hasFile('featured_image')) {
+         // Xóa ảnh cũ nếu có
+         if ($blog->featured_image) {
+            $oldImagePath = public_path('uploads/blogs/' . $blog->featured_image);
+            if (file_exists($oldImagePath)) {
+               unlink($oldImagePath);
+            }
+         }
+
+         $image = $request->file('featured_image');
+         $file_extension = $image->extension();
+         $file_name = Carbon::now()->timestamp . '_blog.' . $file_extension;
+         $destinationPath = public_path('uploads/blogs');
+
+         if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
+         }
+
+         $image->move($destinationPath, $file_name);
+         $blog->featured_image = $file_name;
+      }
+
+      $blog->save();
+
+      return redirect()->route('admin.blogs')->with('status', 'Cập nhật bài viết thành công!');
+   }
+
+   public function blogs_delete($id)
+   {
+      $blog = Blog::findOrFail($id);
+
+      // Xóa ảnh đại diện nếu có
+      if ($blog->featured_image) {
+         $imagePath = public_path('uploads/blogs/' . $blog->featured_image);
+         if (file_exists($imagePath)) {
+            unlink($imagePath);
+         }
+      }
+
+      $blog->delete();
+
+      return redirect()->route('admin.blogs')->with('status', 'Xóa bài viết thành công!');
    }
 }
