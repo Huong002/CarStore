@@ -110,7 +110,7 @@
             <div style="margin-top: 20px; text-align: right;">
                 <a href="{{ route('orders.print', ['id' => $order->id]) }}" target="_blank" class="btn btn-primary"
                     style="padding: 10px 20px; font-size: 16px;">
-                    <i class="fa fa-print"></i> In hóa đơn
+                    <i class="bi bi-printer-fill"></i> In hóa đơn
                 </a>
             </div>
         </div>
