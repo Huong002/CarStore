@@ -8,6 +8,25 @@
       font-size: 14px;
       border: 1px solid #dee2e6;
    }
+
+   .ck.ck-editor {
+      width: 100% !important;
+      margin-bottom: 1rem;
+   }
+
+   .ck-editor__editable {
+      min-height: 200px;
+   }
+
+   /* Style cho form group */
+   .form-group {
+      margin-bottom: 1rem;
+   }
+
+   .form-label {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+   }
 </style>
 <div class="main-content-inner">
    <div class="main-content-wrap">
@@ -48,10 +67,13 @@
             <span class="alert alert-danger text-center">{{$message}}</span>
             @enderror
 
+
             <fieldset class="name">
-               <div class="body-title">Nội dung <span class="tf-color-1">*</span></div>
-               <textarea class="flex-grow" rows="5" placeholder="Nội dung thông báo" name="content"
-                  tabindex="0" aria-required="true" required="">{{old('content')}}</textarea>
+               <div class="body-title">Nội dung <span class="tf-color-1">*</span>
+               </div>
+               <textarea name="content" class="flex-grow" id="editor">
+                  {!! old('content') !!}
+               </textarea>
             </fieldset>
             @error('content')
             <span class="alert alert-danger text-center">{{$message}}</span>
@@ -89,5 +111,24 @@
    $(function() {
       // Thêm xử lý khi cần thiết
    });
+</script>
+<script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+<script>
+   ClassicEditor
+      .create(document.querySelector('#editor'), {
+         toolbar: [
+            'undo', 'redo', '|',
+            'heading', '|',
+            'bold', 'italic', 'underline', 'link', '|',
+            'bulletedList', 'numberedList', '|',
+            'insertTable', 'blockQuote', 'codeBlock'
+         ],
+         table: {
+            contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+         }
+      })
+      .catch(error => {
+         console.error(error);
+      });
 </script>
 @endpush

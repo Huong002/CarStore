@@ -90,6 +90,7 @@
                      </td>
 
                      <td class="text-center" style="white-space:nowrap;">{{$product->quantity}}</td>
+                     
                      <td class="text-center" style="white-space:nowrap;">
                         <div class="list-icon-function d-flex justify-content-center align-items-center gap-4">
                            <!-- <a href="#" target="_blank">

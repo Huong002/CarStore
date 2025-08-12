@@ -39,7 +39,7 @@
          </div>
          <div class="wg-table table-all-user">
             <div class="table-responsive">
-            
+
                <table class="table table-striped table-bordered ">
                   <thead>
                      <tr>
@@ -55,9 +55,12 @@
                      <tr>
 
                         <td class="text-center">{{$loop->iteration}}</td>
-                      
+
                         <td>{{$noti->name}}</td>
-                        <td>{{$noti->content}}</td>
+                        <td>
+                           {{ \Illuminate\Support\Str::limit(strip_tags($noti->content), 40, '...') }}
+
+                        </td>
                         <td><a href="#" target="_blank">{{$noti->type == 'all' 
                               ? 'Toàn hệ thống' 
                               : ($noti->type == 'admin' 
