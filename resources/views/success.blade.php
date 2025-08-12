@@ -35,6 +35,14 @@
                     <label>Trạng thái</label>
                     <span>{{ ucfirst($order->status) }}</span>
                 </div>
+
+                {{-- Nút In hóa đơn --}}
+                <div style="margin-top: 20px;">
+                    <a href="{{ route('orders.print', ['id' => $order->id]) }}" target="_blank" class="btn btn-primary"
+                        style="padding: 10px 20px; font-size: 16px;">
+                        <i class="fa fa-print"></i> In hóa đơn
+                    </a>
+                </div>
             </div>
 
             {{-- Chi tiết sản phẩm --}}
