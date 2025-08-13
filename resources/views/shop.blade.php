@@ -125,9 +125,9 @@
                 {{-- Danh mục --}}
                 <div class="accordion-item mb-4 pb-3">
                     <h5 class="accordion-header" id="accordion-heading-category">
-                        <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button"
+                        <button class="accordion-button p-0 border-0 fs-5 text-uppercase bg-white" type="button"
                             data-bs-toggle="collapse" data-bs-target="#accordion-filter-category" aria-expanded="true"
-                            aria-controls="accordion-filter-category">
+                            aria-controls="accordion-filter-category" style="box-shadow:none; border:none;">
                             Danh mục
                             <svg class="accordion-button__icon type2" viewBox="0 0 10 6"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -136,7 +136,7 @@
                         </button>
                     </h5>
                     <div id="accordion-filter-category" class="accordion-collapse collapse show border-0"
-                        aria-labelledby="accordion-heading-category" data-bs-parent="#filters">
+                        aria-labelledby="accordion-heading-category">
                         <div class="accordion-body px-0 pb-0 pt-3" style="max-height: 250px; overflow-y: auto;">
                             <ul class="list list-inline mb-0">
                                 @foreach($allCategories as $category)
@@ -156,9 +156,9 @@
                 {{-- Màu sắc --}}
                 <div class="accordion-item mb-4 pb-3">
                     <h5 class="accordion-header" id="accordion-heading-color">
-                        <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#accordion-filter-color" aria-expanded="false"
-                            aria-controls="accordion-filter-color">
+                        <button class="accordion-button p-0 border-0 fs-5 text-uppercase bg-white" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#accordion-filter-color" aria-expanded="true"
+                            aria-controls="accordion-filter-color" style="box-shadow:none; border:none;">
                             Màu sắc
                             <svg class="accordion-button__icon type2" viewBox="0 0 10 6"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -166,8 +166,8 @@
                             </svg>
                         </button>
                     </h5>
-                    <div id="accordion-filter-color" class="accordion-collapse collapse border-0"
-                        aria-labelledby="accordion-heading-color" data-bs-parent="#filters">
+                    <div id="accordion-filter-color" class="accordion-collapse collapse show border-0"
+                        aria-labelledby="accordion-heading-color">
                         <div class="accordion-body px-0 pb-0">
                             <div class="d-flex flex-wrap">
                                 @foreach($allColors as $color)
@@ -188,9 +188,9 @@
                 {{-- Thương hiệu --}}
                 <div class="accordion-item mb-4 pb-3">
                     <h5 class="accordion-header" id="accordion-heading-brand">
-                        <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#accordion-filter-brand" aria-expanded="false"
-                            aria-controls="accordion-filter-brand">
+                        <button class="accordion-button p-0 border-0 fs-5 text-uppercase bg-white" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#accordion-filter-brand" aria-expanded="true"
+                            aria-controls="accordion-filter-brand" style="box-shadow:none; border:none;">
                             Thương hiệu
                             <svg class="accordion-button__icon type2" viewBox="0 0 10 6"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -198,8 +198,8 @@
                             </svg>
                         </button>
                     </h5>
-                    <div id="accordion-filter-brand" class="accordion-collapse collapse border-0"
-                        aria-labelledby="accordion-heading-brand" data-bs-parent="#filters">
+                    <div id="accordion-filter-brand" class="accordion-collapse collapse show border-0"
+                        aria-labelledby="accordion-heading-brand">
                         <div class="search-field multi-select accordion-body px-0 pb-0">
                             <div class="search-field__input-wrapper mb-3">
                                 <input type="text" name="search_text"
@@ -587,7 +587,7 @@
             </div>
             <div class="modal-body">
                 <fieldset>
-                   
+
                     <div class="upload-image flex-grow">
                         <div class="item" id="imgpreview" style="display:none">
                             <img src="{{ asset('images/upload/upload-1.png') }}" class="effect8" alt="">
@@ -865,6 +865,16 @@
 
                     console.error('Lỗi khi thêm vào giỏ hàng:', error);
                 }
+            });
+        });
+
+        // Xử lý accordion độc lập
+        $(document).ready(function() {
+            // Override Bootstrap accordion behavior để làm cho mỗi accordion hoạt động độc lập
+            $('[data-bs-toggle="collapse"]').on('click', function(e) {
+                e.preventDefault();
+                var target = $(this).attr('data-bs-target');
+                $(target).collapse('toggle');
             });
         });
     });
