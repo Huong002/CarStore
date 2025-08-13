@@ -127,7 +127,7 @@
                   <div class="body-text mb-2">
                     Doanh thu đơn đã giao
                   </div>
-                  <h4>{{number_format($totalStatis)}} đ</h4>
+                  <h4>{{number_format($totalStatisComplated)}} đ</h4>
                 </div>
               </div>
             </div>

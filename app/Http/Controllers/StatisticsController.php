@@ -32,7 +32,7 @@ class StatisticsController extends Controller
         return Order::where('status', 'approved')->count();
     }
 
-
+    
     // don hang da huy
     public static function orderCancelled()
     {
