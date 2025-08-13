@@ -48,7 +48,20 @@
                      @forelse($userNotifications as $notification)
                      <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $notification->notification->name ?? 'Không có tiêu đề' }}
+                        <td>
+                           <a href="javascript:void(0)"
+                              class="body-title-2 view-user-notification"
+                              data-bs-toggle="offcanvas"
+                              data-bs-target="#userNotificationContent"
+                              data-content="{{ $notification->notification->content ?? 'Không có nội dung' }}"
+                              data-title="{{ $notification->notification->name ?? 'Không có tiêu đề' }}"
+                              data-created="{{ $notification->created_at->locale('vi')->diffForHumans(null, true) }}"
+                              data-status="{{ $notification->isRead ? 'Đã đọc' : 'Chưa đọc' }}"
+                              data-archived="{{ $notification->isArchived ? 'Đã lưu trữ' : 'Chưa lưu trữ' }}"
+                              style="cursor: pointer; color: #007bff; text-decoration: none; font-weight: 500;"
+                              title="Click để xem chi tiết">
+                              {{ \Illuminate\Support\Str::limit($notification->notification->name ?? 'Không có tiêu đề', 25) }}
+                           </a>
                            <div style="font-size: 12px; color: #888;"> Được tạo
                               {{ $notification->created_at->locale('vi')->diffForHumans(null, true) }} trước
                            </div>
@@ -114,6 +127,25 @@
    </div>
 </div>
 
+<!-- Offcanvas for User Notification Detail -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="userNotificationContent" aria-labelledby="userNotificationContentLabel">
+   <div class="offcanvas-header">
+      <h5 id="userNotificationContentLabel">Chi tiết thông báo</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+   </div>
+   <div class="offcanvas-body" id="userNotificationContentBody">
+      <div class="mb-3">
+         <h6 class="fw-bold">Tiêu đề:</h6>
+         <p id="userNotificationTitle" class="mb-2"></p>
+      </div>
+     
+    
+      <div class="mb-3">
+         <div id="userNotificationContentText" class="border p-3 rounded" style="min-height: 200px; background-color: #f8f9fa;"></div>
+      </div>
+   </div>
+</div>
+
 <!-- Custom CSS for Notification Tabs -->
 <style>
    .notification-tabs {
@@ -164,3 +196,41 @@
 </style>
 
 @endsection
+
+@push('scripts')
+<script>
+   $(document).ready(function() {
+      // Handler for user notification detail view
+      $('.view-user-notification').on('click', function() {
+         const content = $(this).data('content');
+         const title = $(this).data('title');
+         const created = $(this).data('created');
+         const status = $(this).data('status');
+         const archived = $(this).data('archived');
+
+         $('#userNotificationContentLabel').text('Chi tiết thông báo');
+         $('#userNotificationTitle').text(title);
+         $('#userNotificationCreated').text('Được tạo ' + created + ' trước');
+
+         // Set status badge
+         const statusBadge = $('#userNotificationStatus');
+         statusBadge.removeClass('bg-success bg-warning');
+         if (status === 'Đã đọc') {
+            statusBadge.addClass('bg-success').text('Đã đọc');
+         } else {
+            statusBadge.addClass('bg-warning').text('Chưa đọc');
+         }
+
+         // Set archived status
+         const archivedBadge = $('#userNotificationArchived');
+         if (archived === 'Đã lưu trữ') {
+            archivedBadge.show().text('Đã lưu trữ');
+         } else {
+            archivedBadge.hide();
+         }
+
+         $('#userNotificationContentText').html(content); // Using html() to render HTML content
+      });
+   });
+</script>
+@endpush

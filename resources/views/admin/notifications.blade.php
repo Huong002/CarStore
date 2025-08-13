@@ -56,10 +56,21 @@
 
                         <td class="text-center">{{$loop->iteration}}</td>
 
-                        <td>{{$noti->name}}</td>
+                        <td>
+                           <a href="javascript:void(0)"
+                              class="body-title-2 view-notification"
+                              data-bs-toggle="offcanvas"
+                              data-bs-target="#notificationContent"
+                              data-content="{{ $noti->content }}"
+                              data-title="{{ $noti->name }}"
+                              data-type="{{ $noti->type == 'all' ? 'Toàn hệ thống' : ($noti->type == 'admin' ? 'Quản trị viên' : ($noti->type == 'employee' ? 'Nhân viên' : 'Khách hàng')) }}"
+                              style="cursor: pointer; color: #007bff; text-decoration: none;"
+                              title="Click để xem chi tiết">
+                              {{ \Illuminate\Support\Str::limit($noti->name, 30) }}
+                           </a>
+                        </td>
                         <td>
                            {{ \Illuminate\Support\Str::limit(strip_tags($noti->content), 40, '...') }}
-
                         </td>
                         <td><a href="#" target="_blank">{{$noti->type == 'all' 
                               ? 'Toàn hệ thống' 
@@ -98,7 +109,26 @@
       </div>
    </div>
 </div>
-
+<div class="offcanvas offcanvas-end" tabindex="-1" id="notificationContent" aria-labelledby="notificationContentLabel">
+   <div class="offcanvas-header">
+      <h5 id="notificationContentLabel">Chi tiết thông báo</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+   </div>
+   <div class="offcanvas-body" id="notificationContentBody">
+      <div class="mb-3">
+         <h6 class="fw-bold">Tiêu đề:</h6>
+         <p id="notificationTitle" class="mb-2"></p>
+      </div>
+      <div class="mb-3">
+         <h6 class="fw-bold">Loại thông báo:</h6>
+         <span id="notificationType" class="badge bg-primary"></span>
+      </div>
+      <div class="mb-3">
+         <h6 class="fw-bold">Nội dung:</h6>
+         <div id="notificationContentText" class="border p-3 rounded" style="min-height: 200px; background-color: #f8f9fa;"></div>
+      </div>
+   </div>
+</div>
 @endsection
 
 
@@ -109,7 +139,7 @@
          e.preventDefault();
          var form = $(this).closest('form');
          swal({
-            title: 'Bạn có chắn chắn muốn xóa thương hiệu?',
+            title: 'Bạn có chắc chắn muốn xóa thông báo này?',
             icon: "warning",
             buttons: {
                cancel: "Không",
@@ -125,6 +155,18 @@
          }).then(function(result) {
             if (result) form.submit();
          });
+      });
+
+      // Handler for notification detail view
+      $('.view-notification').on('click', function() {
+         const content = $(this).data('content');
+         const title = $(this).data('title');
+         const type = $(this).data('type');
+
+         $('#notificationContentLabel').text('Chi tiết thông báo');
+         $('#notificationTitle').text(title);
+         $('#notificationType').text(type);
+         $('#notificationContentText').html(content); 
       });
    });
 </script>
