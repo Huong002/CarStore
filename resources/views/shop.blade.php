@@ -1,6 +1,31 @@
 @extends('layouts.app')
 @section('content')
 <style>
+    .toast {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #333;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 5px;
+        display: none;
+        z-index: 9999;
+        animation: slideIn 0.5s;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
     .pc__atc {
         background-color: white;
         padding: 10px 16px;
@@ -577,6 +602,15 @@
 
 
 
+<!-- Toast Notifications -->
+<div id="noMatchToast" class="toast">
+    Không tìm thấy sản phẩm phù hợp với ảnh đã quét
+</div>
+
+<div id="errorToast" class="toast" style="background-color: #dc3545; color: white;">
+    Có lỗi xảy ra khi xử lý ảnh. Vui lòng thử lại sau.
+</div>
+
 <!-- Modal để tải ảnh -->
 <div class="modal fade" id="scanModal" tabindex="-1" aria-labelledby="scanModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -658,7 +692,16 @@
 
 
 <script>
+    function showToast(type = 'noMatch') {
+        const toast = document.getElementById(type === 'error' ? 'errorToast' : 'noMatchToast');
+        toast.style.display = 'block';
+        setTimeout(() => {
+            toast.style.display = 'none';
+        }, 3000);
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
+        // Xử lý wishlist
         document.addEventListener('click', function(e) {
             const btn = e.target.closest('.js-add-wishlist');
             if (btn) {
@@ -666,6 +709,44 @@
                 btn.classList.toggle('icon-heart-active');
             }
         });
+
+        // Xử lý khi không tìm thấy kết quả từ quét ảnh
+        const originalHandleImageUpload = window.handleImageUpload;
+        window.handleImageUpload = async function(event) {
+            try {
+                const result = await originalHandleImageUpload(event);
+
+                // Đóng modal trong mọi trường hợp lỗi
+                const modal = bootstrap.Modal.getInstance(document.getElementById('scanModal'));
+
+                if (!result) {
+                    modal.hide();
+                    showToast('error');
+                    return;
+                }
+
+                // Kiểm tra response status
+                if (result.status === 404) {
+                    modal.hide();
+                    showToast('noMatch');
+                    return;
+                }
+
+                if (!Array.isArray(result) || result.length === 0) {
+                    modal.hide();
+                    showToast('noMatch');
+                    return;
+                }
+
+                return result;
+            } catch (error) {
+                console.error('Error in image processing:', error);
+                // Đóng modal và hiển thị toast trong trường hợp lỗi
+                const modal = bootstrap.Modal.getInstance(document.getElementById('scanModal'));
+                modal.hide();
+                showToast('error');
+            }
+        };
     });
 </script>
 <script>
@@ -747,26 +828,59 @@
                 const formData = new FormData();
                 formData.append("image", file);
 
-                // Sử dụng route của Laravel để xử lý ảnh thay vì gọi trực tiếp API Python
+                // Disable nút và hiển thị trạng thái loading
+                submitImageBtn.prop('disabled', true);
+                submitImageBtn.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang xử lý...');
+
+                // Sử dụng route của Laravel để xử lý ảnh
                 fetch("{{ route('shop.scan.image') }}", {
                         method: "POST",
                         body: formData,
                         headers: {
                             'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        },
-                    })
-                    .then((response) => response.json())
-                    .then((data) => {
-                        console.log("Kết quả trả về từ server:", data);
-                        if (data.car_name) {
-                            searchInput.val(data.car_name);
-                            performSearch(data.car_name);
-                            var modal = bootstrap.Modal.getInstance(document.getElementById(
-                                "scanModal"));
-                            if (modal) modal.hide();
                         }
                     })
-                    .catch((error) => console.error("Error:", error));
+                    .then(async (response) => {
+                        const data = await response.json();
+                        console.log("Response status:", response.status);
+                        console.log("Kết quả trả về từ server:", data);
+
+                        // Lấy instance của modal
+                        const modal = bootstrap.Modal.getInstance(document.getElementById("scanModal"));
+
+                        // Xử lý các trường hợp khác nhau
+                        if (response.status === 404) {
+                            modal.hide();
+                            showToast('noMatch');
+                            return;
+                        }
+
+                        if (!response.ok) {
+                            modal.hide();
+                            showToast('error');
+                            throw new Error(data.message || 'Server error');
+                        }
+
+                        if (data && data.car_name) {
+                            searchInput.val(data.car_name);
+                            performSearch(data.car_name);
+                            modal.hide();
+                        } else {
+                            modal.hide();
+                            showToast('noMatch');
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error:", error);
+                        const modal = bootstrap.Modal.getInstance(document.getElementById("scanModal"));
+                        modal.hide();
+                        showToast('error');
+                    })
+                    .finally(() => {
+                        // Restore nút submit về trạng thái ban đầu
+                        submitImageBtn.prop('disabled', false);
+                        submitImageBtn.html('Xác nhận');
+                    });
             }
         });
 

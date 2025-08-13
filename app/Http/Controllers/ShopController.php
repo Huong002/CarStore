@@ -83,7 +83,7 @@ class ShopController extends Controller
 
         // Phân trang kết quả
         $products = $query->orderBy('created_at', 'desc')->paginate(12)->withQueryString();
-        
+
         foreach ($products as $product) {
             $product->reviews_count = $product->reviews()->count();
             $product->average_rating = $product->reviews()->avg('rating') ? round($product->reviews()->avg('rating'), 1) : 0;
@@ -195,19 +195,53 @@ class ShopController extends Controller
             // Tạo một HTTP client để gửi ảnh đến API nhận diện
             $client = new \GuzzleHttp\Client();
 
-            // Gửi ảnh đến API nhận diện (Python Flask)
-            $response = $client->post('http://127.0.0.1:5000/predict', [
-                'multipart' => [
-                    [
-                        'name' => 'image',
-                        'contents' => fopen($image->getPathname(), 'r'),
-                        'filename' => $image->getClientOriginalName()
-                    ]
-                ]
-            ]);
+            try {
+                // Gửi ảnh đến API nhận diện (Python Flask)
+                $response = $client->post('http://127.0.0.1:5000/predict', [
+                    'multipart' => [
+                        [
+                            'name' => 'image',
+                            'contents' => fopen($image->getPathname(), 'r'),
+                            'filename' => $image->getClientOriginalName()
+                        ]
+                    ],
+                    'http_errors' => false // Không ném exception cho status codes !== 2xx
+                ]);
 
-            // Lấy kết quả nhận diện
-            $result = json_decode($response->getBody(), true);
+                // Kiểm tra status code
+                if ($response->getStatusCode() === 404) {
+                    return response()->json(['message' => 'Không tìm thấy kết quả phù hợp'], 404);
+                }
+
+                if ($response->getStatusCode() !== 200) {
+                    throw new \Exception('API error: ' . $response->getStatusCode());
+                }
+
+                // Lấy kết quả nhận diện
+                $result = json_decode($response->getBody(), true);
+
+                // Kiểm tra kết quả có hợp lệ không
+                if (empty($result)) {
+                    return response()->json(['message' => 'Không tìm thấy kết quả phù hợp'], 404);
+                }
+
+                // Log kết quả để debug
+                Log::info('Image recognition result:', $result);
+
+                return response()->json($result);
+            } catch (\GuzzleHttp\Exception\ConnectException $e) {
+                Log::error('API không phản hồi: ' . $e->getMessage());
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Không thể kết nối đến máy chủ nhận diện. Vui lòng thử lại sau.'
+                ], 503);
+            } catch (\Exception $e) {
+                Log::error('Lỗi xử lý ảnh: ' . $e->getMessage());
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Đã xảy ra lỗi khi xử lý ảnh: ' . $e->getMessage()
+                ], 500);
+            }
 
             // Log kết quả để debug
             Log::info('Image Recognition Result:', $result);
