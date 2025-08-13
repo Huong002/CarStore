@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Hash;
 use Soap\Sdl;
 use App\Models\Notification;
 use App\Http\Controllers\StatisticsController;
+use App\Models\Color;
 use App\Models\UserNotification;
 use Exception;
 use GuzzleHttp\Psr7\Query;
@@ -311,9 +312,10 @@ class AdminController extends Controller
     }
     public function product_add()
     {
+        $colors = Color::orderBy('name', 'ASC')->get();
         $categories = Category::orderBy('name', 'ASC')->get();
         $brands = Brand::orderBy('name', 'ASC')->get();
-        return view('admin.product-add', compact('categories', 'brands'));
+        return view('admin.product-add', compact('categories', 'colors', 'brands'));
     }
 
     public function product_store(Request $request)
@@ -348,7 +350,7 @@ class AdminController extends Controller
         $product->quantity = $request->quantity ?? 10;
         $product->category_id = $request->category_id;
         $product->brand_id = $request->brand_id;
-
+        $product->color_id = $request->color_id;
 
         $product->save();
 
@@ -402,7 +404,8 @@ class AdminController extends Controller
         $product = Product::with(['category', 'brand', 'images'])->find($id);
         $categories = Category::orderBy('name', 'ASC')->get();
         $brands = Brand::orderBy('name', 'ASC')->get();
-        return view('admin.product-edit', compact('product', 'categories', 'brands'));
+        $colors = Color::orderBy('name', 'ASC')->get();
+        return view('admin.product-edit', compact('colors', 'product', 'categories', 'brands'));
     }
 
     public function product_update(Request $request)
@@ -442,7 +445,7 @@ class AdminController extends Controller
         $product->quantity = $request->quantity;
         $product->category_id = $request->category_id;
         $product->brand_id = $request->brand_id;
-
+        $product->color_id = $request->color_id;
         $product->save();
 
         // Xử lý ảnh chính

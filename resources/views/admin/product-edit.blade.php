@@ -58,6 +58,30 @@
             @error('slug')
             <span class="alert alert-danger text-center">{{$message}}</span>
             @enderror
+            <fieldset class="name">
+               <div class="body-title mb-10">Tên đường dẫn <span class="tf-color-1">*</span></div>
+               <input class="mb-10" type="text" placeholder="Nhập tên đường dẫn"
+                  name="slug" tabindex="0" value="{{$product->slug}}" aria-required="true" required="">
+               <div class="text-tiny">Không vượt quá 100 kí tự</div>
+            </fieldset>
+            @error('slug')
+            <span class="alert alert-danger text-center">{{$message}}</span>
+            @enderror
+            <fieldset class="color">
+               <div class="body-title mb-10">Màu sắc <span class="tf-color-1">*</span></div>
+               <div class="select">
+                  <select class="" name="color_id" required>
+                     <option value="">Chọn màu sắc</option>
+                     @foreach($colors as $color)
+                     <option value="{{ $color->id }}" {{ $product->color_id == $color->id ? 'selected' : '' }}>{{ $color->name }}</option>
+                     @endforeach
+                  </select>
+               </div>
+               
+            </fieldset>
+            @error('color_id')
+            <span class="alert alert-danger text-center">{{$message}}</span>
+            @enderror
 
             <div class="gap22 cols">
                <fieldset class="category">
@@ -88,6 +112,7 @@
                @error('brand_id')
                <span class="alert alert-danger text-center">{{$message}}</span>
                @enderror
+
             </div>
 
             <fieldset class="shortdescription">
