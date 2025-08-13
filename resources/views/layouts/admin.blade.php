@@ -479,8 +479,7 @@
                           <div>
                             <div class="body-title-2">{{ $noti->name }}</div>
                             <div class="text-tiny">
-                              {{ \Illuminate\Support\Str::limit(strip_tags($noti->content), 40, '...') }} 
-                              <a>Xem thêm</a>
+                              {{ \Illuminate\Support\Str::limit(strip_tags($noti->content), 40, '...') }}
                             </div>
                             <div class="text-tiny text-muted">
                               {{ $noti->created_at->format('d/m/Y H:i') }}
