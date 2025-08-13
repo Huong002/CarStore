@@ -951,7 +951,7 @@
                                                 {{ $noti->name }}
                                             </h6>
                                             <p class="mb-2 text-muted small">
-                                                {{ Str::limit($noti->content, 80) }}
+                                                {!! Str::limit(strip_tags($noti->content), 80) !!}
                                             </p>
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <small class="text-muted">

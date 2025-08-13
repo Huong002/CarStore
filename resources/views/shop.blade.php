@@ -587,19 +587,61 @@
             </div>
             <div class="modal-body">
                 <fieldset>
-                    <div class="body-title">Tải ảnh <span class="tf-color-1">*</span></div>
+                   
                     <div class="upload-image flex-grow">
                         <div class="item" id="imgpreview" style="display:none">
                             <img src="{{ asset('images/upload/upload-1.png') }}" class="effect8" alt="">
                         </div>
-                        <div id="upload-file" class="item up-load">
-                            <label class="uploadfile" for="myFile">
-                                <span class="icon">
-                                    <i class="icon-upload-cloud"></i>
-                                </span>
-                                <span class="body-text">Thả ảnh ở đây hoặc <span class="tf-color">chọn trong thiết
-                                        bị</span></span>
-                                <input type="file" id="myFile" name="image" accept="image/*">
+                        <div id="upload-file" class="item up-load text-center">
+                            <style>
+                                .camera-upload-btn {
+                                    display: flex;
+                                    flex-direction: column;
+                                    align-items: center;
+                                    justify-content: center;
+                                    width: 120px;
+                                    height: 120px;
+                                    margin: 0 auto;
+                                    background: #f4f6fa;
+                                    border-radius: 50%;
+                                    box-shadow: 0 2px 12px rgba(94, 131, 174, 0.08);
+                                    cursor: pointer;
+                                    border: 2px solid #e0e6ed;
+                                    transition: box-shadow 0.2s, border-color 0.2s;
+                                }
+
+                                .camera-upload-btn:hover {
+                                    box-shadow: 0 4px 24px rgba(94, 131, 174, 0.18);
+                                    border-color: #5E83AE;
+                                }
+
+                                .camera-upload-btn i {
+                                    font-size: 3.5rem;
+                                    color: #5E83AE;
+                                    transition: color 0.2s;
+                                }
+
+                                .camera-upload-btn span {
+                                    margin-top: 10px;
+                                    font-size: 1.1rem;
+                                    color: #5E83AE;
+                                    font-weight: 500;
+                                }
+
+                                @media (max-width: 600px) {
+                                    .camera-upload-btn {
+                                        width: 90px;
+                                        height: 90px;
+                                    }
+
+                                    .camera-upload-btn i {
+                                        font-size: 2.2rem;
+                                    }
+                                }
+                            </style>
+                            <label class="camera-upload-btn" for="myFile">
+                                <i class="bi bi-camera" aria-hidden="true"></i>
+                                <input type="file" id="myFile" name="image" accept="image/*" style="display:none;">
                             </label>
                         </div>
                     </div>
