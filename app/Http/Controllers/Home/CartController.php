@@ -180,7 +180,7 @@ class CartController extends Controller
                     ->with('success', "Đã thêm {$quantity} sản phẩm vào giỏ hàng");
             }
         } catch (\Exception $e) {
-            Log::error('Error adding to cart: ' . $e->getMessage());
+            Log::error('Lỗi khi thêm vào giỏ hàng: ' . $e->getMessage());
             return redirect()->back()
                 ->with('error', 'Thêm vào giỏ hàng không thành công. Vui lòng thử lại!');
         }
