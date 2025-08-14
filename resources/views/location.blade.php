@@ -36,19 +36,16 @@
                     </ul>
 
                     <div class="d-flex gap-3 mb-4">
-                        <a href="https://www.facebook.com/share/16ipbknie7/?mibextid=wwXIfr" target="_blank"
-                            style="color:#1877f2; font-size:1.5rem;">
+                        <a href="#" target="_blank" style="color:#1877f2; font-size:1.5rem;">
                             <i class="bi bi-facebook"></i>
                         </a>
-                        <a href="https://www.instagram.com/hthaoz.1302?igsh=NmtwcWlxZjZhcmhp&utm_source=qr"
-                            target="_blank" style="color:#d00000; font-size:1.5rem;">
+                        <a href="#" target="_blank" style="color:#d00000; font-size:1.5rem;">
                             <i class="bi bi-instagram"></i>
                         </a>
-                        <a href="https://pin.it/2UeXepD3h" target="_blank" style="color:#1da1f2; font-size:1.5rem;">
+                        <a href="#" target="_blank" style="color:#1da1f2; font-size:1.5rem;">
                             <i class="bi bi-twitter"></i>
                         </a>
                     </div>
-
 
                     <a href="https://www.google.com/maps/search/?api=1&query=10.4553,105.6326" target="_blank"
                         class="btn btn-primary w-100 fw-bold">
@@ -73,19 +70,17 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
 <style>
-/* Làm nổi bật tên cửa hàng với màu đỏ sẫm (không hiệu ứng) */
+/* Làm nổi bật tên cửa hàng */
 .store-title {
     font-weight: 900;
     font-size: 2.3rem;
     color: #b30000;
-    /* đỏ sẫm */
     text-transform: uppercase;
     letter-spacing: 2px;
     position: relative;
     display: inline-block;
 }
 
-/* Gạch chân màu đỏ sẫm */
 .store-title::after {
     content: "";
     position: absolute;
@@ -97,12 +92,13 @@
     background: #b30000;
 }
 
-/* Bản đồ và popup */
+/* Bản đồ */
 .leaflet-container {
     border: 3px solid #3498db;
     box-shadow: 0 4px 18px rgba(0, 0, 0, 0.2);
 }
 
+/* Popup */
 .leaflet-popup-content-wrapper {
     background: #3498db;
     color: white;
@@ -113,37 +109,6 @@
 .leaflet-popup-tip {
     background: #3498db;
 }
-
-/* Hiệu ứng pulse tại marker */
-.pulse {
-    position: absolute;
-    width: 14px;
-    height: 14px;
-    background: rgba(255, 0, 0, 0.5);
-    border: 2px solid red;
-    border-radius: 50%;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-    0% {
-        transform: translate(-50%, -50%) scale(0.8);
-        opacity: 0.8;
-    }
-
-    70% {
-        transform: translate(-50%, -50%) scale(2.5);
-        opacity: 0;
-    }
-
-    100% {
-        transform: translate(-50%, -50%) scale(0.8);
-        opacity: 0;
-    }
-}
 </style>
 
 <script>
@@ -151,12 +116,15 @@ document.addEventListener("DOMContentLoaded", function() {
     var lat = 10.4553;
     var lng = 105.6326;
 
+    // Khởi tạo map
     var map = L.map('map').setView([lat, lng], 17);
 
+    // Tile layer
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
+    // Marker chính
     var redIcon = L.icon({
         iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png',
         iconSize: [40, 40],
@@ -169,15 +137,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }).addTo(map);
     marker.bindPopup("<b>HT Auto Store</b><br>Kinh doanh ô tô chất lượng.").openPopup();
 
-    var pulseDiv = L.divIcon({
-        className: '',
-        html: '<div class="pulse"></div>',
-        iconSize: [0, 0]
-    });
-    L.marker([lat, lng], {
-        icon: pulseDiv,
-        interactive: false
-    }).addTo(map);
+    // Đã loại bỏ chấm pulse đỏ
 });
 </script>
 @endsection
