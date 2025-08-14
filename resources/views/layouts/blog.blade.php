@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="author" content="surfside media" />
-    
+
     <!-- Blog specific meta tags -->
     <link rel="apple-touch-icon" href="{{ asset('assets_v2/images/favicon.ico') }}">
     <link rel="icon" href="{{ asset('assets_v2/images/favicon.ico') }}" type="image/x-icon">
@@ -27,10 +27,12 @@
     <meta name="description" content="Blog">
     <meta name="keywords" content="Blog">
     <meta name="author" content="Blog">
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito+Sans:wght@300;400;500;600;700&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito+Sans:wght@300;400;500;600;700&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- Blog CSS only from assets_v2 -->
     <link id="rtl-link" rel="stylesheet" type="text/css" href="{{ asset('assets_v2/css/vendors/bootstrap.css') }}">
@@ -44,33 +46,34 @@
 
     <!-- Font phù hợp với tiếng Việt cho blog -->
     <style>
-        body, html {
-            font-family: 'Be Vietnam Pro', 'Inter', 'Nunito Sans', 'Jost', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
-        }
+    body,
+    html {
+        font-family: 'Be Vietnam Pro', 'Inter', 'Nunito Sans', 'Jost', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+    }
 
-        /* Khắc phục chữ xanh có gạch chân */
-        a {
-            color: inherit !important;
-            text-decoration: none !important;
-        }
+    /* Khắc phục chữ xanh có gạch chân */
+    a {
+        color: inherit !important;
+        text-decoration: none !important;
+    }
 
-        a:hover {
-            color: #222222 !important;
-            text-decoration: none !important;
-        }
+    a:hover {
+        color: #222222 !important;
+        text-decoration: none !important;
+    }
 
-        /* Đảm bảo hình ảnh blog không bị mờ */
-        .blog-categority img {
-            filter: none !important;
-            opacity: 1 !important;
-        }
+    /* Đảm bảo hình ảnh blog không bị mờ */
+    .blog-categority img {
+        filter: none !important;
+        opacity: 1 !important;
+    }
 
-        /* Remove any overlay effects */
-        .blog-categority .overlay,
-        .blog-categority::before,
-        .blog-categority::after {
-            display: none !important;
-        }
+    /* Remove any overlay effects */
+    .blog-categority .overlay,
+    .blog-categority::before,
+    .blog-categority::after {
+        display: none !important;
+    }
     </style>
 
     @stack("styles")
@@ -92,6 +95,8 @@
                         <li><a href="{{route('shop.index')}}" class="text-decoration-none">Shop</a></li>
                         <li><a href="{{route('blog.index')}}" class="text-decoration-none">Blog</a></li>
                         <li><a href="{{route('about.index')}}" class="text-decoration-none">About</a></li>
+                        <li><a href="{{ route('faq.index') }}" class="text-decoration-none">FAQ</a></li>
+
                     </ul>
                 </nav>
             </div>
@@ -118,4 +123,5 @@
 
     @stack("scripts")
 </body>
+
 </html>
