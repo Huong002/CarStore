@@ -22,11 +22,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.0/css/all.min.css">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <!-- Font phù hợp với tiếng Việt -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito+Sans:wght@300;400;500;600;700&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito+Sans:wght@300;400;500;600;700&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- Backup fonts -->
     <link
@@ -293,81 +295,81 @@
 
     </svg>
     <style>
-        #userDropdown::after {
-            display: none !important;
-        }
+    #userDropdown::after {
+        display: none !important;
+    }
 
-        /* Fix cho font tiếng Việt và chữ xanh có gạch chân */
-        body,
-        html {
-            font-family: 'Be Vietnam Pro', 'Inter', 'Nunito Sans', 'Jost', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
-        }
+    /* Fix cho font tiếng Việt và chữ xanh có gạch chân */
+    body,
+    html {
+        font-family: 'Be Vietnam Pro', 'Inter', 'Nunito Sans', 'Jost', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+    }
 
-        /* Khắc phục chữ xanh có gạch chân */
-        a {
-            color: inherit !important;
-            text-decoration: none !important;
-        }
+    /* Khắc phục chữ xanh có gạch chân */
+    a {
+        color: inherit !important;
+        text-decoration: none !important;
+    }
 
-        a:hover {
-            color: #222222 !important;
-            text-decoration: none !important;
-        }
+    a:hover {
+        color: #222222 !important;
+        text-decoration: none !important;
+    }
 
-        a:visited {
-            color: inherit !important;
-            text-decoration: none !important;
-        }
+    a:visited {
+        color: inherit !important;
+        text-decoration: none !important;
+    }
 
-        a:active,
-        a:focus {
-            color: inherit !important;
-            text-decoration: none !important;
-            outline: none !important;
-        }
+    a:active,
+    a:focus {
+        color: inherit !important;
+        text-decoration: none !important;
+        outline: none !important;
+    }
 
-        /* Đặc biệt cho navigation links */
-        .navigation__link {
-            color: #222222 !important;
-            text-decoration: none !important;
-        }
+    /* Đặc biệt cho navigation links */
+    .navigation__link {
+        color: #222222 !important;
+        text-decoration: none !important;
+    }
 
-        .navigation__link:hover {
-            color: #555555 !important;
-            text-decoration: none !important;
-        }
+    .navigation__link:hover {
+        color: #555555 !important;
+        text-decoration: none !important;
+    }
 
-        /* Font cho các element khác */
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            font-family: 'Be Vietnam Pro', 'Inter', 'Nunito Sans', sans-serif !important;
-        }
+    /* Font cho các element khác */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: 'Be Vietnam Pro', 'Inter', 'Nunito Sans', sans-serif !important;
+    }
 
-        .btn,
-        button {
-            font-family: 'Be Vietnam Pro', 'Inter', 'Nunito Sans', sans-serif !important;
-        }
+    .btn,
+    button {
+        font-family: 'Be Vietnam Pro', 'Inter', 'Nunito Sans', sans-serif !important;
+    }
 
-        input,
-        textarea,
-        select {
-            font-family: 'Be Vietnam Pro', 'Inter', 'Nunito Sans', sans-serif !important;
-        }
+    input,
+    textarea,
+    select {
+        font-family: 'Be Vietnam Pro', 'Inter', 'Nunito Sans', sans-serif !important;
+    }
     </style>
 
     <style>
-        #header {
-            padding-top: 8px;
-            padding-bottom: 8px;
-        }
+    #header {
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
 
-        .logo__image {
-            max-width: 220px;
-        }
+    .logo__image {
+        max-width: 220px;
+    }
     </style>
     <div class="header-mobile header_sticky">
         <div class="container d-flex align-items-center h-100">
@@ -425,6 +427,9 @@
                         </li>
                         <li class="navigation__item">
                             <a href="{{route('blog.index')}}" class="navigation__link">Blog</a>
+                        </li>
+                        <li class="navigation__item">
+                            <a href="{{ route('faq.index') }}" class="navigation__link">FAQ</a>
                         </li>
 
                     </ul>
@@ -515,6 +520,9 @@
                         </li>
                         <li class="navigation__item">
                             <a href="{{route('blog.index')}}" class="navigation__link">Blog</a>
+                        </li>
+                        <li class="navigation__item">
+                            <a href="{{ route('faq.index') }}" class="navigation__link">FAQ</a>
                         </li>
 
                     </ul>
@@ -651,191 +659,191 @@
 
 
                     <style>
-                        .wishlist-modal {
-                            position: absolute;
-                            top: 100px;
-                            right: 80px;
-                            background: #fff;
-                            border-radius: 12px;
-                            width: 280px;
-                            padding: 12px;
-                            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-                            display: none;
-                            z-index: 9999;
-                            font-family: Arial, sans-serif;
-                            animation: fadeIn 0.25s ease-in-out;
+                    .wishlist-modal {
+                        position: absolute;
+                        top: 100px;
+                        right: 80px;
+                        background: #fff;
+                        border-radius: 12px;
+                        width: 280px;
+                        padding: 12px;
+                        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+                        display: none;
+                        z-index: 9999;
+                        font-family: Arial, sans-serif;
+                        animation: fadeIn 0.25s ease-in-out;
+                    }
+
+                    @keyframes fadeIn {
+                        from {
+                            opacity: 0;
+                            transform: translateY(-5px);
                         }
 
-                        @keyframes fadeIn {
-                            from {
-                                opacity: 0;
-                                transform: translateY(-5px);
-                            }
-
-                            to {
-                                opacity: 1;
-                                transform: translateY(0);
-                            }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
                         }
+                    }
 
-                        .wishlist-header {
-                            display: flex;
-                            align-items: center;
-                            justify-content: space-between;
-                            font-weight: bold;
-                            margin-bottom: 10px;
-                        }
+                    .wishlist-header {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        font-weight: bold;
+                        margin-bottom: 10px;
+                    }
 
-                        .wishlist-header-left {
-                            display: flex;
-                            flex-direction: row;
-                            align-items: center;
-                            gap: 6px;
-                            white-space: nowrap;
-                        }
+                    .wishlist-header-left {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 6px;
+                        white-space: nowrap;
+                    }
 
-                        .wishlist-header-left svg {
-                            display: inline-block;
-                            vertical-align: middle;
-                        }
+                    .wishlist-header-left svg {
+                        display: inline-block;
+                        vertical-align: middle;
+                    }
 
-                        .wishlist-items {
-                            display: block;
-                            list-style: none;
-                            padding: 0;
-                            margin: 0;
-                            max-height: 220px;
-                            overflow-y: auto;
-                        }
+                    .wishlist-items {
+                        display: block;
+                        list-style: none;
+                        padding: 0;
+                        margin: 0;
+                        max-height: 220px;
+                        overflow-y: auto;
+                    }
 
-                        .wishlist-items li {
-                            display: block;
-                            padding: 6px 0;
-                            border-bottom: 1px solid #eee;
-                            font-size: 14px;
-                            word-break: break-word;
-                        }
+                    .wishlist-items li {
+                        display: block;
+                        padding: 6px 0;
+                        border-bottom: 1px solid #eee;
+                        font-size: 14px;
+                        word-break: break-word;
+                    }
 
-                        .wishlist-items li.empty-message {
-                            text-align: center;
-                            color: #666;
-                            border-bottom: none;
-                            padding: 10px 0;
-                            font-style: italic;
-                            white-space: normal;
-                        }
+                    .wishlist-items li.empty-message {
+                        text-align: center;
+                        color: #666;
+                        border-bottom: none;
+                        padding: 10px 0;
+                        font-style: italic;
+                        white-space: normal;
+                    }
 
-                        .close-btn {
-                            background: transparent;
-                            border: none;
-                            font-size: 20px;
-                            cursor: pointer;
-                            color: #666;
-                            transition: color 0.2s ease;
-                        }
+                    .close-btn {
+                        background: transparent;
+                        border: none;
+                        font-size: 20px;
+                        cursor: pointer;
+                        color: #666;
+                        transition: color 0.2s ease;
+                    }
 
-                        .close-btn:hover {
-                            color: red;
-                        }
+                    .close-btn:hover {
+                        color: red;
+                    }
 
-                        /* Cart Dropdown CSS */
-                        .cart-dropdown {
-                            position: absolute;
-                            top: 100%;
-                            right: 0;
-                            background: #fff;
-                            border-radius: 12px;
-                            width: 320px;
-                            padding: 0;
-                            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-                            display: none;
-                            z-index: 9999;
-                            border: 1px solid #e5e5e5;
-                            animation: fadeIn 0.25s ease-in-out;
-                            font-family: Arial, sans-serif;
-                        }
+                    /* Cart Dropdown CSS */
+                    .cart-dropdown {
+                        position: absolute;
+                        top: 100%;
+                        right: 0;
+                        background: #fff;
+                        border-radius: 12px;
+                        width: 320px;
+                        padding: 0;
+                        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+                        display: none;
+                        z-index: 9999;
+                        border: 1px solid #e5e5e5;
+                        animation: fadeIn 0.25s ease-in-out;
+                        font-family: Arial, sans-serif;
+                    }
 
-                        .cart-header {
-                            display: flex;
-                            align-items: center;
-                            justify-content: space-between;
-                            font-weight: bold;
-                            padding: 12px 16px;
-                            border-bottom: 1px solid #f0f0f0;
-                        }
+                    .cart-header {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        font-weight: bold;
+                        padding: 12px 16px;
+                        border-bottom: 1px solid #f0f0f0;
+                    }
 
-                        .cart-header-left {
-                            display: flex;
-                            flex-direction: row;
-                            align-items: center;
-                            gap: 8px;
-                            white-space: nowrap;
-                        }
+                    .cart-header-left {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 8px;
+                        white-space: nowrap;
+                    }
 
-                        .cart-header-left svg {
-                            display: inline-block;
-                            vertical-align: middle;
-                            fill: #333;
-                        }
+                    .cart-header-left svg {
+                        display: inline-block;
+                        vertical-align: middle;
+                        fill: #333;
+                    }
 
-                        .cart-dropdown ul {
-                            list-style: none;
-                            padding: 0;
-                            margin: 0;
-                            max-height: 300px;
-                            overflow-y: auto;
-                            padding: 8px 16px;
-                        }
+                    .cart-dropdown ul {
+                        list-style: none;
+                        padding: 0;
+                        margin: 0;
+                        max-height: 300px;
+                        overflow-y: auto;
+                        padding: 8px 16px;
+                    }
 
-                        .cart-dropdown li {
-                            padding: 12px 0;
-                            border-bottom: 1px solid #f0f0f0;
-                            font-size: 14px;
-                            display: flex;
-                            align-items: center;
-                            gap: 8px;
-                        }
+                    .cart-dropdown li {
+                        padding: 12px 0;
+                        border-bottom: 1px solid #f0f0f0;
+                        font-size: 14px;
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                    }
 
-                        .cart-dropdown li:last-child {
-                            border-bottom: none;
-                        }
+                    .cart-dropdown li:last-child {
+                        border-bottom: none;
+                    }
 
-                        .cart-dropdown li.empty-message {
-                            text-align: center;
-                            color: #666;
-                            font-style: italic;
-                            padding: 20px 0;
-                            justify-content: center;
-                        }
+                    .cart-dropdown li.empty-message {
+                        text-align: center;
+                        color: #666;
+                        font-style: italic;
+                        padding: 20px 0;
+                        justify-content: center;
+                    }
 
-                        .cart-footer {
-                            padding: 12px 16px;
-                            border-top: 1px solid #f0f0f0;
-                        }
+                    .cart-footer {
+                        padding: 12px 16px;
+                        border-top: 1px solid #f0f0f0;
+                    }
 
-                        .cart-footer .btn {
-                            padding: 8px 16px;
-                            font-size: 14px;
-                            border-radius: 6px;
-                        }
+                    .cart-footer .btn {
+                        padding: 8px 16px;
+                        font-size: 14px;
+                        border-radius: 6px;
+                    }
 
-                        .header-tools__cart {
-                            cursor: pointer;
-                        }
+                    .header-tools__cart {
+                        cursor: pointer;
+                    }
 
-                        .cart-amount {
-                            top: -8px;
-                            right: -8px;
-                            background: #dc3545;
-                            color: white;
-                            border-radius: 50%;
-                            width: 18px;
-                            height: 18px;
-                            font-size: 10px;
-                            text-align: center;
-                            line-height: 18px;
-                            font-weight: bold;
-                        }
+                    .cart-amount {
+                        top: -8px;
+                        right: -8px;
+                        background: #dc3545;
+                        color: white;
+                        border-radius: 50%;
+                        width: 18px;
+                        height: 18px;
+                        font-size: 10px;
+                        text-align: center;
+                        line-height: 18px;
+                        font-weight: bold;
+                    }
                     </style>
 
                     <!-- 🛒 Cart -->
@@ -886,18 +894,16 @@
 
                     <div class="header-tools__item hover-container position-relative ms-4">
                         <div class="dropdown">
-                            <button class="btn p-0 border-0 bg-transparent position-relative"
-                                type="button"
-                                id="notificationDropdown"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false">
+                            <button class="btn p-0 border-0 bg-transparent position-relative" type="button"
+                                id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                 <svg class="d-block" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <use href="#icon_bell" />
                                 </svg>
 
                                 @if($notifications->count() > 0)
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                                     style="font-size: 10px; min-width: 18px; height: 18px; line-height: 8px;">
                                     {{ $notifications->count() }}
                                 </span>
@@ -909,7 +915,8 @@
                                 aria-labelledby="notificationDropdown"
                                 style="width: 350px; max-height: 500px; overflow: hidden;">
                                 <!-- Header -->
-                                <div class="d-flex align-items-center justify-content-between p-3 border-bottom bg-primary text-white rounded-top-3">
+                                <div
+                                    class="d-flex align-items-center justify-content-between p-3 border-bottom bg-primary text-white rounded-top-3">
                                     <h6 class="mb-0 fw-bold">
                                         <i class="bi bi-bell-fill me-2"></i>Thông báo
                                     </h6>
@@ -931,8 +938,7 @@
                                     @elseif($noti->type == 'customer') bg-success  
                                     @elseif($noti->type == 'employee') bg-warning
                                     @else bg-info @endif
-                                    text-white"
-                                                style="width: 40px; height: 40px;">
+                                    text-white" style="width: 40px; height: 40px;">
                                                 @if($noti->type == 'admin')
                                                 <i class="bi bi-shield-check"></i>
                                                 @elseif($noti->type == 'customer')
@@ -973,7 +979,8 @@
                                     <div class="text-center py-5">
                                         <i class="bi bi-bell-slash text-muted" style="font-size: 3rem;"></i>
                                         <h6 class="text-muted mt-3">Không có thông báo mới</h6>
-                                        <p class="text-muted small mb-0">Bạn sẽ nhận được thông báo khi có tin tức mới</p>
+                                        <p class="text-muted small mb-0">Bạn sẽ nhận được thông báo khi có tin tức mới
+                                        </p>
                                     </div>
                                     @endforelse
                                 </div>
@@ -1023,7 +1030,8 @@
 
 
                                 <li>
-                                    <a href="{{route('accountOrder.index')}}" class="dropdown-item d-flex align-items-center gap-2 py-2 px-3">
+                                    <a href="{{route('accountOrder.index')}}"
+                                        class="dropdown-item d-flex align-items-center gap-2 py-2 px-3">
                                         <i class="bi bi-clock-history fs-5"></i> Xem lịch sử mua hàng
                                     </a>
                                 </li>
@@ -1109,38 +1117,38 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script> -->
     <script src="{{ asset('js/account.js') }}"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            // ================== THAM CHIẾU CÁC PHẦN TỬ ==================
-            const cartIcon = document.getElementById('cart-icon');
-            const cartDropdown = document.getElementById('cart-dropdown');
-            const cartItemsList = document.getElementById('cart-items-list');
-            const cartCountBadge = document.querySelector('.js-cart-items-count');
+    document.addEventListener("DOMContentLoaded", () => {
+        // ================== THAM CHIẾU CÁC PHẦN TỬ ==================
+        const cartIcon = document.getElementById('cart-icon');
+        const cartDropdown = document.getElementById('cart-dropdown');
+        const cartItemsList = document.getElementById('cart-items-list');
+        const cartCountBadge = document.querySelector('.js-cart-items-count');
 
-            const wishlistModal = document.getElementById('wishlistModal');
-            const wishlistClose = document.getElementById('wishlistClose');
-            const baseImageUrl = "{{ asset('uploads/products') }}";
-            let wishlistTimer = null;
-            let cartTimer = null;
+        const wishlistModal = document.getElementById('wishlistModal');
+        const wishlistClose = document.getElementById('wishlistClose');
+        const baseImageUrl = "{{ asset('uploads/products') }}";
+        let wishlistTimer = null;
+        let cartTimer = null;
 
-            // ================== GIỎ HÀNG DROPDOWN ==================
-            function renderCartItems(data) {
-                cartItemsList.innerHTML = "";
+        // ================== GIỎ HÀNG DROPDOWN ==================
+        function renderCartItems(data) {
+            cartItemsList.innerHTML = "";
 
-                if (data.length === 0) {
-                    cartItemsList.innerHTML = '<li class="empty-message">Giỏ hàng trống</li>';
-                    return;
-                }
+            if (data.length === 0) {
+                cartItemsList.innerHTML = '<li class="empty-message">Giỏ hàng trống</li>';
+                return;
+            }
 
-                data.forEach(item => {
-                    const name = item.product?.name || 'Không có tên';
-                    const price = item.product?.regular_price || 0;
-                    const quantity = item.quantity || 1;
-                    const imageName = item.product?.primary_image?.imageName || 'default.jpg';
-                    const imageUrl =
-                        `http://127.0.0.1:8000/uploads/products/${encodeURIComponent(imageName)}`;
+            data.forEach(item => {
+                const name = item.product?.name || 'Không có tên';
+                const price = item.product?.regular_price || 0;
+                const quantity = item.quantity || 1;
+                const imageName = item.product?.primary_image?.imageName || 'default.jpg';
+                const imageUrl =
+                    `http://127.0.0.1:8000/uploads/products/${encodeURIComponent(imageName)}`;
 
-                    const li = document.createElement("li");
-                    li.innerHTML = `
+                const li = document.createElement("li");
+                li.innerHTML = `
                     <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; width:100%;">
                         <div style="display:flex; align-items:center; gap:8px;">
                             <img src="${imageUrl}" alt="${name}"
@@ -1155,115 +1163,115 @@
                         </div>
                     </div>
                 `;
-                    cartItemsList.appendChild(li);
-                });
-            }
+                cartItemsList.appendChild(li);
+            });
+        }
 
-            // ================== ĐẾM SỐ LƯỢNG GIỎ HÀNG ==================
-            // Gọi khi DOM ready
-            //updateCartCount();
+        // ================== ĐẾM SỐ LƯỢNG GIỎ HÀNG ==================
+        // Gọi khi DOM ready
+        //updateCartCount();
 
-            function updateCartCount() {
-                const cartCountBadge = document.querySelector('.js-cart-items-count');
+        function updateCartCount() {
+            const cartCountBadge = document.querySelector('.js-cart-items-count');
 
-                fetch('/api/cart-count', {
-                        credentials: 'include'
-                    })
-                    .then(response => {
-                        if (!response.ok || response.redirected) {
-                            // Có thể bị redirect do chưa đăng nhập
-                            console.warn("Chưa đăng nhập hoặc lỗi truy cập.");
-                            return {
-                                count: 0
-                            }; // fallback
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (cartCountBadge) {
-                            cartCountBadge.textContent = data.count;
-                            cartCountBadge.style.display = data.count > 0 ? 'inline-block' : 'none';
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Lỗi khi lấy số lượng giỏ hàng:", error);
-                    });
-            }
-
-
-            updateCartCount(); // Gọi ngay khi DOM load
-
-            function autoCloseCart() {
-                clearTimeout(cartTimer);
-                cartTimer = setTimeout(() => {
-                    cartDropdown.style.display = "none";
-                }, 3000);
-            }
-
-            if (cartIcon) {
-                cartIcon.addEventListener('click', (e) => {
-                    if (e.target.tagName.toLowerCase() === 'a') return;
-                    e.preventDefault();
-                    fetch('/api/cart-items?t=' + Date.now())
-                        .then(res => res.json())
-                        .then(data => {
-                            renderCartItems(data);
-                            // updateCartCount();
-
-                            if (wishlistModal) wishlistModal.style.display = 'none';
-
-                            cartDropdown.style.display =
-                                cartDropdown.style.display === "block" ? "none" : "block";
-
-                            if (cartDropdown.style.display === "block") {
-                                autoCloseCart();
-                            }
-                        });
-                });
-
-                document.addEventListener("click", (e) => {
-                    if (!cartIcon.contains(e.target)) {
-                        cartDropdown.style.display = "none";
+            fetch('/api/cart-count', {
+                    credentials: 'include'
+                })
+                .then(response => {
+                    if (!response.ok || response.redirected) {
+                        // Có thể bị redirect do chưa đăng nhập
+                        console.warn("Chưa đăng nhập hoặc lỗi truy cập.");
+                        return {
+                            count: 0
+                        }; // fallback
                     }
+                    return response.json();
+                })
+                .then(data => {
+                    if (cartCountBadge) {
+                        cartCountBadge.textContent = data.count;
+                        cartCountBadge.style.display = data.count > 0 ? 'inline-block' : 'none';
+                    }
+                })
+                .catch(error => {
+                    console.error("Lỗi khi lấy số lượng giỏ hàng:", error);
                 });
-            }
+        }
 
-            // ================== WISHLIST ==================
-            function addToWishlist(product) {
-                let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-                if (!wishlist.some(item => item.id === product.id)) {
-                    wishlist.push(product);
-                    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+
+        updateCartCount(); // Gọi ngay khi DOM load
+
+        function autoCloseCart() {
+            clearTimeout(cartTimer);
+            cartTimer = setTimeout(() => {
+                cartDropdown.style.display = "none";
+            }, 3000);
+        }
+
+        if (cartIcon) {
+            cartIcon.addEventListener('click', (e) => {
+                if (e.target.tagName.toLowerCase() === 'a') return;
+                e.preventDefault();
+                fetch('/api/cart-items?t=' + Date.now())
+                    .then(res => res.json())
+                    .then(data => {
+                        renderCartItems(data);
+                        // updateCartCount();
+
+                        if (wishlistModal) wishlistModal.style.display = 'none';
+
+                        cartDropdown.style.display =
+                            cartDropdown.style.display === "block" ? "none" : "block";
+
+                        if (cartDropdown.style.display === "block") {
+                            autoCloseCart();
+                        }
+                    });
+            });
+
+            document.addEventListener("click", (e) => {
+                if (!cartIcon.contains(e.target)) {
+                    cartDropdown.style.display = "none";
                 }
-            }
+            });
+        }
 
-            function removeFromWishlist(productId) {
-                let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-                wishlist = wishlist.filter(item => item.id !== productId);
+        // ================== WISHLIST ==================
+        function addToWishlist(product) {
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            if (!wishlist.some(item => item.id === product.id)) {
+                wishlist.push(product);
                 localStorage.setItem('wishlist', JSON.stringify(wishlist));
             }
+        }
 
-            function renderWishlist() {
-                const listEl = document.getElementById('wishlistItems');
-                listEl.innerHTML = '';
+        function removeFromWishlist(productId) {
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            wishlist = wishlist.filter(item => item.id !== productId);
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        }
 
-                let wishlist;
-                try {
-                    wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-                } catch (e) {
-                    wishlist = [];
-                }
+        function renderWishlist() {
+            const listEl = document.getElementById('wishlistItems');
+            listEl.innerHTML = '';
 
-                wishlist = wishlist.filter(item => item && item.id && item.name);
+            let wishlist;
+            try {
+                wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            } catch (e) {
+                wishlist = [];
+            }
 
-                if (wishlist.length === 0) {
-                    listEl.innerHTML = '<li class="empty-message">Chưa có sản phẩm yêu thích</li>';
-                    return;
-                }
+            wishlist = wishlist.filter(item => item && item.id && item.name);
 
-                wishlist.forEach(item => {
-                    const li = document.createElement('li');
-                    li.innerHTML = `
+            if (wishlist.length === 0) {
+                listEl.innerHTML = '<li class="empty-message">Chưa có sản phẩm yêu thích</li>';
+                return;
+            }
+
+            wishlist.forEach(item => {
+                const li = document.createElement('li');
+                li.innerHTML = `
                     <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
                         <div style="display:flex; align-items:center; gap:8px;">
                             <img src="${item.image || '/default.jpg'}" alt="${item.name}"
@@ -1278,126 +1286,126 @@
                         </button>
                     </div>
                 `;
-                    listEl.appendChild(li);
-                });
-            }
+                listEl.appendChild(li);
+            });
+        }
 
-            function autoCloseWishlist() {
-                clearTimeout(wishlistTimer);
-                wishlistTimer = setTimeout(() => {
-                    wishlistModal.style.display = "none";
-                }, 3000);
-            }
+        function autoCloseWishlist() {
+            clearTimeout(wishlistTimer);
+            wishlistTimer = setTimeout(() => {
+                wishlistModal.style.display = "none";
+            }, 3000);
+        }
 
-            document.addEventListener('click', function(e) {
-                let btn = e.target.closest('button.main-product-wishlist') || e.target.closest(
-                    'button.js-add-wishlist');
-                if (btn) {
-                    e.preventDefault();
-                    btn.classList.toggle('active');
+        document.addEventListener('click', function(e) {
+            let btn = e.target.closest('button.main-product-wishlist') || e.target.closest(
+                'button.js-add-wishlist');
+            if (btn) {
+                e.preventDefault();
+                btn.classList.toggle('active');
 
-                    const svg = btn.querySelector('svg');
-                    const productName = btn.dataset.productName;
-                    const productId = btn.dataset.productId;
+                const svg = btn.querySelector('svg');
+                const productName = btn.dataset.productName;
+                const productId = btn.dataset.productId;
 
-                    if (!productName || !productId) return;
+                if (!productName || !productId) return;
 
-                    const product = {
-                        id: productId,
-                        name: productName,
-                        image: btn.dataset.productImage || '',
-                        slug: btn.dataset.productSlug || null
-                    };
+                const product = {
+                    id: productId,
+                    name: productName,
+                    image: btn.dataset.productImage || '',
+                    slug: btn.dataset.productSlug || null
+                };
 
-                    if (btn.classList.contains('active')) {
-                        addToWishlist(product);
-                        if (svg) svg.style.fill = 'red';
-                        renderWishlist();
-                        if (cartDropdown) cartDropdown.style.display = 'none';
-                        wishlistModal.style.display = 'block';
-                        autoCloseWishlist();
-                    } else {
-                        removeFromWishlist(product.id);
-                        if (svg) svg.style.fill = '#666';
-                    }
-                    return;
-                }
-
-                const openLink = e.target.closest('.open-wishlist-modal');
-                if (openLink) {
-                    e.preventDefault();
+                if (btn.classList.contains('active')) {
+                    addToWishlist(product);
+                    if (svg) svg.style.fill = 'red';
                     renderWishlist();
                     if (cartDropdown) cartDropdown.style.display = 'none';
                     wishlistModal.style.display = 'block';
                     autoCloseWishlist();
+                } else {
+                    removeFromWishlist(product.id);
+                    if (svg) svg.style.fill = '#666';
                 }
-
-                const menuBtn = e.target.closest('.add-to-wishlist');
-                if (menuBtn) {
-                    e.preventDefault();
-                    renderWishlist();
-                    if (cartDropdown) cartDropdown.style.display = 'none';
-                    wishlistModal.style.display = 'block';
-                    autoCloseWishlist();
-                }
-
-                const headerWishlist = e.target.closest('.header-wishlist');
-                if (headerWishlist) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    renderWishlist();
-                    if (cartDropdown) cartDropdown.style.display = 'none';
-                    wishlistModal.style.display = wishlistModal.style.display === 'block' ? 'none' :
-                        'block';
-                    autoCloseWishlist();
-                }
-            });
-
-            const wishlistItems = document.getElementById('wishlistItems');
-            if (wishlistItems) {
-                wishlistItems.addEventListener('click', function(e) {
-                    const removeBtn = e.target.closest('.wishlist-remove-btn');
-                    if (removeBtn) {
-                        const productId = removeBtn.dataset.productId;
-                        removeFromWishlist(productId);
-
-                        document.querySelectorAll(
-                            `.js-add-wishlist[data-product-id="${productId}"], .add-to-wishlist[data-product-id="${productId}"]`
-                        ).forEach(heartBtn => {
-                            heartBtn.classList.remove('active');
-                            const svg = heartBtn.querySelector('svg');
-                            if (svg) svg.style.fill = '#666';
-                        });
-
-                        renderWishlist();
-                    }
-                });
+                return;
             }
 
-            if (wishlistClose) {
-                wishlistClose.addEventListener('click', () => wishlistModal.style.display = 'none');
+            const openLink = e.target.closest('.open-wishlist-modal');
+            if (openLink) {
+                e.preventDefault();
+                renderWishlist();
+                if (cartDropdown) cartDropdown.style.display = 'none';
+                wishlistModal.style.display = 'block';
+                autoCloseWishlist();
             }
 
-            window.addEventListener('click', function(e) {
-                if (e.target === wishlistModal) {
-                    wishlistModal.style.display = 'none';
-                }
-            });
+            const menuBtn = e.target.closest('.add-to-wishlist');
+            if (menuBtn) {
+                e.preventDefault();
+                renderWishlist();
+                if (cartDropdown) cartDropdown.style.display = 'none';
+                wishlistModal.style.display = 'block';
+                autoCloseWishlist();
+            }
+
+            const headerWishlist = e.target.closest('.header-wishlist');
+            if (headerWishlist) {
+                e.preventDefault();
+                e.stopPropagation();
+                renderWishlist();
+                if (cartDropdown) cartDropdown.style.display = 'none';
+                wishlistModal.style.display = wishlistModal.style.display === 'block' ? 'none' :
+                    'block';
+                autoCloseWishlist();
+            }
         });
+
+        const wishlistItems = document.getElementById('wishlistItems');
+        if (wishlistItems) {
+            wishlistItems.addEventListener('click', function(e) {
+                const removeBtn = e.target.closest('.wishlist-remove-btn');
+                if (removeBtn) {
+                    const productId = removeBtn.dataset.productId;
+                    removeFromWishlist(productId);
+
+                    document.querySelectorAll(
+                        `.js-add-wishlist[data-product-id="${productId}"], .add-to-wishlist[data-product-id="${productId}"]`
+                    ).forEach(heartBtn => {
+                        heartBtn.classList.remove('active');
+                        const svg = heartBtn.querySelector('svg');
+                        if (svg) svg.style.fill = '#666';
+                    });
+
+                    renderWishlist();
+                }
+            });
+        }
+
+        if (wishlistClose) {
+            wishlistClose.addEventListener('click', () => wishlistModal.style.display = 'none');
+        }
+
+        window.addEventListener('click', function(e) {
+            if (e.target === wishlistModal) {
+                wishlistModal.style.display = 'none';
+            }
+        });
+    });
     </script>
 
     <script>
-        let timeout;
+    let timeout;
 
-        function showPhoneNumber() {
-            const button = document.getElementById('phone-button');
-            button.classList.add('show-number');
+    function showPhoneNumber() {
+        const button = document.getElementById('phone-button');
+        button.classList.add('show-number');
 
-            clearTimeout(timeout);
-            timeout = setTimeout(() => {
-                button.classList.remove('show-number');
-            }, 2000);
-        }
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            button.classList.remove('show-number');
+        }, 2000);
+    }
     </script>
 
     <!-- Nút gọi điện thoại cố định góc trái dưới -->
@@ -1411,117 +1419,120 @@
     </div>
 
     <style>
-        .notification-dot {
-            position: absolute;
-            top: -2px;
-            right: -2px;
-            width: 10px;
-            height: 10px;
-            background-color: red;
-            border-radius: 50%;
-            border: 2px solid white;
-            z-index: 10;
+    .notification-dot {
+        position: absolute;
+        top: -2px;
+        right: -2px;
+        width: 10px;
+        height: 10px;
+        background-color: red;
+        border-radius: 50%;
+        border: 2px solid white;
+        z-index: 10;
+    }
+
+
+
+    #phone-button-wrapper {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        z-index: 9999;
+    }
+
+    #phone-button {
+        background-color: #e53935;
+        color: white;
+        border-radius: 50%;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 0 0 0 rgba(229, 57, 53, 0.7);
+        animation: pulse 2s infinite;
+        transition: width 0.3s ease-in-out, border-radius 0.3s;
+        overflow: hidden;
+        padding: 0 20px;
+        width: 60px;
+    }
+
+    .phone-icon {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+    }
+
+    #phone-number {
+        font-weight: bold;
+        white-space: nowrap;
+        opacity: 0;
+        transition: opacity 0.3s;
+        margin-left: 10px;
+    }
+
+    #phone-button:hover {
+        width: 200px;
+        border-radius: 30px;
+    }
+
+    #phone-button:hover #phone-number {
+        opacity: 1;
+    }
+
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(229, 57, 53, 0.4);
         }
 
-
-
-        #phone-button-wrapper {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            z-index: 9999;
+        70% {
+            box-shadow: 0 0 0 20px rgba(229, 57, 53, 0);
         }
 
-        #phone-button {
-            background-color: #e53935;
-            color: white;
-            border-radius: 50%;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 0 0 rgba(229, 57, 53, 0.7);
-            animation: pulse 2s infinite;
-            transition: width 0.3s ease-in-out, border-radius 0.3s;
-            overflow: hidden;
-            padding: 0 20px;
-            width: 60px;
+        100% {
+            box-shadow: 0 0 0 0 rgba(229, 57, 53, 0);
+        }
+    }
+
+    @keyframes shake {
+        0% {
+            transform: rotate(0deg);
         }
 
-        .phone-icon {
-            width: 60px;
-            height: 60px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
+        20% {
+            transform: rotate(15deg);
         }
 
-        #phone-number {
-            font-weight: bold;
-            white-space: nowrap;
-            opacity: 0;
-            transition: opacity 0.3s;
-            margin-left: 10px;
+        40% {
+            transform: rotate(-10deg);
         }
 
-        #phone-button:hover {
-            width: 200px;
-            border-radius: 30px;
+        60% {
+            transform: rotate(10deg);
         }
 
-        #phone-button:hover #phone-number {
-            opacity: 1;
+        80% {
+            transform: rotate(-5deg);
         }
 
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(229, 57, 53, 0.4);
-            }
-
-            70% {
-                box-shadow: 0 0 0 20px rgba(229, 57, 53, 0);
-            }
-
-            100% {
-                box-shadow: 0 0 0 0 rgba(229, 57, 53, 0);
-            }
+        100% {
+            transform: rotate(0deg);
         }
+    }
 
-        @keyframes shake {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            20% {
-                transform: rotate(15deg);
-            }
-
-            40% {
-                transform: rotate(-10deg);
-            }
-
-            60% {
-                transform: rotate(10deg);
-            }
-
-            80% {
-                transform: rotate(-5deg);
-            }
-
-            100% {
-                transform: rotate(0deg);
-            }
-        }
-
-        .shake {
-            animation: shake 1s ease-in-out infinite;
-        }
+    .shake {
+        animation: shake 1s ease-in-out infinite;
+    }
     </style>
 
-    @include('components.chatbot-floating');
+    @include('components.chatbot-floating')
 
     @include('user.historyModal')
+
+
+
 
 </body>
 
