@@ -20,7 +20,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\WishlistController;
-
+use App\Http\Controllers\FaqController;
 Auth::routes();
 
 // Route tạm thời để kiểm tra API key
@@ -246,3 +246,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 });
 Route::get('/orders/{id}/print', [OrderController::class, 'printInvoice'])->name('orders.print');
+
+Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
+Route::post('/faq/pending', [FaqController::class, 'storePending'])->name('faq.storePending');
