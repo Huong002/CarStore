@@ -241,7 +241,8 @@ document.addEventListener('DOMContentLoaded', function() {
                             <td id="cart-tax">0₫</td>
                         </tr>
                         <tr>
-                            <th>Tổng cộng</th>
+                            <th style="padding-right:15px; white-space:nowrap;">TỔNG CỘNG</th>
+
                             <td id="cart-total">0₫</td>
                         </tr>
                     </tbody>
@@ -472,8 +473,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     <div class="mb-3">
                         <label>Tên người đặt</label>
-                        <input type="text" name="customer_name" class="form-control" required>
+                        <input type="text" name="customer_name" class="form-control" required
+                            pattern="^[A-Za-zÀ-Ỹà-ỹ\s]+$" title="Chỉ được nhập chữ cái và khoảng trắng">
                     </div>
+
                     <div class="mb-3">
                         <label>Số điện thoại</label>
                         <input type="text" name="phone" class="form-control" required pattern="^[0-9]{10}$"
