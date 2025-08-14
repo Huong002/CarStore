@@ -60,8 +60,8 @@
                 <div class="col-md-6">
                     <div class="form-floating my-3">
                         <input type="text" class="form-control" id="customerName" name="customerName" placeholder=" "
-                            value="{{ $deposit->customer_name ?? '' }}" required @if(!empty($isFromDeposit)) readonly
-                            @endif>
+                            value="{{ $deposit->customer_name ?? '' }}" required pattern="^[A-Za-zÀ-Ỹà-ỹ\s]+$"
+                            title="Chỉ được nhập chữ cái và khoảng trắng" @if(!empty($isFromDeposit)) readonly @endif>
                         <label for="customerName">Họ và tên *</label>
                     </div>
                 </div>
