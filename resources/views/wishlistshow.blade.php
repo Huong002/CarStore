@@ -132,7 +132,8 @@ th {
 
 <div class="container">
     <h2 class="mb-4 text-center text-primary wishlist-heading">
-        <i class="fas fa-cart-shopping wishlist-icon"></i>
+        <i class="bi bi-cart wishlist-icon"></i>
+
         Thông tin sản phẩm yêu thích
     </h2>
 
@@ -191,7 +192,7 @@ th {
                             @csrf
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                             <button type="submit" class="btn btn-buy-now">
-                                <i class="fas fa-cart-plus"></i>
+                                <i class="bi bi-cart-plus"></i>
                                 <span>Mua ngay</span>
                             </button>
 
