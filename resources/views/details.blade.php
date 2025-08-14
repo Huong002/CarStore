@@ -112,7 +112,7 @@
                     <div class="product-single__image">
                         <div class="swiper-container">
                             <div class="swiper-wrapper">
-                                {{-- Ảnh chính --}}
+                                {{-- Ảnh chính --}
                                 @if($product->primaryImage)
                                 <div class="swiper-slide product-single__image-item">
                                     <img loading="lazy" class="h-auto"

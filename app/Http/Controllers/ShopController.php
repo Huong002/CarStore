@@ -44,11 +44,15 @@ class ShopController extends Controller
             $selectedBrandIds = explode(',', $brandsParam);
         }
 
+        // Lấy tham số sắp xếp
+        $sortBy = $request->input('sort', '');
+
         Log::info('Request Params: ', [
             'search' => $search,
             'categories' => $selectedCategoryIds,
             'colors' => $selectedColorIds,
-            'brands' => $selectedBrandIds
+            'brands' => $selectedBrandIds,
+            'sort' => $sortBy
         ]);
 
         // Xây dựng query
@@ -75,6 +79,40 @@ class ShopController extends Controller
             $query->whereIn('brand_id', $selectedBrandIds);
         }
 
+        // Áp dụng sắp xếp
+        switch ($sortBy) {
+            case '1': // Nổi bật
+                $query->orderBy('featured', 'desc')->orderBy('created_at', 'desc');
+                break;
+            case '2': // Bán chạy nhất
+                $query->leftJoin('order_details', 'products.id', '=', 'order_details.product_id')
+                    ->selectRaw('products.*, COALESCE(SUM(order_details.quantity), 0) as total_sold')
+                    ->groupBy('products.id')
+                    ->orderBy('total_sold', 'desc');
+                break;
+            case '3': // A-Z
+                $query->orderBy('name', 'asc');
+                break;
+            case '4': // Z-A
+                $query->orderBy('name', 'desc');
+                break;
+            case '5': // Giá thấp đến cao
+                $query->orderByRaw('COALESCE(sale_price, regular_price) asc');
+                break;
+            case '6': // Giá cao đến thấp
+                $query->orderByRaw('COALESCE(sale_price, regular_price) desc');
+                break;
+            case '7': // Ngày cũ đến mới
+                $query->orderBy('created_at', 'asc');
+                break;
+            case '8': // Ngày mới đến cũ
+                $query->orderBy('created_at', 'desc');
+                break;
+            default: // Mặc định
+                $query->orderBy('created_at', 'desc');
+                break;
+        }
+
         // Debug query
         Log::info('Generated SQL: ', [
             'sql' => $query->toSql(),
@@ -82,8 +120,8 @@ class ShopController extends Controller
         ]);
 
         // Phân trang kết quả
-        $products = $query->orderBy('created_at', 'desc')->paginate(12)->withQueryString();
-        
+        $products = $query->paginate(12)->withQueryString();
+
         foreach ($products as $product) {
             $product->reviews_count = $product->reviews()->count();
             $product->average_rating = $product->reviews()->avg('rating') ? round($product->reviews()->avg('rating'), 1) : 0;
@@ -109,8 +147,7 @@ class ShopController extends Controller
             'selectedCategoryIds',
             'selectedColorIds',
             'selectedBrandIds',
-
-
+            'sortBy'
         ));
     }
     public function product_details($product_slug)

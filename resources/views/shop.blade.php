@@ -1,90 +1,269 @@
 @extends('layouts.app')
 @section('content')
 <style>
-.pc__atc {
-    background-color: white;
-    padding: 10px 16px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    opacity: 0;
-    transition: transform 0.3s ease, opacity 0.6s ease-out;
-}
+    /* Filter sections styling */
+    .filters-container .accordion {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        transition: box-shadow 0.3s ease;
+    }
 
-.pc__atc:hover {
-    transform: scale(1.05);
-}
+    .filters-container .accordion:hover {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    }
 
-@keyframes fadeInUp {
-    from {
+    .filters-container .accordion-item {
+        border: none;
+        background: transparent;
+    }
+
+    .filters-container .accordion-header {
+        margin: 0;
+    }
+
+    .filters-container .accordion-button {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border: none;
+        padding: 16px 20px;
+        font-weight: 600;
+        color: #374151;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .filters-container .accordion-button:not(.collapsed) {
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        color: white;
+        box-shadow: none;
+    }
+
+    .filters-container .accordion-button:focus {
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        border-color: transparent;
+    }
+
+    .filters-container .accordion-button::after {
+        background-image: none;
+        content: '';
+        width: 16px;
+        height: 16px;
+        background: currentColor;
+        mask: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23374151'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e") no-repeat;
+        mask-size: contain;
+        transition: transform 0.3s ease;
+    }
+
+    .filters-container .accordion-button:not(.collapsed)::after {
+        transform: rotate(180deg);
+    }
+
+    .filters-container .accordion-collapse {
+        border-top: 1px solid #e5e7eb;
+    }
+
+    .filters-container .accordion-body {
+        padding: 20px;
+        background: #ffffff;
+    }
+
+    /* Category and Brand list styling */
+    .filters-container .list-item {
+        padding: 8px 0;
+        border-bottom: 1px solid #f3f4f6;
+        transition: background-color 0.2s ease;
+    }
+
+    .filters-container .list-item:last-child {
+        border-bottom: none;
+    }
+
+    .filters-container .list-item:hover {
+        background-color: #f8fafc;
+        border-radius: 6px;
+        margin: 0 -8px;
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .filters-container input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        accent-color: #3b82f6;
+        border-radius: 4px;
+    }
+
+    .filters-container label {
+        cursor: pointer;
+        font-weight: 500;
+        color: #374151;
+        transition: color 0.2s ease;
+    }
+
+    .filters-container label:hover {
+        color: #3b82f6;
+    }
+
+    /* Color swatches styling */
+    .swatch-color-label {
+        display: inline-flex;
+        align-items: center;
+        cursor: pointer;
+        position: relative;
+        padding: 4px;
+        border-radius: 8px;
+        transition: background-color 0.2s ease;
+    }
+
+    .swatch-color-label:hover {
+        background-color: #f3f4f6;
+    }
+
+    .swatch-box {
+        width: 28px;
+        height: 28px;
+        border: 3px solid #e5e7eb;
+        border-radius: 50%;
+        display: inline-block;
+        transition: all 0.3s ease;
+        position: relative;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .swatch-checkbox:checked+.swatch-box {
+        border-color: #3b82f6;
+        transform: scale(1.15);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    .swatch-checkbox:checked+.swatch-box::after {
+        content: '✓';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-weight: bold;
+        font-size: 12px;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Search field styling */
+    .search-field__input {
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        padding: 10px 12px;
+        transition: all 0.3s ease;
+    }
+
+    .search-field__input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    /* Apply filters button */
+    #applyFilters {
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        border: none;
+        border-radius: 8px;
+        padding: 12px 24px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+    }
+
+    #applyFilters:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    .pc__atc {
+        background-color: white;
+        padding: 10px 16px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         opacity: 0;
-        transform: translateY(20px);
+        transition: transform 0.3s ease, opacity 0.6s ease-out;
     }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    .pc__atc:hover {
+        transform: scale(1.05);
     }
-}
 
-.anim_appear-bottom {
-    animation: fadeInUp 0.6s ease-out forwards;
-    opacity: 0;
-}
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
 
-.btn-wrapper {
-    background-color: #fff;
-    border-radius: 12px;
-    padding: 10px 16px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    display: inline-block;
-}
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 
-.btn-wrapper .btn:hover {
-    transform: scale(1.05);
-    transition: transform 0.3s ease;
-}
+    .anim_appear-bottom {
+        animation: fadeInUp 0.6s ease-out forwards;
+        opacity: 0;
+    }
 
-.color-swatches {
-    gap: 8px;
-}
+    .btn-wrapper {
+        background-color: #fff;
+        border-radius: 12px;
+        padding: 10px 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        display: inline-block;
+    }
 
-.swatch-color-label {
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
-    position: relative;
-}
+    .btn-wrapper .btn:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease;
+    }
 
-.swatch-box {
-    width: 20px;
-    height: 20px;
-    border: 2px solid #ccc;
-    border-radius: 50%;
-    display: inline-block;
-    transition: border-color 0.3s, transform 0.2s;
-}
+    .color-swatches {
+        gap: 8px;
+    }
 
-.swatch-checkbox:checked+.swatch-box {
-    border-color: #007bff;
-    transform: scale(1.1);
-}
+    .swatch-color-label {
+        display: inline-flex;
+        align-items: center;
+        cursor: pointer;
+        position: relative;
+    }
 
-.swatch-checkbox:focus+.swatch-box {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
-}
+    .swatch-box {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #ccc;
+        border-radius: 50%;
+        display: inline-block;
+        transition: border-color 0.3s, transform 0.2s;
+    }
+
+    .swatch-checkbox:checked+.swatch-box {
+        border-color: #007bff;
+        transform: scale(1.1);
+    }
+
+    .swatch-checkbox:focus+.swatch-box {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
+    }
 </style>
 
 <style>
-.js-add-wishlist svg {
-    color: #666;
-    cursor: pointer;
-    transition: color 0.2s ease;
-}
+    .js-add-wishlist svg {
+        color: #666;
+        cursor: pointer;
+        transition: color 0.2s ease;
+    }
 
-.js-add-wishlist.icon-heart-active svg {
-    color: red !important;
-}
+    .js-add-wishlist.icon-heart-active svg {
+        color: red !important;
+    }
 </style>
 <main class="pt-90">
     <section class="shop-main container d-flex pt-4 pt-xl-5">
@@ -136,7 +315,7 @@
                         </button>
                     </h5>
                     <div id="accordion-filter-category" class="accordion-collapse collapse show border-0"
-                        aria-labelledby="accordion-heading-category" data-bs-parent="#filters">
+                        aria-labelledby="accordion-heading-category">
                         <div class="accordion-body px-0 pb-0 pt-3" style="max-height: 250px; overflow-y: auto;">
                             <ul class="list list-inline mb-0">
                                 @foreach($allCategories as $category)
@@ -157,7 +336,7 @@
                 <div class="accordion-item mb-4 pb-3">
                     <h5 class="accordion-header" id="accordion-heading-color">
                         <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#accordion-filter-color" aria-expanded="false"
+                            data-bs-toggle="collapse" data-bs-target="#accordion-filter-color" aria-expanded="true"
                             aria-controls="accordion-filter-color">
                             Màu sắc
                             <svg class="accordion-button__icon type2" viewBox="0 0 10 6"
@@ -166,8 +345,8 @@
                             </svg>
                         </button>
                     </h5>
-                    <div id="accordion-filter-color" class="accordion-collapse collapse border-0"
-                        aria-labelledby="accordion-heading-color" data-bs-parent="#filters">
+                    <div id="accordion-filter-color" class="accordion-collapse collapse show border-0"
+                        aria-labelledby="accordion-heading-color">
                         <div class="accordion-body px-0 pb-0">
                             <div class="d-flex flex-wrap">
                                 @foreach($allColors as $color)
@@ -189,7 +368,7 @@
                 <div class="accordion-item mb-4 pb-3">
                     <h5 class="accordion-header" id="accordion-heading-brand">
                         <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#accordion-filter-brand" aria-expanded="false"
+                            data-bs-toggle="collapse" data-bs-target="#accordion-filter-brand" aria-expanded="true"
                             aria-controls="accordion-filter-brand">
                             Thương hiệu
                             <svg class="accordion-button__icon type2" viewBox="0 0 10 6"
@@ -198,8 +377,8 @@
                             </svg>
                         </button>
                     </h5>
-                    <div id="accordion-filter-brand" class="accordion-collapse collapse border-0"
-                        aria-labelledby="accordion-heading-brand" data-bs-parent="#filters">
+                    <div id="accordion-filter-brand" class="accordion-collapse collapse show border-0"
+                        aria-labelledby="accordion-heading-brand">
                         <div class="search-field multi-select accordion-body px-0 pb-0">
                             <div class="search-field__input-wrapper mb-3">
                                 <input type="text" name="search_text"
@@ -393,16 +572,16 @@
                 <div
                     class="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
                     <select class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0"
-                        aria-label="Sort Items" name="total-number">
-                        <option selected>Sắp xếp mặc định</option>
-                        <option value="1">Nổi bật</option>
-                        <option value="2">Bán chạy nhất</option>
-                        <option value="3">Theo bảng chữ cái, A-Z</option>
-                        <option value="4">Theo bảng chữ cái, Z-A</option>
-                        <option value="5">Giá, thấp đến cao</option>
-                        <option value="6">Giá, cao đến thấp</option>
-                        <option value="7">Ngày, cũ đến mới</option>
-                        <option value="8">Ngày, mới đến cũ</option>
+                        aria-label="Sort Items" name="sort" id="sortSelect">
+                        <option value="" {{ ($sortBy ?? '') == '' ? 'selected' : '' }}>Sắp xếp mặc định</option>
+                        <option value="1" {{ ($sortBy ?? '') == '1' ? 'selected' : '' }}>Nổi bật</option>
+                        <!-- <option value="2" {{ ($sortBy ?? '') == '2' ? 'selected' : '' }}>Bán chạy nhất</option> -->
+                        <option value="3" {{ ($sortBy ?? '') == '3' ? 'selected' : '' }}>Theo bảng chữ cái, A-Z</option>
+                        <option value="4" {{ ($sortBy ?? '') == '4' ? 'selected' : '' }}>Theo bảng chữ cái, Z-A</option>
+                        <option value="5" {{ ($sortBy ?? '') == '5' ? 'selected' : '' }}>Giá, thấp đến cao</option>
+                        <option value="6" {{ ($sortBy ?? '') == '6' ? 'selected' : '' }}>Giá, cao đến thấp</option>
+                        <option value="7" {{ ($sortBy ?? '') == '7' ? 'selected' : '' }}>Ngày, cũ đến mới</option>
+                        <option value="8" {{ ($sortBy ?? '') == '8' ? 'selected' : '' }}>Ngày, mới đến cũ</option>
                     </select>
 
                     <div class="shop-asc__seprator mx-3 bg-light d-none d-md-block order-md-0"></div>
@@ -594,50 +773,50 @@
                         </div>
                         <div id="upload-file" class="item up-load text-center">
                             <style>
-                            .camera-upload-btn {
-                                display: flex;
-                                flex-direction: column;
-                                align-items: center;
-                                justify-content: center;
-                                width: 120px;
-                                height: 120px;
-                                margin: 0 auto;
-                                background: #f4f6fa;
-                                border-radius: 50%;
-                                box-shadow: 0 2px 12px rgba(94, 131, 174, 0.08);
-                                cursor: pointer;
-                                border: 2px solid #e0e6ed;
-                                transition: box-shadow 0.2s, border-color 0.2s;
-                            }
-
-                            .camera-upload-btn:hover {
-                                box-shadow: 0 4px 24px rgba(94, 131, 174, 0.18);
-                                border-color: #5E83AE;
-                            }
-
-                            .camera-upload-btn i {
-                                font-size: 3.5rem;
-                                color: #5E83AE;
-                                transition: color 0.2s;
-                            }
-
-                            .camera-upload-btn span {
-                                margin-top: 10px;
-                                font-size: 1.1rem;
-                                color: #5E83AE;
-                                font-weight: 500;
-                            }
-
-                            @media (max-width: 600px) {
                                 .camera-upload-btn {
-                                    width: 90px;
-                                    height: 90px;
+                                    display: flex;
+                                    flex-direction: column;
+                                    align-items: center;
+                                    justify-content: center;
+                                    width: 120px;
+                                    height: 120px;
+                                    margin: 0 auto;
+                                    background: #f4f6fa;
+                                    border-radius: 50%;
+                                    box-shadow: 0 2px 12px rgba(94, 131, 174, 0.08);
+                                    cursor: pointer;
+                                    border: 2px solid #e0e6ed;
+                                    transition: box-shadow 0.2s, border-color 0.2s;
+                                }
+
+                                .camera-upload-btn:hover {
+                                    box-shadow: 0 4px 24px rgba(94, 131, 174, 0.18);
+                                    border-color: #5E83AE;
                                 }
 
                                 .camera-upload-btn i {
-                                    font-size: 2.2rem;
+                                    font-size: 3.5rem;
+                                    color: #5E83AE;
+                                    transition: color 0.2s;
                                 }
-                            }
+
+                                .camera-upload-btn span {
+                                    margin-top: 10px;
+                                    font-size: 1.1rem;
+                                    color: #5E83AE;
+                                    font-weight: 500;
+                                }
+
+                                @media (max-width: 600px) {
+                                    .camera-upload-btn {
+                                        width: 90px;
+                                        height: 90px;
+                                    }
+
+                                    .camera-upload-btn i {
+                                        font-size: 2.2rem;
+                                    }
+                                }
                             </style>
                             <label class="camera-upload-btn" for="myFile">
                                 <i class="bi bi-camera" aria-hidden="true"></i>
@@ -658,216 +837,243 @@
 
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    document.addEventListener('click', function(e) {
-        const btn = e.target.closest('.js-add-wishlist');
-        if (btn) {
-            e.preventDefault();
-            btn.classList.toggle('icon-heart-active');
-        }
-    });
-});
-</script>
-<script>
-$(document).ready(function() {
-    const searchInput = $('input[name="search_product"]');
-    const scanButton = $(".scan-button");
-    const myFileInput = $("#myFile");
-    const submitImageBtn = $("#submitImage");
-    const applyFiltersBtn = $("#applyFilters");
-
-    // Log kiểm tra
-    console.log("scanButton:", scanButton.length);
-    console.log("myFileInput:", myFileInput.length);
-    console.log("submitImageBtn:", submitImageBtn.length);
-    console.log("filterSearch:", applyFiltersBtn.length);
-
-    //  hien thi modal cho scan 
-    scanButton.on("click", function(e) {
-        e.preventDefault();
-        var modal = new bootstrap.Modal(document.getElementById("scanModal"));
-        modal.show();
-    });
-    // ham tim kiem. nhant u khoa tu tim kiem, sa do chuyen huong den trinh duye url moi
-    // function performSearch(searchTerm) {
-    //     if (searchTerm) {
-    //         const url = new URL(window.location.href);
-    //         url.searchParams.set("search", searchTerm);
-    //         window.location.href = url.toString();
-    //     }
-    // }
-    // Thay đổi hàm performSearch để xử lý tất cả các tham số lọc
-    function performSearch(searchTerm, categories = [], colors = [], brands = []) {
-        const url = new URL(window.location.href);
-
-        // Reset các tham số tìm kiếm trước đó
-        url.searchParams.delete("search");
-        url.searchParams.delete("categories");
-        url.searchParams.delete("colors");
-        url.searchParams.delete("brands");
-
-        // Thêm các tham số mới nếu có
-        if (searchTerm) url.searchParams.set("search", searchTerm);
-
-        if (categories && categories.length) {
-            url.searchParams.set("categories", categories.join(','));
-        }
-
-        if (colors && colors.length) {
-            url.searchParams.set("colors", colors.join(','));
-        }
-
-        if (brands && brands.length) {
-            url.searchParams.set("brands", brands.join(','));
-        }
-
-        // Chuyển hướng đến URL mới
-        window.location.href = url.toString();
-    }
-
-    // Preview ảnh khi chọn file
-    myFileInput.on("change", function() {
-        const [file] = this.files;
-        if (file) {
-            $("#imgpreview img").attr("src", URL.createObjectURL(file));
-            $("#imgpreview").show();
-            $("#upload-file").hide();
-            console.log("Đã chọn file, preview ảnh.");
-        } else {
-            $("#imgpreview").hide();
-            $("#upload-file").show();
-            console.log("Không có file, ẩn preview.");
-        }
-    });
-
-    // Xử lý khi nhấn nút xác nhận
-    submitImageBtn.on("click", function() {
-        const file = myFileInput[0].files[0];
-        if (file) {
-            const formData = new FormData();
-            formData.append("image", file);
-
-            // Sử dụng route của Laravel để xử lý ảnh thay vì gọi trực tiếp API Python
-            fetch("{{ route('shop.scan.image') }}", {
-                    method: "POST",
-                    body: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    },
-                })
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log("Kết quả trả về từ server:", data);
-                    if (data.car_name) {
-                        searchInput.val(data.car_name);
-                        performSearch(data.car_name);
-                        var modal = bootstrap.Modal.getInstance(document.getElementById(
-                            "scanModal"));
-                        if (modal) modal.hide();
-                    }
-                })
-                .catch((error) => console.error("Error:", error));
-        }
-    });
-
-    // xu li cho bo loc 
-    applyFiltersBtn.on("click", function(e) {
-        e.preventDefault(); // Ngăn hành vi mặc định của button
-        const searchTerm = searchInput.val() || '';
-        const categories = $('input[name="categories[]"]:checked').map(function() {
-            return this.value;
-        }).get();
-        const colors = $('input[name="colors[]"]:checked').map(function() {
-            return this.value;
-        }).get();
-        const brands = $('input[name="brands[]"]:checked').map(function() {
-            return this.value;
-        }).get();
-
-        console.log("Filters:", {
-            searchTerm,
-            categories,
-            colors,
-            brands
-        }); // Debug
-        performSearch(searchTerm, categories, colors, brands);
-    });
-    $(document).on('click', '.js-add-wishlist', function(e) {
-        e.preventDefault();
-
-        $(this).toggleClass('active'); // Toggle class active để đổi màu icon
-    });
-
-    // Xử lý thêm sản phẩm vào giỏ hàng
-    $(document).on('click', '.add-to-cart-btn', function(e) {
-        e.preventDefault();
-
-        const productId = $(this).data('product-id');
-        const productName = $(this).data('product-name');
-        const productPrice = $(this).data('product-price');
-        const quantity = 1; // Mặc định thêm 1 sản phẩm
-
-        // Hiển thị hiệu ứng đang xử lý
-        $(this).html('<i class="fas fa-spinner fa-spin"></i> Đang thêm...');
-        const $btn = $(this);
-
-        // Gửi yêu cầu AJAX để thêm sản phẩm vào giỏ hàng
-        $.ajax({
-            url: '{{ route("cart.add") }}',
-            method: 'POST',
-            data: {
-                product_id: productId,
-                quantity: quantity,
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response) {
-                // Hiển thị thông báo thành công
-                $btn.html('<i class="fas fa-check me-1"></i> Đã thêm');
-
-                // Cập nhật số lượng sản phẩm trong giỏ hàng trên header (nếu có)
-                if (typeof updateCartCount === 'function') {
-                    updateCartCount();
-                }
-
-                // Hiển thị thông báo
-                Swal.fire({
-                    title: 'Thành công!',
-                    text: 'Đã thêm ' + productName + ' vào giỏ hàng',
-                    icon: 'success',
-                    timer: 2000,
-                    showConfirmButton: false
-                });
-
-                // Khôi phục trạng thái ban đầu của nút sau 2 giây
-                setTimeout(function() {
-                    $btn.html(
-                        '<i class="fas fa-shopping-cart me-1"></i> Thêm vào giỏ'
-                    );
-                }, 2000);
-            },
-            error: function(error) {
-                // Hiển thị thông báo lỗi
-                $btn.html('<i class="fas fa-exclamation-triangle me-1"></i> Lỗi');
-
-                Swal.fire({
-                    title: 'Lỗi!',
-                    text: 'Không thể thêm sản phẩm vào giỏ hàng',
-                    icon: 'error',
-                    confirmButtonText: 'Đóng'
-                });
-
-                // Khôi phục trạng thái ban đầu của nút sau 2 giây
-                setTimeout(function() {
-                    $btn.html(
-                        '<i class="fas fa-shopping-cart me-1"></i> Thêm vào giỏ'
-                    );
-                }, 2000);
-
-                console.error('Lỗi khi thêm vào giỏ hàng:', error);
+    document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('click', function(e) {
+            const btn = e.target.closest('.js-add-wishlist');
+            if (btn) {
+                e.preventDefault();
+                btn.classList.toggle('icon-heart-active');
             }
         });
     });
-});
+</script>
+<script>
+    $(document).ready(function() {
+        const searchInput = $('input[name="search_product"]');
+        const scanButton = $(".scan-button");
+        const myFileInput = $("#myFile");
+        const submitImageBtn = $("#submitImage");
+        const applyFiltersBtn = $("#applyFilters");
+        const sortSelect = $("#sortSelect");
+
+        // Log kiểm tra
+        console.log("scanButton:", scanButton.length);
+        console.log("myFileInput:", myFileInput.length);
+        console.log("submitImageBtn:", submitImageBtn.length);
+        console.log("filterSearch:", applyFiltersBtn.length);
+        console.log("sortSelect:", sortSelect.length);
+
+        //  hien thi modal cho scan 
+        scanButton.on("click", function(e) {
+            e.preventDefault();
+            var modal = new bootstrap.Modal(document.getElementById("scanModal"));
+            modal.show();
+        });
+        // ham tim kiem. nhant u khoa tu tim kiem, sa do chuyen huong den trinh duye url moi
+        // function performSearch(searchTerm) {
+        //     if (searchTerm) {
+        //         const url = new URL(window.location.href);
+        //         url.searchParams.set("search", searchTerm);
+        //         window.location.href = url.toString();
+        //     }
+        // }
+        // Thay đổi hàm performSearch để xử lý tất cả các tham số lọc
+        function performSearch(searchTerm, categories = [], colors = [], brands = [], sortBy = '') {
+            const url = new URL(window.location.href);
+
+            // Reset các tham số tìm kiếm trước đó
+            url.searchParams.delete("search");
+            url.searchParams.delete("categories");
+            url.searchParams.delete("colors");
+            url.searchParams.delete("brands");
+            url.searchParams.delete("sort");
+
+            // Thêm các tham số mới nếu có
+            if (searchTerm) url.searchParams.set("search", searchTerm);
+
+            if (categories && categories.length) {
+                url.searchParams.set("categories", categories.join(','));
+            }
+
+            if (colors && colors.length) {
+                url.searchParams.set("colors", colors.join(','));
+            }
+
+            if (brands && brands.length) {
+                url.searchParams.set("brands", brands.join(','));
+            }
+
+            if (sortBy) {
+                url.searchParams.set("sort", sortBy);
+            }
+
+            // Chuyển hướng đến URL mới
+            window.location.href = url.toString();
+        }
+
+        // Preview ảnh khi chọn file
+        myFileInput.on("change", function() {
+            const [file] = this.files;
+            if (file) {
+                $("#imgpreview img").attr("src", URL.createObjectURL(file));
+                $("#imgpreview").show();
+                $("#upload-file").hide();
+                console.log("Đã chọn file, preview ảnh.");
+            } else {
+                $("#imgpreview").hide();
+                $("#upload-file").show();
+                console.log("Không có file, ẩn preview.");
+            }
+        });
+
+        // Xử lý khi nhấn nút xác nhận
+        submitImageBtn.on("click", function() {
+            const file = myFileInput[0].files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append("image", file);
+
+                // Sử dụng route của Laravel để xử lý ảnh thay vì gọi trực tiếp API Python
+                fetch("{{ route('shop.scan.image') }}", {
+                        method: "POST",
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        },
+                    })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        console.log("Kết quả trả về từ server:", data);
+                        if (data.car_name) {
+                            searchInput.val(data.car_name);
+                            performSearch(data.car_name);
+                            var modal = bootstrap.Modal.getInstance(document.getElementById(
+                                "scanModal"));
+                            if (modal) modal.hide();
+                        }
+                    })
+                    .catch((error) => console.error("Error:", error));
+            }
+        });
+
+        // Xử lý sắp xếp
+        sortSelect.on("change", function() {
+            const sortValue = $(this).val();
+            const searchTerm = searchInput.val() || '';
+            const categories = $('input[name="categories[]"]:checked').map(function() {
+                return this.value;
+            }).get();
+            const colors = $('input[name="colors[]"]:checked').map(function() {
+                return this.value;
+            }).get();
+            const brands = $('input[name="brands[]"]:checked').map(function() {
+                return this.value;
+            }).get();
+
+            console.log("Sort changed:", sortValue);
+            performSearch(searchTerm, categories, colors, brands, sortValue);
+        });
+
+        // xu li cho bo loc 
+        applyFiltersBtn.on("click", function(e) {
+            e.preventDefault(); // Ngăn hành vi mặc định của button
+            const searchTerm = searchInput.val() || '';
+            const sortValue = sortSelect.val() || '';
+            const categories = $('input[name="categories[]"]:checked').map(function() {
+                return this.value;
+            }).get();
+            const colors = $('input[name="colors[]"]:checked').map(function() {
+                return this.value;
+            }).get();
+            const brands = $('input[name="brands[]"]:checked').map(function() {
+                return this.value;
+            }).get();
+
+            console.log("Filters:", {
+                searchTerm,
+                categories,
+                colors,
+                brands,
+                sortValue
+            }); // Debug
+            performSearch(searchTerm, categories, colors, brands, sortValue);
+        });
+        $(document).on('click', '.js-add-wishlist', function(e) {
+            e.preventDefault();
+
+            $(this).toggleClass('active'); // Toggle class active để đổi màu icon
+        });
+
+        // Xử lý thêm sản phẩm vào giỏ hàng
+        $(document).on('click', '.add-to-cart-btn', function(e) {
+            e.preventDefault();
+
+            const productId = $(this).data('product-id');
+            const productName = $(this).data('product-name');
+            const productPrice = $(this).data('product-price');
+            const quantity = 1; // Mặc định thêm 1 sản phẩm
+
+            // Hiển thị hiệu ứng đang xử lý
+            $(this).html('<i class="fas fa-spinner fa-spin"></i> Đang thêm...');
+            const $btn = $(this);
+
+            // Gửi yêu cầu AJAX để thêm sản phẩm vào giỏ hàng
+            $.ajax({
+                url: '{{ route("cart.add") }}',
+                method: 'POST',
+                data: {
+                    product_id: productId,
+                    quantity: quantity,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    // Hiển thị thông báo thành công
+                    $btn.html('<i class="fas fa-check me-1"></i> Đã thêm');
+
+                    // Cập nhật số lượng sản phẩm trong giỏ hàng trên header (nếu có)
+                    if (typeof updateCartCount === 'function') {
+                        updateCartCount();
+                    }
+
+                    // Hiển thị thông báo
+                    Swal.fire({
+                        title: 'Thành công!',
+                        text: 'Đã thêm ' + productName + ' vào giỏ hàng',
+                        icon: 'success',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+
+                    // Khôi phục trạng thái ban đầu của nút sau 2 giây
+                    setTimeout(function() {
+                        $btn.html(
+                            '<i class="fas fa-shopping-cart me-1"></i> Thêm vào giỏ'
+                        );
+                    }, 2000);
+                },
+                error: function(error) {
+                    // Hiển thị thông báo lỗi
+                    $btn.html('<i class="fas fa-exclamation-triangle me-1"></i> Lỗi');
+
+                    Swal.fire({
+                        title: 'Lỗi!',
+                        text: 'Không thể thêm sản phẩm vào giỏ hàng',
+                        icon: 'error',
+                        confirmButtonText: 'Đóng'
+                    });
+
+                    // Khôi phục trạng thái ban đầu của nút sau 2 giây
+                    setTimeout(function() {
+                        $btn.html(
+                            '<i class="fas fa-shopping-cart me-1"></i> Thêm vào giỏ'
+                        );
+                    }, 2000);
+
+                    console.error('Lỗi khi thêm vào giỏ hàng:', error);
+                }
+            });
+        });
+    });
 </script>
 
 
