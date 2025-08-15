@@ -77,7 +77,7 @@
                      @endforeach
                   </select>
                </div>
-               
+
             </fieldset>
             @error('color_id')
             <span class="alert alert-danger text-center">{{$message}}</span>
@@ -163,8 +163,11 @@
                <div class="upload-image mb-16">
                   @if($product->images && $product->images->count() > 1)
                   @foreach($product->images->where('is_primary', '!=', 1) as $image)
-                  <div class="item">
+                  <div class="item gallery-item" data-image-id="{{$image->id}}">
                      <img src="{{asset('uploads/products/'.$image->imageName)}}" alt="">
+                     <button type="button" class="btn-delete-image" onclick="deleteImage({{$image->id}}, this)">
+                        ×
+                     </button>
                   </div>
                   @endforeach
                   @endif
@@ -286,27 +289,154 @@
          }
       });
 
-      // Preview bộ sưu tập ảnh
+      // Preview bộ sưu tập ảnh với nút xóa
       $('#gFile').on("change", function(e) {
          const photoInp = $("#gFile");
          const gphotos = this.files;
 
-
          $.each(gphotos, function(key, val) {
-            $('#galUpload').prepend('<div class="item gitems"><img src="' + URL.createObjectURL(val) + '" style="max-width: 100px; max-height: 100px;"></div>');
+            const previewHtml = `
+               <div class="item gitems gallery-item">
+                  <img src="${URL.createObjectURL(val)}" style="max-width: 100px; max-height: 100px;">
+                  <button type="button" class="btn-delete-image" onclick="removePreviewImage(this)">
+                     ×
+                  </button>
+               </div>
+            `;
+            $('#galUpload').before(previewHtml);
          });
       });
 
-      // Tự động tạo slug từ tên sản phẩm (sử dụng input thay vì change để realtime)
+      // Tự động tạo slug từ tên sản phẩm
       $("input[name='name']").on("input", function() {
          $("input[name='slug']").val(StringToSlug($(this).val()));
       });
    });
+
+   // Hàm xóa ảnh đã có sẵn với AJAX
+   function deleteImage(imageId, button) {
+      const item = $(button).closest('.gallery-item');
+
+      // Thêm loading state
+      $(button).prop('disabled', true);
+
+      $.ajaxSetup({
+         headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+         }
+      });
+
+      $.ajax({
+         url: `/admin/product/image/${imageId}`,
+         type: 'DELETE',
+         success: function(response) {
+            if (response.success) {
+               item.fadeOut(300, function() {
+                  $(this).remove();
+               });
+            } else {
+               alert('Lỗi: ' + response.message);
+               $(button).prop('disabled', false);
+            }
+         },
+         error: function() {
+            alert('Có lỗi xảy ra khi xóa ảnh');
+            $(button).prop('disabled', false);
+         }
+      });
+   }
+
+   // Hàm xóa ảnh preview
+   function removePreviewImage(button) {
+      $(button).closest('.gallery-item').fadeOut(300, function() {
+         $(this).remove();
+      });
+   }
 
    function StringToSlug(Text) {
       return Text.toLowerCase()
          .replace(/[^\w ]+/g, '')
          .replace(/ +/g, '-');
    }
+</script>
+
+<style>
+   /* Styles cho gallery items */
+   .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+   }
+
+   .gallery-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+   }
+
+   .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+   }
+
+   /* Nút X nhỏ ở góc phải */
+   .btn-delete-image {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.6);
+      border: none;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 1;
+      font-family: Arial, sans-serif;
+      opacity: 0;
+      transform: scale(0.8);
+   }
+
+   .gallery-item:hover .btn-delete-image {
+      opacity: 1;
+      transform: scale(1);
+   }
+
+   .btn-delete-image:hover:not(:disabled) {
+      background: rgba(0, 0, 0, 0.8);
+      transform: scale(1.1);
+   }
+
+   .btn-delete-image:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: scale(0.8);
+   }
+
+   /* Responsive */
+   @media (max-width: 768px) {
+      .btn-delete-image {
+         width: 20px;
+         height: 20px;
+         font-size: 14px;
+         top: 6px;
+         right: 6px;
+      }
+   }
+</style>
+
+function StringToSlug(Text) {
+return Text.toLowerCase()
+.replace(/[^\w ]+/g, '')
+.replace(/ +/g, '-');
+}
 </script>
 @endpush

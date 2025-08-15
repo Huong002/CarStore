@@ -21,6 +21,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\FaqController;
+
 Auth::routes();
 
 // Route tạm thời để kiểm tra API key
@@ -98,6 +99,7 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::post('admin/product/store', [AdminController::class, 'product_store'])->name('admin.product.store');
     Route::get('/admin/product/edit/{id}', [AdminController::class, 'product_edit'])->name('admin.product.edit');
     Route::put('/admin/product/update', [AdminController::class, 'product_update'])->name('admin.product.update');
+    Route::delete('/admin/product/image/{id}', [AdminController::class, 'product_image_delete'])->name('admin.product.image.delete');
     Route::delete('/admin/product/delete/{id}', [AdminController::class, 'product_delete'])->name('admin.product.delete');
     // them xoa mem
     // danh sach san pham xoa mem

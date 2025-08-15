@@ -424,7 +424,8 @@ class AdminController extends Controller
             'category_id' => 'nullable|exists:categories,id',
             'brand_id' => 'nullable|exists:brands,id',
             'image' => 'nullable|mimes:png,jpg,jpeg|max:2048',
-            'images.*' => 'nullable|mimes:png,jpg,jpeg|max:2048'
+            'images.*' => 'nullable|mimes:png,jpg,jpeg|max:2048',
+            'remove_images.*' => 'nullable|exists:images,id'
         ]);
 
         $product = Product::find($request->id);
@@ -478,6 +479,23 @@ class AdminController extends Controller
             ]);
         }
 
+        // Xử lý xóa ảnh được chọn
+        if ($request->has('remove_images') && is_array($request->remove_images)) {
+            $removeImages = Image::whereIn('id', $request->remove_images)
+                ->where('product_id', $product->id)
+                ->where('is_primary', false)
+                ->get();
+
+            foreach ($removeImages as $image) {
+                // Xóa file ảnh khỏi server
+                if (\Illuminate\Support\Facades\File::exists(public_path('uploads/products/' . $image->imageName))) {
+                    \Illuminate\Support\Facades\File::delete(public_path('uploads/products/' . $image->imageName));
+                }
+                // Xóa record khỏi database
+                $image->delete();
+            }
+        }
+
         // Xử lý bộ sưu tập ảnh
         if ($request->hasFile('images')) {
             $images = $request->file('images');
@@ -501,6 +519,29 @@ class AdminController extends Controller
         }
 
         return redirect()->route('admin.products')->with('status', 'Cập nhật sản phẩm thành công!');
+    }
+
+    public function product_image_delete($id)
+    {
+        try {
+            $image = Image::where('id', $id)->where('is_primary', false)->first();
+
+            if (!$image) {
+                return response()->json(['success' => false, 'message' => 'Không tìm thấy ảnh hoặc không thể xóa ảnh chính']);
+            }
+
+            // Xóa file khỏi server
+            if (\Illuminate\Support\Facades\File::exists(public_path('uploads/products/' . $image->imageName))) {
+                \Illuminate\Support\Facades\File::delete(public_path('uploads/products/' . $image->imageName));
+            }
+
+            // Xóa record khỏi database
+            $image->delete();
+
+            return response()->json(['success' => true, 'message' => 'Xóa ảnh thành công']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Có lỗi xảy ra khi xóa ảnh']);
+        }
     }
 
     public function product_delete($id)
