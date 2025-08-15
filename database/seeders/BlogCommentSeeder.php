@@ -30,42 +30,44 @@ class BlogCommentSeeder extends Seeder
             'Rất mong có thêm những bài viết như thế này.'
         ];
 
-        $authorNames = [
-            'Nguyễn Văn Minh',
-            'Trần Thị Hoa',
-            'Lê Hoàng Nam',
-            'Phạm Thị Lan',
-            'Hoàng Văn Đức',
-            'Vũ Thị Mai',
-            'Đặng Minh Tuấn',
-            'Ngô Thị Linh',
-            'Bùi Văn Hùng',
-            'Đinh Thị Thu'
-        ];
+        // $authorNames = [
+        //     'Nguyễn Văn Minh',
+        //     'Trần Thị Hoa',
+        //     'Lê Hoàng Nam',
+        //     'Phạm Thị Lan',
+        //     'Hoàng Văn Đức',
+        //     'Vũ Thị Mai',
+        //     'Đặng Minh Tuấn',
+        //     'Ngô Thị Linh',
+        //     'Bùi Văn Hùng',
+        //     'Đinh Thị Thu'
+        // ];
 
-        $authorEmails = [
-            'minh.nguyen@email.com',
-            'hoa.tran@email.com',
-            'nam.le@email.com',
-            'lan.pham@email.com',
-            'duc.hoang@email.com',
-            'mai.vu@email.com',
-            'tuan.dang@email.com',
-            'linh.ngo@email.com',
-            'hung.bui@email.com',
-            'thu.dinh@email.com'
-        ];
+        // $authorEmails = [
+        //     'minh.nguyen@email.com',
+        //     'hoa.tran@email.com',
+        //     'nam.le@email.com',
+        //     'lan.pham@email.com',
+        //     'duc.hoang@email.com',
+        //     'mai.vu@email.com',
+        //     'tuan.dang@email.com',
+        //     'linh.ngo@email.com',
+        //     'hung.bui@email.com',
+        //     'thu.dinh@email.com'
+        // ];
 
         foreach ($blogs as $blog) {
             $numberOfComments = rand(2, 6);
 
             for ($i = 0; $i < $numberOfComments; $i++) {
+                $randomUser = $users->random();
+                
                 BlogComment::create([
                     'blog_id' => $blog->id,
-                    'author_name' => $authorNames[array_rand($authorNames)],
-                    'author_email' => $authorEmails[array_rand($authorEmails)],
+                    'author_name' => $randomUser->name,
+                    'author_email' => $randomUser->email,
                     'content' => $comments[array_rand($comments)],
-                    'user_id' => $users->random()->id,
+                    'user_id' => $randomUser->id,
                 ]);
             }
         }

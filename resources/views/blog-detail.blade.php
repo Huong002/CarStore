@@ -62,12 +62,101 @@
                      <div class="col-12">
                         <h3>Bình luận ({{ $blog->comments->count() }})</h3>
                         @foreach($blog->comments as $comment)
-                        <div class="comment-item border-bottom pb-3 mb-3 pt-3">
-                           <div class="d-flex justify-content-between">
-                              <h6 class="mb-1">{{ $comment->author_name }}</h6>
-                              <small class="text-muted">{{ $comment->created_at->format('d/m/Y H:i') }}</small>
+                        <div class="comment-item border-bottom pb-3 mb-3 pt-3" id="comment-{{ $comment->id }}">
+                           <div class="d-flex align-items-start gap-3">
+                              <!-- User Avatar -->
+                              <div class="comment-avatar flex-shrink-0">
+                                 @if($comment->user && $comment->user->image)
+                                 <img src="{{ asset('images/avatar/' . ($comment->user->image ??'default.jpg')) }}" alt="" class="image"
+                                    style="width:50px; height:50px; object-fit:cover; border-radius:50%;">
+                                 @else
+                                 <div class="default-avatar d-flex align-items-center justify-content-center rounded-circle bg-primary text-white"
+                                    style="width: 40px; height: 40px; font-size: 16px; font-weight: bold;">
+                                    {{ strtoupper(substr($comment->author_name, 0, 1)) }}
+                                 </div>
+                                 @endif
+                              </div>
+
+                              <!-- Comment Content -->
+                              <div class="comment-content flex-grow-1">
+                                 <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                       <h6 class="mb-1">{{ $comment->author_name }}</h6>
+                                       <small class="text-muted">
+                                          {{ $comment->created_at->format('d/m/Y H:i') }}
+                                          @if($comment->updated_at && $comment->updated_at->gt($comment->created_at))
+                                          <span class="text-info ms-1" title="Đã chỉnh sửa lúc {{ $comment->updated_at->format('d/m/Y H:i') }}">
+                                             (đã chỉnh sửa)
+                                          </span>
+                                          @endif
+                                       </small>
+                                    </div>
+
+                                    <!-- Edit/Delete Buttons -->
+                                    @auth
+                                    @if(Auth::id() === $comment->user_id)
+                                    <div class="comment-actions">
+                                       <div class="dropdown">
+                                          <button class="btn btn-sm btn-outline-secondary dropdown-toggle comment-menu-btn"
+                                             type="button"
+                                             id="commentActions{{ $comment->id }}"
+                                             data-bs-toggle="dropdown"
+                                             data-comment-id="{{ $comment->id }}"
+                                             aria-expanded="false">
+                                             <i class="fas fa-ellipsis-h"></i>
+                                          </button>
+                                          <ul class="dropdown-menu comment-dropdown-menu" 
+                                              id="commentMenu{{ $comment->id }}"
+                                              aria-labelledby="commentActions{{ $comment->id }}">
+                                             <li>
+                                                <button class="dropdown-item edit-comment-btn"
+                                                   data-comment-id="{{ $comment->id }}"
+                                                   data-comment-content="{{ $comment->content }}">
+                                                   <i class="fas fa-edit me-1"></i> Sửa
+                                                </button>
+                                             </li>
+                                             <li>
+                                                <button class="dropdown-item text-danger delete-comment-btn"
+                                                   data-comment-id="{{ $comment->id }}">
+                                                   <i class="fas fa-trash me-1"></i> Xóa
+                                                </button>
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                    @endif
+                                    @endauth
+                                 </div>
+
+                                 <!-- Comment Text -->
+                                 <div class="comment-text">
+                                    <p class="mb-0" id="comment-text-{{ $comment->id }}">{{ $comment->content }}</p>
+                                 </div>
+
+                                 <!-- Edit Form (Hidden by default) -->
+                                 <div class="edit-comment-form d-none" id="edit-form-{{ $comment->id }}">
+                                    <form class="update-comment-form mt-2">
+                                       @csrf
+                                       @method('PUT')
+                                       <input type="hidden" name="comment_id" value="{{ $comment->id }}">
+                                       <div class="mb-2">
+                                          <textarea name="content"
+                                             class="form-control"
+                                             rows="3"
+                                             required>{{ $comment->content }}</textarea>
+                                       </div>
+                                       <div class="d-flex gap-2">
+                                          <button type="submit" class="btn btn-primary btn-sm">
+                                             <i class="fas fa-save me-1"></i> Lưu
+                                          </button>
+                                          <button type="button" class="btn btn-secondary btn-sm cancel-edit-btn">
+                                             <i class="fas fa-times me-1"></i> Hủy
+                                          </button>
+                                       </div>
+                                    </form>
+                                 </div>
+                              </div>
                            </div>
-                           <p class="mb-0">{{ $comment->content }}</p>
                         </div>
                         @endforeach
                      </div>
@@ -418,6 +507,247 @@
          }
       });
 
+            // ============= COMMENT MANAGEMENT FUNCTIONALITY =============
+      
+      // Dropdown Menu Handling (Fallback for Bootstrap)
+      document.addEventListener('click', function(e) {
+         if (e.target.closest('.comment-menu-btn')) {
+            e.preventDefault();
+            const button = e.target.closest('.comment-menu-btn');
+            const commentId = button.getAttribute('data-comment-id');
+            const menu = document.getElementById('commentMenu' + commentId);
+            
+            // Close all other dropdowns first
+            document.querySelectorAll('.comment-dropdown-menu').forEach(otherMenu => {
+               if (otherMenu !== menu) {
+                  otherMenu.classList.remove('show');
+               }
+            });
+            
+            // Toggle current dropdown
+            if (menu.classList.contains('show')) {
+               menu.classList.remove('show');
+            } else {
+               menu.classList.add('show');
+            }
+         }
+         
+         // Close dropdowns when clicking outside
+         else if (!e.target.closest('.comment-actions')) {
+            document.querySelectorAll('.comment-dropdown-menu').forEach(menu => {
+               menu.classList.remove('show');
+            });
+         }
+      });
+      
+      // Edit Comment Function
+      document.addEventListener('click', function(e) {
+         if (e.target.closest('.edit-comment-btn')) {
+            e.preventDefault();
+            const btn = e.target.closest('.edit-comment-btn');
+            const commentId = btn.getAttribute('data-comment-id');
+            const currentContent = btn.getAttribute('data-comment-content');
+
+            // Hide comment text and show edit form
+            document.getElementById('comment-text-' + commentId).style.display = 'none';
+            document.getElementById('edit-form-' + commentId).classList.remove('d-none');
+
+            // Focus on textarea
+            const textarea = document.querySelector('#edit-form-' + commentId + ' textarea[name="content"]');
+            textarea.focus();
+            textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+         }
+      });
+
+      // Cancel Edit Function
+      document.addEventListener('click', function(e) {
+         if (e.target.closest('.cancel-edit-btn')) {
+            e.preventDefault();
+            const form = e.target.closest('.edit-comment-form');
+            const commentId = form.querySelector('input[name="comment_id"]').value;
+
+            // Show comment text and hide edit form
+            document.getElementById('comment-text-' + commentId).style.display = 'block';
+            form.classList.add('d-none');
+
+            // Reset textarea content
+            const originalContent = document.querySelector('.edit-comment-btn[data-comment-id="' + commentId + '"]').getAttribute('data-comment-content');
+            form.querySelector('textarea[name="content"]').value = originalContent;
+         }
+      });
+
+      // Update Comment Function
+      document.addEventListener('submit', function(e) {
+         if (e.target.classList.contains('update-comment-form')) {
+            e.preventDefault();
+            const form = e.target;
+            const commentId = form.querySelector('input[name="comment_id"]').value;
+            const newContent = form.querySelector('textarea[name="content"]').value;
+
+            // Show loading state
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Đang lưu...';
+            submitBtn.disabled = true;
+
+            // AJAX Update Request
+            fetch(`/blog/comment/${commentId}/update`, {
+                  method: 'PUT',
+                  headers: {
+                     'Content-Type': 'application/json',
+                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                     'Accept': 'application/json',
+                  },
+                  body: JSON.stringify({
+                     content: newContent
+                  })
+               })
+               .then(response => response.json())
+               .then(data => {
+                  if (data.success) {
+                     // Update comment text
+                     document.getElementById('comment-text-' + commentId).textContent = newContent;
+                     document.getElementById('comment-text-' + commentId).style.display = 'block';
+
+                     // Update data attribute for future edits
+                     document.querySelector('.edit-comment-btn[data-comment-id="' + commentId + '"]').setAttribute('data-comment-content', newContent);
+
+                     // Hide edit form
+                     form.classList.add('d-none');
+
+                     // Show success message
+                     showToast('Bình luận đã được cập nhật thành công!', 'success');
+
+                     // Add "edited" indicator if not already present
+                     const timeElement = document.querySelector('#comment-' + commentId + ' .text-muted');
+                     if (!timeElement.querySelector('.text-info')) {
+                        timeElement.innerHTML += ' <span class="text-info ms-1" title="Đã chỉnh sửa">(đã chỉnh sửa)</span>';
+                     }
+                  } else {
+                     showToast(data.message || 'Có lỗi xảy ra khi cập nhật bình luận.', 'error');
+                  }
+               })
+               .catch(error => {
+                  console.error('Error:', error);
+                  showToast('Có lỗi xảy ra khi cập nhật bình luận.', 'error');
+               })
+               .finally(() => {
+                  // Reset button state
+                  submitBtn.innerHTML = originalText;
+                  submitBtn.disabled = false;
+               });
+         }
+      });
+
+      // Delete Comment Function
+      document.addEventListener('click', function(e) {
+         if (e.target.closest('.delete-comment-btn')) {
+            e.preventDefault();
+            const btn = e.target.closest('.delete-comment-btn');
+            const commentId = btn.getAttribute('data-comment-id');
+
+            if (confirm('Bạn có chắc chắn muốn xóa bình luận này không?')) {
+               // AJAX Delete Request
+               fetch(`/blog/comment/${commentId}/delete`, {
+                     method: 'DELETE',
+                     headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Accept': 'application/json',
+                     }
+                  })
+                  .then(response => response.json())
+                  .then(data => {
+                     if (data.success) {
+                        // Remove comment element with animation
+                        const commentElement = document.getElementById('comment-' + commentId);
+                        commentElement.style.transition = 'all 0.3s ease';
+                        commentElement.style.opacity = '0';
+                        commentElement.style.transform = 'translateX(-20px)';
+
+                        setTimeout(() => {
+                           commentElement.remove();
+
+                           // Update comment count
+                           const commentCountElement = document.querySelector('h3');
+                           if (commentCountElement && commentCountElement.textContent.includes('Bình luận')) {
+                              const currentCount = parseInt(commentCountElement.textContent.match(/\d+/)[0]);
+                              const newCount = currentCount - 1;
+                              if (newCount > 0) {
+                                 commentCountElement.textContent = `Bình luận (${newCount})`;
+                              } else {
+                                 // Hide entire comment section if no comments left
+                                 const commentSection = document.querySelector('.row.g-2.mb-4');
+                                 if (commentSection) {
+                                    commentSection.style.display = 'none';
+                                 }
+                              }
+                           }
+                        }, 300);
+
+                        showToast('Bình luận đã được xóa thành công!', 'success');
+                     } else {
+                        showToast(data.message || 'Có lỗi xảy ra khi xóa bình luận.', 'error');
+                     }
+                  })
+                  .catch(error => {
+                     console.error('Error:', error);
+                     showToast('Có lỗi xảy ra khi xóa bình luận.', 'error');
+                  });
+            }
+         }
+      });
+
+      // Toast notification function
+      function showToast(message, type = 'info') {
+         const toastContainer = document.getElementById('toast-container') || createToastContainer();
+         const toast = document.createElement('div');
+         toast.className = `toast align-items-center text-white bg-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'info'} border-0 mb-2`;
+         toast.setAttribute('role', 'alert');
+         toast.setAttribute('aria-live', 'assertive');
+         toast.setAttribute('aria-atomic', 'true');
+
+         toast.innerHTML = `
+            <div class="d-flex">
+               <div class="toast-body">
+                  ${message}
+               </div>
+               <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+         `;
+
+         toastContainer.appendChild(toast);
+
+         // Show toast
+         if (typeof bootstrap !== 'undefined' && bootstrap.Toast) {
+            const bsToast = new bootstrap.Toast(toast);
+            bsToast.show();
+
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+               if (toast.parentNode) {
+                  toast.remove();
+               }
+            }, 5000);
+         } else {
+            // Fallback for older Bootstrap
+            toast.style.display = 'block';
+            setTimeout(() => {
+               if (toast.parentNode) {
+                  toast.remove();
+               }
+            }, 5000);
+         }
+      }
+
+      function createToastContainer() {
+         const container = document.createElement('div');
+         container.id = 'toast-container';
+         container.className = 'toast-container position-fixed top-0 end-0 p-3';
+         container.style.zIndex = '9999';
+         document.body.appendChild(container);
+         return container;
+      }
+
       console.log('=== Script setup complete ===');
    });
 </script>
@@ -678,6 +1008,171 @@
 
    #authorOffcanvas .card:nth-child(5) {
       animation-delay: 0.5s;
+   }
+
+   /* ======= COMMENT STYLES ======= */
+   .comment-item {
+      transition: all 0.3s ease;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background: #f8f9fa;
+   }
+
+   .comment-item:hover {
+      background: #e9ecef;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+   }
+
+   .comment-avatar img,
+   .default-avatar {
+      border: 2px solid #e9ecef;
+      transition: all 0.3s ease;
+   }
+
+   .comment-avatar img:hover,
+   .default-avatar:hover {
+      border-color: #007bff;
+      transform: scale(1.05);
+   }
+
+   .comment-actions .dropdown-toggle {
+      border: none;
+      background: transparent;
+      color: #6c757d;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.875rem;
+   }
+
+   .comment-actions .dropdown-toggle:hover {
+      background: #e9ecef;
+      color: #495057;
+   }
+
+   .comment-actions .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      z-index: 1000;
+      min-width: 120px;
+      padding: 0.25rem 0;
+      margin: 0.125rem 0 0;
+      background-color: #fff;
+      border: 1px solid #dee2e6;
+      border-radius: 0.375rem;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+      display: none;
+   }
+
+   .comment-actions .dropdown-menu.show {
+      display: block;
+   }
+
+   .comment-actions .dropdown-item {
+      font-size: 0.875rem;
+      padding: 0.5rem 1rem;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+   }
+
+   .comment-actions .dropdown-item:hover {
+      background: #f8f9fa;
+   }
+
+   .comment-actions .dropdown-item.text-danger:hover {
+      background: #f8d7da;
+      color: #721c24;
+   }
+
+   .edit-comment-form {
+      background: #fff;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      padding: 1rem;
+      margin-top: 0.5rem;
+   }
+
+   .edit-comment-form textarea {
+      resize: vertical;
+      min-height: 80px;
+   }
+
+   .edit-comment-form .btn {
+      font-size: 0.875rem;
+      padding: 0.375rem 0.75rem;
+   }
+
+   /* Toast positioning */
+   .toast-container {
+      z-index: 9999 !important;
+   }
+
+   .toast {
+      min-width: 300px;
+   }
+
+   /* Comment edited indicator */
+   .comment-content .text-info {
+      font-size: 0.75rem;
+      font-style: italic;
+   }
+
+   /* Comment avatar styling */
+   .comment-avatar {
+      position: relative;
+   }
+
+   .comment-avatar::after {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, transparent, transparent);
+      z-index: -1;
+      transition: all 0.3s ease;
+   }
+
+   .comment-item:hover .comment-avatar::after {
+      background: linear-gradient(45deg, #007bff, #0056b3);
+   }
+
+   /* Responsive comment layout */
+   @media (max-width: 768px) {
+      .comment-item {
+         padding: 0.75rem;
+      }
+
+      .comment-avatar img,
+      .default-avatar {
+         width: 32px !important;
+         height: 32px !important;
+         font-size: 14px !important;
+      }
+
+      .comment-actions .dropdown-toggle {
+         padding: 0.125rem 0.25rem;
+         font-size: 0.75rem;
+      }
+
+      .edit-comment-form {
+         padding: 0.75rem;
+      }
+
+      .toast-container {
+         left: 1rem;
+         right: 1rem;
+         width: auto;
+      }
+
+      .toast {
+         min-width: auto;
+      }
    }
 </style>
 

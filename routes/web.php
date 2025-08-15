@@ -51,6 +51,8 @@ Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
 Route::get('/blog/category/{slug}', [BlogController::class, 'category'])->name('blog.category');
 Route::post('/blog/{id}/comment', [BlogController::class, 'addComment'])->name('blog.comment');
+Route::put('/blog/comment/{id}/update', [BlogController::class, 'updateComment'])->name('blog.comment.update');
+Route::delete('/blog/comment/{id}/delete', [BlogController::class, 'deleteComment'])->name('blog.comment.delete');
 
 // dat chatbot ra ngoai 
 Route::post('/chatbot/send', [ChatController::class, 'sendMessage'])->name('chatbot.send');

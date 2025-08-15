@@ -9,6 +9,9 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Exception;
 
 class BlogController extends Controller
 {
@@ -61,7 +64,7 @@ class BlogController extends Controller
    public function show($slug)
    {
       // Lấy blog theo slug
-      $blog = Blog::with(['author', 'category', 'comments'])
+      $blog = Blog::with(['author', 'category', 'comments.user'])
          ->where('slug', $slug)
          ->where('status', 'published')
          ->firstOrFail();
@@ -146,6 +149,112 @@ class BlogController extends Controller
       ]);
 
       return redirect()->back()->with('success', 'Bình luận của bạn đã được thêm thành công!');
+   }
+
+   /**
+    * Cập nhật comment
+    */
+   public function updateComment(Request $request, $commentId)
+   {
+      try {
+         // Kiểm tra user đã đăng nhập
+         if (!Auth::check()) {
+            return response()->json([
+               'success' => false,
+               'message' => 'Bạn cần đăng nhập để thực hiện thao tác này.'
+            ], 401);
+         }
+
+         $request->validate([
+            'content' => 'required|string|max:1000'
+         ]);
+
+         $comment = BlogComment::findOrFail($commentId);
+
+         // Kiểm tra quyền sở hữu comment
+         if ($comment->user_id !== Auth::id()) {
+            return response()->json([
+               'success' => false,
+               'message' => 'Bạn không có quyền chỉnh sửa bình luận này.'
+            ], 403);
+         }
+
+         // Cập nhật comment
+         $comment->update([
+            'content' => $request->content,
+            'updated_at' => now()
+         ]);
+
+         return response()->json([
+            'success' => true,
+            'message' => 'Bình luận đã được cập nhật thành công!',
+            'data' => [
+               'id' => $comment->id,
+               'content' => $comment->content,
+               'updated_at' => $comment->updated_at->format('d/m/Y H:i')
+            ]
+         ]);
+      } catch (ValidationException $e) {
+         return response()->json([
+            'success' => false,
+            'message' => 'Dữ liệu không hợp lệ.',
+            'errors' => $e->errors()
+         ], 422);
+      } catch (ModelNotFoundException $e) {
+         return response()->json([
+            'success' => false,
+            'message' => 'Không tìm thấy bình luận.'
+         ], 404);
+      } catch (Exception $e) {
+         return response()->json([
+            'success' => false,
+            'message' => 'Có lỗi xảy ra khi cập nhật bình luận.'
+         ], 500);
+      }
+   }
+
+   /**
+    * Xóa comment
+    */
+   public function deleteComment($commentId)
+   {
+      try {
+         // Kiểm tra user đã đăng nhập
+         if (!Auth::check()) {
+            return response()->json([
+               'success' => false,
+               'message' => 'Bạn cần đăng nhập để thực hiện thao tác này.'
+            ], 401);
+         }
+
+         $comment = BlogComment::findOrFail($commentId);
+
+         // Kiểm tra quyền sở hữu comment
+         if ($comment->user_id !== Auth::id()) {
+            return response()->json([
+               'success' => false,
+               'message' => 'Bạn không có quyền xóa bình luận này.'
+            ], 403);
+         }
+
+         // Xóa comment
+         $comment->delete();
+
+         return response()->json([
+            'success' => true,
+            'message' => 'Bình luận đã được xóa thành công!'
+         ]);
+      } catch (ModelNotFoundException $e) {
+         return response()->json([
+            'success' => false,
+            'message' => 'Không tìm thấy bình luận.'
+         ], 404);
+      } catch (Exception $e) {
+         return response()->json([
+            'success' => false,
+            'message' => 'Có lỗi xảy ra khi xóa bình luận.'
+         ], 500);
+      }
    }
 
 
