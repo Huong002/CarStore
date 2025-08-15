@@ -293,7 +293,9 @@
    <!-- Thông tin đơn hàng -->
    <div class="order-info">
       <div><label>Ngày đặt:</label> {{ \Carbon\Carbon::parse($order->order_date)->format('d/m/Y') }}</div>
-      <div><label>Trạng thái:</label><span> {{ str_replace('approved', 'Đã thanh toán', $order->status)}} </span></div>
+      <div><label>Trạng thái:</label><span> {{ $order->status == 'pending' ? 'Chờ xử lý' : 
+            ($order->status == 'approved' ? 'Đã thanh toán' : 
+            ($order->status == 'completed' ? 'Hoàn thành' : 'Đã hủy')) }} </span></div>
    </div>
 
    <!-- Thông tin khách hàng -->

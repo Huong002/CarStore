@@ -1,6 +1,27 @@
 @extends('layouts.admin')
 @section('content')
 
+<style>
+   .dropdown-toggle:after {
+      display: inline-block;
+      margin-left: 0.255em;
+      vertical-align: 0.255em;
+      content: "";
+      border-top: 0.3em solid;
+      border-right: 0.3em solid transparent;
+      border-bottom: 0;
+      border-left: 0.3em solid transparent;
+   }
+
+   .dropdown-menu {
+      min-width: 200px;
+   }
+
+   .dropdown-item.active {
+      background-color: #e9ecef;
+      color: #1e2125;
+   }
+</style>
 
 <div class="main-content-inner">
    <div class="main-content-wrap">
@@ -47,7 +68,7 @@
                         <th class="text-center">Số điện thoại</th>
                         <th class="text-center">Email</th>
                         <th class="text-center">Trạng thái</th>
-                    
+
                         <th class="text-center"></th>
                      </tr>
                   </thead>
@@ -58,12 +79,51 @@
                         <td class="pname text-center">
                            <div class="image" style="display: inline-block;">
 
-                              <img src="{{ asset('images/avatar/' . $user->image) }}" alt="" class="image"
+                              <img src="{{ asset('images/avatar/' . ($user->image ??'default.jpg')) }}" alt="" class="image"
                                  style="width:50px; height:50px; object-fit:cover; border-radius:50%;">
                            </div>
                            <div class="name" style="display: inline-block;">
                               <a href="#" class="body-title-2">{{$user->name}}</a>
-                              <div class="text-tiny mt-3">{{$user->utype}}</div>
+                              <div class="dropdown">
+                                 <div class="text-tiny mt-3 text-start dropdown-toggle"
+                                    role="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                    style="cursor: pointer;">
+                                    {{$user->utype}}
+                                 </div>
+                                 <ul class="dropdown-menu">
+                                    <li>
+                                       <form action="{{ route('admin.user.changeRole', $user->id) }}" method="POST">
+                                          @csrf
+                                          <input type="hidden" name="utype" value="USR">
+                                          <button type="submit" class="dropdown-item {{ $user->utype == 'USR' ? 'active' : '' }}">
+                                             Người dùng (USR)
+                                          </button>
+                                       </form>
+                                    </li>
+                                    <li>
+                                       <form action="{{ route('admin.user.changeRole', $user->id) }}" method="POST">
+                                          @csrf
+                                          <input type="hidden" name="utype" value="EMP">
+                                          <button type="submit" class="dropdown-item {{ $user->utype == 'EMP' ? 'active' : '' }}">
+                                             Nhân viên (EMP)
+                                          </button>
+                                       </form>
+                                    </li>
+                                    @if(auth()->user()->utype === 'ADM')
+                                    <li>
+                                       <form action="{{ route('admin.user.changeRole', $user->id) }}" method="POST">
+                                          @csrf
+                                          <input type="hidden" name="utype" value="ADM">
+                                          <button type="submit" class="dropdown-item {{ $user->utype == 'ADM' ? 'active' : '' }}">
+                                             Quản trị viên (ADM)
+                                          </button>
+                                       </form>
+                                    </li>
+                                    @endif
+                                 </ul>
+                              </div>
                            </div>
                         </td>
                         <td class="text-center">@if($user->customer)
@@ -81,7 +141,7 @@
                            <span class="badge bg-success">Hoạt động</span>
                            @endif
                         </td>
-                      
+
                         <td class="text-center">
                            <div class="list-icon-function" style="justify-content: center;">
                               <!-- <a href="#">

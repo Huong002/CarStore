@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Customer;
+use ReturnTypeWillChange;
 
 class UserController extends Controller
 {
@@ -122,5 +123,11 @@ class UserController extends Controller
         }
 
         return redirect()->back()->with('status', 'Cập nhật thông tin thành công!');
+    }
+    public function setRole(Request $request, $id){
+        $users = User::findOrFail($id);
+        $users -> utype = $request-> utype;
+        $users->save();
+        return redirect()->back()->with('success', 'Đã thay đổi quyền người dùng thành công!');
     }
 }

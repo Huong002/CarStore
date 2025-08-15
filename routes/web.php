@@ -168,6 +168,8 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::get('admin/blog/edit/{id}', [BlogController::class, 'blogs_edit'])->name('admin.blogs.edit');
     Route::put('admin/blog/update/{id}', [BlogController::class, 'blogs_update'])->name('admin.blogs.update');
     Route::delete('admin/blog/delete/{id}', [BlogController::class, 'blogs_delete'])->name('admin.blogs.delete');
+    // set quyern 
+    Route::post('/admin/user/{id}/setRole', [UserController::class, 'setRole'])->name('admin.user.changeRole');
 });
 Route::get('/location', function () {
     return view('location');

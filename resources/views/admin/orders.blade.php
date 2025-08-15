@@ -95,8 +95,8 @@
                               <span class="text-muted">Chờ xử lí...</span>
                               @endif
                            </td>
-                           <td class="text-center">{{number_format($order->tax, 0, ',', '.')}} VNĐ</td>
-                           <td class="text-center">{{number_format($order->total, 0, ',', '.')}} VNĐ</td>
+                           <td class="text-center">{{number_format($order->tax, 0, ',', '.')}} đ</td>
+                           <td class="text-center">{{number_format($order->total, 0, ',', '.')}} đ</td>
                            <td class="text-center">
                               @switch($order->status)
                               @case('pending')
@@ -115,7 +115,7 @@
                               <span class="badge bg-secondary">{{ ucfirst($order->status) }}</span>
                               @endswitch
                            </td>
-                           <td class="text-center">{{$order->order_date}}</td>
+                           <td class="text-center">{{ $order->order_date->format('d/m/Y') }}</td>
                            <td class="text-center">{{$order->total_item}}</td>
                            <td>
                               <div class="list-icon-function d-flex justify-content-center align-items-center gap-4 ">

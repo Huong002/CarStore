@@ -142,7 +142,7 @@ class OrderController extends Controller
             $order->employee_id = $employeeId;
             $order->tax = $tax;
             $order->total = $total;
-            $order->status = 'approved';
+            $order->status = 'pending';
             $order->order_date = now();
             $order->total_item = $selectedItems->count();
             $order->deposit_amount = $depositAmount;

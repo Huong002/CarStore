@@ -169,13 +169,12 @@
                   <th>Trạng thái</th>
                   <td>
                      <span class="badge 
-                        @if($order->status == 'pending') badge-warning
-                        @elseif($order->status == 'processing') badge-info
-                        @elseif($order->status == 'shipped') badge-primary
-                        @elseif($order->status == 'delivered') badge-success
-                        @else badge-danger
-                        @endif">
-                        {{ucfirst($order->status)}}
+                      {{ $order->status == 'pending' ? 'badge-warning' : 
+                        ($order->status == 'approved' ? 'badge-success' : 
+                        ($order->status == 'completed' ? 'badge-primary' : 'badge-danger')) }}" style="color: black;">
+                        {{ $order->status == 'pending' ? 'Chờ xử lí' : 
+                        ($order->status == 'approved' ? 'Đã duyệt' : 
+                        ($order->status == 'completed' ? 'Hoàn thành' : 'Đã hủy')) }}
                      </span>
                   </td>
                   <th>Ngày tạo</th>
