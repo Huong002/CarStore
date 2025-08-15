@@ -105,9 +105,9 @@
                                              aria-expanded="false">
                                              <i class="fas fa-ellipsis-h"></i>
                                           </button>
-                                          <ul class="dropdown-menu comment-dropdown-menu" 
-                                              id="commentMenu{{ $comment->id }}"
-                                              aria-labelledby="commentActions{{ $comment->id }}">
+                                          <ul class="dropdown-menu comment-dropdown-menu"
+                                             id="commentMenu{{ $comment->id }}"
+                                             aria-labelledby="commentActions{{ $comment->id }}">
                                              <li>
                                                 <button class="dropdown-item edit-comment-btn"
                                                    data-comment-id="{{ $comment->id }}"
@@ -194,6 +194,28 @@
                      <p class="mb-0">Vui lòng <a href="{{ route('login') }}">đăng nhập</a> để bình luận.</p>
                   </div>
                   @endauth
+
+                  <!-- Custom Delete Confirmation Modal -->
+                  <div id="deleteConfirmModal" class="custom-confirm-modal">
+                     <div class="confirm-modal-content">
+                        <div class="confirm-modal-header">
+                           <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+                           <span>Xác nhận xóa</span>
+                        </div>
+                        <div class="confirm-modal-body">
+                           Bạn có chắc chắn muốn xóa bình luận này không?
+                        </div>
+                        <div class="confirm-modal-actions">
+                           <button type="button" class="btn btn-danger btn-sm" id="confirmDeleteBtn">
+                              <i class="fas fa-trash me-1"></i> Xóa
+                           </button>
+                           <button type="button" class="btn btn-secondary btn-sm" id="cancelDeleteBtn">
+                              <i class="fas fa-times me-1"></i> Hủy
+                           </button>
+                        </div>
+                     </div>
+                  </div>
+
                </div>
             </div>
          </div>
@@ -507,8 +529,8 @@
          }
       });
 
-            // ============= COMMENT MANAGEMENT FUNCTIONALITY =============
-      
+      // ============= COMMENT MANAGEMENT FUNCTIONALITY =============
+
       // Dropdown Menu Handling (Fallback for Bootstrap)
       document.addEventListener('click', function(e) {
          if (e.target.closest('.comment-menu-btn')) {
@@ -516,14 +538,14 @@
             const button = e.target.closest('.comment-menu-btn');
             const commentId = button.getAttribute('data-comment-id');
             const menu = document.getElementById('commentMenu' + commentId);
-            
+
             // Close all other dropdowns first
             document.querySelectorAll('.comment-dropdown-menu').forEach(otherMenu => {
                if (otherMenu !== menu) {
                   otherMenu.classList.remove('show');
                }
             });
-            
+
             // Toggle current dropdown
             if (menu.classList.contains('show')) {
                menu.classList.remove('show');
@@ -531,7 +553,7 @@
                menu.classList.add('show');
             }
          }
-         
+
          // Close dropdowns when clicking outside
          else if (!e.target.closest('.comment-actions')) {
             document.querySelectorAll('.comment-dropdown-menu').forEach(menu => {
@@ -539,7 +561,7 @@
             });
          }
       });
-      
+
       // Edit Comment Function
       document.addEventListener('click', function(e) {
          if (e.target.closest('.edit-comment-btn')) {
@@ -550,7 +572,9 @@
 
             // Hide comment text and show edit form
             document.getElementById('comment-text-' + commentId).style.display = 'none';
-            document.getElementById('edit-form-' + commentId).classList.remove('d-none');
+            const editFormContainer = document.getElementById('edit-form-' + commentId);
+            editFormContainer.classList.remove('d-none');
+            editFormContainer.style.display = 'block';
 
             // Focus on textarea
             const textarea = document.querySelector('#edit-form-' + commentId + ' textarea[name="content"]');
@@ -568,7 +592,9 @@
 
             // Show comment text and hide edit form
             document.getElementById('comment-text-' + commentId).style.display = 'block';
-            form.classList.add('d-none');
+            const editFormContainer = document.getElementById('edit-form-' + commentId);
+            editFormContainer.classList.add('d-none');
+            editFormContainer.style.display = 'none';
 
             // Reset textarea content
             const originalContent = document.querySelector('.edit-comment-btn[data-comment-id="' + commentId + '"]').getAttribute('data-comment-content');
@@ -613,7 +639,9 @@
                      document.querySelector('.edit-comment-btn[data-comment-id="' + commentId + '"]').setAttribute('data-comment-content', newContent);
 
                      // Hide edit form
-                     form.classList.add('d-none');
+                     const editFormContainer = document.getElementById('edit-form-' + commentId);
+                     editFormContainer.classList.add('d-none');
+                     editFormContainer.style.display = 'none';
 
                      // Show success message
                      showToast('Bình luận đã được cập nhật thành công!', 'success');
@@ -646,56 +674,119 @@
             const btn = e.target.closest('.delete-comment-btn');
             const commentId = btn.getAttribute('data-comment-id');
 
-            if (confirm('Bạn có chắc chắn muốn xóa bình luận này không?')) {
-               // AJAX Delete Request
-               fetch(`/blog/comment/${commentId}/delete`, {
-                     method: 'DELETE',
-                     headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        'Accept': 'application/json',
-                     }
-                  })
-                  .then(response => response.json())
-                  .then(data => {
-                     if (data.success) {
-                        // Remove comment element with animation
-                        const commentElement = document.getElementById('comment-' + commentId);
-                        commentElement.style.transition = 'all 0.3s ease';
-                        commentElement.style.opacity = '0';
-                        commentElement.style.transform = 'translateX(-20px)';
-
-                        setTimeout(() => {
-                           commentElement.remove();
-
-                           // Update comment count
-                           const commentCountElement = document.querySelector('h3');
-                           if (commentCountElement && commentCountElement.textContent.includes('Bình luận')) {
-                              const currentCount = parseInt(commentCountElement.textContent.match(/\d+/)[0]);
-                              const newCount = currentCount - 1;
-                              if (newCount > 0) {
-                                 commentCountElement.textContent = `Bình luận (${newCount})`;
-                              } else {
-                                 // Hide entire comment section if no comments left
-                                 const commentSection = document.querySelector('.row.g-2.mb-4');
-                                 if (commentSection) {
-                                    commentSection.style.display = 'none';
-                                 }
-                              }
-                           }
-                        }, 300);
-
-                        showToast('Bình luận đã được xóa thành công!', 'success');
-                     } else {
-                        showToast(data.message || 'Có lỗi xảy ra khi xóa bình luận.', 'error');
-                     }
-                  })
-                  .catch(error => {
-                     console.error('Error:', error);
-                     showToast('Có lỗi xảy ra khi xóa bình luận.', 'error');
-                  });
-            }
+            // Show custom confirm modal near the button
+            showDeleteConfirmModal(btn, commentId);
          }
       });
+
+      // Custom Delete Confirmation Modal Functions
+      function showDeleteConfirmModal(triggerBtn, commentId) {
+         const modal = document.getElementById('deleteConfirmModal');
+         const btnRect = triggerBtn.getBoundingClientRect();
+
+         // Position modal near the delete button
+         modal.style.display = 'block';
+         modal.style.position = 'fixed';
+         modal.style.top = (btnRect.top - 80) + 'px';
+         modal.style.left = (btnRect.left - 150) + 'px';
+         modal.style.zIndex = '9999';
+
+         // Add animation
+         setTimeout(() => {
+            modal.classList.add('show');
+         }, 10);
+
+         // Store comment ID for deletion
+         modal.setAttribute('data-comment-id', commentId);
+
+         // Close dropdown when modal opens
+         document.querySelectorAll('.comment-dropdown-menu').forEach(menu => {
+            menu.classList.remove('show');
+         });
+      }
+
+      function hideDeleteConfirmModal() {
+         const modal = document.getElementById('deleteConfirmModal');
+         modal.classList.remove('show');
+         setTimeout(() => {
+            modal.style.display = 'none';
+         }, 200);
+      }
+
+      // Confirm Delete Button
+      document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+         const modal = document.getElementById('deleteConfirmModal');
+         const commentId = modal.getAttribute('data-comment-id');
+
+         // Hide modal immediately
+         hideDeleteConfirmModal();
+
+         // Proceed with deletion
+         performCommentDeletion(commentId);
+      });
+
+      // Cancel Delete Button
+      document.getElementById('cancelDeleteBtn').addEventListener('click', function() {
+         hideDeleteConfirmModal();
+      });
+
+      // Close modal when clicking outside
+      document.addEventListener('click', function(e) {
+         const modal = document.getElementById('deleteConfirmModal');
+         if (modal.style.display === 'block' && !modal.contains(e.target) && !e.target.closest('.delete-comment-btn')) {
+            hideDeleteConfirmModal();
+         }
+      });
+
+      // Actual deletion function
+      function performCommentDeletion(commentId) {
+         // AJAX Delete Request
+         fetch(`/blog/comment/${commentId}/delete`, {
+               method: 'DELETE',
+               headers: {
+                  'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                  'Accept': 'application/json',
+               }
+            })
+            .then(response => response.json())
+            .then(data => {
+               if (data.success) {
+                  // Remove comment element with animation
+                  const commentElement = document.getElementById('comment-' + commentId);
+                  commentElement.style.transition = 'all 0.3s ease';
+                  commentElement.style.opacity = '0';
+                  commentElement.style.transform = 'translateX(-20px)';
+
+                  setTimeout(() => {
+                     commentElement.remove();
+
+                     // Update comment count
+                     const commentCountElement = document.querySelector('h3');
+                     if (commentCountElement && commentCountElement.textContent.includes('Bình luận')) {
+                        const currentCount = parseInt(commentCountElement.textContent.match(/\d+/)[0]);
+                        const newCount = currentCount - 1;
+                        if (newCount > 0) {
+                           commentCountElement.textContent = `Bình luận (${newCount})`;
+                        } else {
+                           // Hide entire comment section if no comments left
+                           const commentSection = document.querySelector('.row.g-2.mb-4');
+                           if (commentSection) {
+                              commentSection.style.display = 'none';
+                           }
+                        }
+                     }
+                  }, 300);
+
+                  showToast('Bình luận đã được xóa thành công!', 'success');
+               } else {
+                  showToast(data.message || 'Có lỗi xảy ra khi xóa bình luận.', 'error');
+               }
+            })
+            .catch(error => {
+               console.error('Error:', error);
+               showToast('Có lỗi xảy ra khi xóa bình luận.', 'error');
+            });
+      }
 
       // Toast notification function
       function showToast(message, type = 'info') {
@@ -1093,6 +1184,153 @@
       border-radius: 6px;
       padding: 1rem;
       margin-top: 0.5rem;
+   }
+
+   .edit-comment-form.d-none {
+      display: none !important;
+      height: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      border: none !important;
+   }
+
+   /* Ensure comment container doesn't have extra spacing */
+   .comment-content {
+      transition: all 0.3s ease;
+   }
+
+   .comment-text {
+      margin-bottom: 0;
+   }
+
+   .comment-text p {
+      margin-bottom: 0 !important;
+   }
+
+   /* ======= CUSTOM DELETE CONFIRMATION MODAL ======= */
+   .custom-confirm-modal {
+      position: fixed;
+      z-index: 9999;
+      display: none;
+      opacity: 0;
+      transform: scale(0.9) translateY(-10px);
+      transition: all 0.2s ease-in-out;
+   }
+
+   .custom-confirm-modal.show {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+   }
+
+   .confirm-modal-content {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      border: 1px solid #e9ecef;
+      min-width: 280px;
+      max-width: 320px;
+      overflow: hidden;
+   }
+
+   .confirm-modal-header {
+      background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+      padding: 12px 16px;
+      border-bottom: 1px solid #f1c40f;
+      font-weight: 600;
+      font-size: 14px;
+      color: #856404;
+      display: flex;
+      align-items: center;
+   }
+
+   .confirm-modal-body {
+      padding: 16px;
+      font-size: 14px;
+      color: #495057;
+      line-height: 1.4;
+   }
+
+   .confirm-modal-actions {
+      padding: 12px 16px;
+      background: #f8f9fa;
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+   }
+
+   .confirm-modal-actions .btn {
+      font-size: 12px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+   }
+
+   .confirm-modal-actions .btn-danger {
+      background: #dc3545;
+      border: none;
+      color: white;
+   }
+
+   .confirm-modal-actions .btn-danger:hover {
+      background: #c82333;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+   }
+
+   .confirm-modal-actions .btn-secondary {
+      background: #6c757d;
+      border: none;
+      color: white;
+   }
+
+   .confirm-modal-actions .btn-secondary:hover {
+      background: #5a6268;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+   }
+
+   /* Arrow pointing to the delete button */
+   .custom-confirm-modal::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid #fff;
+      filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.1));
+   }
+
+   /* Responsive adjustments */
+   @media (max-width: 768px) {
+      .confirm-modal-content {
+         min-width: 250px;
+         max-width: 280px;
+      }
+
+      .confirm-modal-header {
+         padding: 10px 12px;
+         font-size: 13px;
+      }
+
+      .confirm-modal-body {
+         padding: 12px;
+         font-size: 13px;
+      }
+
+      .confirm-modal-actions {
+         padding: 10px 12px;
+      }
+
+      .confirm-modal-actions .btn {
+         font-size: 11px;
+         padding: 5px 10px;
+      }
    }
 
    .edit-comment-form textarea {

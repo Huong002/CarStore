@@ -61,7 +61,7 @@ class BlogCommentSeeder extends Seeder
 
             for ($i = 0; $i < $numberOfComments; $i++) {
                 $randomUser = $users->random();
-                
+
                 BlogComment::create([
                     'blog_id' => $blog->id,
                     'author_name' => $randomUser->name,
