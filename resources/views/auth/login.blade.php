@@ -9,8 +9,13 @@
                 {{-- Bỏ logo --}}
                 <h3 class="mt-3 mb-1 fw-bold">Chào mừng trở lại</h3>
                 <p class="text-muted small mb-0">Vui lòng đăng nhập vào tài khoản của bạn</p>
-
             </div>
+
+            @if (session('status'))
+            <div class="alert alert-success mb-4">
+                {{ session('status') }}
+            </div>
+            @endif
 
             <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate>
                 @csrf
@@ -70,18 +75,18 @@
 
 {{-- Custom styles for login --}}
 <style>
-.input-group-text {
-    border-right: 0;
-}
+    .input-group-text {
+        border-right: 0;
+    }
 
-.input-group .form-control {
-    border-left: 0;
-}
+    .input-group .form-control {
+        border-left: 0;
+    }
 
-.form-control:focus {
-    box-shadow: none;
-    border-color: #0d6efd;
-}
+    .form-control:focus {
+        box-shadow: none;
+        border-color: #0d6efd;
+    }
 </style>
 
 @endsection
