@@ -70,7 +70,7 @@
                            </a>
                         </td>
                         <td>
-                           {{ \Illuminate\Support\Str::limit(strip_tags($noti->content), 40, '...') }}
+                           {!! \Illuminate\Support\Str::limit(html_entity_decode(strip_tags($noti->content)), 40, '...') !!}
                         </td>
                         <td><a href="#" target="_blank">{{$noti->type == 'all' 
                               ? 'Toàn hệ thống' 
@@ -166,7 +166,7 @@
          $('#notificationContentLabel').text('Chi tiết thông báo');
          $('#notificationTitle').text(title);
          $('#notificationType').text(type);
-         $('#notificationContentText').html(content); 
+         $('#notificationContentText').html(content);
       });
    });
 </script>

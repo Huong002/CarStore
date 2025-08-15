@@ -176,7 +176,7 @@
          const title = $(this).data('title');
 
          $('#blogContentLabel').text(title);
-         $('#blogContentBody').html(content); // Using html() to render HTML content
+         $('#blogContentBody').html(content); 
       });
    });
 </script>
