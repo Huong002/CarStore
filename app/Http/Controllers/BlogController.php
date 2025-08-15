@@ -80,7 +80,16 @@ class BlogController extends Controller
       // Lấy categories cho sidebar
       $categories = BlogCategory::orderBy('name')->get();
 
-      return view('blog-detail', compact('blog', 'popularBlogs', 'categories'));
+      // Lấy các bài viết khác của cùng tác giả
+      $authorBlogs = Blog::with(['category'])
+         ->where('author_id', $blog->author_id)
+         ->where('id', '!=', $blog->id)
+         ->where('status', 'published')
+         ->orderBy('created_at', 'desc')
+         ->limit(10)
+         ->get();
+
+      return view('blog-detail', compact('blog', 'popularBlogs', 'categories', 'authorBlogs'));
    }
 
    /**
