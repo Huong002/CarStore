@@ -295,81 +295,81 @@
 
     </svg>
     <style>
-    #userDropdown::after {
-        display: none !important;
-    }
+        #userDropdown::after {
+            display: none !important;
+        }
 
-    /* Fix cho font tiếng Việt và chữ xanh có gạch chân */
-    body,
-    html {
-        font-family: 'Be Vietnam Pro', 'Inter', 'Nunito Sans', 'Jost', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
-    }
+        /* Fix cho font tiếng Việt và chữ xanh có gạch chân */
+        body,
+        html {
+            font-family: 'Be Vietnam Pro', 'Inter', 'Nunito Sans', 'Jost', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+        }
 
-    /* Khắc phục chữ xanh có gạch chân */
-    a {
-        color: inherit !important;
-        text-decoration: none !important;
-    }
+        /* Khắc phục chữ xanh có gạch chân */
+        a {
+            color: inherit !important;
+            text-decoration: none !important;
+        }
 
-    a:hover {
-        color: #222222 !important;
-        text-decoration: none !important;
-    }
+        a:hover {
+            color: #222222 !important;
+            text-decoration: none !important;
+        }
 
-    a:visited {
-        color: inherit !important;
-        text-decoration: none !important;
-    }
+        a:visited {
+            color: inherit !important;
+            text-decoration: none !important;
+        }
 
-    a:active,
-    a:focus {
-        color: inherit !important;
-        text-decoration: none !important;
-        outline: none !important;
-    }
+        a:active,
+        a:focus {
+            color: inherit !important;
+            text-decoration: none !important;
+            outline: none !important;
+        }
 
-    /* Đặc biệt cho navigation links */
-    .navigation__link {
-        color: #222222 !important;
-        text-decoration: none !important;
-    }
+        /* Đặc biệt cho navigation links */
+        .navigation__link {
+            color: #222222 !important;
+            text-decoration: none !important;
+        }
 
-    .navigation__link:hover {
-        color: #555555 !important;
-        text-decoration: none !important;
-    }
+        .navigation__link:hover {
+            color: #555555 !important;
+            text-decoration: none !important;
+        }
 
-    /* Font cho các element khác */
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        font-family: 'Be Vietnam Pro', 'Inter', 'Nunito Sans', sans-serif !important;
-    }
+        /* Font cho các element khác */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Be Vietnam Pro', 'Inter', 'Nunito Sans', sans-serif !important;
+        }
 
-    .btn,
-    button {
-        font-family: 'Be Vietnam Pro', 'Inter', 'Nunito Sans', sans-serif !important;
-    }
+        .btn,
+        button {
+            font-family: 'Be Vietnam Pro', 'Inter', 'Nunito Sans', sans-serif !important;
+        }
 
-    input,
-    textarea,
-    select {
-        font-family: 'Be Vietnam Pro', 'Inter', 'Nunito Sans', sans-serif !important;
-    }
+        input,
+        textarea,
+        select {
+            font-family: 'Be Vietnam Pro', 'Inter', 'Nunito Sans', sans-serif !important;
+        }
     </style>
 
     <style>
-    #header {
-        padding-top: 8px;
-        padding-bottom: 8px;
-    }
+        #header {
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
 
-    .logo__image {
-        max-width: 220px;
-    }
+        .logo__image {
+            max-width: 220px;
+        }
     </style>
     <div class="header-mobile header_sticky">
         <div class="container d-flex align-items-center h-100">
@@ -659,191 +659,191 @@
 
 
                     <style>
-                    .wishlist-modal {
-                        position: absolute;
-                        top: 100px;
-                        right: 80px;
-                        background: #fff;
-                        border-radius: 12px;
-                        width: 280px;
-                        padding: 12px;
-                        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-                        display: none;
-                        z-index: 9999;
-                        font-family: Arial, sans-serif;
-                        animation: fadeIn 0.25s ease-in-out;
-                    }
-
-                    @keyframes fadeIn {
-                        from {
-                            opacity: 0;
-                            transform: translateY(-5px);
+                        .wishlist-modal {
+                            position: absolute;
+                            top: 100px;
+                            right: 80px;
+                            background: #fff;
+                            border-radius: 12px;
+                            width: 280px;
+                            padding: 12px;
+                            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+                            display: none;
+                            z-index: 9999;
+                            font-family: Arial, sans-serif;
+                            animation: fadeIn 0.25s ease-in-out;
                         }
 
-                        to {
-                            opacity: 1;
-                            transform: translateY(0);
+                        @keyframes fadeIn {
+                            from {
+                                opacity: 0;
+                                transform: translateY(-5px);
+                            }
+
+                            to {
+                                opacity: 1;
+                                transform: translateY(0);
+                            }
                         }
-                    }
 
-                    .wishlist-header {
-                        display: flex;
-                        align-items: center;
-                        justify-content: space-between;
-                        font-weight: bold;
-                        margin-bottom: 10px;
-                    }
+                        .wishlist-header {
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            font-weight: bold;
+                            margin-bottom: 10px;
+                        }
 
-                    .wishlist-header-left {
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        gap: 6px;
-                        white-space: nowrap;
-                    }
+                        .wishlist-header-left {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            gap: 6px;
+                            white-space: nowrap;
+                        }
 
-                    .wishlist-header-left svg {
-                        display: inline-block;
-                        vertical-align: middle;
-                    }
+                        .wishlist-header-left svg {
+                            display: inline-block;
+                            vertical-align: middle;
+                        }
 
-                    .wishlist-items {
-                        display: block;
-                        list-style: none;
-                        padding: 0;
-                        margin: 0;
-                        max-height: 220px;
-                        overflow-y: auto;
-                    }
+                        .wishlist-items {
+                            display: block;
+                            list-style: none;
+                            padding: 0;
+                            margin: 0;
+                            max-height: 220px;
+                            overflow-y: auto;
+                        }
 
-                    .wishlist-items li {
-                        display: block;
-                        padding: 6px 0;
-                        border-bottom: 1px solid #eee;
-                        font-size: 14px;
-                        word-break: break-word;
-                    }
+                        .wishlist-items li {
+                            display: block;
+                            padding: 6px 0;
+                            border-bottom: 1px solid #eee;
+                            font-size: 14px;
+                            word-break: break-word;
+                        }
 
-                    .wishlist-items li.empty-message {
-                        text-align: center;
-                        color: #666;
-                        border-bottom: none;
-                        padding: 10px 0;
-                        font-style: italic;
-                        white-space: normal;
-                    }
+                        .wishlist-items li.empty-message {
+                            text-align: center;
+                            color: #666;
+                            border-bottom: none;
+                            padding: 10px 0;
+                            font-style: italic;
+                            white-space: normal;
+                        }
 
-                    .close-btn {
-                        background: transparent;
-                        border: none;
-                        font-size: 20px;
-                        cursor: pointer;
-                        color: #666;
-                        transition: color 0.2s ease;
-                    }
+                        .close-btn {
+                            background: transparent;
+                            border: none;
+                            font-size: 20px;
+                            cursor: pointer;
+                            color: #666;
+                            transition: color 0.2s ease;
+                        }
 
-                    .close-btn:hover {
-                        color: red;
-                    }
+                        .close-btn:hover {
+                            color: red;
+                        }
 
-                    /* Cart Dropdown CSS */
-                    .cart-dropdown {
-                        position: absolute;
-                        top: 100%;
-                        right: 0;
-                        background: #fff;
-                        border-radius: 12px;
-                        width: 320px;
-                        padding: 0;
-                        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-                        display: none;
-                        z-index: 9999;
-                        border: 1px solid #e5e5e5;
-                        animation: fadeIn 0.25s ease-in-out;
-                        font-family: Arial, sans-serif;
-                    }
+                        /* Cart Dropdown CSS */
+                        .cart-dropdown {
+                            position: absolute;
+                            top: 100%;
+                            right: 0;
+                            background: #fff;
+                            border-radius: 12px;
+                            width: 320px;
+                            padding: 0;
+                            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+                            display: none;
+                            z-index: 9999;
+                            border: 1px solid #e5e5e5;
+                            animation: fadeIn 0.25s ease-in-out;
+                            font-family: Arial, sans-serif;
+                        }
 
-                    .cart-header {
-                        display: flex;
-                        align-items: center;
-                        justify-content: space-between;
-                        font-weight: bold;
-                        padding: 12px 16px;
-                        border-bottom: 1px solid #f0f0f0;
-                    }
+                        .cart-header {
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            font-weight: bold;
+                            padding: 12px 16px;
+                            border-bottom: 1px solid #f0f0f0;
+                        }
 
-                    .cart-header-left {
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        gap: 8px;
-                        white-space: nowrap;
-                    }
+                        .cart-header-left {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            gap: 8px;
+                            white-space: nowrap;
+                        }
 
-                    .cart-header-left svg {
-                        display: inline-block;
-                        vertical-align: middle;
-                        fill: #333;
-                    }
+                        .cart-header-left svg {
+                            display: inline-block;
+                            vertical-align: middle;
+                            fill: #333;
+                        }
 
-                    .cart-dropdown ul {
-                        list-style: none;
-                        padding: 0;
-                        margin: 0;
-                        max-height: 300px;
-                        overflow-y: auto;
-                        padding: 8px 16px;
-                    }
+                        .cart-dropdown ul {
+                            list-style: none;
+                            padding: 0;
+                            margin: 0;
+                            max-height: 300px;
+                            overflow-y: auto;
+                            padding: 8px 16px;
+                        }
 
-                    .cart-dropdown li {
-                        padding: 12px 0;
-                        border-bottom: 1px solid #f0f0f0;
-                        font-size: 14px;
-                        display: flex;
-                        align-items: center;
-                        gap: 8px;
-                    }
+                        .cart-dropdown li {
+                            padding: 12px 0;
+                            border-bottom: 1px solid #f0f0f0;
+                            font-size: 14px;
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                        }
 
-                    .cart-dropdown li:last-child {
-                        border-bottom: none;
-                    }
+                        .cart-dropdown li:last-child {
+                            border-bottom: none;
+                        }
 
-                    .cart-dropdown li.empty-message {
-                        text-align: center;
-                        color: #666;
-                        font-style: italic;
-                        padding: 20px 0;
-                        justify-content: center;
-                    }
+                        .cart-dropdown li.empty-message {
+                            text-align: center;
+                            color: #666;
+                            font-style: italic;
+                            padding: 20px 0;
+                            justify-content: center;
+                        }
 
-                    .cart-footer {
-                        padding: 12px 16px;
-                        border-top: 1px solid #f0f0f0;
-                    }
+                        .cart-footer {
+                            padding: 12px 16px;
+                            border-top: 1px solid #f0f0f0;
+                        }
 
-                    .cart-footer .btn {
-                        padding: 8px 16px;
-                        font-size: 14px;
-                        border-radius: 6px;
-                    }
+                        .cart-footer .btn {
+                            padding: 8px 16px;
+                            font-size: 14px;
+                            border-radius: 6px;
+                        }
 
-                    .header-tools__cart {
-                        cursor: pointer;
-                    }
+                        .header-tools__cart {
+                            cursor: pointer;
+                        }
 
-                    .cart-amount {
-                        top: -8px;
-                        right: -8px;
-                        background: #dc3545;
-                        color: white;
-                        border-radius: 50%;
-                        width: 18px;
-                        height: 18px;
-                        font-size: 10px;
-                        text-align: center;
-                        line-height: 18px;
-                        font-weight: bold;
-                    }
+                        .cart-amount {
+                            top: -8px;
+                            right: -8px;
+                            background: #dc3545;
+                            color: white;
+                            border-radius: 50%;
+                            width: 18px;
+                            height: 18px;
+                            font-size: 10px;
+                            text-align: center;
+                            line-height: 18px;
+                            font-weight: bold;
+                        }
                     </style>
 
                     <!-- 🛒 Cart -->
@@ -893,52 +893,49 @@
                     <!-- Icon bell -->
 
                     <div class="header-tools__item hover-container position-relative ms-4">
-                        <div class="dropdown">
-                            <button class="btn p-0 border-0 bg-transparent position-relative" type="button"
-                                id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                <svg class="d-block" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <use href="#icon_bell" />
-                                </svg>
+                        <button class="btn p-0 border-0 bg-transparent position-relative" type="button" id="notificationIcon">
+                            <svg class="d-block" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <use href="#icon_bell" />
+                            </svg>
 
-                                @if($notifications->count() > 0)
-                                <span
-                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                                    style="font-size: 10px; min-width: 18px; height: 18px; line-height: 8px;">
-                                    {{ $notifications->count() }}
-                                </span>
-                                @endif
-                            </button>
+                            @if($notifications->count() > 0)
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                style="font-size: 10px; min-width: 18px; height: 18px; line-height: 8px;">
+                                {{ $notifications->count() }}
+                            </span>
+                            @endif
+                        </button>
 
-                            <!-- Thay đổi ở đây: dropdown-menu-end thay vì dropdown-menu-start, và loại bỏ transform -->
-                            <div class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 p-0"
-                                aria-labelledby="notificationDropdown"
-                                style="width: 350px; max-height: 500px; overflow: hidden;">
-                                <!-- Header -->
-                                <div
-                                    class="d-flex align-items-center justify-content-between p-3 border-bottom bg-primary text-white rounded-top-3">
-                                    <h6 class="mb-0 fw-bold">
-                                        <i class="bi bi-bell-fill me-2"></i>Thông báo
-                                    </h6>
-                                    @if($notifications->count() > 0)
-                                    <span class="badge bg-light text-primary rounded-pill">
-                                        {{ $notifications->count() }}
-                                    </span>
-                                    @endif
+                        <!-- Notification Dropdown -->
+                        <div id="notificationDropdown" class="notification-dropdown" style="display:none;">
+                            <div class="notification-header">
+                                <div class="notification-header-left">
+                                    <i class="bi bi-bell-fill me-2"></i>
+                                    <span>Thông báo</span>
                                 </div>
+                                <button id="notificationClose" class="close-btn" aria-label="Đóng">&times;</button>
+                            </div>
 
-                                <!-- Notification List -->
-                                <div style="max-height: 400px; overflow-y: auto;">
-                                    @forelse($notifications as $noti)
-                                    <div class="d-flex align-items-start p-3 border-bottom">
-                                        <!-- Icon -->
-                                        <div class="me-3">
+                            <!-- Notification List -->
+                            <ul class="notification-items" id="notificationItems">
+                                @forelse($notifications as $noti)
+                                <li class="notification-item"
+                                    data-notification-id="{{ $noti->id }}"
+                                    data-notification-name="{{ $noti->name }}"
+                                    data-notification-content="{{ $noti->content }}"
+                                    data-notification-type="{{ $noti->type }}"
+                                    data-notification-date="{{ $noti->created_at->format('d/m/Y H:i') }}"
+                                    data-notification-time="{{ $noti->created_at->diffForHumans() }}">
+                                    <div class="notification-content">
+                                        <div class="notification-icon">
                                             <div class="rounded-circle d-flex align-items-center justify-content-center 
-                                    @if($noti->type == 'admin') bg-primary
-                                    @elseif($noti->type == 'customer') bg-success  
-                                    @elseif($noti->type == 'employee') bg-warning
-                                    @else bg-info @endif
-                                    text-white" style="width: 40px; height: 40px;">
+                                            @if($noti->type == 'admin') bg-primary
+                                            @elseif($noti->type == 'customer') bg-success  
+                                            @elseif($noti->type == 'employee') bg-warning
+                                            @else bg-info @endif
+                                            text-white" style="width: 35px; height: 35px; font-size: 14px;">
                                                 @if($noti->type == 'admin')
                                                 <i class="bi bi-shield-check"></i>
                                                 @elseif($noti->type == 'customer')
@@ -950,41 +947,26 @@
                                                 @endif
                                             </div>
                                         </div>
-
-                                        <!-- Content -->
-                                        <div class="flex-grow-1">
-                                            <h6 class="mb-1 fw-semibold text-dark">
-                                                {{ $noti->name }}
-                                            </h6>
-                                            <p class="mb-2 text-muted small">
-                                                {!! Str::limit(strip_tags($noti->content), 80) !!}
-                                            </p>
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <small class="text-muted">
-                                                    <i class="bi bi-clock me-1"></i>
-                                                    {{ $noti->created_at->diffForHumans() }}
-                                                </small>
-                                                <span class="badge 
-                                         @if($noti->type == 'admin') bg-primary
-                                         @elseif($noti->type == 'customer') bg-success
-                                         @elseif($noti->type == 'employee') bg-warning text-dark
-                                         @else bg-info @endif 
-                                         text-uppercase">
-                                                    {{ $noti->type }}
-                                                </span>
+                                        <div class="notification-details">
+                                            <div class="notification-title">{{ $noti->name }}</div>
+                                            <div class="notification-text">
+                                                {!! Str::limit(strip_tags($noti->content), 60) !!}
+                                            </div>
+                                            <div class="notification-time">
+                                                {{ $noti->created_at->diffForHumans() }}
                                             </div>
                                         </div>
                                     </div>
-                                    @empty
-                                    <div class="text-center py-5">
-                                        <i class="bi bi-bell-slash text-muted" style="font-size: 3rem;"></i>
-                                        <h6 class="text-muted mt-3">Không có thông báo mới</h6>
-                                        <p class="text-muted small mb-0">Bạn sẽ nhận được thông báo khi có tin tức mới
-                                        </p>
+                                </li>
+                                @empty
+                                <li class="notification-empty">
+                                    <div class="text-center py-3">
+                                        <i class="bi bi-bell-slash text-muted" style="font-size: 2rem;"></i>
+                                        <div class="text-muted mt-2">Không có thông báo mới</div>
                                     </div>
-                                    @endforelse
-                                </div>
-                            </div>
+                                </li>
+                                @endforelse
+                            </ul>
                         </div>
                     </div>
 
@@ -1117,38 +1099,38 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script> -->
     <script src="{{ asset('js/account.js') }}"></script>
     <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        // ================== THAM CHIẾU CÁC PHẦN TỬ ==================
-        const cartIcon = document.getElementById('cart-icon');
-        const cartDropdown = document.getElementById('cart-dropdown');
-        const cartItemsList = document.getElementById('cart-items-list');
-        const cartCountBadge = document.querySelector('.js-cart-items-count');
+        document.addEventListener("DOMContentLoaded", () => {
+            // ================== THAM CHIẾU CÁC PHẦN TỬ ==================
+            const cartIcon = document.getElementById('cart-icon');
+            const cartDropdown = document.getElementById('cart-dropdown');
+            const cartItemsList = document.getElementById('cart-items-list');
+            const cartCountBadge = document.querySelector('.js-cart-items-count');
 
-        const wishlistModal = document.getElementById('wishlistModal');
-        const wishlistClose = document.getElementById('wishlistClose');
-        const baseImageUrl = "{{ asset('uploads/products') }}";
-        let wishlistTimer = null;
-        let cartTimer = null;
+            const wishlistModal = document.getElementById('wishlistModal');
+            const wishlistClose = document.getElementById('wishlistClose');
+            const baseImageUrl = "{{ asset('uploads/products') }}";
+            let wishlistTimer = null;
+            let cartTimer = null;
 
-        // ================== GIỎ HÀNG DROPDOWN ==================
-        function renderCartItems(data) {
-            cartItemsList.innerHTML = "";
+            // ================== GIỎ HÀNG DROPDOWN ==================
+            function renderCartItems(data) {
+                cartItemsList.innerHTML = "";
 
-            if (data.length === 0) {
-                cartItemsList.innerHTML = '<li class="empty-message">Giỏ hàng trống</li>';
-                return;
-            }
+                if (data.length === 0) {
+                    cartItemsList.innerHTML = '<li class="empty-message">Giỏ hàng trống</li>';
+                    return;
+                }
 
-            data.forEach(item => {
-                const name = item.product?.name || 'Không có tên';
-                const price = item.product?.regular_price || 0;
-                const quantity = item.quantity || 1;
-                const imageName = item.product?.primary_image?.imageName || 'default.jpg';
-                const imageUrl =
-                    `http://127.0.0.1:8000/uploads/products/${encodeURIComponent(imageName)}`;
+                data.forEach(item => {
+                    const name = item.product?.name || 'Không có tên';
+                    const price = item.product?.regular_price || 0;
+                    const quantity = item.quantity || 1;
+                    const imageName = item.product?.primary_image?.imageName || 'default.jpg';
+                    const imageUrl =
+                        `http://127.0.0.1:8000/uploads/products/${encodeURIComponent(imageName)}`;
 
-                const li = document.createElement("li");
-                li.innerHTML = `
+                    const li = document.createElement("li");
+                    li.innerHTML = `
                     <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; width:100%;">
                         <div style="display:flex; align-items:center; gap:8px;">
                             <img src="${imageUrl}" alt="${name}"
@@ -1163,115 +1145,115 @@
                         </div>
                     </div>
                 `;
-                cartItemsList.appendChild(li);
-            });
-        }
-
-        // ================== ĐẾM SỐ LƯỢNG GIỎ HÀNG ==================
-        // Gọi khi DOM ready
-        //updateCartCount();
-
-        function updateCartCount() {
-            const cartCountBadge = document.querySelector('.js-cart-items-count');
-
-            fetch('/api/cart-count', {
-                    credentials: 'include'
-                })
-                .then(response => {
-                    if (!response.ok || response.redirected) {
-                        // Có thể bị redirect do chưa đăng nhập
-                        console.warn("Chưa đăng nhập hoặc lỗi truy cập.");
-                        return {
-                            count: 0
-                        }; // fallback
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (cartCountBadge) {
-                        cartCountBadge.textContent = data.count;
-                        cartCountBadge.style.display = data.count > 0 ? 'inline-block' : 'none';
-                    }
-                })
-                .catch(error => {
-                    console.error("Lỗi khi lấy số lượng giỏ hàng:", error);
+                    cartItemsList.appendChild(li);
                 });
-        }
+            }
 
+            // ================== ĐẾM SỐ LƯỢNG GIỎ HÀNG ==================
+            // Gọi khi DOM ready
+            //updateCartCount();
 
-        updateCartCount(); // Gọi ngay khi DOM load
+            function updateCartCount() {
+                const cartCountBadge = document.querySelector('.js-cart-items-count');
 
-        function autoCloseCart() {
-            clearTimeout(cartTimer);
-            cartTimer = setTimeout(() => {
-                cartDropdown.style.display = "none";
-            }, 3000);
-        }
-
-        if (cartIcon) {
-            cartIcon.addEventListener('click', (e) => {
-                if (e.target.tagName.toLowerCase() === 'a') return;
-                e.preventDefault();
-                fetch('/api/cart-items?t=' + Date.now())
-                    .then(res => res.json())
-                    .then(data => {
-                        renderCartItems(data);
-                        // updateCartCount();
-
-                        if (wishlistModal) wishlistModal.style.display = 'none';
-
-                        cartDropdown.style.display =
-                            cartDropdown.style.display === "block" ? "none" : "block";
-
-                        if (cartDropdown.style.display === "block") {
-                            autoCloseCart();
+                fetch('/api/cart-count', {
+                        credentials: 'include'
+                    })
+                    .then(response => {
+                        if (!response.ok || response.redirected) {
+                            // Có thể bị redirect do chưa đăng nhập
+                            console.warn("Chưa đăng nhập hoặc lỗi truy cập.");
+                            return {
+                                count: 0
+                            }; // fallback
                         }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (cartCountBadge) {
+                            cartCountBadge.textContent = data.count;
+                            cartCountBadge.style.display = data.count > 0 ? 'inline-block' : 'none';
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Lỗi khi lấy số lượng giỏ hàng:", error);
                     });
-            });
+            }
 
-            document.addEventListener("click", (e) => {
-                if (!cartIcon.contains(e.target)) {
+
+            updateCartCount(); // Gọi ngay khi DOM load
+
+            function autoCloseCart() {
+                clearTimeout(cartTimer);
+                cartTimer = setTimeout(() => {
                     cartDropdown.style.display = "none";
-                }
-            });
-        }
+                }, 3000);
+            }
 
-        // ================== WISHLIST ==================
-        function addToWishlist(product) {
-            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-            if (!wishlist.some(item => item.id === product.id)) {
-                wishlist.push(product);
+            if (cartIcon) {
+                cartIcon.addEventListener('click', (e) => {
+                    if (e.target.tagName.toLowerCase() === 'a') return;
+                    e.preventDefault();
+                    fetch('/api/cart-items?t=' + Date.now())
+                        .then(res => res.json())
+                        .then(data => {
+                            renderCartItems(data);
+                            // updateCartCount();
+
+                            if (wishlistModal) wishlistModal.style.display = 'none';
+
+                            cartDropdown.style.display =
+                                cartDropdown.style.display === "block" ? "none" : "block";
+
+                            if (cartDropdown.style.display === "block") {
+                                autoCloseCart();
+                            }
+                        });
+                });
+
+                document.addEventListener("click", (e) => {
+                    if (!cartIcon.contains(e.target)) {
+                        cartDropdown.style.display = "none";
+                    }
+                });
+            }
+
+            // ================== WISHLIST ==================
+            function addToWishlist(product) {
+                let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+                if (!wishlist.some(item => item.id === product.id)) {
+                    wishlist.push(product);
+                    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                }
+            }
+
+            function removeFromWishlist(productId) {
+                let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+                wishlist = wishlist.filter(item => item.id !== productId);
                 localStorage.setItem('wishlist', JSON.stringify(wishlist));
             }
-        }
 
-        function removeFromWishlist(productId) {
-            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-            wishlist = wishlist.filter(item => item.id !== productId);
-            localStorage.setItem('wishlist', JSON.stringify(wishlist));
-        }
+            function renderWishlist() {
+                const listEl = document.getElementById('wishlistItems');
+                listEl.innerHTML = '';
 
-        function renderWishlist() {
-            const listEl = document.getElementById('wishlistItems');
-            listEl.innerHTML = '';
+                let wishlist;
+                try {
+                    wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+                } catch (e) {
+                    wishlist = [];
+                }
 
-            let wishlist;
-            try {
-                wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-            } catch (e) {
-                wishlist = [];
-            }
+                wishlist = wishlist.filter(item => item && item.id && item.name);
 
-            wishlist = wishlist.filter(item => item && item.id && item.name);
+                if (wishlist.length === 0) {
+                    listEl.innerHTML = '<li class="empty-message">Chưa có sản phẩm yêu thích</li>';
+                    return;
+                }
 
-            if (wishlist.length === 0) {
-                listEl.innerHTML = '<li class="empty-message">Chưa có sản phẩm yêu thích</li>';
-                return;
-            }
-
-            wishlist.forEach(item => {
-                const li = document.createElement('li');
-                li.innerHTML = `
+                wishlist.forEach(item => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
                     <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
                         <div style="display:flex; align-items:center; gap:8px;">
                             <img src="${item.image || '/default.jpg'}" alt="${item.name}"
@@ -1286,126 +1268,211 @@
                         </button>
                     </div>
                 `;
-                listEl.appendChild(li);
-            });
-        }
+                    listEl.appendChild(li);
+                });
+            }
 
-        function autoCloseWishlist() {
-            clearTimeout(wishlistTimer);
-            wishlistTimer = setTimeout(() => {
-                wishlistModal.style.display = "none";
-            }, 3000);
-        }
+            function autoCloseWishlist() {
+                clearTimeout(wishlistTimer);
+                wishlistTimer = setTimeout(() => {
+                    wishlistModal.style.display = "none";
+                }, 3000);
+            }
 
-        document.addEventListener('click', function(e) {
-            let btn = e.target.closest('button.main-product-wishlist') || e.target.closest(
-                'button.js-add-wishlist');
-            if (btn) {
-                e.preventDefault();
-                btn.classList.toggle('active');
+            document.addEventListener('click', function(e) {
+                let btn = e.target.closest('button.main-product-wishlist') || e.target.closest(
+                    'button.js-add-wishlist');
+                if (btn) {
+                    e.preventDefault();
+                    btn.classList.toggle('active');
 
-                const svg = btn.querySelector('svg');
-                const productName = btn.dataset.productName;
-                const productId = btn.dataset.productId;
+                    const svg = btn.querySelector('svg');
+                    const productName = btn.dataset.productName;
+                    const productId = btn.dataset.productId;
 
-                if (!productName || !productId) return;
+                    if (!productName || !productId) return;
 
-                const product = {
-                    id: productId,
-                    name: productName,
-                    image: btn.dataset.productImage || '',
-                    slug: btn.dataset.productSlug || null
-                };
+                    const product = {
+                        id: productId,
+                        name: productName,
+                        image: btn.dataset.productImage || '',
+                        slug: btn.dataset.productSlug || null
+                    };
 
-                if (btn.classList.contains('active')) {
-                    addToWishlist(product);
-                    if (svg) svg.style.fill = 'red';
+                    if (btn.classList.contains('active')) {
+                        addToWishlist(product);
+                        if (svg) svg.style.fill = 'red';
+                        renderWishlist();
+                        if (cartDropdown) cartDropdown.style.display = 'none';
+                        wishlistModal.style.display = 'block';
+                        autoCloseWishlist();
+                    } else {
+                        removeFromWishlist(product.id);
+                        if (svg) svg.style.fill = '#666';
+                    }
+                    return;
+                }
+
+                const openLink = e.target.closest('.open-wishlist-modal');
+                if (openLink) {
+                    e.preventDefault();
                     renderWishlist();
                     if (cartDropdown) cartDropdown.style.display = 'none';
                     wishlistModal.style.display = 'block';
                     autoCloseWishlist();
-                } else {
-                    removeFromWishlist(product.id);
-                    if (svg) svg.style.fill = '#666';
                 }
-                return;
-            }
 
-            const openLink = e.target.closest('.open-wishlist-modal');
-            if (openLink) {
-                e.preventDefault();
-                renderWishlist();
-                if (cartDropdown) cartDropdown.style.display = 'none';
-                wishlistModal.style.display = 'block';
-                autoCloseWishlist();
-            }
-
-            const menuBtn = e.target.closest('.add-to-wishlist');
-            if (menuBtn) {
-                e.preventDefault();
-                renderWishlist();
-                if (cartDropdown) cartDropdown.style.display = 'none';
-                wishlistModal.style.display = 'block';
-                autoCloseWishlist();
-            }
-
-            const headerWishlist = e.target.closest('.header-wishlist');
-            if (headerWishlist) {
-                e.preventDefault();
-                e.stopPropagation();
-                renderWishlist();
-                if (cartDropdown) cartDropdown.style.display = 'none';
-                wishlistModal.style.display = wishlistModal.style.display === 'block' ? 'none' :
-                    'block';
-                autoCloseWishlist();
-            }
-        });
-
-        const wishlistItems = document.getElementById('wishlistItems');
-        if (wishlistItems) {
-            wishlistItems.addEventListener('click', function(e) {
-                const removeBtn = e.target.closest('.wishlist-remove-btn');
-                if (removeBtn) {
-                    const productId = removeBtn.dataset.productId;
-                    removeFromWishlist(productId);
-
-                    document.querySelectorAll(
-                        `.js-add-wishlist[data-product-id="${productId}"], .add-to-wishlist[data-product-id="${productId}"]`
-                    ).forEach(heartBtn => {
-                        heartBtn.classList.remove('active');
-                        const svg = heartBtn.querySelector('svg');
-                        if (svg) svg.style.fill = '#666';
-                    });
-
+                const menuBtn = e.target.closest('.add-to-wishlist');
+                if (menuBtn) {
+                    e.preventDefault();
                     renderWishlist();
+                    if (cartDropdown) cartDropdown.style.display = 'none';
+                    wishlistModal.style.display = 'block';
+                    autoCloseWishlist();
+                }
+
+                const headerWishlist = e.target.closest('.header-wishlist');
+                if (headerWishlist) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    renderWishlist();
+                    if (cartDropdown) cartDropdown.style.display = 'none';
+                    wishlistModal.style.display = wishlistModal.style.display === 'block' ? 'none' :
+                        'block';
+                    autoCloseWishlist();
                 }
             });
-        }
 
-        if (wishlistClose) {
-            wishlistClose.addEventListener('click', () => wishlistModal.style.display = 'none');
-        }
+            const wishlistItems = document.getElementById('wishlistItems');
+            if (wishlistItems) {
+                wishlistItems.addEventListener('click', function(e) {
+                    const removeBtn = e.target.closest('.wishlist-remove-btn');
+                    if (removeBtn) {
+                        const productId = removeBtn.dataset.productId;
+                        removeFromWishlist(productId);
 
-        window.addEventListener('click', function(e) {
-            if (e.target === wishlistModal) {
-                wishlistModal.style.display = 'none';
+                        document.querySelectorAll(
+                            `.js-add-wishlist[data-product-id="${productId}"], .add-to-wishlist[data-product-id="${productId}"]`
+                        ).forEach(heartBtn => {
+                            heartBtn.classList.remove('active');
+                            const svg = heartBtn.querySelector('svg');
+                            if (svg) svg.style.fill = '#666';
+                        });
+
+                        renderWishlist();
+                    }
+                });
             }
+
+            if (wishlistClose) {
+                wishlistClose.addEventListener('click', () => wishlistModal.style.display = 'none');
+            }
+
+            window.addEventListener('click', function(e) {
+                if (e.target === wishlistModal) {
+                    wishlistModal.style.display = 'none';
+                }
+            });
+
+            // ================== NOTIFICATION DROPDOWN & OFFCANVAS ==================
+            const notificationIcon = document.getElementById('notificationIcon');
+            const notificationDropdown = document.getElementById('notificationDropdown');
+            const notificationClose = document.getElementById('notificationClose');
+            const notificationItems = document.querySelectorAll('.notification-item');
+            const notificationDetailOffcanvas = new bootstrap.Offcanvas(document.getElementById('notificationDetailOffcanvas'));
+            let notificationTimer = null;
+
+            // Toggle notification dropdown
+            notificationIcon.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const isVisible = notificationDropdown.style.display === 'block';
+
+                if (isVisible) {
+                    notificationDropdown.style.display = 'none';
+                } else {
+                    notificationDropdown.style.display = 'block';
+
+                    // Auto hide after 10 seconds
+                    clearTimeout(notificationTimer);
+                    notificationTimer = setTimeout(() => {
+                        notificationDropdown.style.display = 'none';
+                    }, 10000);
+                }
+            });
+
+            // Close notification dropdown
+            notificationClose.addEventListener('click', () => {
+                notificationDropdown.style.display = 'none';
+                clearTimeout(notificationTimer);
+            });
+
+            // Handle notification item clicks
+            notificationItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Lấy dữ liệu từ data attributes
+                    const id = this.dataset.notificationId;
+                    const name = this.dataset.notificationName;
+                    const content = this.dataset.notificationContent;
+                    const type = this.dataset.notificationType;
+                    const date = this.dataset.notificationDate;
+                    const time = this.dataset.notificationTime;
+
+                    // Cập nhật nội dung offcanvas
+                    document.getElementById('notificationDetailTitle').textContent = name;
+                    document.getElementById('notificationDetailContent').innerHTML = content;
+                    document.getElementById('notificationDetailDate').textContent = date;
+                    document.getElementById('notificationDetailTime').textContent = time;
+
+                    // Cập nhật badge type
+                    const typeBadge = document.getElementById('notificationTypeBadge');
+                    typeBadge.textContent = type;
+                    typeBadge.className = 'badge text-uppercase';
+
+                    switch (type) {
+                        case 'admin':
+                            typeBadge.classList.add('bg-primary');
+                            break;
+                        case 'customer':
+                            typeBadge.classList.add('bg-success');
+                            break;
+                        case 'employee':
+                            typeBadge.classList.add('bg-warning', 'text-dark');
+                            break;
+                        default:
+                            typeBadge.classList.add('bg-info');
+                    }
+
+                    // Đóng dropdown thông báo
+                    notificationDropdown.style.display = 'none';
+                    clearTimeout(notificationTimer);
+
+                    // Mở offcanvas chi tiết
+                    notificationDetailOffcanvas.show();
+                });
+            });
+
+            // Hide notification dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!notificationIcon.contains(e.target) && !notificationDropdown.contains(e.target)) {
+                    notificationDropdown.style.display = 'none';
+                    clearTimeout(notificationTimer);
+                }
+            });
         });
-    });
     </script>
 
     <script>
-    let timeout;
+        let timeout;
 
-    function showPhoneNumber() {
-        const button = document.getElementById('phone-button');
-        button.classList.add('show-number');
+        function showPhoneNumber() {
+            const button = document.getElementById('phone-button');
+            button.classList.add('show-number');
 
-        clearTimeout(timeout);
-        timeout = setTimeout(() => {
-            button.classList.remove('show-number');
-        }, 2000);
-    }
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                button.classList.remove('show-number');
+            }, 2000);
+        }
     </script>
 
     <!-- Nút gọi điện thoại cố định góc trái dưới -->
@@ -1419,117 +1486,381 @@
     </div>
 
     <style>
-    .notification-dot {
-        position: absolute;
-        top: -2px;
-        right: -2px;
-        width: 10px;
-        height: 10px;
-        background-color: red;
-        border-radius: 50%;
-        border: 2px solid white;
-        z-index: 10;
-    }
-
-
-
-    #phone-button-wrapper {
-        position: fixed;
-        bottom: 20px;
-        left: 20px;
-        z-index: 9999;
-    }
-
-    #phone-button {
-        background-color: #e53935;
-        color: white;
-        border-radius: 50%;
-        height: 60px;
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        box-shadow: 0 0 0 rgba(229, 57, 53, 0.7);
-        animation: pulse 2s infinite;
-        transition: width 0.3s ease-in-out, border-radius 0.3s;
-        overflow: hidden;
-        padding: 0 20px;
-        width: 60px;
-    }
-
-    .phone-icon {
-        width: 60px;
-        height: 60px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 24px;
-    }
-
-    #phone-number {
-        font-weight: bold;
-        white-space: nowrap;
-        opacity: 0;
-        transition: opacity 0.3s;
-        margin-left: 10px;
-    }
-
-    #phone-button:hover {
-        width: 200px;
-        border-radius: 30px;
-    }
-
-    #phone-button:hover #phone-number {
-        opacity: 1;
-    }
-
-    @keyframes pulse {
-        0% {
-            box-shadow: 0 0 0 0 rgba(229, 57, 53, 0.4);
+        .notification-dot {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+            border: 2px solid white;
+            z-index: 10;
         }
 
-        70% {
-            box-shadow: 0 0 0 20px rgba(229, 57, 53, 0);
+
+
+        #phone-button-wrapper {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 9999;
         }
 
-        100% {
-            box-shadow: 0 0 0 0 rgba(229, 57, 53, 0);
-        }
-    }
-
-    @keyframes shake {
-        0% {
-            transform: rotate(0deg);
-        }
-
-        20% {
-            transform: rotate(15deg);
-        }
-
-        40% {
-            transform: rotate(-10deg);
+        #phone-button {
+            background-color: #e53935;
+            color: white;
+            border-radius: 50%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 0 0 rgba(229, 57, 53, 0.7);
+            animation: pulse 2s infinite;
+            transition: width 0.3s ease-in-out, border-radius 0.3s;
+            overflow: hidden;
+            padding: 0 20px;
+            width: 60px;
         }
 
-        60% {
-            transform: rotate(10deg);
+        .phone-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
         }
 
-        80% {
-            transform: rotate(-5deg);
+        #phone-number {
+            font-weight: bold;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            margin-left: 10px;
         }
 
-        100% {
-            transform: rotate(0deg);
+        #phone-button:hover {
+            width: 200px;
+            border-radius: 30px;
         }
-    }
 
-    .shake {
-        animation: shake 1s ease-in-out infinite;
-    }
+        #phone-button:hover #phone-number {
+            opacity: 1;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(229, 57, 53, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 20px rgba(229, 57, 53, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(229, 57, 53, 0);
+            }
+        }
+
+        @keyframes shake {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            20% {
+                transform: rotate(15deg);
+            }
+
+            40% {
+                transform: rotate(-10deg);
+            }
+
+            60% {
+                transform: rotate(10deg);
+            }
+
+            80% {
+                transform: rotate(-5deg);
+            }
+
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+
+        .shake {
+            animation: shake 1s ease-in-out infinite;
+        }
+
+        /* ================== NOTIFICATION DROPDOWN STYLES ================== */
+        .notification-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: #fff;
+            border-radius: 12px;
+            width: 350px;
+            padding: 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            display: none;
+            z-index: 9999;
+            font-family: 'Inter', 'Be Vietnam Pro', sans-serif;
+            animation: slideDown 0.3s ease-out;
+            max-height: 500px;
+            overflow: hidden;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .notification-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            border-radius: 12px 12px 0 0;
+            font-weight: 600;
+        }
+
+        .notification-header-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .notification-header .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .notification-header .close-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .notification-items {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .notification-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .notification-item:hover {
+            background-color: #f8f9fa;
+            transform: translateX(5px);
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .notification-icon {
+            flex-shrink: 0;
+        }
+
+        .notification-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 4px;
+            font-size: 14px;
+            line-height: 1.3;
+        }
+
+        .notification-text {
+            color: #6c757d;
+            font-size: 13px;
+            line-height: 1.4;
+            margin-bottom: 6px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .notification-time {
+            color: #9ca3af;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .notification-empty {
+            padding: 30px 20px;
+            text-align: center;
+            color: #9ca3af;
+        }
+
+        /* Scrollbar styling for notification items */
+        .notification-items::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .notification-items::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .notification-items::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+
+        .notification-items::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        /* Offcanvas styles for notification detail */
+        #notificationDetailOffcanvas .offcanvas-body {
+            font-family: 'Inter', 'Be Vietnam Pro', sans-serif;
+        }
+
+        #notificationDetailContent {
+            max-height: 400px;
+            overflow-y: auto;
+            line-height: 1.6;
+        }
+
+        #notificationDetailContent h1,
+        #notificationDetailContent h2,
+        #notificationDetailContent h3,
+        #notificationDetailContent h4,
+        #notificationDetailContent h5,
+        #notificationDetailContent h6 {
+            color: #2c3e50;
+            margin-bottom: 0.75rem;
+        }
+
+        #notificationDetailContent p {
+            margin-bottom: 1rem;
+            color: #495057;
+        }
+
+        #notificationDetailContent ul,
+        #notificationDetailContent ol {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        #notificationDetailContent strong {
+            color: #2c3e50;
+        }
+
+        @media (max-width: 768px) {
+            .notification-dropdown {
+                width: 320px;
+                right: -50px;
+            }
+
+            .notification-item:hover {
+                transform: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .notification-dropdown {
+                width: 300px;
+                right: -80px;
+            }
+        }
     </style>
 
     @include('components.chatbot-floating')
 
     @include('user.historyModal')
+
+    <!-- Notification Detail Offcanvas -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="notificationDetailOffcanvas" aria-labelledby="notificationDetailOffcanvasLabel">
+        <div class="offcanvas-header bg-light">
+            <h5 class="offcanvas-title" id="notificationDetailOffcanvasLabel">
+                <i class="bi bi-info-circle me-2"></i>Chi tiết thông báo
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <!-- Notification Type Badge -->
+            <div class="mb-3">
+                <span id="notificationTypeBadge" class="badge bg-primary text-uppercase"></span>
+            </div>
+
+            <!-- Notification Title -->
+            <h4 id="notificationDetailTitle" class="mb-3 fw-bold text-dark"></h4>
+
+            <!-- Notification Meta Info -->
+            <div class="mb-4 p-3 bg-light rounded">
+                <div class="row g-2">
+                    <div class="col-6">
+                        <small class="text-muted d-block">
+                            <i class="bi bi-calendar me-1"></i>Ngày tạo
+                        </small>
+                        <span id="notificationDetailDate" class="fw-medium"></span>
+                    </div>
+                    <div class="col-6">
+                        <small class="text-muted d-block">
+                            <i class="bi bi-clock me-1"></i>Thời gian
+                        </small>
+                        <span id="notificationDetailTime" class="fw-medium"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notification Content -->
+            <div class="mb-4">
+                <h6 class="text-muted mb-2">
+                    <i class="bi bi-file-text me-1"></i>Nội dung chi tiết
+                </h6>
+                <div id="notificationDetailContent" class="border rounded p-3 bg-white"></div>
+            </div>
+
+            <!-- Actions -->
+            <div class="d-grid gap-2">
+                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="offcanvas">
+                    <i class="bi bi-arrow-left me-1"></i>Quay lại danh sách
+                </button>
+            </div>
+        </div>
+    </div>
 
 
 
