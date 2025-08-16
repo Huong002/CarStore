@@ -6,6 +6,7 @@ use App\Http\Middleware\AuthAdmin;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\Home\CartController;
@@ -74,7 +75,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth', AuthAdmin::class])->group(function () {
 
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/admin', [StatisticsController::class, 'index'])->name('admin.index');
 
     //thuong hieu
     Route::get('/admin/brands', [AdminController::class, 'brands'])->name('admin.brands');
@@ -174,6 +175,7 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::delete('admin/blog/delete/{id}', [BlogController::class, 'blogs_delete'])->name('admin.blogs.delete');
     // set quyern 
     Route::post('/admin/user/{id}/setRole', [UserController::class, 'setRole'])->name('admin.user.changeRole');
+    Route::get('/admin/export-excel', [StatisticsController::class, 'exportExcel'])->name('admin.exportExcel');
 });
 Route::get('/location', function () {
     return view('location');
