@@ -472,9 +472,14 @@
 
     jQuery(document).ready(function() {
       // Set default date to today
-      const today = new Date();
-      const formattedDate = today.toISOString().split('T')[0];
-      $('#datePicker').val(formattedDate);
+      const selectedDate = '{{ $date ?? "" }}';
+      if (selectedDate) {
+        $('#datePicker').val(selectedDate);
+      } else {
+        const today = new Date();
+        const formattedDate = today.toISOString().split('T')[0];
+        $('#datePicker').val(formattedDate);
+      }
 
       // Date picker change event
       $('#datePicker').on('change', function() {
