@@ -258,7 +258,7 @@
                     @csrf
                     <div class="product-single__addtocart">
                         <div class="qty-control position-relative">
-                            <input type="hidden" name="quantity" value="1">
+                            <input type="number" name="quantity" value="1" min="1" class="qty-control__number text-center">
                             <div class="qty-control__reduce">-</div>
                             <div class="qty-control__increase">+</div>
                         </div><!-- .qty-control -->
