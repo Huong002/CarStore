@@ -783,6 +783,7 @@
                             <form action="{{ route('cart.add') }}" method="POST" style="display:inline;">
                                 @csrf
                                 <input type="hidden" name="product_id" value="{{ $rproduct->id }}">
+                                <input type="hidden" name="quantity" value="1">
                                 <button type="submit"
                                     class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium"
                                     title="Add To Cart">
