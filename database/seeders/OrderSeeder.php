@@ -15,7 +15,7 @@ class OrderSeeder extends Seeder
         Order::create([
             'customer_id' => 1,
             'employee_id' => null,
-            'tax' => 10000,
+            'tax' => 210000,
             'total' => 2100000,
             'status' => 'pending',
             'order_date' => now(),
@@ -24,7 +24,7 @@ class OrderSeeder extends Seeder
         Order::create([
             'customer_id' => 2,
             'employee_id' => 1,
-            'tax' => 5000,
+            'tax' => 120000,
             'total' => 1200000,
             'status' => 'completed',
             'order_date' => now(),
@@ -33,10 +33,19 @@ class OrderSeeder extends Seeder
         Order::create([
             'customer_id' => 2,
             'employee_id' => null,
-            'tax' => 5000,
+            'tax' => 120000,
             'total' => 1200000,
             'status' => 'pending',
-            'order_date' => now(),
+            'order_date' => '2025-08-15',
+            'total_item' => 1,
+        ]);
+        Order::create([
+            'customer_id' => 2,
+            'employee_id' => null,
+            'tax' => 120000,
+            'total' => 1200000,
+            'status' => 'pending',
+            'order_date' => '2025-08-14',
             'total_item' => 1,
         ]);
     }

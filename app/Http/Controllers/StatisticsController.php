@@ -17,19 +17,19 @@ class StatisticsController extends Controller
 
         // Get statistics based on filter
         if ($filter === 'day') {
-            $orderTotal = Order::whereDate('created_at', $date)->count();
-            $orderPending = Order::whereDate('created_at', $date)->where('status', 'pending')->count();
-            $orderCancelled = Order::whereDate('created_at', $date)->where('status', 'cancelled')->count();
-            $orderComplated = Order::whereDate('created_at', $date)->where('status', 'completed')->count();
-            $orderApprored = Order::whereDate('created_at', $date)->where('status', 'approved')->count();
+            $orderTotal = Order::whereDate('order_date', $date)->count();
+            $orderPending = Order::whereDate('order_date', $date)->where('status', 'pending')->count();
+            $orderCancelled = Order::whereDate('order_date', $date)->where('status', 'cancelled')->count();
+            $orderComplated = Order::whereDate('order_date', $date)->where('status', 'completed')->count();
+            $orderApprored = Order::whereDate('order_date', $date)->where('status', 'approved')->count();
 
-            $totalStatis = Order::whereDate('created_at', $date)->sum('total');
-            $totalStatisApproved = Order::whereDate('created_at', $date)->where('status', 'approved')->sum('total');
-            $totalStatisComplated = Order::whereDate('created_at', $date)->where('status', 'completed')->sum('total');
-            $totalStatisCancelled = Order::whereDate('created_at', $date)->where('status', 'cancelled')->sum('total');
-            $totalStatisPending = Order::whereDate('created_at', $date)->where('status', 'pending')->sum('total');
+            $totalStatis = Order::whereDate('order_date', $date)->sum('total');
+            $totalStatisApproved = Order::whereDate('order_date', $date)->where('status', 'approved')->sum('total');
+            $totalStatisComplated = Order::whereDate('order_date', $date)->where('status', 'completed')->sum('total');
+            $totalStatisCancelled = Order::whereDate('order_date', $date)->where('status', 'cancelled')->sum('total');
+            $totalStatisPending = Order::whereDate('order_date', $date)->where('status', 'pending')->sum('total');
 
-            $currentOrders = Order::whereDate('created_at', $date)->orderBy('created_at', 'desc')->take(5)->get();
+            $currentOrders = Order::whereDate('order_date', $date)->orderBy('created_at', 'desc')->take(5)->get();
         } else {
             // Monthly statistics (default)
             $orderTotal = $this->totalOrder();
@@ -176,7 +176,7 @@ class StatisticsController extends Controller
         }
 
         if ($filter === 'day') {
-            $orders = Order::whereDate('created_at', $date)->get();
+            $orders = Order::whereDate('order_date', $date)->get();
             $title = 'Danh_sach_don_hang_' . $date . '.xlsx';
         } else {
             $month = now()->format('Y-m');

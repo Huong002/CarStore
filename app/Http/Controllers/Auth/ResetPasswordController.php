@@ -38,12 +38,7 @@ class ResetPasswordController extends Controller
     protected function resetPassword($user, $password)
     {
         $user->password = bcrypt($password);
-        if (method_exists($user, 'setRememberToken')) {
-            $user->setRememberToken(Str::random(60));
-        }
-        if (method_exists($user, 'save')) {
-            $user->save();
-        }
+        $user->save();
         // Không gọi $this->guard()->login($user);
     }
 
