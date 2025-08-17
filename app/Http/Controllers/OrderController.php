@@ -403,4 +403,24 @@ class OrderController extends Controller
 
         return $pdf->stream("hoadon_{$order->id}.pdf");
     }
+    public function printInvoiceAdmin($id)
+    {
+        // Lấy đơn hàng với chi tiết sản phẩm
+        $order = Order::with('orderDetails.product')->findOrFail($id);
+
+        // Tính tạm tính (subtotal)
+        $subtotal = $order->orderDetails->sum(function ($detail) {
+            return $detail->total ?? ($detail->price * $detail->quantity);
+        });
+
+        // Thuế (10% của tạm tính)
+        $tax = $subtotal * 0.1;
+        $total = $subtotal + $tax;
+
+        // Sử dụng giao diện invoice.blade.php (có thể tạo view riêng nếu muốn giao diện khác cho admin)
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('invoice', compact('order', 'subtotal', 'tax', 'total'));
+
+        // Stream file PDF ra trình duyệt
+        return $pdf->stream("hoadon_admin_{$order->id}.pdf");
+    }
 }

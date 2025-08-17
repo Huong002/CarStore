@@ -186,14 +186,33 @@ class StatisticsController extends Controller
 
         $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
-        $sheet->setCellValue('A1', 'STT');
-        $sheet->setCellValue('B1', 'Mã đơn hàng');
-        $sheet->setCellValue('C1', 'Tên khách hàng');
-        $sheet->setCellValue('D1', 'Số điện thoại');
-        $sheet->setCellValue('E1', 'Tổng tiền');
-        $sheet->setCellValue('F1', 'Trạng thái');
-        $sheet->setCellValue('G1', 'Ngày tạo');
 
+        // Header
+        $headers = ['STT', 'Mã đơn hàng', 'Tên khách hàng', 'Số điện thoại', 'Tổng tiền', 'Trạng thái', 'Ngày tạo'];
+        $headerStyle = [
+            'font' => ['bold' => true, 'color' => ['rgb' => 'FFFFFF']],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => ['rgb' => 'CD853F'], // Xanh đậm
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['rgb' => 'CCCCCC'],
+                ],
+            ],
+        ];
+        foreach ($headers as $i => $text) {
+            $col = chr(65 + $i);
+            $sheet->setCellValue($col . '1', $text);
+            $sheet->getStyle($col . '1')->applyFromArray($headerStyle);
+        }
+
+        // Dữ liệu
         $row = 2;
         foreach ($orders as $index => $order) {
             $sheet->setCellValue('A' . $row, $index + 1);
@@ -202,10 +221,23 @@ class StatisticsController extends Controller
             $sheet->setCellValue('D' . $row, $order->customer->phone ?? '');
             $sheet->setCellValue('E' . $row, number_format($order->total, 0, ',', '.') . ' đ');
             $sheet->setCellValue('F' . $row, $order->status);
-            $sheet->setCellValue('G' . $row, $order->created_at->format('d/m/Y H:i'));
+            $sheet->setCellValue('G' . $row, $order->order_date ? (is_string($order->order_date) ? $order->order_date : $order->order_date->format('d/m/Y')) : '');
+
+            // Style cho từng dòng
+            foreach (range('A', 'G') as $col) {
+                $cell = $col . $row;
+                $sheet->getStyle($cell)->getBorders()->getAllBorders()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN)->setColor(new \PhpOffice\PhpSpreadsheet\Style\Color('CCCCCC'));
+                $sheet->getStyle($cell)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $sheet->getStyle($cell)->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+            }
+            // Tô màu nền xen kẽ cho dòng dữ liệu
+            if ($row % 2 == 0) {
+                $sheet->getStyle('A' . $row . ':G' . $row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('F3F6FA');
+            }
             $row++;
         }
 
+        // Auto size
         foreach (range('A', 'G') as $col) {
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }

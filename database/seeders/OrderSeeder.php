@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Order;
+
 class OrderSeeder extends Seeder
 {
     /**
@@ -15,8 +16,8 @@ class OrderSeeder extends Seeder
         Order::create([
             'customer_id' => 1,
             'employee_id' => null,
-            'tax' => 210000,
-            'total' => 2100000,
+            'tax' => 240000000,
+            'total' => 2400000000,
             'status' => 'pending',
             'order_date' => now(),
             'total_item' => 2,
@@ -24,8 +25,8 @@ class OrderSeeder extends Seeder
         Order::create([
             'customer_id' => 2,
             'employee_id' => 1,
-            'tax' => 120000,
-            'total' => 1200000,
+            'tax' => 190000000,
+            'total' => 1900000000,
             'status' => 'completed',
             'order_date' => now(),
             'total_item' => 1,
@@ -33,20 +34,22 @@ class OrderSeeder extends Seeder
         Order::create([
             'customer_id' => 2,
             'employee_id' => null,
-            'tax' => 120000,
-            'total' => 1200000,
+            'tax' => 130000000,
+            'total' => 1300000000,
             'status' => 'pending',
             'order_date' => '2025-08-15',
             'total_item' => 1,
         ]);
         Order::create([
-            'customer_id' => 2,
+            'customer_id' => 1,
             'employee_id' => null,
-            'tax' => 120000,
-            'total' => 1200000,
+            'tax' => 190000000,
+            'total' => 1900000000,
             'status' => 'pending',
             'order_date' => '2025-08-14',
             'total_item' => 1,
         ]);
     }
 }
+
+

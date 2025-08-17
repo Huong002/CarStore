@@ -176,6 +176,7 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     // set quyern 
     Route::post('/admin/user/{id}/setRole', [UserController::class, 'setRole'])->name('admin.user.changeRole');
     Route::get('/admin/export-excel', [StatisticsController::class, 'exportExcel'])->name('admin.exportExcel');
+    Route::get('admin/orders/{id}/print', [OrderController::class, 'printInvoiceAdmin'])->name('admin.print');
 });
 Route::get('/location', function () {
     return view('location');

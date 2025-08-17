@@ -129,7 +129,7 @@
                                     </div>
                                     @if($order->status != 'pending')
                                     <div class="list-icon-functio">
-                                       <a href="{{ route('orders.print', ['id' => $order->id]) }}" target="_blank" title="In hóa đơn">
+                                       <a href="{{ route('admin.print', ['id' => $order->id]) }}" target="_blank" title="In hóa đơn">
                                           <div class="item print">
                                              <i class="icon-printer"></i>
                                           </div>

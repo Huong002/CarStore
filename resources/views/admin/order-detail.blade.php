@@ -96,7 +96,13 @@
                         <span class="text-muted">Không có</span>
                         @endif
                      </td>
-                     <td class="text-center"><strong>{{number_format($detail->total, 0, ',', '.')}} đ</strong></td>
+                     <td class="text-center">
+                        <strong>
+                           {{ number_format($detail->total + ($detail->total * 0.1), 0, ',', '.') }} đ
+                
+                        </strong>
+                     
+                     </td>
                      <!-- <td class="text-center">
                         @if($detail->product)
                            <a href="{{route('admin.product.edit', $detail->product->id)}}" target="_blank">
