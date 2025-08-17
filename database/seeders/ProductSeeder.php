@@ -138,7 +138,7 @@ class ProductSeeder extends Seeder
                 'short_description' => 'Siêu xe mui trần mạnh mẽ, phong cách.',
                 'description' => 'Chevrolet Corvette Convertible 2012 mang đến trải nghiệm lái xe mui trần đầy phấn khích, được trang bị động cơ V8 6.2L, sản sinh công suất 430 mã lực (phiên bản cơ bản) hoặc 505 mã lực (Grand Sport). Hộp số sàn 6 cấp hoặc tự động 6 cấp giúp xe tăng tốc từ 0-100 km/h trong khoảng 4,2 giây. Nội thất bọc da cao cấp, ghế thể thao và hệ thống giải trí với màn hình cảm ứng. Mái xếp mềm vận hành bằng điện, kết hợp với thiết kế ngoại thất khí động học và mâm hợp kim 18-19 inch, tạo nên vẻ ngoài mạnh mẽ và quyến rũ.',
                 'regular_price' => 4000000000,
-                'sale_price' => 380000000,
+                'sale_price' => 3800000000,
                 'SKU' => 'CHEV-CV-2012',
                 'stock_status' => 'instock',
                 'featured' => false,

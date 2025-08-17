@@ -89,11 +89,11 @@
                      <td>{{$product->quantity}}</td>
                      <td>
                         <div class="list-icon-function">
-                           <a href="#" target="_blank">
+                           <!-- <a href="#" target="_blank">
                               <div class="item eye">
                                  <i class="icon-eye"></i>
                               </div>
-                           </a>
+                           </a> -->
                            <form action="{{ route('admin.product.restore', ['id' => $product->id]) }}" method="POST" style="display: inline;">
                               @csrf
                               @method('PATCH')

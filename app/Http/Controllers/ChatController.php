@@ -26,13 +26,12 @@ class ChatController extends Controller
 
         $message = $request->input('message');
 
-        // Kiểm tra user có đăng nhập không
         $user = Auth::user();
         $userType = $user ? ($user->utype ?? 'USR') : 'GUEST';
         $isAdmin = $userType === 'ADM';
 
         try {
-            // Lấy API key từ config thay vì env trực tiếp
+            // Lấy API key từ conig thay vì env trực tiếp
             $apiKey = config('services.gemini.api_key');
             Log::info('API Key exists: ' . ($apiKey ? 'Yes' : 'No'));
             Log::info('API Key length: ' . strlen($apiKey));
@@ -47,7 +46,6 @@ class ChatController extends Controller
             // URL API Gemini - sử dụng model mới nhất
             $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
-            // Tạo prompt với context về cửa hàng và vai trò người dùng
             $systemPrompt = "Bạn là trợ lý AI tư vấn cho HTAutoStore - cửa hàng chuyên bán đồ công nghệ và phụ kiện ô tô. 
             
             " . ($isAdmin ?
@@ -90,7 +88,7 @@ class ChatController extends Controller
 
             // Gửi request đến Gemini API với cấu hình SSL và header mới
             $response = Http::withOptions([
-                'verify' => false, // Tắt xác thực SSL để tránh lỗi cURL 60
+                'verify' => false, 
                 'timeout' => 30,
                 'connect_timeout' => 10,
                 'curl' => [
@@ -102,17 +100,15 @@ class ChatController extends Controller
             ])
                 ->withHeaders([
                     'Content-Type' => 'application/json',
-                    'X-goog-api-key' => $apiKey, // Sử dụng header mới thay vì query parameter
+                    'X-goog-api-key' => $apiKey, 
                     'User-Agent' => 'Laravel-ChatBot/1.0',
                 ])
                 ->post($url, $data);
             if ($response->successful()) {
                 $result = $response->json();
 
-                // Lấy câu trả lời từ response
                 $reply = $result['candidates'][0]['content']['parts'][0]['text'] ?? 'Xin lỗi, tôi không thể trả lời câu hỏi này lúc này.';
 
-                // Log tin nhắn để debug (tùy chọn)
                 Log::info('Chatbot - User: ' . $message);
                 Log::info('Chatbot - Bot: ' . $reply);
 
@@ -150,16 +146,12 @@ class ChatController extends Controller
      */
     private function formatResponse($response)
     {
-        // Loại bỏ các ký tự không mong muốn
         $response = trim($response);
 
-        // Thay thế ** thành <strong> để hiển thị bold
         $response = preg_replace('/\*\*(.*?)\*\*/', '<strong>$1</strong>', $response);
 
-        // Thay thế * thành <em> để hiển thị italic  
         $response = preg_replace('/\*(.*?)\*/', '<em>$1</em>', $response);
 
-        // Thay thế xuống dòng
         $response = nl2br($response);
 
         return $response;
@@ -170,8 +162,6 @@ class ChatController extends Controller
      */
     public function getChatHistory(Request $request)
     {
-        // Có thể implement lưu chat history vào database
-        // và trả về lịch sử chat của user
 
         return response()->json([
             'success' => true,
@@ -184,7 +174,6 @@ class ChatController extends Controller
      */
     public function clearChatHistory(Request $request)
     {
-        // Implement xóa lịch sử chat
 
         return response()->json([
             'success' => true,

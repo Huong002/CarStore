@@ -22,7 +22,6 @@ class ShopController extends Controller
         $colorsParam = $request->input('colors');
         $brandsParam = $request->input('brands');
 
-        // Chuyển đổi chuỗi thành mảng nếu có dữ liệu hoặc lấy từ request array
         $selectedCategoryIds = [];
         if (is_array($request->input('categories'))) {
             $selectedCategoryIds = $request->input('categories');
@@ -211,7 +210,6 @@ class ShopController extends Controller
     public function scanImage(Request $request)
     {
         try {
-            // Kiểm tra xem có file ảnh được gửi lên không
             if (!$request->hasFile('image')) {
                 return response()->json([
                     'success' => false,
@@ -221,7 +219,6 @@ class ShopController extends Controller
 
             $image = $request->file('image');
 
-            // Kiểm tra định dạng file
             $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
             if (!in_array($image->getMimeType(), $allowedMimeTypes)) {
                 return response()->json([
@@ -230,10 +227,8 @@ class ShopController extends Controller
                 ], 400);
             }
 
-            // Tạo một HTTP client để gửi ảnh đến API nhận diện
             $client = new \GuzzleHttp\Client();
 
-            // Gửi ảnh đến API nhận diện (Python Flask)
             $response = $client->post('http://127.0.0.1:5000/predict', [
                 'multipart' => [
                     [
@@ -244,10 +239,8 @@ class ShopController extends Controller
                 ]
             ]);
 
-            // Lấy kết quả nhận diện
             $result = json_decode($response->getBody(), true);
 
-            // Log kết quả để debug
             Log::info('Image Recognition Result:', $result);
 
             return response()->json($result);

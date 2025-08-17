@@ -17,7 +17,7 @@ class CustomerSeeder extends Seeder
             'customerName' => 'Nguyễn Văn An',
             'email' => 'customer1@example.com',
             'address' => 'Hà Nội',
-            'phone' => '0123456789',
+            'phone' => '0372893367',
             'gender' => 'Nam',
             'birthDay' => '1990-01-01'
         ]);

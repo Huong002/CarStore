@@ -889,7 +889,6 @@
             url.searchParams.delete("brands");
             url.searchParams.delete("sort");
 
-            // Thêm các tham số mới nếu có
             if (searchTerm) url.searchParams.set("search", searchTerm);
 
             if (categories && categories.length) {
@@ -927,14 +926,12 @@
             }
         });
 
-        // Xử lý khi nhấn nút xác nhận
         submitImageBtn.on("click", function() {
             const file = myFileInput[0].files[0];
             if (file) {
                 const formData = new FormData();
                 formData.append("image", file);
 
-                // Sử dụng route của Laravel để xử lý ảnh thay vì gọi trực tiếp API Python
                 fetch("{{ route('shop.scan.image') }}", {
                         method: "POST",
                         body: formData,
