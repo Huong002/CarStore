@@ -147,6 +147,16 @@
                                           </button>
                                        </form>
                                     </div>
+                                    <div class="list-icon-functio">
+                                       <form action="{{ route('order.cancel', $order->id) }}" method="POST" style="display:inline;">
+                                          @csrf
+                                          <button type="submit" title="Hủy đơn hàng" style="background: none; border: none; padding: 0;">
+                                             <div class="item print" style="color: red;">
+                                                <i class="bi bi-x-circle-fill"></i>
+                                             </div>
+                                          </button>
+                                       </form>
+                                    </div>
                                     @endif
                                  </div>
                               </div>
