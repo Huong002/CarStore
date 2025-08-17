@@ -56,8 +56,7 @@ class ProductSeeder extends Seeder
                 'quantity' => 3,
                 'category_id' => 3, // Coupe
                 'brand_id' => 3, // Audi
-                'color_id' => 4,
-            ],
+                'color_id' => 4,            ],
             [
                 'name' => 'BMW X3 SUV 2012',
                 'slug' => Str::slug('BMW X3 SUV 2012'),

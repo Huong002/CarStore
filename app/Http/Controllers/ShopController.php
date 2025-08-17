@@ -150,6 +150,7 @@ class ShopController extends Controller
             'sortBy'
         ));
     }
+   
     public function product_details($product_slug)
     {
         try {

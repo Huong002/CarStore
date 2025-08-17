@@ -15,7 +15,7 @@ class ImageSeeder extends Seeder
     public function run(): void
     {
         $images = [
-            ['BMW_2 _Series_3.jpg', true, 1, ], // BMW M5 Sedan 2010
+            ['BMW_2 _Series_3.jpg', true, 1], // BMW M5 Sedan 2010
             ['BMW_3 Series_10.jpg', false, 2],
              ['BMW_320i_12.jpg', true, 2],  // BMW ActiveHybrid 5 Sedan 2012
             ['BMW_320i_12.jpg', false, 3],

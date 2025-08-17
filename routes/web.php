@@ -257,3 +257,4 @@ Route::get('/orders/{id}/print', [OrderController::class, 'printInvoice'])->name
 
 Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
 Route::post('/faq/pending', [FaqController::class, 'storePending'])->name('faq.storePending');
+// Route::post('/product/add', [ShopController::class, 'product_add'])->name('product.add');

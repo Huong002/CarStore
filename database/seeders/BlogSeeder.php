@@ -26,7 +26,8 @@ class BlogSeeder extends Seeder
 ',
                 'featured_image' => 'toyota-camry-2024.jpg',
                 'status' => 'published',
-                'views_count' => rand(100, 1000)
+                'views_count' => rand(100, 1000),
+                'author_id' => 1
             ],
             [
                 'title' => 'Hướng dẫn bảo dưỡng xe định kỳ: 8 bước cơ bản mọi tài xế cần biết',
@@ -36,8 +37,8 @@ class BlogSeeder extends Seeder
                 'featured_image' => 'bao-duong-xe.jpg',
                 'status' => 'published',
                 'views_count' => rand(50, 500),
-                'author_id'=> 1
-            ], 
+                'author_id' => 1
+            ],
             [
                 'title' => 'Top 5 xe điện bán chạy nhất thị trường Việt Nam 2024',
                 'slug' => 'top-5-xe-dien-ban-chay-nhat-2024',

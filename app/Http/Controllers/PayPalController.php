@@ -28,7 +28,7 @@ class PayPalController extends Controller
         );
         $this->apiContext->setConfig(['mode' => $paypalConf['mode']]);
 
-        $this->rate = env('PAYPAL_RATE', 24000); // tỷ giá VND -> USD
+        $this->rate = env('PAYPAL_RATE', 24000); 
     }
 
     // Hiển thị trang chọn thanh toán
