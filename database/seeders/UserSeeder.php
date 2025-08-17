@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
         $users = [
             [
                 'name' => 'Trần Phước Hưỡng',
-                'email' => 'admin@example.com',
+                'email' => 'psymint002@gmail.com',
                 'password' => Hash::make('password123'),
                 'image' => 'avatar1.jpg',
                 'utype' => 'ADM',

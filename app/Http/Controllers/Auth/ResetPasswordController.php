@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Support\Str;
 
 class ResetPasswordController extends Controller
 {
@@ -18,12 +19,39 @@ class ResetPasswordController extends Controller
     |
     */
 
-    use ResetsPasswords;
+
+    use ResetsPasswords {
+        resetPassword as protected traitResetPassword;
+    }
+
 
     /**
      * Where to redirect users after resetting their password.
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/login';
+
+    /**
+     * Override: Không tự động đăng nhập user sau khi reset password
+     */
+    protected function resetPassword($user, $password)
+    {
+        $user->password = bcrypt($password);
+        if (method_exists($user, 'setRememberToken')) {
+            $user->setRememberToken(Str::random(60));
+        }
+        if (method_exists($user, 'save')) {
+            $user->save();
+        }
+        // Không gọi $this->guard()->login($user);
+    }
+
+    /**
+     * Override: Chuyển hướng về trang login với thông báo thành công
+     */
+    protected function sendResetResponse($request, $response)
+    {
+        return redirect('/login')->with('status', trans($response));
+    }
 }
