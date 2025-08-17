@@ -99,9 +99,9 @@
                      <td class="text-center">
                         <strong>
                            {{ number_format($detail->total + ($detail->total * 0.1), 0, ',', '.') }} đ
-                
+
                         </strong>
-                     
+
                      </td>
                      <!-- <td class="text-center">
                         @if($detail->product)
@@ -163,15 +163,15 @@
             <tbody>
                <tr>
                   <th>Tạm tính</th>
-                  <td>{{number_format($order->total - $order->tax, 0, ',', '.')}} đ</td>
-                  <th>Thuế</th>
-                  <td>{{number_format($order->tax, 0, ',', '.')}} đ</td>
+                  <td>{{ number_format($subtotal, 0, ',', '.') }} đ</td>
+                  <th>Thuế (10%)</th>
+                  <td>{{ number_format($tax, 0, ',', '.') }} đ</td>
                   <th>Tổng số sản phẩm</th>
-                  <td>{{$order->total_item}}</td>
+                  <td>{{ $order->total_item }}</td>
                </tr>
                <tr>
                   <th>Tổng cộng</th>
-                  <td><strong>{{number_format($order->total, 0, ',', '.')}} đ</strong></td>
+                  <td><strong>{{ number_format($total, 0, ',', '.') }} đ</strong></td>
                   <th>Trạng thái</th>
                   <td>
                      <span class="badge 

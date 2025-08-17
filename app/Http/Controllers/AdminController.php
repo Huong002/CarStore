@@ -724,7 +724,14 @@ class AdminController extends Controller
             'employee'
         ])->findOrFail($id);
 
-        return view('admin.order-detail', compact('order'));
+        // Tính tạm tính (subtotal)
+        $subtotal = $order->orderDetails->sum(function ($detail) {
+            return $detail->total ?? ($detail->price * $detail->quantity);
+        });
+        $tax = round($subtotal * 0.1, 2);
+        $total = $subtotal + $tax;
+
+        return view('admin.order-detail', compact('order', 'subtotal', 'tax', 'total'));
     }
 
     // phan don hang theo trang thai
