@@ -2,52 +2,52 @@
 
 @section('content')
 <style>
-th {
-    font-weight: bold;
-}
+    th {
+        font-weight: bold;
+    }
 
-.description-container {
-    line-height: 1.5;
-}
+    .description-container {
+        line-height: 1.5;
+    }
 
-/* Ghi đè mọi nền tiêu đề bảng */
-.wishlist-table th {
-    background-color: transparent !important;
-    color: #000 !important;
-    font-weight: 600;
-    text-align: left;
-    padding: 14px 12px;
-    white-space: nowrap;
-}
+    /* Ghi đè mọi nền tiêu đề bảng */
+    .wishlist-table th {
+        background-color: transparent !important;
+        color: #000 !important;
+        font-weight: 600;
+        text-align: left;
+        padding: 14px 12px;
+        white-space: nowrap;
+    }
 
-/* Đường kẻ màu xám phân cách thead và tbody */
-.wishlist-table thead tr {
-    border-bottom: 2px solid #999;
-    /* bạn có thể dùng #ccc nếu muốn nhạt hơn */
-}
+    /* Đường kẻ màu xám phân cách thead và tbody */
+    .wishlist-table thead tr {
+        border-bottom: 2px solid #999;
+        /* bạn có thể dùng #ccc nếu muốn nhạt hơn */
+    }
 
 
-.wishlist-img {
-    width: 100px;
-    height: auto;
-    object-fit: cover;
-    border-radius: 4px;
-}
+    .wishlist-img {
+        width: 100px;
+        height: auto;
+        object-fit: cover;
+        border-radius: 4px;
+    }
 
-.btn-buy-now {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-}
+    .btn-buy-now {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+    }
 
-.wishlist-table td {
-    vertical-align: middle;
-    text-align: center;
-}
+    .wishlist-table td {
+        vertical-align: middle;
+        text-align: center;
+    }
 
-/* .wishlist-table th {
+    /* .wishlist-table th {
     background-color: #0d3b66;
     color: #fff;
     text-align: center;
@@ -59,75 +59,75 @@ th {
     text-align: center;
 } */
 
-.wishlist-img {
-    width: 100px;
-    height: auto;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-}
+    .wishlist-img {
+        width: 100px;
+        height: auto;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+    }
 
-.btn-buy-now {
-    background-color: #198754;
-    color: white;
-    font-weight: bold;
-    padding: 6px 12px;
-    border-radius: 6px;
-    transition: background-color 0.3s ease;
-}
+    .btn-buy-now {
+        background-color: #198754;
+        color: white;
+        font-weight: bold;
+        padding: 6px 12px;
+        border-radius: 6px;
+        transition: background-color 0.3s ease;
+    }
 
-.btn-buy-now:hover {
-    background-color: #145c3d;
-}
+    .btn-buy-now:hover {
+        background-color: #145c3d;
+    }
 
-.table-container {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-    border-radius: 12px;
-    overflow: hidden;
-}
+    .table-container {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        border-radius: 12px;
+        overflow: hidden;
+    }
 
-.table td,
-.table th {
-    padding: 12px;
-}
+    .table td,
+    .table th {
+        padding: 12px;
+    }
 
-.btn-buy-now {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    /* khoảng cách giữa icon và chữ */
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-size: 16px;
-    white-space: nowrap;
-    /* Ngăn xuống dòng */
-    transition: all 0.3s ease;
-}
+    .btn-buy-now {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        /* khoảng cách giữa icon và chữ */
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 16px;
+        white-space: nowrap;
+        /* Ngăn xuống dòng */
+        transition: all 0.3s ease;
+    }
 
-.btn-buy-now i {
-    font-size: 18px;
-}
+    .btn-buy-now i {
+        font-size: 18px;
+    }
 
-.btn-buy-now:hover {
-    background-color: #218838;
-    transform: scale(1.05);
-}
+    .btn-buy-now:hover {
+        background-color: #218838;
+        transform: scale(1.05);
+    }
 
-.wishlist-heading {
-    font-weight: bold;
-    font-size: 1.8rem;
-    color: #343a40;
-}
+    .wishlist-heading {
+        font-weight: bold;
+        font-size: 1.8rem;
+        color: #343a40;
+    }
 
-.wishlist-icon {
-    color: #dc3545;
-    /* Màu đỏ nổi bật */
-    margin-right: 10px;
-    font-size: 1.4rem;
-    vertical-align: middle;
-}
+    .wishlist-icon {
+        color: #dc3545;
+        /* Màu đỏ nổi bật */
+        margin-right: 10px;
+        font-size: 1.4rem;
+        vertical-align: middle;
+    }
 </style>
 
 <div class="container">
@@ -190,6 +190,7 @@ th {
                         @auth
                         <form action="{{ route('cart.add') }}" method="POST">
                             @csrf
+                            <input type="hidden" name="quantity" value="1">
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                             <button type="submit" class="btn btn-buy-now">
                                 <i class="bi bi-cart-plus"></i>
@@ -208,28 +209,28 @@ th {
     </div>
 </div>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const toggleLinks = document.querySelectorAll('.toggle-description');
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleLinks = document.querySelectorAll('.toggle-description');
 
-    toggleLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const container = e.target.closest('.description-container');
-            const shortDesc = container.querySelector('.description-short');
-            const fullDesc = container.querySelector('.description-full');
+        toggleLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const container = e.target.closest('.description-container');
+                const shortDesc = container.querySelector('.description-short');
+                const fullDesc = container.querySelector('.description-full');
 
-            if (fullDesc.classList.contains('d-none')) {
-                shortDesc.classList.add('d-none');
-                fullDesc.classList.remove('d-none');
-                e.target.textContent = 'Thu gọn';
-            } else {
-                shortDesc.classList.remove('d-none');
-                fullDesc.classList.add('d-none');
-                e.target.textContent = 'Xem thêm';
-            }
+                if (fullDesc.classList.contains('d-none')) {
+                    shortDesc.classList.add('d-none');
+                    fullDesc.classList.remove('d-none');
+                    e.target.textContent = 'Thu gọn';
+                } else {
+                    shortDesc.classList.remove('d-none');
+                    fullDesc.classList.add('d-none');
+                    e.target.textContent = 'Xem thêm';
+                }
+            });
         });
     });
-});
 </script>
 
 @endsection

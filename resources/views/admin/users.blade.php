@@ -47,7 +47,7 @@
             <div class="wg-filter flex-grow">
                <form class="form-search">
                   <fieldset class="name">
-                     <input type="text" placeholder="oSearch here..." class="" name="name"
+                     <input type="text" placeholder="Tìm kiếm..." class="" name="name"
                         tabindex="2" value="{{request('name')}}" aria-required="true" required="">
                   </fieldset>
                   <div class="button-submit">

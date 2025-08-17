@@ -1,19 +1,19 @@
 @extends('layouts.app')
 @section('content')
 <style>
-/* Dịch ảnh lại gần hơn với phần character_markup */
-.slideshow-character__img {
-    position: relative;
-    left: -40px;
-    /* điều chỉnh số pixel tùy ý (âm = dịch sang trái) */
-}
+    /* Dịch ảnh lại gần hơn với phần character_markup */
+    .slideshow-character__img {
+        position: relative;
+        left: -40px;
+        /* điều chỉnh số pixel tùy ý (âm = dịch sang trái) */
+    }
 
-.character_markup {
-    top: 40%;
-    /* chỉnh theo ý để canh khoảng trống */
-    transform: translateX(-50%);
-    text-align: center;
-}
+    .character_markup {
+        top: 40%;
+        /* chỉnh theo ý để canh khoảng trống */
+        transform: translateX(-50%);
+        text-align: center;
+    }
 </style>
 
 <main>
@@ -407,7 +407,7 @@
                                 </div>
                                 @endif
 
-                                {{--  THÊM nhãn -6% vào sản phẩm thứ 7 --}}
+                                {{-- THÊM nhãn -6% vào sản phẩm thứ 7 --}}
                                 @if($loop->iteration === 7)
                                 <div class="product-label bg-red text-white right-0 top-0 left-auto mt-2 mx-2">
                                     -6%
@@ -440,9 +440,9 @@
             </div>
 
             <!--  -->
-            <div class="text-center mt-2">
+            <!-- <div class="text-center mt-2">
                 <a class="btn-link btn-link_lg default-underline text-uppercase fw-medium" href="#"> Xem Thêm</a>
-            </div>
+            </div> -->
         </section>
     </div>
 

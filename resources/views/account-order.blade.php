@@ -29,13 +29,13 @@
                            <th class="text-center" style="white-space:nowrap;">Trạng thái</th>
                            <th class="text-center" style="white-space:nowrap;">Ngày đặt</th>
                            <th class="text-center" style="white-space:nowrap;">Số lượng</th>
-
+                           <th></th>
                         </tr>
                      </thead>
                      <tbody>
                         @forelse($orders ?? [] as $order)
                         <tr>
-                           <td class="text-center">{{ $order->id }}</td>
+                           <td class="text-center">{{ $loop->iteration }}</td>
                            <td class="text-center" style="white-space:nowrap;">{{ $order->customer->customerName ?? 'N/A' }}</td>
                            <td class="text-center" style="white-space:nowrap;">{{ $order->customer->phone ?? 'N/A' }}</td>
                            <td class="text-center" style="white-space:nowrap;">{{ number_format($order->subtotal) }} đ</td>
@@ -43,13 +43,34 @@
                            <td class="text-center" style="white-space:nowrap;">{{ number_format($order->calculated_total ) }} đ</td>
 
                            <td class="text-center">
-                              {!! $order->status_badge !!}
+                              @switch($order->status)
+                              @case('pending')
+                              <span class="badge bg-warning">Chờ xử lý</span>
+                              @break
+                              @case('approved')
+                              <span class="badge bg-info">Đã duyệt</span>
+                              @break
+                              @case('completed')
+                              <span class="badge bg-success">Hoàn thành</span>
+                              @break
+                              @case('cancelled')
+                              <span class="badge bg-danger">Đã hủy</span>
+                              @break
+                              @default
+                              <span class="badge bg-secondary">{{ ucfirst($order->status) }}</span>
+                              @endswitch
                            </td>
                            <td class="text-center" style="white-space:nowrap;">
                               {{ $order->order_date ? $order->order_date->format('d-m-Y') : 'N/A' }}
                            </td>
                            <td class="text-center">{{ $order->total_item ?? 0 }}</td>
-
+                           <td class="text-center">
+                              <div style="text-align: right;">
+                                 <a href="{{ route('orders.print', ['id' => $order->id]) }}" target="_blank" style="font-size: 16px;">
+                                    <i class="bi bi-printer-fill"></i>
+                                 </a>
+                              </div>
+                           </td>
                            <!-- <td class="text-center">
                               <a href="{{ route('order.details', $order->id) }}">
                                  <div class="list-icon-function view-icon">

@@ -43,7 +43,7 @@ class LoginController extends Controller
         if ($user->isLock) {
             Auth::logout();
             return redirect()->route('login')->withErrors([
-                'email' => 'Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên.'
+                'failed' => 'Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên.'
             ]);
         }
         if ($user->utype !== 'CTM') {

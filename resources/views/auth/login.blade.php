@@ -17,6 +17,12 @@
             </div>
             @endif
 
+            @if ($errors->has('failed'))
+            <div class="alert alert-danger mb-4">
+                {{ $errors->first('failed') }}
+            </div>
+            @endif
+
             <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate>
                 @csrf
 

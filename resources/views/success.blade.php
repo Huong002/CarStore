@@ -32,7 +32,27 @@
                     <span>{{ number_format($total,0,',','.') }}₫</span>
                 </div>
                 <div class="order-info__item">
-                    <div><label>Trạng thái:</label><span> {{ str_replace('approved', 'Đã thanh toán', $order->status)}} </span></div>
+                    <div><label>Trạng thái:</label>
+                        </br>
+                        <span>
+                            @switch($order->status)
+                            @case('pending')
+                            <span class="badge bg-warning">Chờ xử lý</span>
+                            @break
+                            @case('approved')
+                            <span class="badge bg-info">Đã duyệt</span>
+                            @break
+                            @case('completed')
+                            <span class="badge bg-success">Hoàn thành</span>
+                            @break
+                            @case('cancelled')
+                            <span class="badge bg-danger">Đã hủy</span>
+                            @break
+                            @default
+                            <span class="badge bg-secondary">{{ ucfirst($order->status) }}</span>
+                            @endswitch
+                        </span>
+                    </div>
                 </div>
             </div>
 
