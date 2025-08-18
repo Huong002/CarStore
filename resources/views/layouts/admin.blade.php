@@ -639,8 +639,7 @@
     document.getElementsByTagName("head")[0].appendChild(link);
   </script>
 
-  <!-- Chatbot Component -->
-  @include('components.chatbot-floating')
+
 
   <!-- Toast Component -->
   @include('components.toast-new')
@@ -677,6 +676,8 @@
       </div>
     </div>
   </div>
+  <!-- Chatbot Component -->
+  @include('components.chatbot-floating')
 </body>
 
 

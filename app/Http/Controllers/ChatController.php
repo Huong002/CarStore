@@ -31,7 +31,6 @@ class ChatController extends Controller
         $isAdmin = $userType === 'ADM';
 
         try {
-            // Lấy API key từ conig thay vì env trực tiếp
             $apiKey = config('services.gemini.api_key');
             Log::info('API Key exists: ' . ($apiKey ? 'Yes' : 'No'));
             Log::info('API Key length: ' . strlen($apiKey));
@@ -43,7 +42,6 @@ class ChatController extends Controller
                 ]);
             }
 
-            // URL API Gemini - sử dụng model mới nhất
             $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
             $systemPrompt = "Bạn là trợ lý AI tư vấn cho HTAutoStore - cửa hàng chuyên bán đồ công nghệ và phụ kiện ô tô. 
@@ -67,7 +65,6 @@ class ChatController extends Controller
             
             Câu hỏi: " . $message;
 
-            // Data gửi đến Gemini
             $data = [
                 'contents' => [
                     [

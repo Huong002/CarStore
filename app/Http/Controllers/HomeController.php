@@ -12,7 +12,7 @@ class HomeController extends Controller
     $products = Product::with(['category', 'brand', 'images', 'primaryImage'])
         ->where('stock_status', 'instock')
         ->orderBy('created_at', 'DESC')
-        ->paginate(12); // hoặc ->limit(8) nếu bạn chỉ muốn một số lượng nhỏ
+        ->paginate(12); 
 
     return view('index', compact('products'));
 }

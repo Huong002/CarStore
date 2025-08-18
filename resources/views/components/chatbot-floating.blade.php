@@ -51,7 +51,7 @@
             <div class="typing-dot"></div>
          </div>
       </div>
-
+      <!-- send tin nhan tu nguoi dung  -->
       <div class="chatbot-input">
          <form id="chatbot-form">
             <div class="input-container">
@@ -494,18 +494,16 @@
          }
       });
 
-      // Send message
+      // goi tin nhan
       form.addEventListener('submit', async function(e) {
          e.preventDefault();
 
          const message = input.value.trim();
          if (!message) return;
 
-         // Add user message
          addMessage(message, 'user');
          input.value = '';
 
-         // Disable input
          input.disabled = true;
          sendBtn.disabled = true;
 
