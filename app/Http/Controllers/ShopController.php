@@ -178,11 +178,10 @@ class ShopController extends Controller
                     $query->where('category_id', $product->category_id)
                         ->orWhere('brand_id', $product->brand_id);
                 })
-                ->inRandomOrder() // Xáo trộn kết quả để đa dạng
+                ->inRandomOrder() 
                 ->take(8)
                 ->get();
 
-            // Lấy danh sách danh mục và thương hiệu cho menu
             $categories = Category::orderBy('name', 'ASC')->get();
             $brands = Brand::orderBy('name', 'ASC')->get();
 
@@ -193,12 +192,10 @@ class ShopController extends Controller
                 'brands'
             ));
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            // Xử lý khi không tìm thấy sản phẩm
             Log::error('Không tìm thấy sản phẩm', ['slug' => $product_slug]);
             return redirect()->route('shop.index')
                 ->with('error', 'Sản phẩm không tồn tại hoặc đã bị xóa.');
         } catch (\Exception $e) {
-            // Xử lý lỗi chung
             Log::error('Lỗi hiển thị chi tiết sản phẩm', [
                 'slug' => $product_slug,
                 'error' => $e->getMessage()

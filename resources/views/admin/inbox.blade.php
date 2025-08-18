@@ -56,8 +56,6 @@
       display: inline-block !important;
       content: "" !important;
    }
-
-   /* Override các style AdminLTE để chỉ ảnh hưởng trong phạm vi notifications */
    .adminlte-notifications .card,
    .adminlte-notifications .nav-pills,
    .adminlte-notifications .nav-link,
@@ -66,7 +64,6 @@
       font-family: 'Source Sans Pro', sans-serif !important;
    }
 
-   /* Đảm bảo icon trong header có hiển thị đúng */
    header i.icon-bell,
    header i.icon-user {
       color: inherit !important;
@@ -77,12 +74,10 @@
 @section('content')
 
 <div class="adminlte-notifications">
-   <!-- Sử dụng các file từ thư mục public -->
    <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
    <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
-   <!-- Script để đảm bảo AdminLTE JS hoạt động đúng -->
    <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
    <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
    <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
@@ -449,7 +444,6 @@
    </section>
 </div>
 
-<!-- Script để sửa lỗi CSS động sau khi trang load -->
 <script>
    document.addEventListener('DOMContentLoaded', function() {
      

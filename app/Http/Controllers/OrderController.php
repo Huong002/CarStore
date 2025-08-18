@@ -169,8 +169,10 @@ class OrderController extends Controller
                     'total'      => $lineSubtotal,
                 ]);
 
-                // cập nhật trạng thái giỏ hàng
-                $item->update(['status' => 'approved']);
+                // cập nhật trạng thái giỏ hàng thành 'pending' và xóa khỏi giỏ
+                $item->update(['status' => 'pending']);
+                $item->delete();
+            
             }
 
             DB::commit();
