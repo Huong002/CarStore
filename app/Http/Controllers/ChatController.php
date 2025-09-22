@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
@@ -44,7 +45,16 @@ class ChatController extends Controller
 
             $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
+
+            $products = Product::select('id', 'name', 'description',  'sale_price', 'slug')->get();
+            $productContext  =  "Đây là danh sách các sản phẩm hiện có trong cửa hàng: \n";
+            foreach ($products  as $product) {
+                $productContext .= "- Tên: {$product->name}, Mô tả: {$product->description}, Giá: " . number_format($product->price) . " VNĐ\n";
+            }
             $systemPrompt = "Bạn là trợ lý AI tư vấn cho HTAutoStore - cửa hàng chuyên bán đồ công nghệ và phụ kiện ô tô. 
+            Hãy sử dụng những thông tin đướ đây để trả lời câu hỏi cho người dùng một cách chi tiết, nhớ sử dụng ngôn từ trang nhã với khách hàng 
+            Khi bạn mô tả một sản phẩm theo đề xuất khách hàng, hãy ưu tiên phản hồi những thông tin có trong danh sách
+            {$productContext}
             
             " . ($isAdmin ?
                 "Người dùng hiện tại là ADMIN của hệ thống. Bạn có thể:
@@ -85,7 +95,7 @@ class ChatController extends Controller
 
             // Gửi request đến Gemini API với cấu hình SSL và header mới
             $response = Http::withOptions([
-                'verify' => false, 
+                'verify' => false,
                 'timeout' => 30,
                 'connect_timeout' => 10,
                 'curl' => [
@@ -97,7 +107,7 @@ class ChatController extends Controller
             ])
                 ->withHeaders([
                     'Content-Type' => 'application/json',
-                    'X-goog-api-key' => $apiKey, 
+                    'X-goog-api-key' => $apiKey,
                     'User-Agent' => 'Laravel-ChatBot/1.0',
                 ])
                 ->post($url, $data);
@@ -111,7 +121,7 @@ class ChatController extends Controller
 
                 return response()->json([
                     'success' => true,
-                    'message' => $this->formatResponse($reply)
+                    'message' => $this->formatResponse($reply, $products)
                 ]);
             } else {
                 Log::error('Gemini API Error Response: Status ' . $response->status());
@@ -141,7 +151,7 @@ class ChatController extends Controller
     /**
      * Format lại response từ AI để hiển thị đẹp hơn
      */
-    private function formatResponse($response)
+    private function formatResponse($response, $products)
     {
         $response = trim($response);
 
@@ -149,10 +159,27 @@ class ChatController extends Controller
 
         $response = preg_replace('/\*(.*?)\*/', '<em>$1</em>', $response);
 
+        if ($products->count() > 0) {
+            $sortedProducts = $products->sortByDesc(function ($product) {
+                return strlen($product->name);
+            });
+        }
+        foreach ($sortedProducts as $product) {
+            $url = route('shop.product.details', ['product_slug' => $product->slug]);
+            $link = "<a href='{$url}' target='_blank' class='font-bold text-blue-600 hover:underline'>{$product->name}</a>";
+
+
+            $response = preg_replace(
+                '/\b(' . preg_quote($product->name, '/') . ')\b(?!<\/a>)/i',
+                $link,
+                $response
+            );
+        }
+
         $response = nl2br($response);
 
         return $response;
-    }
+    } 
 
     /**
      * Lấy lịch sử chat (nếu muốn lưu vào database)
@@ -178,3 +205,4 @@ class ChatController extends Controller
         ]);
     }
 }
+

@@ -21,7 +21,6 @@ class Product extends Model
         'stock_status',
         'featured',
         'quantity',
-
         'category_id',
         'brand_id'
     ];
