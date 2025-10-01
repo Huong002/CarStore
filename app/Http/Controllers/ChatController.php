@@ -46,7 +46,7 @@ class ChatController extends Controller
             $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
 
-            $products = Product::select('id', 'name', 'description',  'sale_price', 'slug')->get();
+            $products = Product::with(['primaryImage'])->select('id', 'name', 'description', 'sale_price', 'slug')->get();
             $productContext  =  "Đây là danh sách các sản phẩm hiện có trong cửa hàng: \n";
             foreach ($products  as $product) {
                 $productContext .= "- Tên: {$product->name}, Mô tả: {$product->description}, Giá: " . number_format($product->price) . " VNĐ\n";
@@ -164,14 +164,21 @@ class ChatController extends Controller
                 return strlen($product->name);
             });
         }
+
         foreach ($sortedProducts as $product) {
             $url = route('shop.product.details', ['product_slug' => $product->slug]);
             $link = "<a href='{$url}' target='_blank' class='font-bold text-blue-600 hover:underline'>{$product->name}</a>";
+            $imageUrl = $product->primaryImage && $product->primaryImage->imageName
+                ? asset('uploads/products/' . $product->primaryImage->imageName)
+                : asset('uploads/products/default.png');
 
+            $image = '<img src="' . $imageUrl . '" alt="' . $product->name . '" class="w-16 h-16 object-cover rounded mr-2"/>';
+
+            $replacement = $link . $image;
 
             $response = preg_replace(
-                '/\b(' . preg_quote($product->name, '/') . ')\b(?!<\/a>)/i',
-                $link,
+                '/\b(' . preg_quote($product->name, '/') . '):?\b(?!<\/a>)/i',
+                $replacement,
                 $response
             );
         }
@@ -179,7 +186,7 @@ class ChatController extends Controller
         $response = nl2br($response);
 
         return $response;
-    } 
+    }
 
     /**
      * Lấy lịch sử chat (nếu muốn lưu vào database)
@@ -205,4 +212,3 @@ class ChatController extends Controller
         ]);
     }
 }
-
